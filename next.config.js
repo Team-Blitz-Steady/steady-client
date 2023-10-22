@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  swcMinify: true,
+  eslint: {
+    dirs: ["src"],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
