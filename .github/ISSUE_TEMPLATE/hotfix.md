@@ -1,7 +1,7 @@
 ---
 name: hotfix
 about: 고쳐주세욥!!
-title: "[Error]"
+title: "[Fix] - 구현 내용"
 labels: 에러
 assignees: ''
 
