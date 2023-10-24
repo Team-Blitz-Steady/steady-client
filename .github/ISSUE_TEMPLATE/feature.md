@@ -1,8 +1,8 @@
 ---
 name: feature
 about: 만들어주세욥!!
-title: ''
-labels: 기능
+title: "[Feat/Refactor/Style] - 구현 내용"
+labels: 기능, 에러
 assignees: ''
 
 ---
