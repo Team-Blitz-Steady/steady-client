@@ -26,6 +26,7 @@ const SideBar = ({
 }: SideBarProps) => {
   const [selectedItem, setSelectedItem] = useState(0);
 
+  // TODO: @JIY00N2 색상 값 상수화 필요
   return (
     <Theme>
       <Box
