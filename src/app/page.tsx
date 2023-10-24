@@ -1,8 +1,15 @@
+import Lg_Line_Skyblue from "@/components/_common/Line/lg-line-skyblue";
+import Md_Line_Gray from "@/components/_common/Line/md-line-gray";
+import Md_Line_Skyblue from "@/components/_common/Line/md-line-skyblue";
+import Sm_Line_Skyblue from "@/components/_common/Line/sm-line-skyblue";
+
 const Home = () => {
   return (
     <main>
-      <div>This is Main</div>
-      <h1 className="text-3xl font-bold underline">Hello, Steady!</h1>
+      <Lg_Line_Skyblue />
+      <Md_Line_Skyblue />
+      <Sm_Line_Skyblue />
+      <Md_Line_Gray />
     </main>
   );
 };
