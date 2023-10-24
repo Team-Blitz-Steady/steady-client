@@ -1,8 +1,9 @@
+import Logo from "@/components/_common/Logo";
+
 const Home = () => {
   return (
     <main>
-      <div>This is Main</div>
-      <h1 className="text-3xl font-bold underline">Hello, Steady!</h1>
+      <Logo />
     </main>
   );
 };
