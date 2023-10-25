@@ -20,8 +20,8 @@ const MyPageLayout = ({ children }: { children: React.ReactNode }) => {
     <div>
       <MyPageSideBar
         sidebarItems={myPageItems}
-        boxStyles="w-[300px] h-[814px] border-solid border-5 rounded-[20px] gap-y-[30px] border-2 py-[47px]"
-        itemStyles="w-[250px] h-[65px] rounded-[5px] text-[18px] font-bold p-[20px]"
+        boxStyles="w-300 h-814 border-solid border-5 rounded-20 gap-y-30 border-2 py-47"
+        itemStyles="w-250 h-65 rounded-5 text-18 font-bold p-20"
       />
       {children}
     </div>

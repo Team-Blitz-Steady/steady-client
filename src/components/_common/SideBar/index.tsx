@@ -29,7 +29,7 @@ const SideBar = ({
   return (
     <Theme>
       <Box
-        className={`${boxStyles} border-[#BDE3FF] flex flex-col items-center border-solid border-5 rounded-[20px]`}
+        className={`${boxStyles} border-st-gray-100 flex flex-col items-center border-solid border-5 rounded-[20px]`}
       >
         {sidebarItems.map((item, id) => (
           <Link
@@ -39,8 +39,8 @@ const SideBar = ({
             <div
               className={`${itemStyles} text-[18px] font-bold transition duration-100 ${
                 selectedItem === id
-                  ? "bg-[#BDE3FF] text-[#2F69FF]"
-                  : " hover:bg-[#b4b4b4]"
+                  ? "bg-st-skyblue text-st-primary"
+                  : " hover:bg-st-gray-50"
               }`}
               onClick={() => setSelectedItem(id)}
             >

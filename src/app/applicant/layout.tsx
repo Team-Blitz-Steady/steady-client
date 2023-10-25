@@ -23,8 +23,8 @@ const ApplicantLayout = ({ children }: { children: React.ReactNode }) => {
     <div>
       <MyPageSideBar
         sidebarItems={applicantItems}
-        boxStyles="w-[233px] h-[950px] gap-y-[24px] border-2 py-[27px]"
-        itemStyles="flex items-center w-[195px] h-[58px] rounded-[5px] p-[20px]"
+        boxStyles="w-233 h-950 gap-y-24 border-2 py-27"
+        itemStyles="flex items-center w-195 h-58 rounded-5 p-20"
       />
       {children}
     </div>
