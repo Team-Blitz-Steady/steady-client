@@ -1,22 +1,22 @@
 import type { ReactNode } from "react";
 
 export const buttonsConfig = {
-  create: "w-[165px] h-[50px]  bg-[#9dd5ff]",
-  lg: "w-[200px] h-[80px] bg-[#ff5353]",
+  create: "w-165 h-50 bg-st-primary",
+  lg: "w-200 h-80 bg-st-red",
   sm: {
-    white: "w-[115px] h-[40px] bg-[#ffffff]",
-    blue: "w-[115px] h-[40px] bg-[#0d99ff]",
-    red: "w-[115px] h-[40px] bg-[#ff5353]",
-    green: "w-[115px] h-[40px] bg-[#35cc00]",
+    white: "w-115 h-40 bg-white",
+    blue: "w-115 h-40 bg-st-primary",
+    red: "w-115 h-40 bg-st-red",
+    green: "w-115 h-40 bg-st-green",
   },
-  sm2: "w-[130px] h-[40px] bg-[#0d99ff]",
-  sm3: "w-[160px] h-[40px] bg-[#0d99ff]",
-  md: "w-[130px] h-[50px] bg-[#ff5353]",
+  sm2: "w-130 h-40 bg-st-primary",
+  sm3: "w-160 h-40 bg-st-primary",
+  md: "w-130 h-50 bg-st-red",
   modal: {
-    white: "w-[130px] h-[55px] bg-[#ffffff]",
-    blue: "w-[130px] h-[55px] bg-[#0d99ff]",
-    red: "w-[130px] h-[55px] bg-[#ff5353]",
-    green: "w-[130px] h-[55px] bg-[#35cc00]",
+    white: "w-130 h-55 bg-white",
+    blue: "w-130 h-55 bg-st-primary",
+    red: "w-130 h-55 bg-st-red",
+    green: "w-130 h-55 bg-st-green",
   },
 };
 
@@ -27,7 +27,7 @@ interface buttonProps {
 
 const Button = ({ children, buttonStyles }: buttonProps) => {
   return (
-    <button className={`${buttonStyles} rounded-[15px] shadow-md`}>
+    <button className={`${buttonStyles}  rounded-15 shadow-md`}>
       {children}
     </button>
   );
