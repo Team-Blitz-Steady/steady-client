@@ -1,20 +1,22 @@
+import { clsx } from "clsx";
+
 interface SpinnerProps {
   size: "small" | "medium" | "large";
 }
 
-const Spinner = ({ size }: SpinnerProps) => {
-  const spinnerSizeClasses = {
-    xSmall: "w-4 h-4",
-    small: "w-8 h-8",
-    medium: "w-12 h-12",
-    large: "w-16 h-16",
-  };
+const spinnerSizeClasses = {
+  small: "w-24 h-24",
+  medium: "w-36 h-36",
+  large: "w-48 h-48",
+};
 
-  const sizeClass = spinnerSizeClasses[size] || "w-12 h-12";
+const Spinner = ({ size }: SpinnerProps) => {
+  const sizeClassName = spinnerSizeClasses[size] || "w-12 h-12";
 
   return (
     <div
-      className={`border-4 border-gray-400 border-b-steady-main-color border-solid rounded-full inline-block animate-spin ${sizeClass}`}
+      className={`inline-block ${sizeClassName} animate-spin rounded-full border-5 
+      ${clsx("border-b-st-primary", "border-st-gray-100")}`}
     ></div>
   );
 };
