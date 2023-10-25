@@ -17,7 +17,7 @@ const ListItem = ({ className, object, listType }: ListItemProps) => {
         <div
           key={id}
           className={clsx(
-            "border-black flex h-140 cursor-pointer items-center justify-between border-2 border-solid px-40 py-50",
+            "flex h-140 cursor-pointer items-center justify-between px-40 py-50",
             className,
           )}
         >
