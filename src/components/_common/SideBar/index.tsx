@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { PropsWithChildren } from "react";
 import { useState } from "react";
 import Link from "next/link";
 import { Box, Theme } from "@radix-ui/themes";
@@ -13,7 +13,6 @@ interface SideBarItem {
 
 interface SideBarProps {
   sidebarItems: SideBarItem[];
-  children?: ReactNode;
   boxStyles: string;
   itemStyles: string;
 }
@@ -23,7 +22,7 @@ const SideBar = ({
   sidebarItems,
   itemStyles,
   boxStyles,
-}: SideBarProps) => {
+}: PropsWithChildren<SideBarProps>) => {
   const [selectedItem, setSelectedItem] = useState(0);
 
   return (
