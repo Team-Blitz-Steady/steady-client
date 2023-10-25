@@ -29,6 +29,7 @@ module.exports = {
       minHeight: px0_200,
       margin: px0_100,
       padding: px0_100,
+      gap: px0_100,
       spacing: px0_200,
     },
   },
