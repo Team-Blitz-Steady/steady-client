@@ -12,7 +12,12 @@ export const buttonsConfig = {
   sm2: "w-[130px] h-[40px] rounded-[15px] bg-[#0d99ff] shadow-md",
   sm3: "w-[160px] h-[40px] rounded-[15px] bg-[#0d99ff] shadow-md",
   md: "w-[130px] h-[50px] rounded-[15px] bg-[#ff5353] shadow-md",
-  modal: "w-[130px] h-[55px] rounded-[15px] bg-[#0d99ff] shadow-md",
+  modal: {
+    white: "w-[130px] h-[55px] rounded-[15px] bg-[#ffffff] shadow-md",
+    blue: "w-[130px] h-[55px] rounded-[15px] bg-[#0d99ff] shadow-md",
+    red: "w-[130px] h-[55px] rounded-[15px] bg-[#ff5353] shadow-md",
+    green: "w-[130px] h-[55px] rounded-[15px] bg-[#35cc00] shadow-md",
+  },
 };
 
 interface buttonProps {
