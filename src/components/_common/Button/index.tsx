@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { PropsWithChildren } from "react";
 import { clsx } from "clsx";
 
 export const buttonsConfig = {
@@ -21,12 +21,10 @@ export const buttonsConfig = {
   },
 };
 
-interface buttonProps {
-  children: ReactNode;
-  className: string;
-}
-
-const Button = ({ children, className }: buttonProps) => {
+const Button = ({
+  children,
+  className,
+}: PropsWithChildren<{ className: string }>) => {
   return (
     <button className={clsx("rounded-15 shadow-md", className)}>
       {children}
