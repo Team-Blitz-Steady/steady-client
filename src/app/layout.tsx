@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import "./global.css";
 
@@ -19,7 +20,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       lang="ko"
       className={inter.className}
     >
-      <body>{children}</body>
+      <body>
+        <Theme>{children}</Theme>
+      </body>
     </html>
   );
 };
