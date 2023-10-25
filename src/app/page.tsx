@@ -1,15 +1,14 @@
-import Lg_Line_Skyblue from "@/components/_common/Line/lg-line-skyblue";
-import Md_Line_Gray from "@/components/_common/Line/md-line-gray";
-import Md_Line_Skyblue from "@/components/_common/Line/md-line-skyblue";
-import Sm_Line_Skyblue from "@/components/_common/Line/sm-line-skyblue";
+import Line from "@/components/_common/Line";
 
 const Home = () => {
   return (
     <main>
-      <Lg_Line_Skyblue />
-      <Md_Line_Skyblue />
-      <Sm_Line_Skyblue />
-      <Md_Line_Gray />
+      <Line className="h-[5px] w-[1300px] bg-st-gray-400" />
+      <Line className="h-[1px] w-[1300px] bg-st-gray-200" />
+      <Line className="h-[3px] w-[1000px] bg-st-gray-400" />
+      <Line className="h-[2px] w-[1000px] bg-st-gray-100" />
+      <Line className="h-[1px] w-[1000px] bg-st-gray-200" />
+      <Line className="h-[5px] w-[750px] bg-st-gray-400" />
     </main>
   );
 };
