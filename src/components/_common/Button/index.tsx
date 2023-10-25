@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { clsx } from "clsx";
 
 export const buttonsConfig = {
   create: "w-165 h-50 bg-st-primary",
@@ -22,12 +23,12 @@ export const buttonsConfig = {
 
 interface buttonProps {
   children: ReactNode;
-  buttonStyles: string;
+  className: string;
 }
 
-const Button = ({ children, buttonStyles }: buttonProps) => {
+const Button = ({ children, className }: buttonProps) => {
   return (
-    <button className={`${buttonStyles}  rounded-15 shadow-md`}>
+    <button className={clsx("rounded-15 shadow-md", className)}>
       {children}
     </button>
   );
