@@ -29,7 +29,7 @@ const SideBar = ({
   return (
     <Theme>
       <Box
-        className={`${boxStyles} border-st-gray-100 flex flex-col items-center border-solid border-5 rounded-20`}
+        className={`${boxStyles} flex flex-col items-center rounded-20 border-5 border-solid border-st-gray-100`}
       >
         {sidebarItems.map((item, id) => (
           <Link
