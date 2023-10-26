@@ -8,13 +8,13 @@ interface AppBarProps {
 
 const AppBar = ({ isLogin = false }: AppBarProps) => {
   return (
-    <div className="flex items-center justify-between pb-[30px] pt-[30px] md:w-5/6 xl:w-[1120px]">
+    <div className="flex items-center justify-between pb-30 pt-30 md:w-5/6 xl:w-1120">
       <Image
         src={LogoImage}
         alt=""
       />
       {isLogin ? (
-        <div className="flex w-[250px] justify-between">
+        <div className="flex w-250 justify-between">
           <div className="text-lg font-bold">내 스테디</div>
           <BellIcon
             width={25}
