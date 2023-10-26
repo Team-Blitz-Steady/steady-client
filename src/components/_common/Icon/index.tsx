@@ -12,6 +12,7 @@ import {
   HeartIcon,
   MagnifyingGlassIcon,
   Pencil1Icon,
+  PersonIcon,
   TrashIcon,
 } from "@radix-ui/react-icons";
 
@@ -144,6 +145,15 @@ const Icon = ({ name = "", size = 5, color = "#000000" }: IconProps) => {
     case "heart":
       content = (
         <HeartIcon
+          width={size}
+          height={size}
+          color={color}
+        />
+      );
+      break;
+    case "person":
+      content = (
+        <PersonIcon
           width={size}
           height={size}
           color={color}
