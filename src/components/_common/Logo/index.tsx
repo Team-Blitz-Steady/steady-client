@@ -6,7 +6,7 @@ const Logo = () => {
     <div>
       <Image
         src={LogoImage}
-        alt=""
+        alt="스테디 로고"
       />
     </div>
   );
