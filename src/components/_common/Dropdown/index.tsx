@@ -27,7 +27,7 @@ const Dropdown = ({ children, options }: DropdownProps) => {
         {options.map((option, idx) => (
           <DropdownMenu.Item
             key={idx}
-            className={"hover:bg-steady-main-color"}
+            className={"hover:bg-st-primary"}
           >
             <Link href={option.linkTo}>{option.label}</Link>
           </DropdownMenu.Item>
