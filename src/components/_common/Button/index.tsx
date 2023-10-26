@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from "react";
+import type { ButtonHTMLAttributes, PropsWithChildren } from "react";
 import { clsx } from "clsx";
 
 export const buttonSize = {
@@ -8,12 +8,20 @@ export const buttonSize = {
   sm: "w-90 h-35",
 };
 
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  className: string;
+}
+
 const Button = ({
   children,
   className,
-}: PropsWithChildren<{ className: string }>) => {
+  ...props
+}: PropsWithChildren<ButtonProps>) => {
   return (
-    <button className={clsx("rounded-15 shadow-md", className)}>
+    <button
+      className={clsx("rounded-15 shadow-md", className)}
+      {...props}
+    >
       {children}
     </button>
   );
