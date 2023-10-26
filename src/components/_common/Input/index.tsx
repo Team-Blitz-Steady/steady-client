@@ -7,9 +7,9 @@ const Input = ({ inputName = "" }) => {
   switch (inputName) {
     case "search-input":
       input = (
-        <div className="hidden md:flex justify-center md:w-1/4 xl:w-[350px] h-[40px] rounded-[12px] border border-2 border-solid border-skyblue-100 outline-none mt-[10px]">
+        <div className="mt-[10px] hidden h-[40px] items-center justify-center rounded-[12px] border border-2 border-solid border-skyblue-100 p-[5px] outline-none md:flex md:w-1/4 xl:w-[350px]">
           <input
-            className="w-full h-[35px] rounded-[12px] outline-none p-[5px]"
+            className="h-[35px] w-full rounded-[12px] p-[5px] outline-none"
             type="text"
             placeholder="검색어를 입력해주세요."
           />
@@ -27,7 +27,7 @@ const Input = ({ inputName = "" }) => {
       input = (
         <div>
           <input
-            className="w-[523px] h-[56px] rounded-[12px] text-center items-center text-lg border border-2 border-solid border-skyblue-100 outline-none mt-[10px] pl-[5px] pr-[5px]"
+            className="mt-[10px] h-[56px] w-[523px] items-center rounded-[12px] border border-2 border-solid border-skyblue-100 pl-[5px] pr-[5px] text-center text-lg outline-none"
             type="text"
             placeholder="닉네임을 입력해주세요."
           />
@@ -38,7 +38,7 @@ const Input = ({ inputName = "" }) => {
       input = (
         <div>
           <input
-            className="w-[1000px] h-[60px] font-bold text-3xl outline-none mt-[10px] pl-[5px] pr-[5px]"
+            className="mt-[10px] h-[60px] w-[1000px] pl-[5px] pr-[5px] text-3xl font-bold outline-none"
             type="text"
             placeholder="스테디명"
           />
@@ -49,7 +49,7 @@ const Input = ({ inputName = "" }) => {
       input = (
         <div>
           <input
-            className="w-[1000px] h-[60px] font-bold text-3xl outline-none mt-[10px] pl-[5px] pr-[5px]"
+            className="mt-[10px] h-[60px] w-[1000px] pl-[5px] pr-[5px] text-3xl font-bold outline-none"
             type="text"
             placeholder="제목을 입력해주세요."
           />
@@ -60,7 +60,7 @@ const Input = ({ inputName = "" }) => {
       input = (
         <div>
           <input
-            className="w-[250px] h-[25px] text-lg outline-none mt-[10px] pl-[5px] pr-[5px]"
+            className="mt-[10px] h-[25px] w-[250px] pl-[5px] pr-[5px] text-lg outline-none"
             type="text"
             placeholder="태그를 설정하세요 (최대 5개)"
           />
@@ -69,9 +69,9 @@ const Input = ({ inputName = "" }) => {
       break;
     case "introduce-input":
       input = (
-        <div className="flex justify-center items-center md:w-1/2 xl:w-[716px] h-[64px] rounded-[12px] border border-2 border-solid border-skyblue-100 outline-none mt-[10px] p-[10px]">
+        <div className="mt-[10px] flex h-[64px] items-center justify-center rounded-[12px] border border-2 border-solid border-skyblue-100 p-[10px] outline-none md:w-1/2 xl:w-[716px]">
           <input
-            className="w-full h-[60px] rounded-[12px] text-xl font-bold outline-none p-[5px]"
+            className="h-[60px] w-full rounded-[12px] p-[5px] text-xl font-bold outline-none"
             type="text"
             placeholder="한 줄 소개로 자신을 표현해 주세요!"
           />
