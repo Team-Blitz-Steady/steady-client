@@ -29,6 +29,6 @@ module.exports = {
       padding: px0_100,
       spacing: px0_200,
     },
+    plugins: [],
   },
-  plugins: [],
 };
