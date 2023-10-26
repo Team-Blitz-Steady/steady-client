@@ -84,6 +84,9 @@ const Input = ({ inputName = "" }) => {
           </IconButton>
         </div>
       );
+      break;
+    default:
+      input = "";
   }
 
   return <div>{input}</div>;
