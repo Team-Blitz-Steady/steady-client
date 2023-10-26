@@ -1,8 +1,4 @@
-interface LineProps {
-  className: string;
-}
-
-const Line = ({ className = "" }: LineProps) => {
+const Line = ({ className = "" }) => {
   return <div className={className}></div>;
 };
 
