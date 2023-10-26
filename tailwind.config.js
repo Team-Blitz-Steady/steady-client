@@ -37,6 +37,15 @@ module.exports = {
       padding: px0_100,
       gap: px0_100,
       spacing: px0_200,
+      keyframes: {
+        "move-left": {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+      },
+      animation: {
+        "toast-appear": "move-left 0.3s linear forwards",
+      },
     },
     plugins: [],
   },
