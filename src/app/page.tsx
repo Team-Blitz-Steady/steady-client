@@ -1,14 +1,8 @@
-import Input from "@/components/_common/Input";
-
 const Home = () => {
   return (
     <main>
-      <Input inputName="search-input" />
-      <Input inputName="name-input" />
-      <Input inputName="steady-title-input" />
-      <Input inputName="title-input" />
-      <Input inputName="tag-input" />
-      <Input inputName="introduce-input" />
+      <div>This is Main</div>
+      <h1 className="text-3xl font-bold underline">Hello, Steady!</h1>
     </main>
   );
 };
