@@ -9,7 +9,7 @@ const StickyButton = ({ onClick }: StickyButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className="flex w-[160px] items-center justify-center rounded-full pb-[5px] pl-[10px] pr-[2px] pt-[5px] shadow-md"
+      className="flex w-160 items-center justify-center rounded-full pb-5 pl-10 pr-2 pt-5 shadow-md"
     >
       <div className="text-lg font-bold">문의하기</div>
       <Image
