@@ -1,9 +1,8 @@
-import AppBar from "@/components/_common/AppBar";
-
 const Home = () => {
   return (
     <main>
-      <AppBar isLogin={false} />
+      <div>This is Main</div>
+      <h1 className="text-3xl font-bold underline">Hello, Steady!</h1>
     </main>
   );
 };
