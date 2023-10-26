@@ -16,6 +16,7 @@ module.exports = {
       "st-gray-200": "#8a8a8a",
       "st-gray-250": "#858585",
       "st-gray-400": "#6c6c6c",
+      "input-bg": "#f8f8f8",
     },
     extend: {
       width: px0_1300,
