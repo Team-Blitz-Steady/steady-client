@@ -3,7 +3,7 @@ import AppBar from "@/components/_common/AppBar";
 const Home = () => {
   return (
     <main>
-      <AppBar isLogin={true} />
+      <AppBar isLogin={false} />
     </main>
   );
 };
