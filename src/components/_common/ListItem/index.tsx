@@ -1,10 +1,8 @@
-import type { ReactNode } from "react";
 import Icon from "@/components/Icon";
 import clsx from "clsx";
 import type { SteadyInfoType } from "@/app/page";
 
 interface ListItemProps {
-  children?: ReactNode;
   object: SteadyInfoType[];
   className?: string;
   listType: "steady" | "form";
