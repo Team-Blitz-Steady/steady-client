@@ -1,78 +1,8 @@
-import Icon from "@/components/_common/Icon";
-
 const Home = () => {
   return (
     <main>
-      <Icon
-        name="search"
-        size={30}
-        color="#000000"
-      />
-      <Icon
-        name="pencil"
-        size={30}
-        color="#000000"
-      />
-      <Icon
-        name="cross"
-        size={30}
-        color="#000000"
-      />
-      <Icon
-        name="chevron-down"
-        size={30}
-        color="#000000"
-      />
-      <Icon
-        name="eye"
-        size={30}
-        color="#000000"
-      />
-      <Icon
-        name="chat"
-        size={30}
-        color="#000000"
-      />
-      <Icon
-        name="calendar"
-        size={30}
-        color="#000000"
-      />
-      <Icon
-        name="bell"
-        size={30}
-        color="#000000"
-      />
-      <Icon
-        name="gear"
-        size={30}
-        color="#000000"
-      />
-      <Icon
-        name="trash"
-        size={30}
-        color="#000000"
-      />
-      <Icon
-        name="arrow-left"
-        size={30}
-        color="#000000"
-      />
-      <Icon
-        name="chevron-left"
-        size={30}
-        color="#000000"
-      />
-      <Icon
-        name="chevron-right"
-        size={30}
-        color="#000000"
-      />
-      <Icon
-        name="heart"
-        size={30}
-        color="#000000"
-      />
+      <div>This is Main</div>
+      <h1 className="text-3xl font-bold underline">Hello, Steady!</h1>
     </main>
   );
 };
