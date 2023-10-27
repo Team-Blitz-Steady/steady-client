@@ -1,16 +1,16 @@
 interface IconProps {
   name: string;
   size: number;
-  className: string;
+  color: string;
 }
 
-const Icon = ({ name, size, className }: IconProps) => {
+const Icon = ({ name, size, color }: IconProps) => {
   let content;
   switch (name) {
     case "search":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -29,7 +29,7 @@ const Icon = ({ name, size, className }: IconProps) => {
     case "pencil":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -48,7 +48,7 @@ const Icon = ({ name, size, className }: IconProps) => {
     case "cross":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -67,7 +67,7 @@ const Icon = ({ name, size, className }: IconProps) => {
     case "chevron-down":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -86,7 +86,7 @@ const Icon = ({ name, size, className }: IconProps) => {
     case "eye":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -105,7 +105,7 @@ const Icon = ({ name, size, className }: IconProps) => {
     case "chat":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -124,7 +124,7 @@ const Icon = ({ name, size, className }: IconProps) => {
     case "calendar":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -143,7 +143,7 @@ const Icon = ({ name, size, className }: IconProps) => {
     case "bell":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -162,7 +162,7 @@ const Icon = ({ name, size, className }: IconProps) => {
     case "gear":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -181,7 +181,7 @@ const Icon = ({ name, size, className }: IconProps) => {
     case "trash":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -200,7 +200,7 @@ const Icon = ({ name, size, className }: IconProps) => {
     case "arrow-left":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -219,7 +219,7 @@ const Icon = ({ name, size, className }: IconProps) => {
     case "chevron-left":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -238,7 +238,7 @@ const Icon = ({ name, size, className }: IconProps) => {
     case "chevron-right":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -257,7 +257,7 @@ const Icon = ({ name, size, className }: IconProps) => {
     case "heart":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -276,7 +276,7 @@ const Icon = ({ name, size, className }: IconProps) => {
     case "person":
       content = (
         <svg
-          className={className}
+          className={color}
           width={size}
           height={size}
           viewBox="0 0 15 15"
@@ -292,6 +292,8 @@ const Icon = ({ name, size, className }: IconProps) => {
         </svg>
       );
       break;
+    default:
+      content = "";
   }
   return <div>{content}</div>;
 };
