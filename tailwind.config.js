@@ -8,11 +8,12 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     colors: {
-      "skyblue-100": "#9dd5ff",
+      "st-white": "#ffffff",
       "st-primary": "#5585ff",
       "st-red": "#ff5353",
       "st-green": "#35cc00",
-      "st-skyblue": "#ddf1ff",
+      "st-skyblue-100": "#ddf1ff",
+      "st-skyblue-200": "#9dd5ff",
       "st-gray-50": "#f5f5f5",
       "st-gray-100": "#b4b4b4",
       "st-gray-200": "#8a8a8a",
