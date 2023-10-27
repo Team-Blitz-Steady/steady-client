@@ -27,7 +27,10 @@ module.exports = {
         if (issueNumberRegex.test(header)) {
           return [true];
         }
-        return [false, `커밋 메시지에 이슈 넘버가 없습니다!. got ${header}`];
+        return [
+          false,
+          `커밋 메시지의 이슈 넘버 형식이 올바르지 않습니다!. got ${header}`,
+        ];
       },
     ],
     "scope-empty": [0],
@@ -36,7 +39,5 @@ module.exports = {
     "subject-full-stop": [2, "never", "."],
     "subject-case": [0],
     "header-max-length": [2, "always", 100],
-    "body-max-line-length": [2, "always", 100],
-    "footer-max-line-length": [2, "always", 100],
   },
 };
