@@ -19,6 +19,8 @@ module.exports = {
       "st-gray-250": "#858585",
       "st-gray-400": "#6c6c6c",
       "input-bg": "#f8f8f8",
+      "banner-bg": "#6F87C6",
+      "banner-text": "#ffffff",
     },
     extend: {
       width: px0_1300,

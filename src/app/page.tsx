@@ -1,16 +1,71 @@
-import Avatar from "@/components/_common/Avatar";
+import Image from "next/image";
+import AppBar from "@/components/_common/AppBar";
+import Button, { buttonSize } from "@/components/_common/Button";
+import Input from "@/components/_common/Input";
+import Line from "@/components/_common/Line";
+import StickyButton from "@/components/_common/StickyButton";
+import Turtle from "../../public/images/turtle.svg";
 
 const Home = () => {
   return (
-    <main>
-      <div>This is Main</div>
-      <h1 className="text-3xl font-bold underline">Hello, Steady!</h1>
-      <Avatar
-        src={
-          "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?&w=256&h=256&q=70&crop=focalpoint&fp-x=0.5&fp-y=0.3&fp-z=1&fit=crop"
-        }
-        size={100}
-      />
+    <main className="flex flex-col items-center">
+      <header className="flex w-screen justify-center">
+        <AppBar isLogin={false} />
+      </header>
+      <div className="flex h-380 w-screen justify-center bg-banner-bg">
+        <div className="flex w-3/5 items-center justify-around">
+          <div className="flex flex-col">
+            <div className="text-4xl font-bold text-banner-text">스테디로</div>
+            <div className="mt-10 text-4xl font-bold text-banner-text">
+              동료를 찾아보세요!
+            </div>
+          </div>
+          <div>
+            <Image
+              src={Turtle}
+              alt="Turtle"
+            />
+          </div>
+        </div>
+      </div>
+      <section className="m-50 flex w-3/4 flex-col flex-wrap justify-center overflow-hidden">
+        <div className="text-2xl font-bold">🔥 인기 스테디</div>
+        <div className="flex justify-center">
+          <div className="mx-10 h-170 w-300 rounded-20 bg-st-gray-50"></div>
+          <div className="mx-10 h-170 w-300 rounded-20 bg-st-gray-50"></div>
+          <div className="mx-10 h-170 w-300 rounded-20 bg-st-gray-50"></div>
+          <div className="mx-10 h-170 w-300 rounded-20 bg-st-gray-50"></div>
+        </div>
+      </section>
+      <section className="flex w-3/4 flex-col items-center xl:w-1300">
+        <div className="flex w-full justify-between p-20">
+          <div className="flex gap-20">
+            <div className="text-2xl font-bold">전체</div>
+            <div className="text-2xl font-bold">스터디</div>
+            <div className="text-2xl font-bold">프로젝트</div>
+          </div>
+          <Input inputName="search-input" />
+        </div>
+        <div className="m-10 flex w-full justify-between">
+          <div className="flex gap-10">
+            <div className="mx-10 h-40 w-150 rounded-10 bg-st-gray-50"></div>
+            <div className="mx-10 h-40 w-150 rounded-10 bg-st-gray-50"></div>
+            <div className="mx-10 h-40 w-150 rounded-10 bg-st-gray-50"></div>
+            <div className="mx-10 h-40 w-150 rounded-10 bg-st-gray-50"></div>
+          </div>
+          <div>
+            <Button className={`${buttonSize.xl} bg-st-primary`}>
+              스테디 등록
+            </Button>
+          </div>
+        </div>
+        <Line className="h-5 w-full bg-st-gray-200" />
+        <div className="h-1000 w-full bg-st-gray-50"></div>
+        <Line className="h-5 w-full bg-st-gray-200" />
+      </section>
+      <section className="h-100 w-full">pagination</section>
+      <footer className="h-200 w-screen bg-st-gray-100"></footer>
+      <StickyButton />
     </main>
   );
 };
