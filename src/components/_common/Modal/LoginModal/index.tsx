@@ -2,6 +2,7 @@
 
 import type { PropsWithChildren, ReactNode } from "react";
 import { AlertDialog } from "@radix-ui/themes";
+import Icon from "../../Icon";
 
 const LoginModal = ({
   children,
@@ -14,8 +15,13 @@ const LoginModal = ({
         <div className="h-650 w-600 flex-col rounded-20 bg-st-white p-20">
           <AlertDialog.Cancel>
             <div className="flex justify-end">
-              {/* TODO: X 아이콘으로 변경 */}
-              <button className="h-fit w-fit">X</button>
+              <button className="h-fit w-fit">
+                <Icon
+                  name="cross"
+                  size={20}
+                  color="text-black"
+                />
+              </button>
             </div>
           </AlertDialog.Cancel>
           {children}

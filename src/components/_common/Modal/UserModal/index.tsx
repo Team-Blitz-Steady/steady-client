@@ -4,6 +4,7 @@ import type { PropsWithChildren, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { Dialog } from "@radix-ui/themes";
 import Button, { buttonSize } from "../../Button";
+import Icon from "../../Icon";
 
 const UserModal = ({
   children,
@@ -17,8 +18,13 @@ const UserModal = ({
         <div className="flex h-500 w-450 flex-col rounded-20 bg-st-white p-20">
           <Dialog.Close>
             <div className="flex justify-end">
-              {/* TODO: X 아이콘으로 변경 */}
-              <button className="h-fit w-fit">X</button>
+              <button className="h-fit w-fit">
+                <Icon
+                  name="cross"
+                  size={20}
+                  color="text-black"
+                />
+              </button>
             </div>
           </Dialog.Close>
           <div className="flex grow flex-col items-center justify-between">
