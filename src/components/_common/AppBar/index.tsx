@@ -1,15 +1,17 @@
 import Image from "next/image";
+import LogoImage from "@/images/logo.png";
 import { BellIcon } from "@radix-ui/react-icons";
-import LogoImage from "../../../../public/images/logo.png";
+import LoginModalContainer from "../Modal/LoginModal";
 
 interface AppBarProps {
   isLogin: boolean;
 }
 
+export const appBarTextStyles = "text-lg font-bold";
+
 const AppBar = ({ isLogin = false }: AppBarProps) => {
-  const appBarTextStyles = "text-lg font-bold";
   return (
-    <div className="flex items-center justify-between pb-30 pt-30 md:w-5/6 xl:w-1120">
+    <div className="md:w-5/6 xl:w-1120 flex items-center justify-between pb-30 pt-30">
       <Image
         src={LogoImage}
         alt="스테디 로고"
@@ -24,7 +26,11 @@ const AppBar = ({ isLogin = false }: AppBarProps) => {
           <div className={appBarTextStyles}>프로필</div>
         </div>
       ) : (
-        <div className={appBarTextStyles}>로그인</div>
+        <LoginModalContainer
+          trigger={
+            <div className={`${appBarTextStyles} cursor-pointer`}>로그인</div>
+          }
+        />
       )}
     </div>
   );
