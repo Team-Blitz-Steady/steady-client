@@ -1,6 +1,6 @@
 import Image from "next/image";
-import AppBar from "@/components/_common/AppBar";
 import Button, { buttonSize } from "@/components/_common/Button";
+import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
 import Line from "@/components/_common/Line";
 import StickyButton from "@/components/_common/StickyButton";
@@ -9,14 +9,11 @@ import Turtle from "../../public/images/turtle.svg";
 const Home = () => {
   return (
     <main className="flex flex-col items-center">
-      <header className="flex w-screen justify-center">
-        <AppBar isLogin={false} />
-      </header>
       <div className="flex h-380 w-screen justify-center bg-banner-bg">
         <div className="flex w-3/5 items-center justify-around">
           <div className="flex flex-col">
-            <div className="text-banner-text text-4xl font-bold">스테디로</div>
-            <div className="text-banner-text mt-10 text-4xl font-bold">
+            <div className="text-4xl font-bold text-st-white">스테디로</div>
+            <div className="mt-10 text-4xl font-bold text-st-white">
               동료를 찾아보세요!
             </div>
           </div>
@@ -28,9 +25,9 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <section className="m-50 flex w-3/4 flex-col flex-wrap justify-center overflow-hidden">
-        <div className="text-2xl font-bold">🔥 인기 스테디</div>
-        <div className="flex justify-center">
+      <section className="my-50 flex flex-col flex-wrap justify-center overflow-hidden">
+        <div className="w-full text-2xl font-bold">🔥 인기 스테디</div>
+        <div className="flex h-170 flex-wrap justify-center overflow-hidden">
           <div className="mx-10 h-170 w-300 rounded-20 bg-st-gray-50"></div>
           <div className="mx-10 h-170 w-300 rounded-20 bg-st-gray-50"></div>
           <div className="mx-10 h-170 w-300 rounded-20 bg-st-gray-50"></div>
@@ -54,7 +51,13 @@ const Home = () => {
             <div className="mx-10 h-40 w-150 rounded-10 bg-st-gray-50"></div>
           </div>
           <div>
-            <Button className={`${buttonSize.xl} bg-st-primary`}>
+            <Button
+              className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
+            >
+              <Icon
+                name="pencil"
+                size={25}
+              />
               스테디 등록
             </Button>
           </div>
