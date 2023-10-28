@@ -5,8 +5,8 @@ const StorageKey = "loginSteps-key";
 
 interface LoginStepsState {
   steps: number;
-  setIncreaseSteps: () => void;
-  setDecreaseSteps: () => void;
+  setIncreaseSteps: VoidFunction;
+  setDecreaseSteps: VoidFunction;
 }
 
 const useLoginStepsStore = create(
