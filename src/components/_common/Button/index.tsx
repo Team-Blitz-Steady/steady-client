@@ -2,10 +2,10 @@ import type { ButtonHTMLAttributes, PropsWithChildren } from "react";
 import { clsx } from "clsx";
 
 export const buttonSize = {
-  xl: "w-165 h-50 rounded-6",
-  lg: "w-140 h-50",
-  md: "w-115 h-50",
-  sm: "w-90 h-35",
+  xl: "w-165 h-50 rounded-6 text-18",
+  lg: "w-140 h-50 text-18",
+  md: "w-115 h-50 text-15",
+  sm: "w-90 h-35 text-15",
 };
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -19,7 +19,7 @@ const Button = ({
 }: PropsWithChildren<ButtonProps>) => {
   return (
     <button
-      className={clsx("rounded-15 shadow-md", className)}
+      className={clsx("rounded-15 text-center font-bold shadow-md", className)}
       {...props}
     >
       {children}

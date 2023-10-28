@@ -15,8 +15,8 @@ const Home = () => {
       <div className="flex h-380 w-screen justify-center bg-banner-bg">
         <div className="flex w-3/5 items-center justify-around">
           <div className="flex flex-col">
-            <div className="text-4xl font-bold text-banner-text">스테디로</div>
-            <div className="mt-10 text-4xl font-bold text-banner-text">
+            <div className="text-banner-text text-4xl font-bold">스테디로</div>
+            <div className="text-banner-text mt-10 text-4xl font-bold">
               동료를 찾아보세요!
             </div>
           </div>
@@ -37,7 +37,7 @@ const Home = () => {
           <div className="mx-10 h-170 w-300 rounded-20 bg-st-gray-50"></div>
         </div>
       </section>
-      <section className="flex w-3/4 flex-col items-center xl:w-1300">
+      <section className="xl:w-1300 flex w-3/4 flex-col items-center">
         <div className="flex w-full justify-between p-20">
           <div className="flex gap-20">
             <div className="text-2xl font-bold">전체</div>

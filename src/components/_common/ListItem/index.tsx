@@ -1,6 +1,6 @@
-import Icon from "@/components/Icon";
 import clsx from "clsx";
 import type { SteadyInfoType } from "@/app/page";
+import Icon from "../Icon";
 
 interface ListItemProps {
   object: SteadyInfoType[];
@@ -16,6 +16,7 @@ const ListItem = ({ className, object, listType }: ListItemProps) => {
           key={id}
           className={clsx(
             "flex h-140 cursor-pointer items-center justify-between px-40 py-50",
+            listType === "steady" ? "w-1000" : "w-750",
             className,
           )}
         >
@@ -29,13 +30,29 @@ const ListItem = ({ className, object, listType }: ListItemProps) => {
                 <>
                   {listType === "steady" ? (
                     <>
-                      <Icon label={"config"} />
-                      <Icon label={"trash"} />
+                      <Icon
+                        name="gear"
+                        size={30}
+                        color="text-st-gray-200"
+                      />
+                      <Icon
+                        name="trash"
+                        size={30}
+                        color="text-st-gray-200"
+                      />
                     </>
                   ) : (
                     <>
-                      <Icon label={"edit"} />
-                      <Icon label={"trash"} />
+                      <Icon
+                        name="pencil"
+                        size={30}
+                        color="text-st-gray-200"
+                      />
+                      <Icon
+                        name="trash"
+                        size={30}
+                        color="text-st-gray-200"
+                      />
                     </>
                   )}
                 </>
