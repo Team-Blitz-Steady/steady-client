@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Separator } from "@radix-ui/themes";
-// import Avatar from "@/components/_common/Avatar";
+import { Avatar, Separator } from "@radix-ui/themes";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import { AlertModal, UserModal } from "@/components/_common/Modal";
@@ -96,13 +95,15 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
           <div className="flex flex-row items-center justify-center gap-20">
             <UserModal
               trigger={
-                <div className="flex gap-20">
-                  {/* <Avatar
+                <div className="flex gap-10">
+                  <Avatar
                     src={User.profileImageUrl}
                     alt="작성자 프로필"
-                    size={10}
+                    size={"4"}
+                    radius="full"
                     className="cursor-pointer"
-                  /> */}
+                    fallback={"loading"}
+                  />
                   <button className="text-20 font-bold">{User.nickname}</button>
                 </div>
               }
