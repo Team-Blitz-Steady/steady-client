@@ -95,28 +95,30 @@ const Home = () => {
 
   return (
     <main className="flex flex-col items-center">
-      <div className="flex h-380 w-screen justify-center bg-banner-bg">
-        <div className="flex w-3/5 items-center justify-around">
-          <div className="flex flex-col">
-            <div className="font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-              스테디로
+      <div className="flex overflow-hidden transition">
+        <div className="flex h-380 w-screen justify-center bg-banner-bg">
+          <div className="flex w-3/5 items-center justify-around">
+            <div className="flex flex-col">
+              <div className="font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                스테디로
+              </div>
+              <div className="mt-10 font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                동료를 찾아보세요!
+              </div>
             </div>
-            <div className="mt-10 font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-              동료를 찾아보세요!
+            <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
+              <Image
+                src={Turtle}
+                alt="Turtle"
+              />
             </div>
-          </div>
-          <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
-            <Image
-              src={Turtle}
-              alt="Turtle"
-            />
           </div>
         </div>
       </div>
       <section className="my-50 flex flex-col flex-wrap items-center justify-center overflow-hidden">
         <div className="w-3/4 text-2xl font-bold xl:w-full">🔥 인기 스테디</div>
         <div className="mt-20 flex h-220 flex-wrap items-center justify-center overflow-hidden">
-          <div className="relative m-20 h-170 w-300 cursor-pointer rounded-20 shadow-lg transition hover:scale-105">
+          <div className="relative m-20 flex h-170 w-300 cursor-pointer flex-col items-center justify-center gap-30 rounded-20 shadow-lg transition hover:scale-105">
             <Image
               src={First}
               alt="first-steady"
@@ -124,8 +126,30 @@ const Home = () => {
               height={45}
               className="absolute left-0 top-0"
             />
+            <div className="flex w-250 items-center justify-between">
+              <div className="ml-25 font-bold">📖 스터디</div>
+              <div className="flex h-28 w-60 items-center justify-center rounded-20 border border-st-red shadow-md">
+                <div className="h-22 w-54 rounded-20 bg-st-red text-center font-bold text-st-white">
+                  D-15
+                </div>
+              </div>
+            </div>
+            <div className="text-18 font-bold">Next JS 스터디 모집합니다~!</div>
+            <div className="flex justify-between gap-40">
+              <div className="font-bold text-st-gray-100">
+                마감일 | 2023.11.13
+              </div>
+              <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
+                <Icon
+                  name="eye"
+                  size={20}
+                  color="text-st-gray-100"
+                />
+                1301
+              </div>
+            </div>
           </div>
-          <div className="relative m-20 h-170 w-300 cursor-pointer rounded-20 shadow-lg transition hover:scale-105">
+          <div className="relative m-20 flex h-170 w-300 cursor-pointer flex-col items-center justify-center gap-30 rounded-20 shadow-lg transition hover:scale-105">
             <Image
               src={Second}
               alt="second-steady"
@@ -133,8 +157,30 @@ const Home = () => {
               height={45}
               className="absolute left-0 top-0"
             />
+            <div className="flex w-250 items-center justify-between">
+              <div className="ml-25 font-bold">📖 스터디</div>
+              <div className="flex h-28 w-60 items-center justify-center rounded-20 border border-st-red shadow-md">
+                <div className="h-22 w-54 rounded-20 bg-st-red text-center font-bold text-st-white">
+                  D-15
+                </div>
+              </div>
+            </div>
+            <div className="text-18 font-bold">Next JS 스터디 모집합니다~!</div>
+            <div className="flex justify-between gap-40">
+              <div className="font-bold text-st-gray-100">
+                마감일 | 2023.11.13
+              </div>
+              <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
+                <Icon
+                  name="eye"
+                  size={20}
+                  color="text-st-gray-100"
+                />
+                1301
+              </div>
+            </div>
           </div>
-          <div className="relative m-20 h-170 w-300 cursor-pointer rounded-20 shadow-lg transition hover:scale-105">
+          <div className="relative m-20 flex h-170 w-300 cursor-pointer flex-col items-center justify-center gap-30 rounded-20 shadow-lg transition hover:scale-105">
             <Image
               src={Third}
               alt="third-steady"
@@ -142,8 +188,53 @@ const Home = () => {
               height={45}
               className="absolute left-0 top-0"
             />
+            <div className="flex w-250 items-center justify-between">
+              <div className="ml-25 font-bold">📖 스터디</div>
+              <div className="flex h-28 w-60 items-center justify-center rounded-20 border border-st-red shadow-md">
+                <div className="h-22 w-54 rounded-20 bg-st-red text-center font-bold text-st-white">
+                  D-15
+                </div>
+              </div>
+            </div>
+            <div className="text-18 font-bold">Next JS 스터디 모집합니다~!</div>
+            <div className="flex justify-between gap-40">
+              <div className="font-bold text-st-gray-100">
+                마감일 | 2023.11.13
+              </div>
+              <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
+                <Icon
+                  name="eye"
+                  size={20}
+                  color="text-st-gray-100"
+                />
+                1301
+              </div>
+            </div>
           </div>
-          <div className="m-20 h-170 w-300 cursor-pointer rounded-20 shadow-lg transition hover:scale-105"></div>
+          <div className="relative m-20 flex h-170 w-300 cursor-pointer flex-col items-center justify-center gap-30 rounded-20 shadow-lg transition hover:scale-105">
+            <div className="flex w-250 items-center justify-between">
+              <div className="ml-25 font-bold">📖 스터디</div>
+              <div className="flex h-28 w-60 items-center justify-center rounded-20 border border-st-red shadow-md">
+                <div className="h-22 w-54 rounded-20 bg-st-red text-center font-bold text-st-white">
+                  D-15
+                </div>
+              </div>
+            </div>
+            <div className="text-18 font-bold">Next JS 스터디 모집합니다~!</div>
+            <div className="flex justify-between gap-40">
+              <div className="font-bold text-st-gray-100">
+                마감일 | 2023.11.13
+              </div>
+              <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
+                <Icon
+                  name="eye"
+                  size={20}
+                  color="text-st-gray-100"
+                />
+                1301
+              </div>
+            </div>
+          </div>
         </div>
       </section>
       <section className="flex w-3/4 flex-col items-center xl:w-1300">
@@ -262,16 +353,16 @@ const Home = () => {
                 <div className="h-30 w-70 rounded-20 border-3 border-st-primary text-center text-17 font-bold">
                   모집
                 </div>
-                <div>
-                  <div>📖스터디</div>
+                <div className="flex flex-col gap-5">
+                  <div className="font-bold">📖스터디</div>
                   <div className="text-25 font-bold">{item.title}</div>
-                  <div className="flex gap-20">
+                  <div className="flex gap-20 text-st-gray-200">
                     {item.categories.map((category, catIndex) => (
                       <div key={catIndex}>#{category}</div>
                     ))}
                   </div>
                   <div className="flex gap-20">
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-center gap-10 font-bold">
                       <Icon
                         name="person"
                         size={15}
@@ -279,7 +370,9 @@ const Home = () => {
                       />
                       {`${item.currentParticipants}/${item.maxParticipants}`}
                     </div>
-                    <div>마감일 | {item.deadline}</div>
+                    <div className="font-bold text-st-gray-100">
+                      마감일 | {item.deadline}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -289,7 +382,7 @@ const Home = () => {
                   <div className="flex items-center justify-center gap-5">
                     <Icon
                       name="eye"
-                      size={15}
+                      size={20}
                       color="text-st-gray-100"
                     />
                     {item.views}
@@ -297,7 +390,7 @@ const Home = () => {
                   <div className="flex items-center justify-center gap-5">
                     <Icon
                       name="chat"
-                      size={15}
+                      size={20}
                       color="text-st-gray-100"
                     />
                     {item.comments}
