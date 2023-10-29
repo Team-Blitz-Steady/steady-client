@@ -19,7 +19,7 @@ const Pagination = ({ totalPosts, limit, page, setPage }: PaginationProps) => {
             return (
               <Button
                 key={i + 1}
-                className={`${buttonSize.sm} w-35 hover:bg-st-primary hover:text-st-white`}
+                className={`${buttonSize.pg} hover:bg-st-primary hover:text-st-white`}
                 onClick={() => setPage(i + 1)}
               >
                 {i + 1}
