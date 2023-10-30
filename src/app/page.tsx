@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Pagination from "@/components/Pagination";
+import { Avatar } from "@radix-ui/themes";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
-import Line from "@/components/_common/Line";
 import CopyRight from "../../public/images/copyright.svg";
 import Dolphin from "../../public/images/dolphin.png";
 import First from "../../public/images/first.svg";
@@ -115,9 +115,9 @@ const Home = () => {
         <div
           className={`${
             activeIndex === 1
-              ? "opacity-100 transition-opacity duration-[2000ms] ease-in"
-              : "opacity-0 transition-opacity duration-[2000ms] ease-out"
-          } linear absolute left-0 top-0 flex h-380 w-full justify-center bg-banner-bg transition-opacity duration-[2000ms]`}
+              ? "opacity-100 transition-opacity duration-2000 ease-in"
+              : "opacity-0 transition-opacity duration-2000 ease-out"
+          } linear duration-[2000ms] absolute left-0 top-0 flex h-380 w-full justify-center bg-banner-bg transition-opacity`}
         >
           <div className="flex w-3/5 items-center justify-around">
             <div className="flex flex-col">
@@ -139,9 +139,9 @@ const Home = () => {
         <div
           className={`${
             activeIndex === 2
-              ? "opacity-100 transition-opacity duration-[2000ms] ease-in"
-              : "opacity-0 transition-opacity duration-[2000ms] ease-out"
-          } absolute left-0 top-0 flex h-380 w-full justify-center bg-banner-bg2 transition-opacity duration-[2000ms]`}
+              ? "opacity-100 transition-opacity duration-2000 ease-in"
+              : "opacity-0 transition-opacity duration-2000 ease-out"
+          } duration-[2000ms] absolute left-0 top-0 flex h-380 w-full justify-center bg-banner-bg2 transition-opacity`}
         >
           <div className="flex w-3/5 items-center justify-around">
             <div className="flex flex-col">
@@ -163,9 +163,9 @@ const Home = () => {
         <div
           className={`${
             activeIndex === 0
-              ? "opacity-100 transition-opacity duration-[2000ms] ease-in"
-              : "opacity-0 transition-opacity duration-[2000ms] ease-out"
-          } linear absolute left-0 top-0 flex h-380 w-full justify-center bg-banner-bg3 transition-opacity duration-[2000ms]`}
+              ? "opacity-100 transition-opacity duration-2000 ease-in"
+              : "opacity-0 transition-opacity duration-2000 ease-out"
+          } linear duration-[2000ms] absolute left-0 top-0 flex h-380 w-full justify-center bg-banner-bg3 transition-opacity`}
         >
           <div className="flex w-3/5 items-center justify-around">
             <div className="flex flex-col">
@@ -440,7 +440,7 @@ const Home = () => {
             </Button>
           </div>
         </div>
-        <Line className="h-5 w-full bg-st-gray-200" />
+        <div className="h-5 w-full bg-st-gray-200" />
         <div className="w-full">
           {data.map((item, index) => (
             <div
@@ -475,7 +475,19 @@ const Home = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-30">
-                <div>{item.author}</div>
+                <div>
+                  <Avatar
+                    src={
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR-nNEUqRaqDl6w3h_YQwa0T39tLQ0xWwOMg&usqp=CAU"
+                    }
+                    alt="profile"
+                    size={"3"}
+                    radius="full"
+                    className="cursor-pointer"
+                    fallback={""}
+                  />
+                  | {item.author}
+                </div>
                 <div className="flex items-center justify-center gap-10">
                   <div className="flex items-center justify-center gap-5">
                     <Icon
@@ -499,33 +511,29 @@ const Home = () => {
             </div>
           ))}
         </div>
-        <Line className="h-5 w-full bg-st-gray-200" />
+        <div className="h-5 w-full bg-st-gray-200" />
       </section>
       <section className="flex h-100 w-full items-center justify-center">
-        <Button
-          className={`${buttonSize.pg} flex items-center justify-center hover:bg-st-primary hover:text-st-white`}
-        >
+        <button className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md hover:bg-st-primary hover:text-st-white">
           <Icon
             name="chevron-left"
             size={20}
             color="black"
           />
-        </Button>
+        </button>
         <Pagination
           totalPosts={100}
           limit={10}
           page={page}
           setPage={setPage}
         />
-        <Button
-          className={`${buttonSize.pg} flex items-center justify-center hover:bg-st-primary hover:text-st-white`}
-        >
+        <button className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md hover:bg-st-primary hover:text-st-white">
           <Icon
             name="chevron-right"
             size={20}
             color="black"
           />
-        </Button>
+        </button>
       </section>
       <footer className="flex h-250 w-screen items-center justify-evenly bg-st-gray-50">
         <Image

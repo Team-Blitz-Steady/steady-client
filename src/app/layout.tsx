@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import AppBar from "@/components/_common/AppBar";
+import { Toaster } from "@/components/_common/Toast/toaster";
 import "./global.css";
 
 const inter = Inter({
@@ -30,6 +31,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             {children}
           </div>
         </Theme>
+        <Toaster />
       </body>
     </html>
   );

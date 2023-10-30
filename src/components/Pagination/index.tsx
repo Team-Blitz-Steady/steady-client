@@ -1,5 +1,3 @@
-import Button, { buttonSize } from "../_common/Button";
-
 interface PaginationProps {
   totalPosts: number;
   limit: number;
@@ -17,13 +15,13 @@ const Pagination = ({ totalPosts, limit, page, setPage }: PaginationProps) => {
           .fill(1)
           .map((_, i) => {
             return (
-              <Button
+              <button
                 key={i + 1}
-                className={`${buttonSize.pg} hover:bg-st-primary hover:text-st-white`}
+                className="h-35 w-35 rounded-15 text-center font-bold shadow-md hover:bg-st-primary hover:text-st-white"
                 onClick={() => setPage(i + 1)}
               >
                 {i + 1}
-              </Button>
+              </button>
             );
           })}
       </div>
