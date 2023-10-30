@@ -26,6 +26,8 @@ module.exports = {
       "st-gray-250": "#858585",
       "st-gray-400": "#6c6c6c",
       "banner-bg": "#6F87C6",
+      "banner-bg2": "#00A8E1",
+      "banner-bg3": "#A6BCFF",
       "st-white": "#ffffff",
       "st-white-50": "#f8f8f8",
     },
