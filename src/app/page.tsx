@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Pagination from "@/components/Pagination";
 import Button, { buttonSize } from "@/components/_common/Button";
@@ -17,6 +17,20 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState("전체");
   const [tmp, setTmp] = useState("최신");
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleNext = () => {
+    setActiveIndex((prevIndex) => (prevIndex + 1) % 3);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleNext();
+      console.log(activeIndex);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [activeIndex]);
 
   const data = [
     {
@@ -95,8 +109,12 @@ const Home = () => {
 
   return (
     <main className="flex flex-col items-center">
-      <div className="flex overflow-hidden transition">
-        <div className="flex h-380 w-screen justify-center bg-banner-bg">
+      <div className="flex h-380 w-screen overflow-hidden transition">
+        <div
+          className={`${
+            activeIndex === 1 ? "-translate-x-full transform" : ""
+          } flex h-380 w-full justify-center bg-banner-bg transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none`}
+        >
           <div className="flex w-3/5 items-center justify-around">
             <div className="flex flex-col">
               <div className="font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
@@ -114,6 +132,64 @@ const Home = () => {
             </div>
           </div>
         </div>
+        <div
+          className={`${
+            activeIndex === 2 ? "-translate-x-full transform" : ""
+          } flex h-380 w-full justify-center bg-banner-bg transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none`}
+        >
+          <div className="flex w-3/5 items-center justify-around">
+            <div className="flex flex-col">
+              <div className="font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                스테디로
+              </div>
+              <div className="mt-10 font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                동료를 찾아보세요!
+              </div>
+            </div>
+            <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
+              <Image
+                src={Turtle}
+                alt="Turtle"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className={`${
+            activeIndex === 0 ? "-translate-x-full transform" : ""
+          } flex h-380 w-full justify-center bg-banner-bg transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none`}
+        >
+          <div className="flex w-3/5 items-center justify-around">
+            <div className="flex flex-col">
+              <div className="font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                스테디로
+              </div>
+              <div className="mt-10 font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                동료를 찾아보세요!
+              </div>
+            </div>
+            <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
+              <Image
+                src={Turtle}
+                alt="Turtle"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center justify-center gap-20">
+        <div
+          className="h-10 w-10 rounded-full bg-st-gray-400"
+          onClick={() => setActiveIndex(0)}
+        ></div>
+        <div
+          className="h-10 w-10 rounded-full bg-st-gray-400"
+          onClick={() => setActiveIndex(1)}
+        ></div>
+        <div
+          className="h-10 w-10 rounded-full bg-st-gray-400"
+          onClick={() => setActiveIndex(2)}
+        ></div>
       </div>
       <section className="my-50 flex flex-col flex-wrap items-center justify-center overflow-hidden">
         <div className="w-3/4 text-2xl font-bold xl:w-full">🔥 인기 스테디</div>
