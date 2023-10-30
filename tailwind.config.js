@@ -21,6 +21,9 @@ module.exports = {
       "st-gray-400": "#6c6c6c",
       "st-white": "#ffffff",
       "st-white-50": "#f8f8f8",
+      "banner-bg": "#6F87C6",
+      "banner-bg2": "#00A8E1",
+      "banner-bg3": "#A6BCFF",
     },
     container: {
       center: true,
@@ -91,6 +94,9 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      transitionDuration: {
+        2000: "2000ms",
       },
     },
   },
