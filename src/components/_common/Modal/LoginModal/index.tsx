@@ -1,14 +1,38 @@
 "use client";
 
-import { type PropsWithChildren, type ReactNode } from "react";
+import {
+  type PropsWithChildren,
+  type ReactNode,
+  useEffect,
+  useState,
+} from "react";
+import { useSearchParams } from "next/navigation";
 import useLoginStepsStore from "@/stores/loginSteps";
 import { AlertDialog } from "@radix-ui/themes";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import LoginStepsContainer from "./LoginStepsContainer";
 
+// 현재 path의 쿼리 스트링을 가져온다.
+// step값이 들어있겠죠?
+// 그 친구를 이제 loginStepsStore에 setSteps를 만들어서 넣어준다.
+// 무조건 모달을 킨다?
+// TODO: steps 검사 필요 (0~5)가 아닌것들...
+// TODO: button focus 되는 것 고치기
+
 const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
-  const { steps, setIncreaseSteps, setDecreaseSteps } = useLoginStepsStore();
+  const params = useSearchParams();
+  const { steps, setIncreaseSteps, setDecreaseSteps, setSteps } =
+    useLoginStepsStore();
+  const [open, setOpen] = useState(false);
+
+  // http://localhost:3000/?kakaoLoginRedirect=true
+  useEffect(() => {
+    if (params.get("kakaoLoginRedirect") === "true") {
+      setSteps(1);
+      setOpen(true);
+    }
+  }, [params, setSteps]);
 
   const handleClickPrev = () => {
     if (steps > 0) {
@@ -23,9 +47,12 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
   };
 
   return (
-    <AlertDialog.Root>
+    <AlertDialog.Root
+      open={open}
+      onOpenChange={setOpen}
+    >
       <AlertDialog.Trigger>{trigger}</AlertDialog.Trigger>
-      <AlertDialog.Content className="flex h-700 w-650 items-center justify-center rounded-20 bg-st-primary max-mobile:h-3/4 max-mobile:w-screen max-mobile:p-10">
+      <AlertDialog.Content className="max-mobile:h-3/4 max-mobile:w-screen max-mobile:p-10 flex h-700 w-650 items-center justify-center rounded-20 bg-st-primary">
         <div className="flex h-full w-full flex-col items-center justify-between rounded-20 bg-st-white p-20">
           <div
             className={`flex w-full ${
