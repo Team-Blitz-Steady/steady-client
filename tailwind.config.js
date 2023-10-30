@@ -42,6 +42,7 @@ module.exports = {
       padding: px0_100,
       gap: px0_100,
       spacing: px0_200,
+      borderRadius: px0_100,
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -76,12 +77,6 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-      },
-      borderRadius: {
-        px0_100,
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
         "accordion-down": {
