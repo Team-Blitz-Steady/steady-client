@@ -22,7 +22,7 @@ const Form = {
     "힘든 스터디일 수도 있습니다 버틸 수 있나요요?",
     "당신은 올빼미인가요? 종달새 인가요?",
     "당신의 MBTI는?",
-    "세상에서 가장 긴 글을 작성하고 싶습니다 글자수를 제한해야 하지 않을까요?ddddddddddddddddddddddddddddd",
+    "세상에서 가장 긴 글을 작성하고 싶습니다 글자수를 제한해야 하지 않을까요?spspspspsfasfhasjkfhasfh",
   ], // Form 질문
   createdAt: "2023.10.30", // Form 생성일
   updatedAt: "2023.11.11", // Form 업데이트일
@@ -36,7 +36,7 @@ const ApplicationSubmitPage = () => {
   console.log(params.id); // 2
 
   return (
-    <div className="flex flex-col gap-20 ">
+    <>
       <div className="flex flex-row items-center gap-10 text-30 font-bold">
         <div className=" text-st-primary">{SteadyPrimitive.title}</div>
         <div>참여 신청서</div>
@@ -46,7 +46,7 @@ const ApplicationSubmitPage = () => {
         {Form.questions.map((question, id) => (
           <div
             key={id}
-            className="flex w-full flex-col gap-15"
+            className="flex w-full flex-col gap-15 break-all"
           >
             <div className="flex gap-10 text-20 font-bold">
               질문 {id + 1}.{question}
@@ -71,7 +71,7 @@ const ApplicationSubmitPage = () => {
           작성 완료
         </Button>
       </div>
-    </div>
+    </>
   );
 };
 
