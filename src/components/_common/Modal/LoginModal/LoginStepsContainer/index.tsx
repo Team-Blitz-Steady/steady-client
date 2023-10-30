@@ -11,6 +11,7 @@ import {
   SteadyDescriptionStart,
 } from "../LoginStepsContents";
 
+// TODO: 1~5에서 로그인 했는지 검사 필요 안했으면 0으로 보내기 -> 훅으로 만들어서 각각 쓰기~
 const LoginStepsContainer = () => {
   const { steps } = useLoginStepsStore();
   const renderByLoginStep = (steps: number) => {
@@ -31,6 +32,7 @@ const LoginStepsContainer = () => {
         return <Fragment />;
     }
   };
+  // <LoginValidaton></LoginValidaton>
   return <>{renderByLoginStep(steps)}</>;
 };
 
