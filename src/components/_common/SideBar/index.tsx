@@ -27,7 +27,7 @@ const SideBar = ({
 
   return (
     <Box
-      className={`${boxStyles} flex flex-col items-center rounded-20 border-5 border-solid border-st-gray-100`}
+      className={`${boxStyles} flex flex-col items-center rounded-20 border-1 border-solid border-st-gray-100`}
     >
       {sidebarItems.map((item, id) => (
         <Link
@@ -37,7 +37,7 @@ const SideBar = ({
           <div
             className={`${itemStyles} text-18 font-bold transition duration-100 ${
               selectedItem === id
-                ? "bg-st-skyblue text-st-primary"
+                ? "bg-st-skyblue-50 text-st-primary"
                 : " hover:bg-st-gray-50"
             }`}
             onClick={() => setSelectedItem(id)}
