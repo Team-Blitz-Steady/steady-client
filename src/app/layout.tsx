@@ -22,9 +22,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       lang="ko"
       className={inter.className}
     >
-      <body>
-        <Theme>
-          <div className={`max-mobile:w-9/10 mx-auto h-full w-3/4 pb-30`}>
+      <body className="h-screen">
+        <Theme className="h-full">
+          <div
+            className={`max-mobile:w-9/10 mx-auto flex h-full w-3/4 flex-col pb-30`}
+          >
             <AppBar isLogin={false} />
             {children}
           </div>
