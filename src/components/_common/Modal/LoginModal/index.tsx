@@ -26,6 +26,7 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
     useLoginStepsStore();
   const [open, setOpen] = useState(false);
 
+  // TODO: 빼야 할 수 있음
   // http://localhost:3000/?kakaoLoginRedirect=true
   useEffect(() => {
     if (params.get("kakaoLoginRedirect") === "true") {
