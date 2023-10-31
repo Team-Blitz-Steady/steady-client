@@ -24,7 +24,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     >
       <body>
         <Theme>
-          <div className={`max-mobile:w-9/10 mx-auto h-screen w-3/4`}>
+          <div className={`max-mobile:w-9/10 mx-auto h-full w-3/4 pb-30`}>
             <AppBar isLogin={false} />
             {children}
           </div>
