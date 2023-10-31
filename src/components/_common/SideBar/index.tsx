@@ -1,33 +1,30 @@
 "use client";
 
-import type { PropsWithChildren } from "react";
+import type { ReactNode } from "react";
 import { useState } from "react";
 import Link from "next/link";
 import { Box } from "@radix-ui/themes";
 
 interface SideBarItem {
-  id: string;
+  id?: string;
   label: string;
   href: string;
 }
 
 interface SideBarProps {
+  children?: ReactNode;
   sidebarItems: SideBarItem[];
-  boxStyles: string;
-  itemStyles: string;
+  listType?: string;
 }
 
-const SideBar = ({
-  children,
-  sidebarItems,
-  itemStyles,
-  boxStyles,
-}: PropsWithChildren<SideBarProps>) => {
+const SideBar = ({ children, sidebarItems, listType }: SideBarProps) => {
   const [selectedItem, setSelectedItem] = useState(0);
 
   return (
     <Box
-      className={`${boxStyles} flex flex-col items-center rounded-20 border-5 border-solid border-st-gray-100`}
+      className={`${
+        listType === "mypage" ? "w-300" : "w-250"
+      } flex h-full flex-col items-center gap-15 rounded-20 border-5 border-solid border-st-gray-100 p-20`}
     >
       {sidebarItems.map((item, id) => (
         <Link
@@ -35,9 +32,11 @@ const SideBar = ({
           key={id}
         >
           <div
-            className={`${itemStyles} text-18 font-bold transition duration-100 ${
+            className={`${
+              listType === "mypage" ? "w-250" : "w-200"
+            } h-full rounded-5 p-20 text-18 font-bold transition duration-100 ${
               selectedItem === id
-                ? "bg-st-skyblue text-st-primary"
+                ? "bg-st-skyblue-50 text-st-primary"
                 : " hover:bg-st-gray-50"
             }`}
             onClick={() => setSelectedItem(id)}
