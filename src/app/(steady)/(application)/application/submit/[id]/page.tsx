@@ -73,9 +73,15 @@ const ApplicationEditPage = () => {
         title={SteadyPrimitive.title}
         pageType={pageType}
       >
-        <Question questions={SteadyPrimitive.application.item}>
-          <TextArea className="h-100 w-full" />
-        </Question>
+        {Application.item.map((item, id) => (
+          <Question
+            key={id}
+            question={item.question}
+            index={id}
+          >
+            <TextArea className="h-100 w-full" />
+          </Question>
+        ))}
       </Title>
       {/* TODO: 라우터 연결 */}
       <div className="flex items-center justify-end gap-20">
