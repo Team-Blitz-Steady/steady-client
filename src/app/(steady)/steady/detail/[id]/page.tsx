@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Avatar, Separator } from "@radix-ui/themes";
+import { Avatar, Separator, TextArea } from "@radix-ui/themes";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import { AlertModal, UserModal } from "@/components/_common/Modal";
@@ -182,7 +182,9 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
         <div className="text-35 font-bold ">{SteadyPrimitive.title}</div>
         <div className="mb-10">
           {/* TODO: 신청서 보기, 참여자 목록 보기 */}
-          <button className="text-15 font-bold text-st-red">신청서 보기</button>
+          <button className="mr-10 text-15 font-bold text-st-red">
+            신청서 보기
+          </button>
           <button className="text-15 font-bold text-st-gray-250">
             참여자 목록 보기
           </button>
@@ -229,7 +231,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
         {/* 댓글 영역 */}
         <div className="flex flex-col gap-10">
           <div className="text-15 font-bold">댓글</div>
-          <textarea className="h-150 w-full rounded-15 border-1 border-st-gray-400" />
+          <TextArea className="h-150 w-full rounded-15" />
           <Button
             className={`${buttonSize.sm} ml-auto bg-st-primary text-st-white`}
           >
