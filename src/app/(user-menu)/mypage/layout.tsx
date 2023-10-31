@@ -17,7 +17,7 @@ const myPageList = [
 
 const MyPageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex flex-grow gap-50">
+    <div className="flex flex-grow gap-50 py-40">
       <SideBar
         sidebarItems={myPageList}
         listType="mypage"

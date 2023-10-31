@@ -23,8 +23,8 @@ const SideBar = ({ children, sidebarItems, listType }: SideBarProps) => {
   return (
     <Box
       className={`${
-        listType === "mypage" ? "w-300" : "w-250"
-      } flex h-full flex-col items-center gap-15 rounded-20 border-5 border-solid border-st-gray-100 p-20`}
+        listType === "mypage" ? "h-814 w-300" : "h-900 w-250"
+      } flex flex-col items-center gap-15 rounded-20 border-1 border-solid border-st-gray-100 p-20`}
     >
       {sidebarItems.map((item, id) => (
         <Link
