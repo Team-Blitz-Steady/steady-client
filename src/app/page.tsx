@@ -7,6 +7,7 @@ import { Avatar } from "@radix-ui/themes";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
+import StickyButton from "@/components/_common/StickyButton";
 import CopyRight from "../../public/images/copyright.svg";
 import Dolphin from "../../public/images/dolphin.png";
 import First from "../../public/images/first.svg";
@@ -110,7 +111,7 @@ const Home = () => {
   ];
 
   return (
-    <main className="flex flex-col items-center">
+    <main className="relative flex flex-col items-center">
       <div className="relative flex h-380 w-screen transition">
         <div
           className={`${
@@ -548,6 +549,19 @@ const Home = () => {
           <div className="font-bold">서비스 소개</div>
         </div>
       </footer>
+      <div className="fixed bottom-40 right-10 z-10 flex gap-10">
+        <div
+          className="flex h-65 w-65 cursor-pointer items-center justify-center rounded-full bg-st-primary"
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
+          <div className="flex h-55 w-55 items-center justify-center rounded-full bg-st-white">
+            <div className="text-17 font-bold">TOP</div>
+          </div>
+        </div>
+        <StickyButton onClick={() => console.log("hi")} />
+      </div>
     </main>
   );
 };
