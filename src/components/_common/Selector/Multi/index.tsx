@@ -48,7 +48,7 @@ const MultiSelector = ({ items }: MultiSelectorProps) => {
       className="bg-transparent w-180 overflow-visible"
     >
       <div className="group rounded-md border border-input px-12 py-8 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-        <div className="flex flex-wrap gap-4">
+        <div className="flex h-25 w-160 flex-row gap-4 overflow-hidden overflow-x-scroll whitespace-nowrap scrollbar-hide">
           {selected.map((item) => {
             return (
               <Badge
