@@ -24,10 +24,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       className={inter.className}
     >
       <body className="h-screen">
-        <Theme className="h-full">
+        <Theme>
           <div
             className={cn(
-              `max-mobile:w-9/10 w-7/8 mx-auto flex h-full flex-col items-center pb-30`,
+              `max-mobile:w-9/10 w-7/8 mx-auto flex flex-col items-center pb-30`,
             )}
           >
             <AppBar isLogin={false} />
