@@ -18,8 +18,8 @@ import Walrus from "../../public/images/walrus.png";
 
 const Home = () => {
   const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState("전체");
-  const [tmp, setTmp] = useState("최신");
+  const [category, setCategory] = useState("전체");
+  const [filter, setFilter] = useState("최신");
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleNext = () => {
@@ -29,18 +29,15 @@ const Home = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       handleNext();
-      console.log(activeIndex);
-    }, 5000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, [activeIndex]);
 
   const bannerDefaultStyle =
-    "duration-[2000ms] absolute left-0 top-0 flex h-380 w-full justify-center bg-banner-bg transition-opacity";
-  const bannerValidStyle =
-    "opacity-100 transition-opacity duration-2000 ease-in";
-  const bannerInvalidStyle =
-    "opacity-0 transition-opacity duration-2000 ease-out";
+    "duration-1500 absolute left-0 top-0 flex h-380 w-full justify-center transition-opacity";
+  const bannerValidStyle = "opacity-100 transition-opacity ease-in";
+  const bannerInvalidStyle = "opacity-0 transition-opacity ease-out";
 
   const popularSteadyData = [
     {
@@ -162,7 +159,7 @@ const Home = () => {
         <div
           className={`${
             activeIndex === 1 ? bannerValidStyle : bannerInvalidStyle
-          } ${bannerDefaultStyle}`}
+          } ${bannerDefaultStyle} bg-banner-bg`}
         >
           <div className="flex w-3/5 items-center justify-around">
             <div className="flex flex-col">
@@ -184,7 +181,7 @@ const Home = () => {
         <div
           className={`${
             activeIndex === 2 ? bannerValidStyle : bannerInvalidStyle
-          } ${bannerDefaultStyle}`}
+          } ${bannerDefaultStyle} bg-banner-bg2`}
         >
           <div className="flex w-3/5 items-center justify-around">
             <div className="flex flex-col">
@@ -205,8 +202,8 @@ const Home = () => {
         </div>
         <div
           className={`${
-            activeIndex === 2 ? bannerValidStyle : bannerInvalidStyle
-          } ${bannerDefaultStyle}`}
+            activeIndex === 0 ? bannerValidStyle : bannerInvalidStyle
+          } ${bannerDefaultStyle} bg-banner-bg3`}
         >
           <div className="flex w-3/5 items-center justify-around">
             <div className="flex flex-col">
@@ -298,25 +295,25 @@ const Home = () => {
           <div className="flex gap-20">
             <div
               className={`${
-                filter === "전체" ? "" : "text-st-gray-100"
+                category === "전체" ? "" : "text-st-gray-100"
               } cursor-pointer text-2xl font-bold`}
-              onClick={() => setFilter("전체")}
+              onClick={() => setCategory("전체")}
             >
               전체
             </div>
             <div
               className={`${
-                filter === "스터디" ? "" : "text-st-gray-100"
+                category === "스터디" ? "" : "text-st-gray-100"
               } cursor-pointer text-2xl font-bold`}
-              onClick={() => setFilter("스터디")}
+              onClick={() => setCategory("스터디")}
             >
               스터디
             </div>
             <div
               className={`${
-                filter === "프로젝트" ? "" : "text-st-gray-100"
+                category === "프로젝트" ? "" : "text-st-gray-100"
               } cursor-pointer text-2xl font-bold`}
-              onClick={() => setFilter("프로젝트")}
+              onClick={() => setCategory("프로젝트")}
             >
               프로젝트
             </div>
@@ -361,26 +358,26 @@ const Home = () => {
             <div className="hidden items-center justify-center gap-20 xl:flex">
               <div
                 className={`${
-                  tmp === "마감" ? "" : "text-st-gray-100"
+                  filter === "마감" ? "" : "text-st-gray-100"
                 } flex cursor-pointer items-center justify-center gap-5 font-bold`}
-                onClick={() => setTmp("마감")}
+                onClick={() => setFilter("마감")}
               >
                 <div
                   className={`${
-                    tmp === "마감" ? "bg-st-primary" : "bg-st-gray-100"
+                    filter === "마감" ? "bg-st-primary" : "bg-st-gray-100"
                   } h-10 w-10 rounded-full `}
                 ></div>
                 마감 임박순
               </div>
               <div
                 className={`${
-                  tmp === "최신" ? "" : "text-st-gray-100"
+                  filter === "최신" ? "" : "text-st-gray-100"
                 } flex cursor-pointer items-center justify-center gap-5 font-bold`}
-                onClick={() => setTmp("최신")}
+                onClick={() => setFilter("최신")}
               >
                 <div
                   className={`${
-                    tmp === "최신" ? "bg-st-primary" : "bg-st-gray-100"
+                    filter === "최신" ? "bg-st-primary" : "bg-st-gray-100"
                   } h-10 w-10 rounded-full `}
                 ></div>
                 최신 글순
