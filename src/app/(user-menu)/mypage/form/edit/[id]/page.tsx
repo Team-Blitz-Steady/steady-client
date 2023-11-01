@@ -59,7 +59,7 @@ const FormEdit = () => {
           </Button>
         </div>
         <div className="h-5 w-full bg-st-gray-200"></div>
-        <div className="h-800 w-750 overflow-y-scroll">
+        <div className="h-750 w-750 overflow-y-scroll">
           <div className="flex flex-col gap-20 p-20">
             {question.map((item) => (
               <div
@@ -89,6 +89,11 @@ const FormEdit = () => {
           </div>
         </div>
         <div className="h-5 w-full bg-st-gray-200"></div>
+        <div className="mt-20 flex w-full justify-end">
+          <Button className={`${buttonSize.lg} bg-st-primary text-st-white`}>
+            수정완료
+          </Button>
+        </div>
       </div>
     </div>
   );
