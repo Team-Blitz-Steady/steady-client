@@ -100,9 +100,17 @@ const CreateSteadyPage = () => {
           my={"3"}
           className={cn("border-[1.5px] border-st-black")}
         />
-        <div className={cn("mx-20 flex flex-row justify-between")}>
-          <SingleSelector items={steadyCategories} />
-          <SingleSelector items={steadyParticipantsLimit} />
+        <div className={cn("mx-40 flex flex-row justify-between")}>
+          <SingleSelector
+            initialLabel={"프로젝트 / 스터디"}
+            items={steadyCategories}
+            className={cn("w-430")}
+          />
+          <SingleSelector
+            initialLabel={"스테디 정원"}
+            items={steadyParticipantsLimit}
+            className={cn("w-430")}
+          />
         </div>
         <Separator
           size={"4"}
@@ -124,12 +132,20 @@ const CreateSteadyPage = () => {
           my={"3"}
           className={cn("border-[1.5px] border-st-black")}
         />
-        <div className={cn("mx-20 flex flex-row justify-between")}>
-          <SingleSelector items={steadyRunningMethods} />
-          <SingleSelector items={steadyExpectedPeriods} />
+        <div className={cn("mx-20 flex flex-row justify-between gap-15")}>
           <MultiSelector
             initialLabel={"모집 분야"}
             items={steadyRecruitmentFields}
+            className={cn("w-200")}
+          />
+          <SingleSelector
+            initialLabel={"진행 방식"}
+            items={steadyRunningMethods}
+            className={cn("w-200")}
+          />
+          <SingleSelector
+            initialLabel={"예상 기간"}
+            items={steadyExpectedPeriods}
             className={cn("w-200")}
           />
           <DateSelector
@@ -137,13 +153,15 @@ const CreateSteadyPage = () => {
             className={cn("w-200")}
           />
         </div>
-        <div className={cn("mx-20 flex flex-row justify-between")}>
-          <MultiSelector items={steadyExpectedTechStacks} />
-          <SingleSelector items={steadyExpectedParticipants} />
+        <div className={cn("mx-20 flex flex-row justify-start gap-15")}>
           <MultiSelector
             initialLabel={"기술 스택"}
             items={steadyExpectedTechStacks}
             className={cn("w-280")}
+          />
+          <SingleSelector
+            initialLabel={"모집 인원"}
+            items={steadyExpectedParticipants}
           />
         </div>
 
