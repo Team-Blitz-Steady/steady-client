@@ -7,7 +7,7 @@ import SideBar from "@/components/_common/SideBar";
 
 const FormCreate = () => {
   const [question, setQuestion] = useState([{ id: 1 }]);
-  let count = 1;
+  const [count, setCount] = useState(2);
 
   const myPageItems = [
     {
@@ -28,7 +28,7 @@ const FormCreate = () => {
   ];
 
   const addQuestion = () => {
-    count += 1;
+    setCount(count + 1);
     const newQuestion = {
       id: count,
     };
@@ -36,7 +36,7 @@ const FormCreate = () => {
   };
 
   const removeQuestion = (id: number) => {
-    count -= 1;
+    setCount(count - 1);
     setQuestion((prev) => prev.filter((item) => item.id !== id));
   };
 
