@@ -128,7 +128,10 @@ const CreateSteadyPage = () => {
           <SingleSelector items={steadyRecruitmentFields} />
           <SingleSelector items={steadyRunningMethods} />
           <SingleSelector items={steadyExpectedPeriods} />
-          <DateSelector />
+          <DateSelector
+            initialLabel={"마감일"}
+            className={cn("w-200")}
+          />
         </div>
         <div className={cn("mx-20 flex flex-row justify-between")}>
           <MultiSelector items={steadyExpectedTechStacks} />
