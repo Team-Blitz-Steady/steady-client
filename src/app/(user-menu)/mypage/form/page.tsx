@@ -1,26 +1,7 @@
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
-import SideBar from "@/components/_common/SideBar";
 
 const MyFormPage = () => {
-  const myPageItems = [
-    {
-      label: "내 프로필",
-      href: "/mypage",
-      id: "1",
-    },
-    {
-      label: "내 신청서",
-      href: "/myform",
-      id: "2",
-    },
-    {
-      label: "내가 받은 리뷰",
-      href: "/myreviews",
-      id: "3",
-    },
-  ];
-
   const myFormItems = [
     {
       title: "넥터디 양식",
@@ -40,12 +21,7 @@ const MyFormPage = () => {
   ];
 
   return (
-    <div className="mt-50 flex gap-30">
-      <SideBar
-        sidebarItems={myPageItems}
-        boxStyles="w-300 h-814 border-solid border-1 rounded-20 gap-y-30 border-2 py-47"
-        itemStyles="w-250 h-65 rounded-5 text-18 font-bold p-20"
-      />
+    <div className="flex gap-30">
       <div>
         <div className="flex justify-between p-20 text-30 font-bold">
           내 신청서 양식
