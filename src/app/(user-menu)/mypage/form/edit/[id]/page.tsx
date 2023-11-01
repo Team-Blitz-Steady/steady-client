@@ -50,7 +50,7 @@ const FormEdit = () => {
     <div className="flex gap-30">
       <div>
         <div className="flex justify-between p-20 text-30 font-bold">
-          신청서 양식 생성
+          신청서 양식 수정
           <Button
             className={`${buttonSize.lg} bg-st-primary text-st-white`}
             onClick={addQuestion}
