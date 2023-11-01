@@ -13,85 +13,14 @@ import {
   RECRUITMENT_SECTION_INTRO,
   STEADY_RECRUITMENT_EXAMPLE,
   STEADY_SECTION_INTRO,
+  steadyCategories,
+  steadyExpectedParticipants,
+  steadyExpectedPeriods,
+  steadyExpectedTechStacks,
+  steadyParticipantsLimit,
+  steadyRecruitmentFields,
+  steadyRunningMethods,
 } from "@/constants/create-steady";
-
-const steadyCategories = [
-  { value: "study", label: "스터디" },
-  { value: "project", label: "프로젝트" },
-];
-
-const steadyParticipantsLimit = [
-  { value: "2", label: "2명" },
-  { value: "3", label: "3명" },
-  { value: "4", label: "4명" },
-  { value: "5", label: "5명" },
-  { value: "6", label: "6명" },
-  { value: "7", label: "7명" },
-  { value: "8", label: "8명" },
-  { value: "9", label: "9명" },
-  { value: "10", label: "10명" },
-];
-
-const steadyRecruitmentFields = [
-  { value: "frontend", label: "프론트엔드" },
-  { value: "backend", label: "백엔드" },
-  { value: "design", label: "디자인" },
-  { value: "planning", label: "기획" },
-  { value: "marketing", label: "마케팅" },
-  { value: "etc", label: "기타" },
-];
-
-const steadyRunningMethods = [
-  { value: "offline", label: "오프라인" },
-  { value: "online", label: "온라인" },
-];
-
-const steadyExpectedPeriods = [
-  { value: "TO_BE_DETERMINED", label: "미정" },
-  { value: "ONE_WEEK", label: "1주" },
-  { value: "TWO_WEEK", label: "2주" },
-  { value: "THREE_WEEK", label: "3주" },
-  { value: "FOUR_WEEK", label: "4주" },
-  { value: "FIVE_WEEK", label: "5주" },
-  { value: "TWO_MONTH", label: "2개월" },
-  { value: "THREE_MONTH", label: "3개월" },
-  { value: "FOUR_MONTH", label: "4개월" },
-  { value: "FIVE_MONTH", label: "5개월" },
-  { value: "SIX_MONTH", label: "6개월" },
-  { value: "LONG_TERM", label: "장기" },
-];
-
-const steadyExpectedParticipants = [
-  { value: "1", label: "1명" },
-  { value: "2", label: "2명" },
-  { value: "3", label: "3명" },
-  { value: "4", label: "4명" },
-  { value: "5", label: "5명" },
-  { value: "6", label: "6명" },
-  { value: "7", label: "7명" },
-  { value: "8", label: "8명" },
-  { value: "9", label: "9명" },
-  { value: "10", label: "10명" },
-];
-
-const steadyExpectedTechStacks = [
-  { value: "react", label: "React" },
-  { value: "nextjs", label: "Next.js" },
-  { value: "vue", label: "Vue" },
-  { value: "nuxtjs", label: "Nuxt.js" },
-  { value: "angular", label: "Angular" },
-  { value: "svelte", label: "Svelte" },
-  { value: "express", label: "Express" },
-  { value: "nestjs", label: "Nest.js" },
-  { value: "django", label: "Django" },
-  { value: "flask", label: "Flask" },
-  { value: "spring", label: "Spring" },
-  { value: "mybatis", label: "MyBatis" },
-  { value: "jpa", label: "JPA" },
-  { value: "hibernate", label: "Hibernate" },
-  { value: "mysql", label: "MySQL" },
-  { value: "mariadb", label: "MariaDB" },
-];
 
 const CreateSteadyPage = () => {
   return (
