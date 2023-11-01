@@ -7,9 +7,9 @@ const Input = ({ inputName = "" }) => {
   switch (inputName) {
     case "search-input":
       input = (
-        <div className="hidden h-40 items-center justify-center rounded-12 border border-2 border-solid border-st-gray-100 bg-input-bg p-5 outline-none md:flex md:w-1/4 xl:w-350">
+        <div className="bg-input-bg hidden h-40 items-center justify-center rounded-12 border-2 border-solid border-st-gray-100 p-5 outline-none md:flex md:w-1/4 xl:w-350">
           <input
-            className="h-35 w-full rounded-12 bg-input-bg p-5 font-bold outline-none"
+            className="bg-input-bg h-35 w-full rounded-12 p-5 font-bold outline-none"
             type="text"
             placeholder="검색어를 입력해주세요."
           />
@@ -27,7 +27,7 @@ const Input = ({ inputName = "" }) => {
       input = (
         <div>
           <input
-            className="h-56 w-523 items-center rounded-12 border border-2 border-solid border-st-gray-100 pl-5 pr-5 text-center text-lg outline-none"
+            className="max-mobile:w-full h-55 w-400 items-center rounded-12 border-2 border-solid border-st-gray-100 pl-5 pr-5 text-center text-lg outline-none"
             type="text"
             placeholder="닉네임을 입력해주세요."
           />
@@ -69,7 +69,7 @@ const Input = ({ inputName = "" }) => {
       break;
     case "introduce-input":
       input = (
-        <div className="flex h-64 items-center justify-center rounded-12 border border-2 border-solid border-st-gray-100 p-10 outline-none md:w-1/2 xl:w-716">
+        <div className="flex h-64 items-center justify-center rounded-12 border-2 border-solid border-st-gray-100 p-10 outline-none md:w-1/2 xl:w-716">
           <input
             className="h-60 w-full rounded-12 p-5 text-xl font-bold outline-none"
             type="text"
