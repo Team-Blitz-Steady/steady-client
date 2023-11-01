@@ -42,18 +42,18 @@ const steadyRunningMethods = [
 ];
 
 const steadyExpectedPeriods = [
-  { value: "1", label: "1주" },
-  { value: "2", label: "2주" },
-  { value: "3", label: "3주" },
-  { value: "4", label: "4주" },
-  { value: "5", label: "5주" },
-  { value: "6", label: "6주" },
-  { value: "7", label: "7주" },
-  { value: "8", label: "8주" },
-  { value: "9", label: "9주" },
-  { value: "10", label: "10주" },
-  { value: "11", label: "11주" },
-  { value: "12", label: "12주" },
+  { value: "TO_BE_DETERMINED", label: "미정" },
+  { value: "ONE_WEEK", label: "1주" },
+  { value: "TWO_WEEK", label: "2주" },
+  { value: "THREE_WEEK", label: "3주" },
+  { value: "FOUR_WEEK", label: "4주" },
+  { value: "FIVE_WEEK", label: "5주" },
+  { value: "TWO_MONTH", label: "2개월" },
+  { value: "THREE_MONTH", label: "3개월" },
+  { value: "FOUR_MONTH", label: "4개월" },
+  { value: "FIVE_MONTH", label: "5개월" },
+  { value: "SIX_MONTH", label: "6개월" },
+  { value: "LONG_TERM", label: "장기" },
 ];
 
 const steadyExpectedParticipants = [
