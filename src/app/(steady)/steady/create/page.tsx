@@ -101,7 +101,7 @@ const CreateSteadyPage = () => {
         <Separator
           size={"4"}
           my={"3"}
-          className={cn("border-[1.5px] border-st-black")}
+          className={cn("h-5 bg-st-gray-400")}
         />
         <div className={cn("mx-40 flex flex-row justify-between")}>
           <SingleSelector
@@ -118,7 +118,7 @@ const CreateSteadyPage = () => {
         <Separator
           size={"4"}
           my={"3"}
-          className={cn("border-[1.5px] border-st-black")}
+          className={cn("h-5 bg-st-gray-400")}
         />
         <Input inputName={"steady-title-input"} />
         <TextArea
@@ -133,7 +133,7 @@ const CreateSteadyPage = () => {
         <Separator
           size={"4"}
           my={"3"}
-          className={cn("border-[1.5px] border-st-black")}
+          className={cn("h-5 bg-st-gray-400")}
         />
         <div className={cn("mx-20 flex flex-row justify-between gap-15")}>
           <MultiSelector
@@ -171,7 +171,7 @@ const CreateSteadyPage = () => {
         <Separator
           size={"4"}
           my={"3"}
-          className={cn("border-[1.5px] border-st-black")}
+          className={cn("h-5 bg-st-gray-400")}
         />
         <Input inputName={"title-input"} />
         <Input inputName={"tag-input"} />
