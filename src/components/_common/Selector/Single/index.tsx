@@ -5,7 +5,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/_common/Selector/core/select";
+} from "@/components/ui/select";
 import type { SelectItem as SelectItemProps } from "@/components/_common/Selector/types/selectItem";
 
 interface SingleSelectorProps {

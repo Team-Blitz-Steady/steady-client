@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
-import { Button } from "@/components/_common/Selector/core/button";
-import { Calendar } from "@/components/_common/Selector/core/calendar";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/_common/Selector/core/popover";
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
 
 const DateSelector = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
