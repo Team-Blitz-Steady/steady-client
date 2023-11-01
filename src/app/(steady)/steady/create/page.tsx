@@ -9,6 +9,11 @@ import {
   MultiSelector,
   SingleSelector,
 } from "@/components/_common/Selector";
+import {
+  RECRUITMENT_SECTION_INTRO,
+  STEADY_RECRUITMENT_EXAMPLE,
+  STEADY_SECTION_INTRO,
+} from "@/constants/create-steady";
 
 const steadyCategories = [
   { value: "study", label: "스터디" },
@@ -92,9 +97,7 @@ const CreateSteadyPage = () => {
   return (
     <div className={cn("mt-30")}>
       <div>
-        <h1 className={cn("mx-8 font-semibold")}>
-          📖 스테디 정보를 입력해주세요.
-        </h1>
+        <h1 className={cn("mx-8 font-semibold")}>{STEADY_SECTION_INTRO}</h1>
         <Separator
           size={"4"}
           my={"3"}
@@ -125,7 +128,7 @@ const CreateSteadyPage = () => {
       </div>
       <div className={cn("mt-30")}>
         <h1 className={cn("mx-8 font-semibold")}>
-          ✍️ 모집글 정보를 입력해주세요.
+          {RECRUITMENT_SECTION_INTRO}
         </h1>
         <Separator
           size={"4"}
@@ -175,7 +178,9 @@ const CreateSteadyPage = () => {
         <TextArea
           className={cn("h-720 w-full")}
           my={"3"}
-        />
+        >
+          {STEADY_RECRUITMENT_EXAMPLE}
+        </TextArea>
         <div className={"flex justify-end gap-20"}>
           <Button
             className={cn(`${buttonSize.sm} items-center justify-center`)}
