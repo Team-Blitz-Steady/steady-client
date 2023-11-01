@@ -12,16 +12,18 @@ import type { SelectItem as SelectItemProps } from "@/components/_common/Selecto
 interface SingleSelectorProps {
   items: SelectItemProps[];
   initialLabel?: string;
+  initialData?: SelectItemProps;
   className?: string;
 }
 
 const SingleSelector = ({
   items,
   initialLabel,
+  initialData,
   className,
 }: SingleSelectorProps) => {
   return (
-    <Select>
+    <Select defaultValue={initialData?.value}>
       <SelectTrigger className={cn(className)}>
         <SelectValue
           className={cn("font-semibold")}
