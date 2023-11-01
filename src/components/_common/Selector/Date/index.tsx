@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -13,10 +13,21 @@ import { format } from "date-fns";
 interface DateSelectorProps {
   className?: string;
   initialLabel?: string;
+  initialDate?: Date;
 }
 
-const DateSelector = ({ className, initialLabel }: DateSelectorProps) => {
+const DateSelector = ({
+  className,
+  initialLabel,
+  initialDate,
+}: DateSelectorProps) => {
   const [date, setDate] = useState<Date | undefined>(undefined);
+
+  useEffect(() => {
+    if (initialDate) {
+      setDate(initialDate);
+    }
+  }, [initialDate]);
 
   return (
     <Popover>
