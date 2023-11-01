@@ -107,9 +107,8 @@ const CreateSteadyPage = () => {
         <TextArea
           className={cn("h-720 w-full")}
           my={"3"}
-        >
-          {STEADY_RECRUITMENT_EXAMPLE}
-        </TextArea>
+          defaultValue={STEADY_RECRUITMENT_EXAMPLE}
+        />
         <div className={"flex justify-end gap-20"}>
           <Button
             className={cn(`${buttonSize.sm} items-center justify-center`)}
