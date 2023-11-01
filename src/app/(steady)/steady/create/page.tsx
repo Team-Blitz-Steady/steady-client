@@ -125,9 +125,13 @@ const CreateSteadyPage = () => {
           className={cn("border-[1.5px] border-st-black")}
         />
         <div className={cn("mx-20 flex flex-row justify-between")}>
-          <SingleSelector items={steadyRecruitmentFields} />
           <SingleSelector items={steadyRunningMethods} />
           <SingleSelector items={steadyExpectedPeriods} />
+          <MultiSelector
+            initialLabel={"모집 분야"}
+            items={steadyRecruitmentFields}
+            className={cn("w-200")}
+          />
           <DateSelector
             initialLabel={"마감일"}
             className={cn("w-200")}
@@ -136,6 +140,11 @@ const CreateSteadyPage = () => {
         <div className={cn("mx-20 flex flex-row justify-between")}>
           <MultiSelector items={steadyExpectedTechStacks} />
           <SingleSelector items={steadyExpectedParticipants} />
+          <MultiSelector
+            initialLabel={"기술 스택"}
+            items={steadyExpectedTechStacks}
+            className={cn("w-280")}
+          />
         </div>
 
         <Separator
