@@ -1,6 +1,9 @@
 import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/themes";
+import Button, { buttonSize } from "@/components/_common/Button";
+import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
+import { AlertModal } from "@/components/_common/Modal";
 import { SingleSelector } from "@/components/_common/Selector";
 
 const steadyInfo = [
@@ -89,7 +92,23 @@ const filter = [
   },
 ];
 
+const configList = [
+  {
+    label: "스테디 수정",
+    linkTo: "/steady/edit/1",
+  },
+  {
+    label: "스테디 질문 수정",
+    linkTo: "/steady/edit/questions/1",
+  },
+  {
+    label: "스테디 운영",
+    linkTo: "/steady/manage/1",
+  },
+];
+
 // TODO: 무한 스크롤
+// TODO: 필터 적용
 const MySteadyPage = () => {
   const renderIcon = ({
     isEnded,
@@ -106,32 +125,63 @@ const MySteadyPage = () => {
       return <div className="h-20 w-20" />;
     }
     if (isParticipated) {
-      return isLeader ? (
-        <div>
-          <Icon
-            name="gear"
-            size={20}
-            color=""
-          />
-        </div>
-      ) : (
-        <Icon
-          name="exit"
-          size={20}
-          color=""
-        />
-      );
+      if (isLeader) {
+        return (
+          <Dropdown options={configList}>
+            <div className="cursor-pointer">
+              <Icon
+                name="gear"
+                size={20}
+                color="text-st-black"
+              />
+            </div>
+          </Dropdown>
+        );
+      } else {
+        return (
+          <AlertModal
+            trigger={
+              <Icon
+                name="exit"
+                size={20}
+                color="text-st-black"
+              />
+            }
+            actionButton={
+              <Button className={`${buttonSize.sm} bg-st-red text-st-white`}>
+                탈퇴
+              </Button>
+            }
+          >
+            <div className="flex items-center justify-center">
+              <div className="text-20 font-bold">정말 탈퇴하시겠습니까?</div>
+            </div>
+          </AlertModal>
+        );
+      }
     }
     if (isSubmitted) {
       return (
-        <Icon
-          name="cross"
-          size={20}
-          color=""
-        />
+        <AlertModal
+          trigger={
+            <Icon
+              name="cross"
+              size={20}
+              color="text-st-black"
+            />
+          }
+          actionButton={
+            <Button className={`${buttonSize.sm} bg-st-red text-st-white`}>
+              네
+            </Button>
+          }
+        >
+          <div className="flex items-center justify-center">
+            <div className="text-20 font-bold">정말 취소하시겠습니까?</div>
+          </div>
+        </AlertModal>
       );
     }
-    return <div className="h-20 w-20" />;
   };
 
   return (
@@ -150,30 +200,28 @@ const MySteadyPage = () => {
       <Separator className="h-5 w-full bg-st-gray-400" />
       <div className="flex h-750 w-full flex-col overflow-y-scroll">
         {steadyInfo.map((steady, id) => (
-          <>
+          <div
+            key={id}
+            className={cn(
+              "flex h-140 w-full cursor-pointer items-center justify-between border-b-1 border-st-gray-200 p-50",
+            )}
+          >
             <div
-              key={id}
-              className={cn(
-                "flex h-140 w-full cursor-pointer items-center justify-between border-b-1 border-st-gray-200 p-50",
-              )}
+              className={`text-black text-25 font-bold ${
+                steady.isEnded ? "text-st-gray-100 line-through" : ""
+              }`}
             >
-              <div
-                className={`text-black text-25 font-bold ${
-                  steady.isEnded ? "text-st-gray-100 line-through" : ""
-                }`}
-              >
-                {steady.title}
-              </div>
-              <div className="flex items-center justify-center">
-                <div className="flex items-center justify-center gap-30">
-                  <div className="text-bold text-15 text-st-gray-100">
-                    생성일 {steady.createdAt}
-                  </div>
-                  <>{renderIcon(steady)}</>
+              {steady.title}
+            </div>
+            <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center gap-30">
+                <div className="text-bold text-15 text-st-gray-100">
+                  생성일 {steady.createdAt}
                 </div>
+                {renderIcon(steady)}
               </div>
             </div>
-          </>
+          </div>
         ))}
       </div>
       <Separator className="h-5 w-full bg-st-gray-400" />
