@@ -1,9 +1,9 @@
-import MyFormPage from "./(user-menu)/mypage/form/page";
+import MyTemplatePage from "./(user-menu)/mypage/template/page";
 
 const Home = () => {
   return (
     <main>
-      <MyFormPage />
+      <MyTemplatePage />
     </main>
   );
 };
