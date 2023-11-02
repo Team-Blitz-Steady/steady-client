@@ -21,6 +21,7 @@ module.exports = {
       "st-gray-400": "#6c6c6c",
       "st-white": "#ffffff",
       "st-white-50": "#f8f8f8",
+      "st-black": "#000000",
     },
     container: {
       center: true,

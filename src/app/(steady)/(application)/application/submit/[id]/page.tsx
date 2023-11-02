@@ -1,8 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import ApplicationQuestion from "@/components/application/Question";
-import ApplicationTitle from "@/components/application/Title";
+import { Question, Title } from "@/components/application";
 import { TextArea } from "@radix-ui/themes";
 import Button, { buttonSize } from "@/components/_common/Button";
 
@@ -70,14 +69,20 @@ const ApplicationEditPage = () => {
 
   return (
     <>
-      <ApplicationTitle
+      <Title
         title={SteadyPrimitive.title}
         pageType={pageType}
       >
-        <ApplicationQuestion questions={SteadyPrimitive.application.item}>
-          <TextArea className="h-100 w-full" />
-        </ApplicationQuestion>
-      </ApplicationTitle>
+        {Application.item.map((item, id) => (
+          <Question
+            key={id}
+            question={item.question}
+            index={id}
+          >
+            <TextArea className="h-100 w-full" />
+          </Question>
+        ))}
+      </Title>
       {/* TODO: 라우터 연결 */}
       <div className="flex items-center justify-end gap-20">
         <Button

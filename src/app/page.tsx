@@ -1,9 +1,9 @@
-import FormCreate from "./(user-menu)/mypage/form/create/page";
+import MyTemplatePage from "./(user-menu)/mypage/form/create/page";
 
 const Home = () => {
   return (
     <main>
-      <FormCreate />
+      <MyTemplatePage />
     </main>
   );
 };

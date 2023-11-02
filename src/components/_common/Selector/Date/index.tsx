@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -10,8 +10,24 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 
-const DateSelector = () => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+interface DateSelectorProps {
+  className?: string;
+  initialLabel?: string;
+  initialDate?: Date;
+}
+
+const DateSelector = ({
+  className,
+  initialLabel,
+  initialDate,
+}: DateSelectorProps) => {
+  const [date, setDate] = useState<Date | undefined>(undefined);
+
+  useEffect(() => {
+    if (initialDate) {
+      setDate(initialDate);
+    }
+  }, [initialDate]);
 
   return (
     <Popover>
@@ -19,11 +35,16 @@ const DateSelector = () => {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[180px] justify-start text-left font-normal",
+            "justify-between text-left font-normal",
             !date && "text-muted-foreground",
+            className,
           )}
         >
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {date ? (
+            format(date, "PPP")
+          ) : (
+            <span className={"mx-auto"}>{initialLabel}</span>
+          )}
           <CalendarIcon className="ml-8 h-16 w-16" />
         </Button>
       </PopoverTrigger>
