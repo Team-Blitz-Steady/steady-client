@@ -27,7 +27,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <Theme>
           <div
             className={cn(
-              `max-mobile:w-9/10 w-7/8 mx-auto flex flex-col items-center pb-30`,
+              `max-mobile:w-9/10 mx-auto flex w-3/4 flex-col items-center pb-30`,
             )}
           >
             <AppBar isLogin={false} />
