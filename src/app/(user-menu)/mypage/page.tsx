@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
+import { AlertModal } from "@/components/_common/Modal";
 
 const subTitleTextStyles = "text-23 font-bold";
 const subContentStyles = "flex flex-col gap-30";
@@ -61,7 +62,7 @@ const MyProfilePage = () => {
               <div className="flex flex-row items-center justify-center gap-10">
                 <Input inputName="name-input" />
                 {/* 닉네임 중복 확인 */}
-                <div>중복 확인</div>
+                <button>중복 확인</button>
                 <button onClick={handleClick}>
                   {/* 닉네임 중복 확인 되면 체크 표시 활성화*/}
                   <Icon
@@ -111,9 +112,20 @@ const MyProfilePage = () => {
           <div className={subContentTextStyles}>
             회원 탈퇴 시 전체 프로필 정보가 삭제 됩니다.
           </div>
-          <Button className={`${buttonSize.md} bg-st-red text-st-white`}>
-            회원 탈퇴
-          </Button>
+          <AlertModal
+            trigger={
+              <Button className={`${buttonSize.md} bg-st-red text-st-white`}>
+                회원 탈퇴
+              </Button>
+            }
+            actionButton={
+              <Button className={`${buttonSize.sm} bg-st-red text-st-white`}>
+                탈퇴
+              </Button>
+            }
+          >
+            정말 스테디를 탈퇴하시겠습니까?
+          </AlertModal>
         </div>
       </div>
     </div>
