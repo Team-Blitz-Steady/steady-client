@@ -6,17 +6,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 import type { SelectItem as SelectItemProps } from "@/components/_common/Selector/types/selectItem";
 
 interface SingleSelectorProps {
   items: SelectItemProps[];
+  initialLabel?: string;
+  initialData?: SelectItemProps;
+  className?: string;
 }
 
-const SingleSelector = ({ items }: SingleSelectorProps) => {
+const SingleSelector = ({
+  items,
+  initialLabel,
+  initialData,
+  className,
+}: SingleSelectorProps) => {
   return (
-    <Select>
-      <SelectTrigger className={"w-180"}>
-        <SelectValue placeholder={"Select a value"} />
+    <Select defaultValue={initialData?.value}>
+      <SelectTrigger className={cn(className)}>
+        <SelectValue
+          className={cn("font-semibold")}
+          placeholder={initialLabel}
+        />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
