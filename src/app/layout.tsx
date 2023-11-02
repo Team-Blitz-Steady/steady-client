@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib/utils";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import AppBar from "@/components/_common/AppBar";
@@ -23,9 +24,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       className={inter.className}
     >
       <body className="h-screen">
-        <Theme className="h-full">
+        <Theme>
           <div
-            className={`max-mobile:w-9/10 mx-auto flex h-full w-3/4 flex-col items-center pb-30`}
+            className={cn(
+              `max-mobile:w-9/10 w-7/8 mx-auto flex flex-col items-center pb-30`,
+            )}
           >
             <AppBar isLogin={false} />
             {children}

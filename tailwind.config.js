@@ -24,6 +24,7 @@ module.exports = {
       "banner-bg": "#6F87C6",
       "banner-bg2": "#00A8E1",
       "banner-bg3": "#A6BCFF",
+      "st-black": "#000000",
     },
     container: {
       center: true,

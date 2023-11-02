@@ -7,7 +7,7 @@ const myPageList = [
   },
   {
     label: "내 신청서",
-    href: "/mypage/form",
+    href: "/mypage/template",
   },
   {
     label: "내가 받은 리뷰",
