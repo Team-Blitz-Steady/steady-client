@@ -1,8 +1,9 @@
+import MyTemplatePage from "./(user-menu)/mypage/template/page";
+
 const Home = () => {
   return (
     <main>
-      <div>This is Main</div>
-      <h1 className="text-3xl font-bold underline">Hello, Steady!</h1>
+      <MyTemplatePage />
     </main>
   );
 };
