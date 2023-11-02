@@ -1,5 +1,5 @@
-import type { ChangeEvent, KeyboardEvent } from "react";
-import { useCallback, useRef, useState } from "react";
+import type { KeyboardEvent } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { ChevronDownIcon, Cross2Icon } from "@radix-ui/react-icons";
@@ -10,22 +10,27 @@ import type { SelectItem } from "@/components/_common/Selector/types/selectItem"
 interface MultiSelectorProps {
   items: SelectItem[];
   initialLabel?: string;
+  initialData?: SelectItem[];
   className?: string;
 }
 
 const MultiSelector = ({
   items,
   initialLabel,
+  initialData,
   className,
 }: MultiSelectorProps) => {
-  const inputRef = useRef<ChangeEvent<HTMLInputElement>>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<SelectItem[]>([]);
   const [inputValue, setInputValue] = useState("");
 
-  const handleUnselect = useCallback((item: SelectItem) => {
-    setSelected((prev) => prev.filter(({ value }) => value !== item.value));
-  }, []);
+  const handleUnselect = useCallback(
+    (item: SelectItem) => {
+      setSelected((prev) => prev.filter(({ value }) => value !== item.value));
+    },
+    [setSelected],
+  );
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLInputElement>) => {
@@ -45,10 +50,18 @@ const MultiSelector = ({
         }
       }
     },
-    [],
+    [setSelected],
   );
 
-  const selectables = items.filter((item) => !selected.includes(item));
+  useEffect(() => {
+    if (initialData) {
+      setSelected(initialData);
+    }
+  }, [initialData]);
+
+  const selectables = items.filter(
+    (item) => !selected.some(({ value }) => value === item.value),
+  );
 
   return (
     <Command
@@ -113,9 +126,9 @@ const MultiSelector = ({
                 return (
                   <Command.Item
                     key={item.value}
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
+                    onMouseDown={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
                     }}
                     onSelect={() => {
                       setInputValue("");
