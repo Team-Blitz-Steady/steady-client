@@ -1,4 +1,4 @@
-import MyTemplatePage from "./(user-menu)/mypage/template/page";
+import MyTemplatePage from "./(user-menu)/mypage/template/create/page";
 
 const Home = () => {
   return (
