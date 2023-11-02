@@ -26,7 +26,7 @@ const SocialLoginStart = () => {
 
   return (
     <div className="flex h-full w-full flex-col items-center py-20">
-      <div className="flex h-auto w-full flex-col items-center justify-center max-mobile:w-1/2">
+      <div className="max-mobile:w-1/2 flex h-auto w-full flex-col items-center justify-center">
         <Image
           src={SteadyTurtleIcon}
           alt="소셜 로그인 스테디 로고"
