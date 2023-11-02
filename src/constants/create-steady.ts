@@ -18,21 +18,20 @@ export const STEADY_RESPONSE_MOCK_DATA = {
   nickname: "닉네임",
   profileImage: "https://avatars.githubusercontent.com/u/69716992?v=4",
   title: "어썸한 스터디",
-  introduction: "어썸한 스터디입니다.", // 필요
+  introduction: "어썸한 스터디입니다.",
   type: { value: "study", label: "스터디" },
   status: { value: "recruiting", label: "모집중" },
   method: { value: "online", label: "온라인" },
   deadline: new Date("2023-12-10"),
   createdAt: new Date("2023-12-02"),
-  expectedPeriod: { value: "TWO_MONTH", label: "2개월" }, // 필요
-  recruitCount: "4", // String 타입으로는 불가능할까?
-  numberOfParticipants: "5", // String 타입으로는 불가능할까?
-  recruitCategory: [{ value: "frontend", label: "프론트엔드" }], // 필요
+  expectedPeriod: { value: "TWO_MONTH", label: "2개월" },
+  participantLimit: "5",
+  recruitCategory: [{ value: "frontend", label: "프론트엔드" }],
   stacks: [
     { value: "react", label: "React" },
     { value: "nextjs", label: "Next.js" },
   ],
-  recruitTitle: "프론트엔드 스터디 모집합니다.", // 필요
+  recruitTitle: "프론트엔드 스터디 모집합니다.",
   recruitTags: ["#프론트엔드", "#스터디", "#초보"], // 필요
   recruitContent:
     "∙ 주제 : 프론트엔드 스터디\n" +
