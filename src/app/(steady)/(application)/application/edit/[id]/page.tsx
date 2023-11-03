@@ -5,7 +5,7 @@ import { Question, Title } from "@/components/application";
 import { TextArea } from "@radix-ui/themes";
 import Button, { buttonSize } from "@/components/_common/Button";
 
-const Application = {
+export const Application = {
   id: "2", // 신청서 ID
   item: [
     {
