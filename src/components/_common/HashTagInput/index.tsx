@@ -109,6 +109,9 @@ const HashTagInput = ({
               className,
             )}
             onKeyDown={(event) => {
+              if (event.nativeEvent.isComposing) {
+                return;
+              }
               if (event.key === "Enter") {
                 handleAddHashTag();
               }
