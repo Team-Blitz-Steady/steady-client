@@ -9,11 +9,7 @@ import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
 import { AlertModal } from "@/components/_common/Modal";
-
-export const subMyPageTextStyles = {
-  title: "text-23 font-bold",
-  content: "text-lg font-bold",
-};
+import { subMyPageTextStyles } from "@/constants/commonStyle";
 
 const subContentStyles = "flex flex-col gap-30";
 const subBoxStyles =

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import SteadyTurtle from "@/images/steadyturtle.png";
 import { cn } from "@/lib/utils";
-import { subMyPageTextStyles } from "../page";
+import { subMyPageTextStyles } from "@/constants/commonStyle";
 
 const UserCards = [
   {
