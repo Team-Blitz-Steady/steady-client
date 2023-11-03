@@ -17,9 +17,9 @@ const Title = ({
         <div className=" text-st-primary">{title}</div>
         {pageType === "submit" ? "참여 신청서" : "참여 신청서 수정"}
       </div>
-      <Separator className="st-gray-400 h-5 w-auto" />
+      <Separator className="h-5 w-auto bg-st-gray-400" />
       <div className="flex flex-col gap-30 px-100">{children}</div>
-      <Separator className="st-gray-400 h-5 w-auto" />
+      <Separator className="h-5 w-auto bg-st-gray-400" />
     </>
   );
 };

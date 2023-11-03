@@ -126,7 +126,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
           ) : null}
         </div>
         {/*  */}
-        <Separator className="st-gray-400 mb-20 h-3 w-auto" />
+        <Separator className="mb-20 h-5 w-auto bg-st-gray-400" />
       </div>
       {/*  */}
       <div className="flex flex-col gap-10">
@@ -192,7 +192,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
         <div className="text-20 font-bold">{SteadyPrimitive.content}</div>
       </div>
       <div className="my-30 flex flex-col gap-20">
-        <Separator className="st-gray-100 h-2 w-auto" />
+        <Separator className="h-2 w-auto bg-st-gray-100" />
         <div className="px-50">
           <div className="mb-10 flex h-fit flex-row items-center justify-between text-18 font-bold">
             <div>모집 분야: {Announcement.position}</div>
@@ -205,11 +205,11 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
             {Announcement.techStacks.map((tech) => tech.name).join(" ")}
           </div>
         </div>
-        <Separator className="st-gray-100 h-2 w-auto" />
+        <Separator className="h-2 w-auto bg-st-gray-100" />
       </div>
       <div className="text-15">{Announcement.content}</div>
       <div className="flex flex-col gap-20">
-        <Separator className="st-gray-400 mt-20 h-3 w-auto" />
+        <Separator className="mt-20 h-5 w-auto bg-st-gray-400" />
         <div className="flex flex-row items-center justify-end gap-10">
           {SteadyPrimitive.application ? (
             <Button className={`${buttonSize.sm} bg-st-primary text-st-white`}>
