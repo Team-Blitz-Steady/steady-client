@@ -88,15 +88,15 @@ const MyProfilePage = () => {
           </div>
         </div>
       </div>
-      <div className={subContentStyles}>
-        <div className={subTitleTextStyles}>한 줄 소개</div>
+      <div className={cn(subContentStyles)}>
+        <div className={cn(subTitleTextStyles)}>한 줄 소개</div>
         <div className="flex items-center justify-center">
           <Input inputName="introduce-input" />
         </div>
       </div>
-      <div className={subContentStyles}>
-        <div className={subTitleTextStyles}>소셜 인증</div>
-        <div className={subBoxStyles}>
+      <div className={cn(subContentStyles)}>
+        <div className={cn(subTitleTextStyles)}>소셜 인증</div>
+        <div className={cn(subBoxStyles)}>
           <Image
             src={KakaoLogo}
             alt="카카오 로고"
@@ -106,20 +106,24 @@ const MyProfilePage = () => {
           </div>
         </div>
       </div>
-      <div className={subContentStyles}>
-        <div className={subTitleTextStyles}>회원 탈퇴</div>
+      <div className={cn(subContentStyles)}>
+        <div className={cn(subTitleTextStyles)}>회원 탈퇴</div>
         <div className={cn(subBoxStyles, "justify-between")}>
-          <div className={subContentTextStyles}>
+          <div className={cn(subContentTextStyles)}>
             회원 탈퇴 시 전체 프로필 정보가 삭제 됩니다.
           </div>
           <AlertModal
             trigger={
-              <Button className={`${buttonSize.md} bg-st-red text-st-white`}>
+              <Button
+                className={`cn(${buttonSize.md} text-st-white) bg-st-red`}
+              >
                 회원 탈퇴
               </Button>
             }
             actionButton={
-              <Button className={`${buttonSize.sm} bg-st-red text-st-white`}>
+              <Button
+                className={`cn(${buttonSize.sm} text-st-white) bg-st-red`}
+              >
                 탈퇴
               </Button>
             }
