@@ -17,7 +17,7 @@ interface HashTagInputProps {
 }
 
 const HashTagInput = ({
-  placeholder,
+  placeholder = "해쉬 태그를 입력해주세요!",
   initialData,
   tagSize = "1",
   className,
