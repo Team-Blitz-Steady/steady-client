@@ -1,5 +1,22 @@
 interface IconProps {
-  name: string;
+  name:
+    | "search"
+    | "pencil"
+    | "cross"
+    | "chevron-down"
+    | "eye"
+    | "chat"
+    | "calendar"
+    | "bell"
+    | "gear"
+    | "trash"
+    | "arrow-left"
+    | "chevron-left"
+    | "chevron-right"
+    | "heart"
+    | "person"
+    | "check"
+    | "exit";
   size: number;
   color: string;
 }
