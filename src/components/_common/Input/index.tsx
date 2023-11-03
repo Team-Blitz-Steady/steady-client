@@ -2,11 +2,17 @@ import { MagnifyingGlassIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import { IconButton } from "@radix-ui/themes";
 
 interface InputProps {
-  inputName?: string;
+  inputName:
+    | "search-input"
+    | "name-input"
+    | "steady-title-input"
+    | "title-input"
+    | "tag-input"
+    | "introduce-input";
   initialValue?: string;
 }
 
-const Input = ({ inputName = "", initialValue }: InputProps) => {
+const Input = ({ inputName, initialValue }: InputProps) => {
   let input;
 
   switch (inputName) {
