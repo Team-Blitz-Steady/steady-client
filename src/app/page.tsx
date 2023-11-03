@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import { Avatar } from "@radix-ui/themes";
 import Button, { buttonSize } from "@/components/_common/Button";
@@ -247,46 +248,48 @@ const Home = () => {
         <div className="w-3/4 text-2xl font-bold xl:w-full">🔥 인기 스테디</div>
         <div className="mt-20 flex h-220 flex-wrap items-center justify-center overflow-hidden">
           {popularSteadyData.map((item) => (
-            <div
+            <Link
               key={item.rank}
-              className="relative m-20 flex h-170 w-300 cursor-pointer flex-col items-center justify-center gap-20 rounded-20 shadow-lg transition hover:scale-105"
+              href={"/steady/detail/1"}
             >
-              {item.rank <= 3 ? (
-                <Image
-                  src={item.image}
-                  alt="first-steady"
-                  width={45}
-                  height={45}
-                  className="absolute left-0 top-0"
-                />
-              ) : (
-                ""
-              )}
-              <div className="flex w-250 items-center justify-end">
-                <div className="flex h-28 w-60 items-center justify-center rounded-20 border border-st-red shadow-md">
-                  <div className="h-22 w-54 rounded-20 bg-st-red text-center font-bold text-st-white">
-                    {item.d_day}
+              <div className="relative m-20 flex h-170 w-300 cursor-pointer flex-col items-center justify-center gap-20 rounded-20 shadow-lg transition hover:scale-105">
+                {item.rank <= 3 ? (
+                  <Image
+                    src={item.image}
+                    alt="first-steady"
+                    width={45}
+                    height={45}
+                    className="absolute left-0 top-0"
+                  />
+                ) : (
+                  ""
+                )}
+                <div className="flex w-250 items-center justify-end">
+                  <div className="flex h-28 w-60 items-center justify-center rounded-20 border border-st-red shadow-md">
+                    <div className="h-22 w-54 rounded-20 bg-st-red text-center font-bold text-st-white">
+                      {item.d_day}
+                    </div>
+                  </div>
+                </div>
+                <div className="text-18 font-bold">
+                  <div className="text-12 font-bold">{item.category}</div>
+                  {item.title}
+                </div>
+                <div className="flex justify-between gap-40">
+                  <div className="font-bold text-st-gray-100">
+                    {item.deadline}
+                  </div>
+                  <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
+                    <Icon
+                      name="eye"
+                      size={20}
+                      color="text-st-gray-100"
+                    />
+                    {item.views}
                   </div>
                 </div>
               </div>
-              <div className="text-18 font-bold">
-                <div className="text-12 font-bold">{item.category}</div>
-                {item.title}
-              </div>
-              <div className="flex justify-between gap-40">
-                <div className="font-bold text-st-gray-100">
-                  {item.deadline}
-                </div>
-                <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
-                  <Icon
-                    name="eye"
-                    size={20}
-                    color="text-st-gray-100"
-                  />
-                  {item.views}
-                </div>
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -383,87 +386,91 @@ const Home = () => {
                 최신 글순
               </div>
             </div>
-            <Button
-              className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
-            >
-              <Icon
-                name="pencil"
-                size={25}
-                color="text-st-white"
-              />
-              스테디 등록
-            </Button>
+            <Link href={"/steady/create"}>
+              <Button
+                className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
+              >
+                <Icon
+                  name="pencil"
+                  size={25}
+                  color="text-st-white"
+                />
+                스테디 등록
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="h-5 w-full bg-st-gray-200" />
         <div className="w-full">
           {steadyPostData.map((item, index) => (
-            <div
+            <Link
               key={index}
-              className="flex w-full items-center justify-between px-50 py-20 transition hover:scale-105 hover:bg-st-gray-50"
+              href={"/steady/detail/1"}
             >
-              <div className="flex items-center gap-50">
-                <div className="h-30 w-70 rounded-20 border-3 border-st-primary text-center text-17 font-bold">
-                  모집
-                </div>
-                <div className="flex flex-col gap-5">
-                  <div className="font-bold">📖스터디</div>
-                  <div className="text-25 font-bold">{item.title}</div>
-                  <div className="flex gap-20 text-st-gray-200">
-                    {item.categories.map((category, catIndex) => (
-                      <div key={catIndex}>#{category}</div>
-                    ))}
+              <div className="flex w-full items-center justify-between px-50 py-20 transition hover:scale-105 hover:bg-st-gray-50">
+                <div className="flex items-center gap-50">
+                  <div className="h-30 w-70 rounded-20 border-3 border-st-primary text-center text-17 font-bold">
+                    모집
                   </div>
-                  <div className="flex gap-20">
-                    <div className="flex items-center justify-center gap-10 font-bold">
+                  <div className="flex flex-col gap-5">
+                    <div className="font-bold">📖스터디</div>
+                    <div className="text-25 font-bold">{item.title}</div>
+                    <div className="flex gap-20 text-st-gray-200">
+                      {item.categories.map((category, catIndex) => (
+                        <div key={catIndex}>#{category}</div>
+                      ))}
+                    </div>
+                    <div className="flex gap-20">
+                      <div className="flex items-center justify-center gap-10 font-bold">
+                        <Icon
+                          name="person"
+                          size={15}
+                          color=""
+                        />
+                        {`${item.currentParticipants}/${item.maxParticipants}`}
+                      </div>
+                      <div className="font-bold text-st-gray-100">
+                        마감일 | {item.deadline}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-30">
+                  <div>
+                    <Avatar
+                      src={
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR-nNEUqRaqDl6w3h_YQwa0T39tLQ0xWwOMg&usqp=CAU"
+                      }
+                      alt="profile"
+                      size={"3"}
+                      radius="full"
+                      className="cursor-pointer"
+                      fallback={""}
+                    />
+                    | {item.author}
+                  </div>
+                  <div className="flex items-center justify-center gap-10">
+                    <div className="flex items-center justify-center gap-5">
                       <Icon
-                        name="person"
-                        size={15}
-                        color=""
+                        name="eye"
+                        size={20}
+                        color="text-st-gray-100"
                       />
-                      {`${item.currentParticipants}/${item.maxParticipants}`}
+                      {item.views}
                     </div>
-                    <div className="font-bold text-st-gray-100">
-                      마감일 | {item.deadline}
+                    <div className="flex items-center justify-center gap-5">
+                      <Icon
+                        name="chat"
+                        size={20}
+                        color="text-st-gray-100"
+                      />
+                      {item.comments}
                     </div>
+                    <div>{item.postedAgo}</div>
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col gap-30">
-                <div>
-                  <Avatar
-                    src={
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR-nNEUqRaqDl6w3h_YQwa0T39tLQ0xWwOMg&usqp=CAU"
-                    }
-                    alt="profile"
-                    size={"3"}
-                    radius="full"
-                    className="cursor-pointer"
-                    fallback={""}
-                  />
-                  | {item.author}
-                </div>
-                <div className="flex items-center justify-center gap-10">
-                  <div className="flex items-center justify-center gap-5">
-                    <Icon
-                      name="eye"
-                      size={20}
-                      color="text-st-gray-100"
-                    />
-                    {item.views}
-                  </div>
-                  <div className="flex items-center justify-center gap-5">
-                    <Icon
-                      name="chat"
-                      size={20}
-                      color="text-st-gray-100"
-                    />
-                    {item.comments}
-                  </div>
-                  <div>{item.postedAgo}</div>
-                </div>
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
         <div className="h-5 w-full bg-st-gray-200" />
