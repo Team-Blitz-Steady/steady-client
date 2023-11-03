@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import Image from "next/image";
 import KakaoLogo from "@/images/kakaoLogo.png";
 import SteadyLogo from "@/images/steadyturtle.png";
@@ -10,10 +10,13 @@ import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
 import { AlertModal } from "@/components/_common/Modal";
 
-export const subTitleTextStyles = "text-23 font-bold";
-export const subContentStyles = "flex flex-col gap-30";
-export const subContentTextStyles = "text-lg font-bold";
-export const subBoxStyles =
+export const subMyPageTextStyles = {
+  title: "text-23 font-bold",
+  content: "text-lg font-bold",
+};
+
+const subContentStyles = "flex flex-col gap-30";
+const subBoxStyles =
   "px-30 py-20 gap-30 flex h-116 w-718 items-center  rounded-6 border-2 border-st-gray-100";
 
 const MyProfilePage = () => {
@@ -89,27 +92,29 @@ const MyProfilePage = () => {
         </div>
       </div>
       <div className={cn(subContentStyles)}>
-        <div className={cn(subTitleTextStyles)}>한 줄 소개</div>
+        <div className={cn(subMyPageTextStyles.title)}>한 줄 소개</div>
         <div className="flex items-center justify-center">
           <Input inputName="introduce-input" />
         </div>
       </div>
       <div className={cn(subContentStyles)}>
-        <div className={cn(subTitleTextStyles)}>소셜 인증</div>
+        <div className={cn(subMyPageTextStyles.title)}>소셜 인증</div>
         <div className={cn(subBoxStyles)}>
           <Image
             src={KakaoLogo}
             alt="카카오 로고"
           />
-          <div className={cn(subContentTextStyles, "flex-grow text-center")}>
+          <div
+            className={cn(subMyPageTextStyles.content, "flex-grow text-center")}
+          >
             카카오 인증이 완료되었습니다. ✅
           </div>
         </div>
       </div>
       <div className={cn(subContentStyles)}>
-        <div className={cn(subTitleTextStyles)}>회원 탈퇴</div>
+        <div className={cn(subMyPageTextStyles.title)}>회원 탈퇴</div>
         <div className={cn(subBoxStyles, "justify-between")}>
-          <div className={cn(subContentTextStyles)}>
+          <div className={cn(subMyPageTextStyles.content)}>
             회원 탈퇴 시 전체 프로필 정보가 삭제 됩니다.
           </div>
           <AlertModal
