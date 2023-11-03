@@ -7,7 +7,13 @@ import { Avatar } from "@radix-ui/themes";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
+import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import StickyButton from "@/components/_common/StickyButton";
+import Tag from "@/components/_common/Tag";
+import {
+  steadyExpectedTechStacks,
+  steadyRecruitmentFields,
+} from "@/constants/create-steady";
 import CopyRight from "../../public/images/copyright.svg";
 import Dolphin from "../../public/images/dolphin.png";
 import First from "../../public/images/first.svg";
@@ -76,6 +82,12 @@ const Home = () => {
       rank: 4,
       image: "",
     },
+  ];
+
+  const mode = [
+    { value: "on/offline", label: "온/오프라인" },
+    { value: "online", label: "온라인" },
+    { value: "offline", label: "오프라인" },
   ];
 
   const steadyPostData = [
@@ -149,7 +161,55 @@ const Home = () => {
       author: "zz지존스테디장zz",
       views: 123,
       comments: 10,
-      postedAgo: "1일 전",
+      postedAgo: "14시간 전",
+    },
+    {
+      title:
+        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
+      categories: ["프론트엔드", "넥스트"],
+      currentParticipants: 5,
+      maxParticipants: 6,
+      deadline: "2023.11.13",
+      author: "zz지존스테디장zz",
+      views: 123,
+      comments: 10,
+      postedAgo: "14시간 전",
+    },
+    {
+      title:
+        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
+      categories: ["프론트엔드", "넥스트"],
+      currentParticipants: 5,
+      maxParticipants: 6,
+      deadline: "2023.11.13",
+      author: "zz지존스테디장zz",
+      views: 123,
+      comments: 10,
+      postedAgo: "14시간 전",
+    },
+    {
+      title:
+        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
+      categories: ["프론트엔드", "넥스트"],
+      currentParticipants: 5,
+      maxParticipants: 6,
+      deadline: "2023.11.13",
+      author: "zz지존스테디장zz",
+      views: 123,
+      comments: 10,
+      postedAgo: "14시간 전",
+    },
+    {
+      title:
+        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
+      categories: ["프론트엔드", "넥스트"],
+      currentParticipants: 5,
+      maxParticipants: 6,
+      deadline: "2023.11.13",
+      author: "zz지존스테디장zz",
+      views: 123,
+      comments: 10,
+      postedAgo: "14시간 전",
     },
   ];
 
@@ -322,34 +382,21 @@ const Home = () => {
         </div>
         <div className="m-10 flex w-full justify-between">
           <div className="flex items-center justify-center gap-5">
-            <div className="mx-10 flex h-40 w-150 items-center justify-center rounded-10 border border-st-gray-100 pr-5">
-              <button className="h-full w-full pl-20 font-bold">
-                기술 스택
-              </button>
-              <Icon
-                name="chevron-down"
-                size={20}
-                color=""
-              />
-            </div>
-            <div className="mx-10 flex h-40 w-150 items-center justify-center rounded-10 border border-st-gray-100 pr-5">
-              <button className="h-full w-full pl-20 font-bold">포지션</button>
-              <Icon
-                name="chevron-down"
-                size={20}
-                color=""
-              />
-            </div>
-            <div className="mx-10 flex h-40 w-150 items-center justify-center rounded-10 border border-st-gray-100 pr-5">
-              <button className="h-full w-full pl-20 font-bold">
-                진행 방식
-              </button>
-              <Icon
-                name="chevron-down"
-                size={20}
-                color=""
-              />
-            </div>
+            <MultiSelector
+              initialLabel={"기술 스택"}
+              items={steadyExpectedTechStacks}
+              className="w-200"
+            />
+            <SingleSelector
+              initialLabel={"포지션"}
+              items={steadyRecruitmentFields}
+              className="w-150"
+            />
+            <SingleSelector
+              initialLabel={"진행 방식"}
+              items={mode}
+              className="w-150"
+            />
             <div className="mx-10 flex h-40 w-150 items-center justify-center rounded-10 border border-st-gray-100">
               <button className="h-full w-full font-bold">💛 내 좋아요</button>
             </div>
@@ -395,7 +442,7 @@ const Home = () => {
             </Button>
           </div>
         </div>
-        <div className="h-5 w-full bg-st-gray-200" />
+        <div className="h-5 w-full bg-st-gray-400" />
         <div className="w-full">
           {steadyPostData.map((item, index) => (
             <div
@@ -403,9 +450,7 @@ const Home = () => {
               className="flex w-full items-center justify-between px-50 py-20 transition hover:scale-105 hover:bg-st-gray-50"
             >
               <div className="flex items-center gap-50">
-                <div className="h-30 w-70 rounded-20 border-3 border-st-primary text-center text-17 font-bold">
-                  모집
-                </div>
+                <Tag status="모집" />
                 <div className="flex flex-col gap-5">
                   <div className="font-bold">📖스터디</div>
                   <div className="text-25 font-bold">{item.title}</div>
@@ -430,7 +475,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-30">
-                <div>
+                <div className="flex items-center gap-10 font-bold">
                   <Avatar
                     src={
                       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR-nNEUqRaqDl6w3h_YQwa0T39tLQ0xWwOMg&usqp=CAU"
@@ -443,16 +488,16 @@ const Home = () => {
                   />
                   | {item.author}
                 </div>
-                <div className="flex items-center justify-center gap-10">
-                  <div className="flex items-center justify-center gap-5">
+                <div className="flex items-center justify-start gap-10">
+                  <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
                     <Icon
                       name="eye"
-                      size={20}
+                      size={22}
                       color="text-st-gray-100"
                     />
                     {item.views}
                   </div>
-                  <div className="flex items-center justify-center gap-5">
+                  <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
                     <Icon
                       name="chat"
                       size={20}
@@ -460,13 +505,13 @@ const Home = () => {
                     />
                     {item.comments}
                   </div>
-                  <div>{item.postedAgo}</div>
+                  <div className="text-15">{item.postedAgo}</div>
                 </div>
               </div>
             </div>
           ))}
         </div>
-        <div className="h-5 w-full bg-st-gray-200" />
+        <div className="h-5 w-full bg-st-gray-400" />
       </section>
       <section className="flex h-100 w-full items-center justify-center">
         <button className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md hover:bg-st-primary hover:text-st-white">
