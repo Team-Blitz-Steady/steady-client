@@ -1,21 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import Image from "next/image";
+import KakaoLogo from "@/images/kakaoLogo.png";
 import SteadyLogo from "@/images/steadyturtle.png";
+import { cn } from "@/lib/utils";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
+import { AlertModal } from "@/components/_common/Modal";
+
+export const subMyPageTextStyles = {
+  title: "text-23 font-bold",
+  content: "text-lg font-bold",
+};
+
+const subContentStyles = "flex flex-col gap-30";
+const subBoxStyles =
+  "px-30 py-20 gap-30 flex h-116 w-718 items-center  rounded-6 border-2 border-st-gray-100";
 
 const MyProfilePage = () => {
   const [edit, setEdit] = useState(false);
 
   const handleClick = () => {
-    setEdit(true);
+    setEdit((prev) => !prev);
   };
 
   return (
-    <div>
+    <div className="flex h-full flex-col gap-100">
       <div className="flex flex-col gap-20">
         <div className="text-30 font-bold">내 프로필</div>
         <div className="flex flex-col items-center justify-center gap-20">
@@ -50,15 +62,19 @@ const MyProfilePage = () => {
           />
           <div className="flex flex-row items-center justify-center gap-10">
             {edit ? (
-              <>
+              <div className="flex flex-row items-center justify-center gap-10">
+                <Input inputName="name-input" />
+                {/* 닉네임 중복 확인 */}
+                <button>중복 확인</button>
                 <button onClick={handleClick}>
+                  {/* 닉네임 중복 확인 되면 체크 표시 활성화*/}
                   <Icon
-                    name="pencil"
+                    name="check"
                     size={30}
                     color="text-st-black"
                   />
                 </button>
-              </>
+              </div>
             ) : (
               <>
                 {/* TODO: 닉네임 state로 관리 */}
@@ -75,21 +91,50 @@ const MyProfilePage = () => {
           </div>
         </div>
       </div>
-      <div>
-        <div className="text-20 font-bold">한 줄 소개</div>
-        <Input inputName="introduce-input" />
+      <div className={cn(subContentStyles)}>
+        <div className={cn(subMyPageTextStyles.title)}>한 줄 소개</div>
+        <div className="flex items-center justify-center">
+          <Input inputName="introduce-input" />
+        </div>
       </div>
-      <div>
-        <div className="text-20 font-bold">소셜 인증</div>
-        <div></div>
+      <div className={cn(subContentStyles)}>
+        <div className={cn(subMyPageTextStyles.title)}>소셜 인증</div>
+        <div className={cn(subBoxStyles)}>
+          <Image
+            src={KakaoLogo}
+            alt="카카오 로고"
+          />
+          <div
+            className={cn(subMyPageTextStyles.content, "flex-grow text-center")}
+          >
+            카카오 인증이 완료되었습니다. ✅
+          </div>
+        </div>
       </div>
-      <div>
-        <div className="text-20 font-bold">회원 탈퇴</div>
-        <div>
-          회원 탈퇴 시 전체 프로필 정보가 삭제 됩니다.{" "}
-          <Button className={`${buttonSize.md} bg-st-red text-st-white`}>
-            회원 탈퇴
-          </Button>
+      <div className={cn(subContentStyles)}>
+        <div className={cn(subMyPageTextStyles.title)}>회원 탈퇴</div>
+        <div className={cn(subBoxStyles, "justify-between")}>
+          <div className={cn(subMyPageTextStyles.content)}>
+            회원 탈퇴 시 전체 프로필 정보가 삭제 됩니다.
+          </div>
+          <AlertModal
+            trigger={
+              <Button
+                className={`cn(${buttonSize.md} text-st-white) bg-st-red`}
+              >
+                회원 탈퇴
+              </Button>
+            }
+            actionButton={
+              <Button
+                className={`cn(${buttonSize.sm} text-st-white) bg-st-red`}
+              >
+                탈퇴
+              </Button>
+            }
+          >
+            정말 스테디를 탈퇴하시겠습니까?
+          </AlertModal>
         </div>
       </div>
     </div>
