@@ -10,10 +10,10 @@ import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
 import { AlertModal } from "@/components/_common/Modal";
 
-const subTitleTextStyles = "text-23 font-bold";
-const subContentStyles = "flex flex-col gap-30";
-const subContentTextStyles = "text-lg font-bold";
-const subBoxStyles =
+export const subTitleTextStyles = "text-23 font-bold";
+export const subContentStyles = "flex flex-col gap-30";
+export const subContentTextStyles = "text-lg font-bold";
+export const subBoxStyles =
   "px-30 py-20 gap-30 flex h-116 w-718 items-center  rounded-6 border-2 border-st-gray-100";
 
 const MyProfilePage = () => {
