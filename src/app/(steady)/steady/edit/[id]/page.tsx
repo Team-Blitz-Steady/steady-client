@@ -14,7 +14,6 @@ import {
   STEADY_RESPONSE_MOCK_DATA,
   STEADY_SECTION_INTRO,
   steadyCategories,
-  steadyExpectedParticipants,
   steadyExpectedPeriods,
   steadyExpectedTechStacks,
   steadyParticipantsLimit,
@@ -31,9 +30,8 @@ const SteadyEditPage = () => {
     expectedPeriod: steadyExpectedPeriod,
     stacks: steadyTechStacks,
     deadline: steadyDeadline,
-    numberOfParticipants,
+    participantLimit: numberOfParticipants,
     status: steadyStatus,
-    recruitCount: steadyRecruitCount,
     recruitCategory: steadyRecruitmentCategory,
     method: steadyMethod,
     recruitTitle: steadyRecruitmentTitle,
@@ -123,14 +121,6 @@ const SteadyEditPage = () => {
             initialData={steadyTechStacks}
             items={steadyExpectedTechStacks}
             className={cn("w-280")}
-          />
-          <SingleSelector
-            initialLabel={"모집 인원"}
-            initialData={{
-              value: steadyRecruitCount,
-              label: steadyRecruitCount,
-            }}
-            items={steadyExpectedParticipants}
           />
           <SingleSelector
             initialLabel={"모집 상태"}

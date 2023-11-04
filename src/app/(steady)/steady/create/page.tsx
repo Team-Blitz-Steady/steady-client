@@ -14,7 +14,6 @@ import {
   STEADY_RECRUITMENT_EXAMPLE,
   STEADY_SECTION_INTRO,
   steadyCategories,
-  steadyExpectedParticipants,
   steadyExpectedPeriods,
   steadyExpectedTechStacks,
   steadyParticipantsLimit,
@@ -90,10 +89,6 @@ const CreateSteadyPage = () => {
             initialLabel={"기술 스택"}
             items={steadyExpectedTechStacks}
             className={cn("w-280")}
-          />
-          <SingleSelector
-            initialLabel={"모집 인원"}
-            items={steadyExpectedParticipants}
           />
         </div>
 
