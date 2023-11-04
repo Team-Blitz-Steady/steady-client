@@ -26,10 +26,10 @@ const applicants = [
 
 const ApplicantLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
-      <div>신청자 목록</div>
+    <div className="flex flex-col gap-30">
+      <div className="text-30 font-bold">신청자 목록</div>
       <Separator className="h-5 w-auto bg-st-gray-400" />
-      <div className="flex w-full flex-row">
+      <div className="flex w-full flex-row gap-30">
         <SideBar
           listType="applicant"
           sidebarItems={applicants}
