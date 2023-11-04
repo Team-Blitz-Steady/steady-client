@@ -66,7 +66,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
   const router = useRouter();
   console.log(params);
   return (
-    <>
+    <div className="w-full">
       <div className="flex flex-col gap-20">
         <button onClick={() => router.back()}>
           <Icon
@@ -239,7 +239,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
           </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
