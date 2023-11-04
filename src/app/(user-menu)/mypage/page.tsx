@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import KakaoLogo from "@/images/kakaoLogo.png";
-import SteadyLogo from "@/images/steadyturtle.png";
 import { cn } from "@/lib/utils";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
@@ -32,7 +30,7 @@ const MyProfilePage = () => {
             className="group relative flex cursor-pointer items-center justify-center transition-transform"
           >
             <Image
-              src={SteadyLogo}
+              src={"/images/steadyturtle.png"}
               alt={"내 프로필 이미지"}
               width={150}
               height={150}
@@ -97,8 +95,10 @@ const MyProfilePage = () => {
         <div className={cn(subMyPageTextStyles.title)}>소셜 인증</div>
         <div className={cn(subBoxStyles)}>
           <Image
-            src={KakaoLogo}
+            src={"/images/kakaologo.png"}
             alt="카카오 로고"
+            width={60}
+            height={60}
           />
           <div
             className={cn(subMyPageTextStyles.content, "flex-grow text-center")}
