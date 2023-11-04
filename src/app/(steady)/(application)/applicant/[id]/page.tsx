@@ -6,7 +6,7 @@ import { Application } from "../../application/edit/[id]/page";
 
 const ApplicantPage = () => {
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex w-full flex-col gap-10">
       {Application.item.map((item, id) => (
         <Question
           key={id}

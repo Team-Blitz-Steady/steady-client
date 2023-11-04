@@ -24,18 +24,60 @@ const applicants = [
     label: "신청자1",
     href: "/applicant/4",
   },
+  {
+    id: "1",
+    label: "신청자1",
+    href: "/applicant/1",
+  },
+  {
+    id: "2",
+    label: "신청자2",
+    href: "/applicant/2",
+  },
+  {
+    id: "3",
+    label: "신청자3",
+    href: "/applicant/3",
+  },
+  {
+    id: "4",
+    label: "신청자1",
+    href: "/applicant/4",
+  },
+  {
+    id: "1",
+    label: "신청자1",
+    href: "/applicant/1",
+  },
+  {
+    id: "2",
+    label: "신청자2",
+    href: "/applicant/2",
+  },
+  {
+    id: "3",
+    label: "신청자3",
+    href: "/applicant/3",
+  },
+  {
+    id: "4",
+    label: "신청자1",
+    href: "/applicant/4",
+  },
 ];
 
 const ApplicantLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex flex-col gap-30">
+    <div className="flex w-full flex-col gap-30">
       <div className="text-30 font-bold">신청자 목록</div>
       <Separator className="h-5 w-auto bg-st-gray-400" />
       <div className="flex w-full flex-row gap-30">
-        <SideBar
-          listType="applicant"
-          sidebarItems={applicants}
-        />
+        <div className="w-fit">
+          <SideBar
+            listType="applicant"
+            sidebarItems={applicants}
+          />
+        </div>
         {children}
       </div>
       <Separator className="h-5 w-auto bg-st-gray-400" />
