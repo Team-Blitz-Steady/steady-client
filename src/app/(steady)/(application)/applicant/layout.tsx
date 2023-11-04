@@ -28,7 +28,7 @@ const ApplicantLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <div>신청자 목록</div>
-      <Separator className="st-gray-400 h-5 w-auto" />
+      <Separator className="h-5 w-auto bg-st-gray-400" />
       <div className="flex w-full flex-row">
         <SideBar
           listType="applicant"
@@ -36,7 +36,7 @@ const ApplicantLayout = ({ children }: { children: React.ReactNode }) => {
         />
         {children}
       </div>
-      <Separator className="st-gray-400 h-5 w-auto" />
+      <Separator className="h-5 w-auto bg-st-gray-400" />
     </div>
   );
 };
