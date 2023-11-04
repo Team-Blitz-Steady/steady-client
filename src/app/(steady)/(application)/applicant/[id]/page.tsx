@@ -1,14 +1,12 @@
 "use client";
 
-// import { usePathname } from "next/navigation";
 import { Question } from "@/components/application";
 import { TextArea } from "@radix-ui/themes";
 import { Application } from "../../application/edit/[id]/page";
 
 const ApplicantPage = () => {
-  // const pathname = usePathname();
   return (
-    <div>
+    <div className="flex flex-col gap-10">
       {Application.item.map((item, id) => (
         <Question
           key={id}
