@@ -3,7 +3,7 @@ import { Separator } from "@radix-ui/themes";
 
 interface TitleProps {
   title: string;
-  pageType: string;
+  pageType?: string;
 }
 
 const Title = ({
