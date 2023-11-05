@@ -13,7 +13,6 @@ import {
   steadyExpectedTechStacks,
   steadyRecruitmentFields,
 } from "@/constants/create-steady";
-import CopyRight from "../../public/images/copyright.svg";
 import Dolphin from "../../public/images/dolphin.png";
 import First from "../../public/images/first.svg";
 import Second from "../../public/images/second.svg";
@@ -35,6 +34,8 @@ interface PostData {
 
 const Home = () => {
   const [page, setPage] = useState(1);
+  const [like, setLike] = useState(false);
+  const [recruit, setRecruit] = useState(false);
   const [category, setCategory] = useState("전체");
   const [filter, setFilter] = useState("최신");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -525,20 +526,43 @@ const Home = () => {
             <MultiSelector
               initialLabel={"기술 스택"}
               items={steadyExpectedTechStacks}
-              className="w-200"
+              className="w-220"
             />
             <SingleSelector
               initialLabel={"포지션"}
               items={steadyRecruitmentFields}
-              className="w-150"
+              className="mb-8 h-43 w-150"
             />
             <SingleSelector
               initialLabel={"진행 방식"}
               items={mode}
-              className="w-150"
+              className="mb-8 h-43 w-150"
             />
-            <div className="mx-10 flex h-40 w-150 items-center justify-center rounded-10 border border-st-gray-100">
-              <button className="h-full w-full font-bold">💛 내 좋아요</button>
+            <div
+              className={`${
+                like ? "border-5 border-st-yellow" : "border border-st-gray-100"
+              } transition-border mx-10 mb-8 flex h-43 w-150 items-center justify-center rounded-5 duration-100`}
+            >
+              <button
+                className="h-full w-full font-bold"
+                onClick={() => setLike(!like)}
+              >
+                💛 내 좋아요
+              </button>
+            </div>
+            <div
+              className={`${
+                recruit
+                  ? "border-5 border-st-primary"
+                  : "border border-st-gray-100"
+              } transition-border mx-10 mb-8 flex h-43 w-100 items-center justify-center rounded-5 duration-100`}
+            >
+              <button
+                className="h-full w-full font-bold"
+                onClick={() => setRecruit(!recruit)}
+              >
+                모집중
+              </button>
             </div>
           </div>
           <div className="flex items-center justify-center gap-20">
@@ -592,19 +616,6 @@ const Home = () => {
           setPage={setPage}
         />
       </section>
-      <footer className="flex h-250 w-screen items-center justify-evenly bg-st-gray-50">
-        <Image
-          src={CopyRight}
-          alt="CopyRight"
-          width={300}
-          height={200}
-        />
-        <div className="flex items-center justify-center gap-50">
-          <div className="font-bold">이용약관</div>
-          <div className="font-bold">개인정보처리방침</div>
-          <div className="font-bold">서비스 소개</div>
-        </div>
-      </footer>
       <div className="fixed bottom-40 right-10 z-10 flex gap-10">
         <div
           className="flex h-65 w-65 cursor-pointer items-center justify-center rounded-full bg-st-primary"

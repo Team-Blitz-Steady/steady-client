@@ -64,7 +64,10 @@ const Pagination = ({ page, setPage }: PaginationProps) => {
         {lastNum}
       </button>
       <button
-        onClick={() => setPage(page + 1)}
+        onClick={() => {
+          setPage(page + 1);
+          setCurrPage(page);
+        }}
         className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md hover:bg-st-primary hover:text-st-white"
       >
         <Icon
