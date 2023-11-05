@@ -8,7 +8,6 @@ import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
 import StickyButton from "@/components/_common/StickyButton";
-import CopyRight from "../../public/images/copyright.svg";
 import Dolphin from "../../public/images/dolphin.png";
 import First from "../../public/images/first.svg";
 import Second from "../../public/images/second.svg";
@@ -490,19 +489,6 @@ const Home = () => {
           />
         </button>
       </section>
-      <footer className="flex h-250 w-screen items-center justify-evenly bg-st-gray-50">
-        <Image
-          src={CopyRight}
-          alt="CopyRight"
-          width={300}
-          height={200}
-        />
-        <div className="flex items-center justify-center gap-50">
-          <div className="font-bold">이용약관</div>
-          <div className="font-bold">개인정보처리방침</div>
-          <div className="font-bold">서비스 소개</div>
-        </div>
-      </footer>
       <div className="fixed bottom-40 right-10 z-10 flex gap-10">
         <div
           className="flex h-65 w-65 cursor-pointer items-center justify-center rounded-full bg-st-primary"
