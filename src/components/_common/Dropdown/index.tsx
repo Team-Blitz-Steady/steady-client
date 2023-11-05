@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Button, DropdownMenu } from "@radix-ui/themes";
 
@@ -15,12 +16,17 @@ interface DropdownProps {
 }
 
 const Dropdown = ({ children, options }: DropdownProps) => {
+  const [open, setOpen] = useState(false);
   return (
-    <DropdownMenu.Root>
+    <DropdownMenu.Root
+      open={open}
+      modal={false}
+    >
       <DropdownMenu.Trigger>
         <Button
           variant={"ghost"}
-          className={"hover:bg-transparent"}
+          className={"hover:bg-transparent cursor-pointer"}
+          onClick={() => setOpen((prev) => !prev)}
         >
           {children}
         </Button>
@@ -31,7 +37,12 @@ const Dropdown = ({ children, options }: DropdownProps) => {
             key={idx}
             className={"hover:bg-st-primary"}
           >
-            <Link href={option.linkTo}>{option.label}</Link>
+            <Link
+              href={option.linkTo}
+              onClick={() => setOpen(false)}
+            >
+              {option.label}
+            </Link>
           </DropdownMenu.Item>
         ))}
       </DropdownMenu.Content>
