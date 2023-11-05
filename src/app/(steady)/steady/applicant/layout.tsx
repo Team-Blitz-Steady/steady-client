@@ -7,62 +7,22 @@ const applicants = [
   {
     id: "1",
     label: "신청자1",
-    href: "/applicant/1",
+    href: "/steady/applicant/1",
   },
   {
     id: "2",
     label: "신청자2",
-    href: "/applicant/2",
+    href: "/steady/applicant/1",
   },
   {
     id: "3",
     label: "신청자3",
-    href: "/applicant/3",
+    href: "/steady/applicant/1",
   },
   {
     id: "4",
     label: "신청자1",
-    href: "/applicant/4",
-  },
-  {
-    id: "1",
-    label: "신청자1",
-    href: "/applicant/1",
-  },
-  {
-    id: "2",
-    label: "신청자2",
-    href: "/applicant/2",
-  },
-  {
-    id: "3",
-    label: "신청자3",
-    href: "/applicant/3",
-  },
-  {
-    id: "4",
-    label: "신청자1",
-    href: "/applicant/4",
-  },
-  {
-    id: "1",
-    label: "신청자1",
-    href: "/applicant/1",
-  },
-  {
-    id: "2",
-    label: "신청자2",
-    href: "/applicant/2",
-  },
-  {
-    id: "3",
-    label: "신청자3",
-    href: "/applicant/3",
-  },
-  {
-    id: "4",
-    label: "신청자1",
-    href: "/applicant/4",
+    href: "/steady/applicant/1",
   },
 ];
 
