@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import AppBar from "@/components/_common/AppBar";
+import Footer from "@/components/_common/Footer";
 import "./global.css";
 
 const inter = Inter({
@@ -27,11 +28,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <Theme>
           <div
             className={cn(
-              `max-mobile:w-9/10 mx-auto flex w-3/4 flex-col items-center pb-30`,
+              `max-mobile:w-9/10 mx-auto flex w-3/4 flex-col items-center`,
             )}
           >
-            <AppBar isLogin={false} />
-            {children}
+            <AppBar isLogin={true} />
+            <div className={cn("my-30")}>{children}</div>
+            <Footer />
           </div>
         </Theme>
         <Toaster />
