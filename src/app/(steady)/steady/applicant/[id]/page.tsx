@@ -1,7 +1,6 @@
 "use client";
 
 import { Question } from "@/components/application";
-import { TextArea } from "@radix-ui/themes";
 import { Application } from "@/app/(steady)/(application)/application/edit/[id]/page";
 
 const ApplicantPage = () => {
@@ -13,10 +12,9 @@ const ApplicantPage = () => {
           question={item.question}
           index={id}
         >
-          <TextArea
-            className="h-100 w-full"
-            value={item.answer}
-          />
+          <div className="h-100 w-full border-1 border-st-gray-100">
+            {item.answer}
+          </div>
         </Question>
       ))}
     </div>
