@@ -2,7 +2,7 @@
 
 import { Question } from "@/components/application";
 import { TextArea } from "@radix-ui/themes";
-import { Application } from "../../application/edit/[id]/page";
+import { Application } from "@/app/(steady)/(application)/application/edit/[id]/page";
 
 const ApplicantPage = () => {
   return (

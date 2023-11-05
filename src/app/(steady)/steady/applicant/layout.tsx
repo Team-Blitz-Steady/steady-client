@@ -89,8 +89,8 @@ const ApplicantLayout = ({ children }: { children: React.ReactNode }) => {
             </Button>
           }
           actionButton={
-            <Button className={`${buttonSize.sm} bg-st-primary text-st-white`}>
-              승인
+            <Button className={`${buttonSize.sm} bg-st-red text-st-white`}>
+              거절
             </Button>
           }
         >
@@ -103,8 +103,8 @@ const ApplicantLayout = ({ children }: { children: React.ReactNode }) => {
             </Button>
           }
           actionButton={
-            <Button className={`${buttonSize.sm} bg-st-primary text-st-white`}>
-              거절
+            <Button className={`${buttonSize.sm} bg-st-green text-st-white`}>
+              승인
             </Button>
           }
         >
