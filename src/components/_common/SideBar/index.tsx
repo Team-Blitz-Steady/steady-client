@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { useState } from "react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { Box } from "@radix-ui/themes";
 
 interface SideBarItem {
@@ -15,16 +16,25 @@ interface SideBarProps {
   children?: ReactNode;
   sidebarItems: SideBarItem[];
   listType?: string;
+  className?: string;
 }
 
-const SideBar = ({ children, sidebarItems, listType }: SideBarProps) => {
+const SideBar = ({
+  children,
+  sidebarItems,
+  listType,
+  className,
+}: SideBarProps) => {
   const [selectedItem, setSelectedItem] = useState(0);
 
   return (
     <Box
-      className={`${
-        listType === "mypage" ? "h-814 w-300" : "h-900 w-250"
-      } flex flex-col items-center gap-15 overflow-y-auto overflow-x-hidden rounded-20 border-1 border-solid border-st-gray-100 p-20`}
+      className={cn(
+        `${
+          listType === "mypage" ? "h-814 w-300" : "h-900 w-250"
+        } flex flex-col items-center gap-15 overflow-y-auto overflow-x-hidden rounded-20 border-1 border-solid border-st-gray-100 p-20`,
+        className,
+      )}
     >
       {sidebarItems.map((item, id) => (
         <Link

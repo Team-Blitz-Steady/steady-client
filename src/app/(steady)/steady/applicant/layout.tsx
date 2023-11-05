@@ -76,6 +76,7 @@ const ApplicantLayout = ({ children }: { children: React.ReactNode }) => {
           <SideBar
             listType="applicant"
             sidebarItems={applicants}
+            className="scrollbar-hide"
           />
         </div>
         {children}
