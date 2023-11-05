@@ -1,19 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import { redirect } from "next/navigation";
 import KaKaoLoginButton from "@/images/kakaobutton.png";
 import SteadyText from "@/images/steadytext.png";
 import SteadyTurtleIcon from "@/images/steadyturtle.png";
+import getKakaoLoginUrl from "@/services/oauth/kakao/getKakaoLoginURL";
 
 // TODO: use client 뺄 수 있으면 빼기
 
 const SocialLoginStart = () => {
   // TODO: 백엔드에서 redirect uri 받기
   const handleClickKaKaoSocialLogin = () => {
-    redirect(
-      `https://kauth.kakao.com/oauth/authorize?client_id=b43ec3ba4cc2a54d31c6c1f7315c142b&redirect_uri=https://steady-client.vercel.app/&response_type=code`,
-    );
+    getKakaoLoginUrl().then((res) => {
+      if (res?.startsWith("https://kauth.kakao.com/oauth/authorize")) {
+        window.location.href = res;
+      }
+    });
   };
 
   return (
