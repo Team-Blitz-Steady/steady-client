@@ -1,3 +1,7 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Separator } from "@radix-ui/themes";
 import Button, { buttonSize } from "@/components/_common/Button";
 import { AlertModal } from "@/components/_common/Modal";
@@ -19,17 +23,21 @@ const manageItems = [
 ];
 
 const SteadyManageLayout = ({ children }: { children: React.ReactNode }) => {
+  const path = usePathname();
+  const id = path.split("/")[3];
   return (
     <div className="flex w-full flex-col">
       <div className="mb-20 flex items-center justify-between">
         {/* TODO: 스테디명 받기 */}
         <div className="text-30 font-bold">{"{스테디명} 운영"} </div>
         <div className="flex gap-20">
-          <Button
-            className={`${buttonSize.md} bg-st-primary text-16 text-st-white`}
-          >
-            신청자 보기
-          </Button>
+          <Link href={`/steady/applicant/${id}`}>
+            <Button
+              className={`${buttonSize.md} bg-st-primary text-16 text-st-white`}
+            >
+              신청자 보기
+            </Button>
+          </Link>
           <AlertModal
             trigger={
               <Button
