@@ -1,6 +1,7 @@
 import type { AxiosRequestConfig } from "axios";
 import axios from "axios";
 
+// TODO: 환경변수 처리
 const BASE_URL = "https://dev.steadies.kr";
 
 const axiosApi = (url: string, options?: AxiosRequestConfig) => {
