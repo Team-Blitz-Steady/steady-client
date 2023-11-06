@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { cookies } from "next/headers";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 import { Theme } from "@radix-ui/themes";
@@ -19,6 +20,8 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
+  const hasAccessToken = cookies().has("access_token");
+
   return (
     <html
       lang="ko"
@@ -31,7 +34,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
               `max-mobile:w-9/10 mx-auto flex w-3/4 flex-col items-center`,
             )}
           >
-            <AppBar isLogin={false} />
+            <AppBar isLogin={hasAccessToken} />
             <div className={cn("my-30")}>{children}</div>
             <Footer />
           </div>
