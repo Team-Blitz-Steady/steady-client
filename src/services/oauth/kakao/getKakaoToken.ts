@@ -1,9 +1,9 @@
-import axios from "axios";
+import { baseInstance } from "@/services";
 
 const getKakaoToken = async (code: string) => {
   try {
-    const response = await axios.get(
-      `https://dev.steadies.kr/api/v1/auth/kakao/callback?code=${code}`,
+    const response = await baseInstance.get(
+      `/api/v1/auth/kakao/callback?code=${code}`,
     );
     if (response.status !== 200) {
       throw new Error("Failed to fetch kakao token!");
