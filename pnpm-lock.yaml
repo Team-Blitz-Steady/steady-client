@@ -47,6 +47,9 @@ dependencies:
   cmdk:
     specifier: ^0.2.0
     version: 0.2.0(@types/react@18.0.0)(react-dom@18.0.0)(react@18.0.0)
+  cookies-next:
+    specifier: ^4.0.0
+    version: 4.0.0
   date-fns:
     specifier: ^2.30.0
     version: 2.30.0
@@ -2131,6 +2134,10 @@ packages:
       - supports-color
     dev: true
 
+  /@types/cookie@0.4.1:
+    resolution: {integrity: sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==}
+    dev: false
+
   /@types/json-schema@7.0.14:
     resolution: {integrity: sha512-U3PUjAudAdJBeC2pgN8uTIKgxrb4nlDF3SF0++EldXQvQBGkpFZMSnwQiIoDU77tv45VgNkl/L4ouD+rEomujw==}
     dev: true
@@ -2142,6 +2149,10 @@ packages:
   /@types/minimist@1.2.4:
     resolution: {integrity: sha512-Kfe/D3hxHTusnPNRbycJE1N77WHDsdS4AjUYIzlDzhDrS47NrwuL3YW4VITxwR7KCVpzwgy4Rbj829KSSQmwXQ==}
     dev: true
+
+  /@types/node@16.18.60:
+    resolution: {integrity: sha512-ZUGPWx5vKfN+G2/yN7pcSNLkIkXEvlwNaJEd4e0ppX7W2S8XAkdc/37hM4OUNJB9sa0p12AOvGvxL4JCPiz9DA==}
+    dev: false
 
   /@types/node@18.18.7:
     resolution: {integrity: sha512-bw+lEsxis6eqJYW8Ql6+yTqkE6RuFtsQPSe5JxXbqYRFQEER5aJA9a5UH9igqDWm3X4iLHIKOHlnAXLM4mi7uQ==}
@@ -2861,6 +2872,19 @@ packages:
       meow: 12.1.1
       split2: 4.2.0
     dev: true
+
+  /cookie@0.4.2:
+    resolution: {integrity: sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==}
+    engines: {node: '>= 0.6'}
+    dev: false
+
+  /cookies-next@4.0.0:
+    resolution: {integrity: sha512-3TyzeltFCGgdOlVOVTPClSq+YV9ZCdOyA3aHRZv9f5aSgg7EyI4NSvXFOCgzT/xIxeHR4Rz8/z5Tdo9oPqaVpA==}
+    dependencies:
+      '@types/cookie': 0.4.1
+      '@types/node': 16.18.60
+      cookie: 0.4.2
+    dev: false
 
   /cosmiconfig-typescript-loader@5.0.0(@types/node@18.18.7)(cosmiconfig@8.3.6)(typescript@5.0.2):
     resolution: {integrity: sha512-+8cK7jRAReYkMwMiG+bxhcNKiHJDM6bR9FD/nGBXOWdMLuYawjF5cGrtLilJ+LGd3ZjCXnJjR5DkfWPoIVlqJA==}
