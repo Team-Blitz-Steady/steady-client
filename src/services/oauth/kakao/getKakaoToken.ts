@@ -5,7 +5,7 @@ const getKakaoToken = async (code: string) => {
     const response = await baseInstance.get(
       `/api/v1/auth/kakao/callback?code=${code}`,
     );
-    if (response.status !== 200) {
+    if (!(response.status / 100 === 2)) {
       throw new Error("Failed to fetch kakao token!");
     }
     return response.data;

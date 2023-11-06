@@ -31,7 +31,9 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
     const authCode = params.get("code");
     if (authCode) {
       getKakaoToken(authCode).then((res) => {
-        if (authCode && res.isNew === true) {
+        // const { id, isNew, token } = res;
+
+        if (authCode && res.isNew === false) {
           setSteps(1);
           setOpen(true);
         }
