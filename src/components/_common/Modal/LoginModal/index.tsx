@@ -6,11 +6,13 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useSearchParams } from "next/navigation";
 import useLoginStepsStore from "@/stores/loginSteps";
 import { AlertDialog } from "@radix-ui/themes";
 import getKakaoToken from "@/services/oauth/kakao/getKakaoToken";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
+import { setAccessToken, setRefreshToken } from "@/utils/cookies";
 import LoginStepsContainer from "./LoginStepsContainer";
 
 // TODO: steps 검사 필요 (0~5)가 아닌것들...
@@ -19,19 +21,25 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
   const { steps, setIncreaseSteps, setDecreaseSteps, setSteps } =
     useLoginStepsStore();
   const [open, setOpen] = useState(false);
-  const authCode = new URL(window.location.href).searchParams.get("code");
+  const searchParams = useSearchParams();
 
   useEffect(() => {
+    const authCode = searchParams.get("code");
     if (authCode) {
-      getKakaoToken(authCode).then((res) => {
-        // const { isNew, token } = res;
-        if (authCode && res.isNew === false) {
-          setSteps(1);
-          setOpen(true);
+      getKakaoToken(authCode).then((data) => {
+        if (data) {
+          const { isNew, token } = data;
+          // TODO: 나중에 isNew로 변경
+          if (!isNew) {
+            setAccessToken(token.accessToken);
+            setRefreshToken(token.refreshToken);
+            setSteps(1);
+            setOpen(true);
+          }
         }
       });
     }
-  }, [authCode, setSteps]);
+  }, [setSteps, searchParams]);
 
   const handleClickPrev = () => {
     if (steps > 0) {
