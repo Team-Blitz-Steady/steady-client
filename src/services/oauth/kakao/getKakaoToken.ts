@@ -1,11 +1,21 @@
 import { baseInstance } from "@/services";
+import type { AxiosResponse } from "axios";
+
+interface TokenDataType {
+  id: number;
+  isNew: boolean;
+  token: {
+    accessToken: string;
+    refreshToken: string;
+  };
+}
 
 const getKakaoToken = async (code: string) => {
   try {
-    const response = await baseInstance.get(
+    const response: AxiosResponse<TokenDataType> = await baseInstance.get(
       `/api/v1/auth/kakao/callback?code=${code}`,
     );
-    if (!(response.status / 100 === 2)) {
+    if (!(response.status !== 201)) {
       throw new Error("Failed to fetch kakao token!");
     }
     return response.data;
