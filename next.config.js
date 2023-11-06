@@ -5,6 +5,9 @@ const nextConfig = {
     dirs: ["src"],
   },
   reactStrictMode: false,
+  experimental: {
+    serverActions: true,
+  },
 };
 
 module.exports = nextConfig;
