@@ -5,11 +5,6 @@ import Image from "next/image";
 import { Checkbox, TextArea } from "@radix-ui/themes";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
-import Book from "../../../../../../public/images/book.svg";
-import Fire from "../../../../../../public/images/fire.svg";
-import Heart from "../../../../../../public/images/heart.svg";
-import Megafon from "../../../../../../public/images/megafon.svg";
-import ThumbsUp from "../../../../../../public/images/thumbs_up.svg";
 
 const participantList = [
   {
@@ -92,7 +87,9 @@ const ReviewPage = () => {
                 onClick={() => setThumbsUp(!thumbsUp)}
               />
               <Image
-                src={ThumbsUp}
+                src={"/images/thumbs_up.svg"}
+                width={35}
+                height={35}
                 alt="thumbs up"
               />
               <div className="w-430 text-20 font-bold">
@@ -107,7 +104,9 @@ const ReviewPage = () => {
                 onClick={() => setFire(!fire)}
               />
               <Image
-                src={Fire}
+                src={"/images/fire.svg"}
+                width={35}
+                height={35}
                 alt="fire"
               />
               <div className="w-430 text-20 font-bold">
@@ -122,7 +121,9 @@ const ReviewPage = () => {
                 onClick={() => setBook(!book)}
               />
               <Image
-                src={Book}
+                src={"/images/book.svg"}
+                width={35}
+                height={35}
                 alt="book"
               />
               <div className="w-430 text-20 font-bold">
@@ -139,7 +140,9 @@ const ReviewPage = () => {
                 onClick={() => setMegafon(!megafon)}
               />
               <Image
-                src={Megafon}
+                src={"/images/megafon.svg"}
+                width={35}
+                height={35}
                 alt="megafon"
               />
               <div className="w-430 text-20 font-bold">
@@ -154,7 +157,9 @@ const ReviewPage = () => {
                 onClick={() => setHeart(!heart)}
               />
               <Image
-                src={Heart}
+                src={"/images/heart.svg"}
+                width={35}
+                height={35}
                 alt="heart"
               />
               <div className="w-430 text-20 font-bold">
