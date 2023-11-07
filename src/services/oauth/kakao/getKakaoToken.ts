@@ -1,4 +1,4 @@
-import { baseInstance } from "@/services";
+import { axiosInstance } from "@/services";
 import type { AxiosResponse } from "axios";
 
 interface TokenDataType {
@@ -12,7 +12,7 @@ interface TokenDataType {
 
 const getKakaoToken = async (code: string): Promise<TokenDataType> => {
   try {
-    const response: AxiosResponse<TokenDataType> = await baseInstance.get(
+    const response: AxiosResponse<TokenDataType> = await axiosInstance.get(
       `/api/v1/auth/kakao/callback?code=${code}`,
     );
 
