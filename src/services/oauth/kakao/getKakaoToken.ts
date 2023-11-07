@@ -22,7 +22,7 @@ const getKakaoToken = async (code: string): Promise<TokenDataType> => {
 
     return response.data;
   } catch (error) {
-    // 에러 처리 로직 추가
+    // TODO: 에러 처리 로직 추가
     console.error(error);
     throw error;
   }
