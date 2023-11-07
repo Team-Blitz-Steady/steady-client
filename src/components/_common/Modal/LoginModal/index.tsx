@@ -17,7 +17,7 @@ import { setAccessToken, setRefreshToken } from "@/utils/cookies";
 import LoginStepsContainer from "./LoginStepsContainer";
 
 // TODO: steps 검사 필요 (0~5)가 아닌것들...
-
+// TODO: 다시 로그인 필요할때, 캐시 무효화
 const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
   const { steps, setIncreaseSteps, setDecreaseSteps, setSteps } =
     useLoginStepsStore();
@@ -28,6 +28,7 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
     queryKey: ["token"],
     queryFn: () => getKakaoToken(authCode as string),
     enabled: !!authCode,
+    staleTime: Infinity,
   });
   useEffect(() => {
     if (data) {
