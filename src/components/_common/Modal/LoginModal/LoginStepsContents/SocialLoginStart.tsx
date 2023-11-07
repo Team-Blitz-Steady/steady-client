@@ -9,10 +9,9 @@ import getKakaoLoginUrl from "@/services/oauth/kakao/getKakaoLoginURL";
 // TODO: use client 뺄 수 있으면 빼기
 
 const SocialLoginStart = () => {
-  // TODO: 백엔드에서 redirect uri 받기
   const handleClickKaKaoSocialLogin = () => {
     getKakaoLoginUrl().then((res) => {
-      if (res?.startsWith("https://kauth.kakao.com/oauth/authorize")) {
+      if (res.startsWith("https://kauth.kakao.com/oauth/authorize")) {
         window.location.href = res;
       }
     });
