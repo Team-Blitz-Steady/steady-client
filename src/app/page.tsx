@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
+import { SteadiesApi } from "@/lib/steady/SteadyApi";
+import type { Steadies } from "@/lib/steady/SteadyType";
+import { useQuery } from "@tanstack/react-query";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
@@ -20,18 +23,6 @@ import Third from "../../public/images/third.svg";
 import Turtle from "../../public/images/turtle.png";
 import Walrus from "../../public/images/walrus.png";
 
-interface PostData {
-  title: string;
-  categories: string[];
-  currentParticipants: number;
-  maxParticipants: number;
-  deadline: string;
-  author: string;
-  views: number;
-  comments: number;
-  postedAgo: string;
-}
-
 const Home = () => {
   const [page, setPage] = useState(1);
   const [like, setLike] = useState(false);
@@ -39,27 +30,24 @@ const Home = () => {
   const [category, setCategory] = useState("전체");
   const [filter, setFilter] = useState("최신");
   const [activeIndex, setActiveIndex] = useState(0);
-  const limit = 10;
-  const offset = (page - 1) * limit;
+
+  const { data } = useQuery({
+    queryKey: ["steadies"],
+    queryFn: () => SteadiesApi.GET_STEADIES(),
+  });
 
   const handleNext = () => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % 3);
   };
 
   useEffect(() => {
+    console.log(data);
     const interval = setInterval(() => {
       handleNext();
     }, 4000);
 
     return () => clearInterval(interval);
   }, [activeIndex]);
-
-  const postsData = (posts: PostData[]) => {
-    if (posts) {
-      const result = posts.slice(offset, offset + limit);
-      return result;
-    }
-  };
 
   const bannerDefaultStyle =
     "duration-1500 absolute left-0 top-0 flex h-380 w-full justify-center transition-opacity";
@@ -109,249 +97,6 @@ const Home = () => {
     { value: "on/offline", label: "온/오프라인" },
     { value: "online", label: "온라인" },
     { value: "offline", label: "오프라인" },
-  ];
-
-  const steadyPostData = [
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "1일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "2일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "3일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "4일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "5일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "6시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "7시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "8시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "9시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "10시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "11일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "12일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "1일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "1일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "1일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "14시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "14시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "14시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "14시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "14시간 전",
-    },
   ];
 
   return (
@@ -607,7 +352,10 @@ const Home = () => {
           </div>
         </div>
         <div className="h-5 w-full bg-st-gray-400" />
-        <Posts info={postsData(steadyPostData)} />
+        <Posts
+          info={data as Steadies[]}
+          recruiting={recruit}
+        />
         <div className="h-5 w-full bg-st-gray-400" />
       </section>
       <section className="flex h-100 w-full items-center justify-center">

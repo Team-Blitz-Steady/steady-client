@@ -1,38 +1,44 @@
+import type { Steadies } from "@/lib/steady/SteadyType";
 import { Avatar } from "@radix-ui/themes";
 import Icon from "../_common/Icon";
 import Tag from "../_common/Tag";
 
-interface PostData {
-  title: string;
-  categories: string[];
-  currentParticipants: number;
-  maxParticipants: number;
-  deadline: string;
-  author: string;
-  views: number;
-  comments: number;
-  postedAgo: string;
-}
-
-const Posts = ({ info }: { info?: PostData[] }) => {
+const Posts = ({
+  info,
+  recruiting,
+}: {
+  info?: Steadies;
+  recruiting: boolean;
+}) => {
   return (
     <div className="w-full">
       {info !== undefined &&
-        info.map((item, index) => (
+        info.content.map((item, index) => (
           <div
             key={index}
-            className="flex w-full items-center justify-between px-50 py-20 transition hover:scale-105 hover:bg-st-gray-50"
+            className={`${
+              item.status !== "RECRUITING" && recruiting ? "hidden" : ""
+            } ${
+              item.status !== "RECRUITING" && "opacity-50"
+            } flex w-full items-center justify-between px-50 py-20 transition hover:scale-105 hover:bg-st-gray-50`}
           >
             <div className="flex items-center gap-50">
-              <Tag status="모집" />
+              {item.status === "RECRUITING" ? (
+                <Tag status="모집" />
+              ) : (
+                <Tag status="마감" />
+              )}
+
               <div className="flex flex-col gap-5">
-                <div className="font-bold">📖스터디</div>
+                <div className="font-bold">
+                  {item.type === "STUDY" ? "📖스터디" : "🖥프로젝트"}
+                </div>
                 <div className="text-25 font-bold">{item.title}</div>
-                <div className="flex gap-20 text-st-gray-200">
-                  {item.categories.map((category, catIndex) => (
+                {/* <div className="flex gap-20 text-st-gray-200">
+                  {item.map((category, catIndex) => (
                     <div key={catIndex}>#{category}</div>
                   ))}
-                </div>
+                </div> */}
                 <div className="flex gap-20">
                   <div className="flex items-center justify-center gap-10 font-bold">
                     <Icon
@@ -40,7 +46,7 @@ const Posts = ({ info }: { info?: PostData[] }) => {
                       size={15}
                       color=""
                     />
-                    {`${item.currentParticipants}/${item.maxParticipants}`}
+                    {`${item.numberOfParticipants}/${item.participantLimit}`}
                   </div>
                   <div className="font-bold text-st-gray-100">
                     마감일 | {item.deadline}
@@ -60,7 +66,7 @@ const Posts = ({ info }: { info?: PostData[] }) => {
                   className="cursor-pointer"
                   fallback={""}
                 />
-                | {item.author}
+                | {item.nickname}
               </div>
               <div className="flex items-center justify-start gap-10">
                 <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
@@ -69,7 +75,7 @@ const Posts = ({ info }: { info?: PostData[] }) => {
                     size={22}
                     color="text-st-gray-100"
                   />
-                  {item.views}
+                  {/* {item.views} */}
                 </div>
                 <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
                   <Icon
@@ -77,9 +83,9 @@ const Posts = ({ info }: { info?: PostData[] }) => {
                     size={20}
                     color="text-st-gray-100"
                   />
-                  {item.comments}
+                  {/* {item.comments} */}
                 </div>
-                <div className="text-15">{item.postedAgo}</div>
+                <div className="text-15">{item.createdAt}</div>
               </div>
             </div>
           </div>
