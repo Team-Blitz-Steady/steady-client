@@ -27,8 +27,8 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
   const { data } = useQuery({
     queryKey: ["token"],
     queryFn: () => getKakaoToken(authCode as string),
+    enabled: !!authCode,
   });
-
   useEffect(() => {
     if (data) {
       const { isNew, token } = data;
