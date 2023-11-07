@@ -10,18 +10,21 @@ interface TokenDataType {
   };
 }
 
-const getKakaoToken = async (code: string) => {
+const getKakaoToken = async (code: string): Promise<TokenDataType> => {
   try {
     const response: AxiosResponse<TokenDataType> = await baseInstance.get(
       `/api/v1/auth/kakao/callback?code=${code}`,
     );
-    if (!(response.status !== 201)) {
+
+    if (response.status !== 201) {
       throw new Error("Failed to fetch kakao token!");
     }
+
     return response.data;
   } catch (error) {
-    // TODO: error handling 로직 추가하기
+    // 에러 처리 로직 추가
     console.error(error);
+    throw error;
   }
 };
 
