@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
+import QueryProvider from "@/lib/react-query/QueryProvider";
 import { cn } from "@/lib/utils";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
@@ -20,25 +21,27 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html
-      lang="ko"
-      className={inter.className}
-    >
-      <body className="h-screen">
-        <Theme>
-          <div
-            className={cn(
-              `max-mobile:w-9/10 mx-auto flex w-3/4 flex-col items-center`,
-            )}
-          >
-            <AppBar isLogin={false} />
-            <div className={cn("my-30")}>{children}</div>
-            <Footer />
-          </div>
-        </Theme>
-        <Toaster />
-      </body>
-    </html>
+    <QueryProvider>
+      <html
+        lang="ko"
+        className={inter.className}
+      >
+        <body className="h-screen">
+          <Theme>
+            <div
+              className={cn(
+                `max-mobile:w-9/10 mx-auto flex w-3/4 flex-col items-center`,
+              )}
+            >
+              <AppBar isLogin={false} />
+              <div className={cn("my-30")}>{children}</div>
+              <Footer />
+            </div>
+          </Theme>
+          <Toaster />
+        </body>
+      </html>
+    </QueryProvider>
   );
 };
 
