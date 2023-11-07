@@ -4,6 +4,10 @@ const nextConfig = {
   eslint: {
     dirs: ["src"],
   },
+  reactStrictMode: false,
+  experimental: {
+    serverActions: true,
+  },
 };
 
 module.exports = nextConfig;

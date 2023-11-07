@@ -15,7 +15,7 @@ interface LoginStepsState {
 const useLoginStepsStore = create(
   persist<LoginStepsState>(
     (set, get) => ({
-      steps: 1,
+      steps: 0,
       setSteps: (steps) => set({ steps }),
       setIncreaseSteps: () => set({ steps: get().steps + 1 }),
       setDecreaseSteps: () => set({ steps: get().steps - 1 }),
