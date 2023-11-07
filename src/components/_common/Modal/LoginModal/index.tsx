@@ -9,31 +9,36 @@ import {
 import { useSearchParams } from "next/navigation";
 import useLoginStepsStore from "@/stores/loginSteps";
 import { AlertDialog } from "@radix-ui/themes";
+import getKakaoToken from "@/services/oauth/kakao/getKakaoToken";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
+import { setAccessToken, setRefreshToken } from "@/utils/cookies";
 import LoginStepsContainer from "./LoginStepsContainer";
 
-// 현재 path의 쿼리 스트링을 가져온다.
-// step값이 들어있겠죠?
-// 그 친구를 이제 loginStepsStore에 setSteps를 만들어서 넣어준다.
-// 무조건 모달을 킨다?
 // TODO: steps 검사 필요 (0~5)가 아닌것들...
-// TODO: button focus 되는 것 고치기
-
 const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
-  const params = useSearchParams();
   const { steps, setIncreaseSteps, setDecreaseSteps, setSteps } =
     useLoginStepsStore();
   const [open, setOpen] = useState(false);
+  const searchParams = useSearchParams();
 
-  // TODO: 빼야 할 수 있음
-  // http://localhost:3000/?kakaoLoginRedirect=true
   useEffect(() => {
-    if (params.get("kakaoLoginRedirect") === "true") {
-      setSteps(1);
-      setOpen(true);
+    const authCode = searchParams.get("code");
+    if (authCode) {
+      getKakaoToken(authCode).then((data) => {
+        if (data) {
+          const { isNew, token } = data;
+          // TODO: 나중에 isNew로 변경
+          if (!isNew) {
+            setAccessToken(token.accessToken);
+            setRefreshToken(token.refreshToken);
+            setSteps(1);
+            setOpen(true);
+          }
+        }
+      });
     }
-  }, [params, setSteps]);
+  }, [setSteps, searchParams]);
 
   const handleClickPrev = () => {
     if (steps > 0) {
@@ -73,13 +78,13 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
               </button>
             )}
             <AlertDialog.Cancel>
-              <button className="h-fit w-fit">
+              <div className="cursor-pointer">
                 <Icon
                   name="cross"
                   size={20}
                   color="text-black"
                 />
-              </button>
+              </div>
             </AlertDialog.Cancel>
           </div>
           <LoginStepsContainer />

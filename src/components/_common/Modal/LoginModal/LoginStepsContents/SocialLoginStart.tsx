@@ -4,24 +4,17 @@ import Image from "next/image";
 import KaKaoLoginButton from "@/images/kakaobutton.png";
 import SteadyText from "@/images/steadytext.png";
 import SteadyTurtleIcon from "@/images/steadyturtle.png";
+import getKakaoLoginUrl from "@/services/oauth/kakao/getKakaoLoginURL";
 
 // TODO: use client 뺄 수 있으면 빼기
 
-const REST_API_KEY = "3ed0efd25050442006de34536e7e8b80";
-const REDIRECT_URI = "http://localhost:3000";
-
 const SocialLoginStart = () => {
-  // TODO: 백엔드에서 redirect uri 받기
   const handleClickKaKaoSocialLogin = () => {
-    const x = 500;
-    const y = 700;
-    const xPos = window.screen.width / 2 - x / 2; // 가운데 정렬
-    const yPos = window.screen.height / 2 - y / 2;
-    window.open(
-      `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`,
-      "스테디 카카오 소셜 로그인",
-      `width=${x},height=${y}" left=${xPos} top=${yPos}`,
-    );
+    getKakaoLoginUrl().then((res) => {
+      if (res.startsWith("https://kauth.kakao.com/oauth/authorize")) {
+        window.location.href = res;
+      }
+    });
   };
 
   return (
