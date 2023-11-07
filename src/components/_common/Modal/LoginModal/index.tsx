@@ -9,6 +9,7 @@ import {
 import { useSearchParams } from "next/navigation";
 import useLoginStepsStore from "@/stores/loginSteps";
 import { AlertDialog } from "@radix-ui/themes";
+import { useQuery } from "@tanstack/react-query";
 import getKakaoToken from "@/services/oauth/kakao/getKakaoToken";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
@@ -22,24 +23,24 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
     useLoginStepsStore();
   const [open, setOpen] = useState(false);
   const searchParams = useSearchParams();
+  const authCode = searchParams.get("code");
+  const { data } = useQuery({
+    queryKey: ["token"],
+    queryFn: () => getKakaoToken(authCode as string),
+  });
 
   useEffect(() => {
-    const authCode = searchParams.get("code");
-    if (authCode) {
-      getKakaoToken(authCode).then((data) => {
-        if (data) {
-          const { isNew, token } = data;
-          // TODO: 나중에 isNew로 변경
-          if (!isNew) {
-            setAccessToken(token.accessToken);
-            setRefreshToken(token.refreshToken);
-            setSteps(1);
-            setOpen(true);
-          }
-        }
-      });
+    if (data) {
+      const { isNew, token } = data;
+      // TODO: 나중에 isNew로 변경
+      if (!isNew) {
+        setAccessToken(token.accessToken);
+        setRefreshToken(token.refreshToken);
+        setSteps(1);
+        setOpen(true);
+      }
     }
-  }, [setSteps, searchParams]);
+  }, [setSteps, data]);
 
   const handleClickPrev = () => {
     if (steps > 0) {
