@@ -5,7 +5,7 @@ const getKakaoLoginUrl = async (): Promise<string> => {
   try {
     const response: AxiosResponse<string> =
       await baseInstance.get("/api/v1/auth/kakao");
-    if (response.status / 10 !== 20) {
+    if (Math.floor(response.status / 10) !== 20) {
       throw new Error("Failed to fetch kakao url!");
     }
     return response.headers.location;

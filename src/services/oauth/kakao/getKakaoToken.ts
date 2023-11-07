@@ -16,7 +16,7 @@ const getKakaoToken = async (code: string): Promise<TokenDataType> => {
       `/api/v1/auth/kakao/callback?code=${code}`,
     );
 
-    if (response.status / 10 !== 20) {
+    if (Math.floor(response.status / 10) !== 20) {
       throw new Error("Failed to fetch kakao token!");
     }
 
