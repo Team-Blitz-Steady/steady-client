@@ -9,7 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import LogoImage from "@/images/logo.png";
 import { cn } from "@/lib/utils";
 import { BellIcon } from "@radix-ui/react-icons";
-import { Avatar, IconButton, Separator } from "@radix-ui/themes";
+import { Avatar, Separator } from "@radix-ui/themes";
 import Dropdown from "@/components/_common/Dropdown";
 import LoginModal from "../Modal/LoginModal";
 
@@ -43,15 +43,10 @@ const AppBar = ({ isLogin = false, className }: AppBarProps) => {
           </Link>
           <Popover>
             <PopoverTrigger>
-              <IconButton
-                variant={"ghost"}
-                className={"cursor-pointer text-st-black"}
-              >
-                <BellIcon
-                  width={25}
-                  height={25}
-                />
-              </IconButton>
+              <BellIcon
+                width={25}
+                height={25}
+              />
             </PopoverTrigger>
             <PopoverContent className={"h-300"}>
               <ScrollArea className={"h-full w-full rounded-md"}>
