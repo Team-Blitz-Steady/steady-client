@@ -13,7 +13,7 @@ const getSteadyDetails = async (steadyId: string) => {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw Error;
+    throw error;
   }
 };
 
