@@ -1,5 +1,6 @@
 "use client";
 
+import type { ChangeEvent } from "react";
 import { useState } from "react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
@@ -21,6 +22,26 @@ const QuestionsExample = [
 const EditQuestionsPage = () => {
   const [question, setQuestion] = useState(QuestionsExample);
   const { toast } = useToast();
+
+  const handleAddQuestion = () => {
+    setQuestion((prev) => {
+      const newQuestion = [...prev];
+      newQuestion.push({
+        id: prev[prev.length - 1].id + 1,
+        question: "",
+      });
+      return newQuestion;
+    });
+  };
+
+  const handleInputQuestion = (
+    event: ChangeEvent<HTMLInputElement>,
+    questionId: number,
+  ) => {
+    const newQuestion = [...question];
+    newQuestion[questionId - 1].question = event.target.value;
+    setQuestion(newQuestion);
+  };
 
   const handleSubmitQuestion = () => {
     const questionData = question.map((item) => item.question);
@@ -53,14 +74,7 @@ const EditQuestionsPage = () => {
               `h-40 w-130 items-center justify-center bg-st-primary text-st-white`,
             )}
             onClick={() => {
-              setQuestion((prev) => {
-                const newQuestion = [...prev];
-                newQuestion.push({
-                  id: prev[prev.length - 1].id + 1,
-                  question: "",
-                });
-                return newQuestion;
-              });
+              handleAddQuestion();
             }}
           >
             질문 추가
@@ -93,9 +107,7 @@ const EditQuestionsPage = () => {
                     `h-50 min-w-[300px] text-20 font-semibold text-st-black outline-none`,
                   )}
                   onChange={(event) => {
-                    const newQuestion = [...question];
-                    newQuestion[item.id - 1].question = event.target.value;
-                    setQuestion(newQuestion);
+                    handleInputQuestion(event, item.id);
                   }}
                 />
                 <div
