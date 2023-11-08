@@ -1,3 +1,5 @@
+import { baseInstance } from "@/services";
+
 export interface Steadies {
   content: Content[];
   numberOfElements: number;
@@ -33,3 +35,10 @@ interface Sort {
   sorted: boolean;
   unsorted: boolean;
 }
+
+export const SteadiesApi = {
+  GET_STEADIES: async (): Promise<Steadies[]> => {
+    const response = await baseInstance.get("/api/v1/steadies");
+    return response.data;
+  },
+};

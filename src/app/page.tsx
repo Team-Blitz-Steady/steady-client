@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
-import { SteadiesApi } from "@/lib/steady/SteadyApi";
-import type { Steadies } from "@/lib/steady/SteadyType";
 import { useQuery } from "@tanstack/react-query";
+import { SteadiesApi } from "@/services/steady/SteadyApi";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
@@ -353,7 +352,7 @@ const Home = () => {
         </div>
         <div className="h-5 w-full bg-st-gray-400" />
         <Posts
-          info={data as Steadies[]}
+          info={data}
           recruiting={recruit}
         />
         <div className="h-5 w-full bg-st-gray-400" />
