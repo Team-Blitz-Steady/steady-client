@@ -8,7 +8,7 @@ const getSteadyDetails = async (steadyId: string) => {
       `/api/v1/steadies/${steadyId}`,
     );
     if (Math.floor(response.status / 10) !== 20) {
-      throw new Error("Failed to fetch steady detail!");
+      throw new Error("Failed to fetch steady detail api!");
     }
     return response.data;
   } catch (error) {
