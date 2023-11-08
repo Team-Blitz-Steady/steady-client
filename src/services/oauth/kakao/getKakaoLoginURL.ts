@@ -1,10 +1,10 @@
-import { baseInstance } from "@/services";
+import { axiosInstance } from "@/services";
 import type { AxiosResponse } from "axios";
 
 const getKakaoLoginUrl = async (): Promise<string> => {
   try {
     const response: AxiosResponse<string> =
-      await baseInstance.get("/api/v1/auth/kakao");
+      await axiosInstance.get("/api/v1/auth/kakao");
     if (Math.floor(response.status / 10) !== 20) {
       throw new Error("Failed to fetch kakao url!");
     }

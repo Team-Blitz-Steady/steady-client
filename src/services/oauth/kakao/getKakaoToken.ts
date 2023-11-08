@@ -1,10 +1,10 @@
-import { baseInstance } from "@/services";
+import { axiosInstance } from "@/services";
 import type { AxiosResponse } from "axios";
 import type { KakaoTokenType } from "@/services/types";
 
 const getKakaoToken = async (code: string): Promise<KakaoTokenType> => {
   try {
-    const response: AxiosResponse<KakaoTokenType> = await baseInstance.get(
+    const response: AxiosResponse<KakaoTokenType> = await axiosInstance.get(
       `/api/v1/auth/kakao/callback?code=${code}`,
     );
 
