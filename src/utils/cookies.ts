@@ -11,11 +11,11 @@ export const setRefreshToken = (refreshToken: string) => {
 };
 
 export const getAccessToken = () => {
-  return cookies().get("access_token");
+  return Promise.resolve(cookies().get("access_token"));
 };
 
 export const getRefreshToken = () => {
-  return cookies().get("refresh_token");
+  return Promise.resolve(cookies().get("refresh_token"));
 };
 
 export const deleteAccessToken = () => {
