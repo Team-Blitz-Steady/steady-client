@@ -56,3 +56,14 @@ export interface SteadyDetailsType {
   isSubmittedUser: boolean;
   promotionCount: number;
 }
+
+export interface UserType {
+  id: number;
+  nickname: string;
+  profileImage: string;
+}
+export interface ApplicationsListType {
+  content: UserType[];
+  numberOfElements: number;
+  hasNext: boolean;
+}
