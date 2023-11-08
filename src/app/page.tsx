@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
+import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
 import { useQuery } from "@tanstack/react-query";
-import { SteadiesApi } from "@/services/steady/SteadyApi";
+import getSteadies from "@/services/steady/getSteadies";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
@@ -29,10 +31,17 @@ const Home = () => {
   const [category, setCategory] = useState("전체");
   const [filter, setFilter] = useState("최신");
   const [activeIndex, setActiveIndex] = useState(0);
+  const settings = {
+    pluginKey: `${process.env.NEXT_PUBLIC_PLUGIN_KEY}`,
+    channelButtonOption: {
+      xMargin: 16,
+      yMargin: 16,
+    },
+  };
 
-  const { data } = useQuery({
+  const { data: initialData } = useQuery({
     queryKey: ["steadies"],
-    queryFn: () => SteadiesApi.GET_STEADIES(),
+    queryFn: () => getSteadies(),
   });
 
   const handleNext = () => {
@@ -40,7 +49,12 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log(data);
+    ChannelIO.loadScript();
+    ChannelIO.hideChannelButton();
+    ChannelIO.boot(settings);
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       handleNext();
     }, 4000);
@@ -338,21 +352,23 @@ const Home = () => {
                 최신 글순
               </div>
             </div>
-            <Button
-              className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
-            >
-              <Icon
-                name="pencil"
-                size={25}
-                color="text-st-white"
-              />
-              스테디 등록
-            </Button>
+            <Link href={"/steady/create"}>
+              <Button
+                className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
+              >
+                <Icon
+                  name="pencil"
+                  size={25}
+                  color="text-st-white"
+                />
+                스테디 등록
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="h-5 w-full bg-st-gray-400" />
         <Posts
-          info={data}
+          info={initialData}
           recruiting={recruit}
         />
         <div className="h-5 w-full bg-st-gray-400" />
@@ -374,7 +390,7 @@ const Home = () => {
             <div className="text-17 font-bold">TOP</div>
           </div>
         </div>
-        <StickyButton onClick={() => console.log("hi")} />
+        <StickyButton onClick={() => ChannelIO.showMessenger()} />
       </div>
     </main>
   );
