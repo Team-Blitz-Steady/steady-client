@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Question, Title } from "@/components/application";
 import { TextArea } from "@radix-ui/themes";
 import submitApplication from "@/services/application/submitApplication";
-import type { SurveyType } from "@/services/types";
+import type { ApplicationSurveyType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 
 const ApplicationQuestion = {
@@ -58,7 +58,7 @@ const ApplicationSubmitPage = ({ params }: { params: pageParams }) => {
 
   const handleClickButton = async (
     steadyId: string,
-    applicationData: SurveyType[],
+    applicationData: ApplicationSurveyType[],
   ) => {
     await submitApplication(steadyId, applicationData);
     router.push("/");

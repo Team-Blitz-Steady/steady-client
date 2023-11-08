@@ -1,10 +1,10 @@
 import type { AxiosResponse } from "axios";
 import { axiosInstance } from "..";
-import type { SurveyType } from "./../types/index";
+import type { ApplicationSurveyType } from "./../types/index";
 
 const submitApplication = async (
   steadyId: string,
-  applicationData: SurveyType[],
+  applicationData: ApplicationSurveyType[],
 ) => {
   try {
     const response: AxiosResponse<string> = await axiosInstance.post(
