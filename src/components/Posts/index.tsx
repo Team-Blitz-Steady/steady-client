@@ -1,6 +1,7 @@
 import { Avatar } from "@radix-ui/themes";
 import Icon from "../_common/Icon";
-import Tag from "../_common/Tag";
+
+// import Tag from "../_common/Tag";
 
 interface PostData {
   title: string;
@@ -24,7 +25,7 @@ const Posts = ({ info }: { info?: PostData[] }) => {
             className="flex w-full items-center justify-between px-50 py-20 transition hover:scale-105 hover:bg-st-gray-50"
           >
             <div className="flex items-center gap-50">
-              <Tag status="모집" />
+              {/* <Tag status="모집" /> */}
               <div className="flex flex-col gap-5">
                 <div className="font-bold">📖스터디</div>
                 <div className="text-25 font-bold">{item.title}</div>
