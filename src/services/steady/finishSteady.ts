@@ -6,7 +6,7 @@ const finishSteady = async (steadyId: string) => {
       `/api/v1/steadies/${steadyId}/finish`,
     );
     if (Math.floor(response.status / 10) !== 20) {
-      throw new Error("Failed to fetch finish steady url!");
+      throw new Error("Failed to fetch finish steady api!");
     }
     return response;
   } catch (error) {
