@@ -84,7 +84,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
 
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center justify-center gap-20">
-            <Tag status={steadyDetailsData?.status} />
+            {steadyDetailsData && <Tag status={steadyDetailsData.status} />}
             <div className="text-35 font-bold">{Announcement.title}</div>
           </div>
           {/* TODO: 좋아요 API 연결 */}
