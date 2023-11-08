@@ -2,7 +2,7 @@ import { axiosInstance } from "@/services";
 import type { AxiosResponse } from "axios";
 import type { SteadyDetailsType } from "../types";
 
-const getSteadyDetails = async (steadyId: number) => {
+const getSteadyDetails = async (steadyId: string) => {
   try {
     const response: AxiosResponse<SteadyDetailsType> = await axiosInstance.get(
       `/api/v1/steadies/${steadyId}`,
