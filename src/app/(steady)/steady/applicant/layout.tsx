@@ -1,43 +1,58 @@
+"use client";
+
+import { type ReactNode, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import SteadyLogo from "@/images/turtle.png";
 import { Separator } from "@radix-ui/themes";
+import { useQuery } from "@tanstack/react-query";
+import getApplicationsList from "@/services/application/getApplicationsList";
 import Button, { buttonSize } from "@/components/_common/Button";
 import { AlertModal } from "@/components/_common/Modal";
-import SideBar from "@/components/_common/SideBar";
 
-const applicants = [
-  {
-    id: "1",
-    label: "신청자1",
-    href: "/steady/applicant/1",
-  },
-  {
-    id: "2",
-    label: "신청자2",
-    href: "/steady/applicant/1",
-  },
-  {
-    id: "3",
-    label: "신청자3",
-    href: "/steady/applicant/1",
-  },
-  {
-    id: "4",
-    label: "신청자1",
-    href: "/steady/applicant/1",
-  },
-];
+const ApplicantLayout = ({ children }: { children: ReactNode }) => {
+  const pathname = usePathname();
+  const steadyId = pathname.split("/").at(-1);
+  const [selectedItem, setSelectedItem] = useState(0);
+  const { data: applicationsListData } = useQuery({
+    queryKey: ["applicationsList"],
+    queryFn: () => getApplicationsList(steadyId as string),
+  });
 
-const ApplicantLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex w-full flex-col gap-30">
       <div className="text-30 font-bold">신청자 목록</div>
       <Separator className="h-5 w-auto bg-st-gray-400" />
       <div className="flex w-full flex-row gap-30">
         <div className="w-fit">
-          <SideBar
-            listType="applicant"
-            sidebarItems={applicants}
-            className="scrollbar-hide"
-          />
+          <div className="flex h-900 w-250 flex-col items-center gap-15 overflow-y-auto overflow-x-hidden rounded-20 border-1 border-solid border-st-gray-100 p-20">
+            {applicationsListData?.content.map((user, id) => (
+              <div key={id}>
+                {/* TODO: 유저 프로필 이미지 */}
+
+                <div
+                  className={`flex w-200 items-center gap-10 rounded-5 p-20 text-18 font-bold transition duration-100 ${
+                    selectedItem === id
+                      ? "bg-st-skyblue-50 text-st-primary"
+                      : " hover:bg-st-gray-50"
+                  }`}
+                  onClick={() => setSelectedItem(id)}
+                >
+                  <Image
+                    src={`${user.profileImage}` || SteadyLogo}
+                    alt="유저 프로필 이미지"
+                    width={50}
+                    height={50}
+                    className="rounded-full border-1"
+                  />
+                  <Link href={`/steady/applicant/${user.id}`}>
+                    <div>{user.nickname}</div>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
         {children}
       </div>
