@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Avatar, Separator, TextArea } from "@radix-ui/themes";
+import { useQuery } from "@tanstack/react-query";
+import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import { AlertModal, UserModal } from "@/components/_common/Modal";
@@ -63,6 +65,10 @@ interface PageParams {
 }
 
 const SteadyDetailPage = ({ params }: { params: PageParams }) => {
+  const { data: steadyDetailsData } = useQuery({
+    queryKey: ["steadyDetails"],
+    queryFn: () => getSteadyDetails(params.id),
+  });
   const router = useRouter();
   console.log(params);
   return (
@@ -78,7 +84,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
 
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center justify-center gap-20">
-            <Tag status={SteadyPrimitive.status} />
+            <Tag status={steadyDetailsData?.status} />
             <div className="text-35 font-bold">{Announcement.title}</div>
           </div>
           {/* TODO: 좋아요 API 연결 */}
