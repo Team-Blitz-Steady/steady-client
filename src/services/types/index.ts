@@ -57,6 +57,15 @@ export interface SteadyDetailsType {
   promotionCount: number;
 }
 
+export interface ApplicationSurveyType {
+  question: string;
+  answer: string;
+}
+
+export interface ApplicationDetailsType {
+  surveys: ApplicationSurveyType[];
+}
+
 export interface UserType {
   id: number;
   nickname: string;
