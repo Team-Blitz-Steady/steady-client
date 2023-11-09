@@ -1,10 +1,10 @@
-import { axiosInstance } from "@/services";
-import type { Steadies } from "@/services/types";
+import { axiosInstance } from "..";
+import type { Steadies } from "../types";
 
-const searchSteadies = async (query: string): Promise<Steadies[]> => {
+export const searchSteadies = async (keyword: string): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search/${query}`,
+      `/api/v1/steadies/search?page=0&steadyMode=all&status=all&like=all&keyword=${keyword}`,
     );
     return response.data;
   } catch (error) {
@@ -12,5 +12,3 @@ const searchSteadies = async (query: string): Promise<Steadies[]> => {
     throw error;
   }
 };
-
-export default searchSteadies;

@@ -7,7 +7,9 @@ import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
 import { useQuery } from "@tanstack/react-query";
+import { steadyStatusFilter } from "@/services/steady/filterSteadies";
 import getSteadies from "@/services/steady/getSteadies";
+import type { Steadies } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
@@ -28,7 +30,8 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [like, setLike] = useState(false);
   const [recruit, setRecruit] = useState(false);
-  const [category, setCategory] = useState("전체");
+  const [post, setPost] = useState<Steadies>();
+  const [category, setCategory] = useState("all");
   const [filter, setFilter] = useState("최신");
   const [activeIndex, setActiveIndex] = useState(0);
   const settings = {
@@ -39,19 +42,30 @@ const Home = () => {
     },
   };
 
-  const { data: initialData } = useQuery({
+  const { data } = useQuery({
     queryKey: ["steadies"],
     queryFn: () => getSteadies(),
   });
+
+  const handleRecruit = async () => {
+    const data = await steadyStatusFilter();
+    setPost(data);
+  };
 
   const handleNext = () => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % 3);
   };
 
   useEffect(() => {
+    if (data) {
+      setPost(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
     ChannelIO.loadScript();
-    ChannelIO.hideChannelButton();
     ChannelIO.boot(settings);
+    ChannelIO.hideChannelButton();
   }, []);
 
   useEffect(() => {
@@ -254,9 +268,9 @@ const Home = () => {
           <div className="flex gap-20">
             <div
               className={`${
-                category === "전체" ? "" : "text-st-gray-100"
+                category === "all" ? "" : "text-st-gray-100"
               } cursor-pointer text-2xl font-bold`}
-              onClick={() => setCategory("전체")}
+              onClick={() => setCategory("all")}
             >
               전체
             </div>
@@ -317,7 +331,15 @@ const Home = () => {
             >
               <button
                 className="h-full w-full font-bold"
-                onClick={() => setRecruit(!recruit)}
+                onClick={() => {
+                  if (recruit) {
+                    setRecruit(!recruit);
+                    setPost(data);
+                  } else {
+                    handleRecruit();
+                    setRecruit(!recruit);
+                  }
+                }}
               >
                 모집중
               </button>
@@ -367,10 +389,7 @@ const Home = () => {
           </div>
         </div>
         <div className="h-5 w-full bg-st-gray-400" />
-        <Posts
-          info={initialData}
-          recruiting={recruit}
-        />
+        <Posts info={post as Steadies} />
         <div className="h-5 w-full bg-st-gray-400" />
       </section>
       <section className="flex h-100 w-full items-center justify-center">

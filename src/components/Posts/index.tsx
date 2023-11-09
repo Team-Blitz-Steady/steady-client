@@ -4,13 +4,7 @@ import type { Steadies } from "@/services/types";
 import Icon from "../_common/Icon";
 import Tag from "../_common/Tag";
 
-const Posts = ({
-  info,
-  recruiting,
-}: {
-  info: Steadies;
-  recruiting: boolean;
-}) => {
+const Posts = ({ info }: { info: Steadies }) => {
   return (
     <div className="w-full">
       {info !== undefined &&
@@ -21,8 +15,6 @@ const Posts = ({
           >
             <div
               className={`${
-                item.status !== "RECRUITING" && recruiting ? "hidden" : ""
-              } ${
                 item.status !== "RECRUITING" && "opacity-50"
               } flex w-full items-center justify-between px-50 py-20 transition hover:scale-105 hover:bg-st-gray-50`}
             >
