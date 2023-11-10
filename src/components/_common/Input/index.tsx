@@ -1,7 +1,8 @@
+import type { ComponentProps } from "react";
 import { MagnifyingGlassIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import { IconButton } from "@radix-ui/themes";
 
-interface InputProps {
+interface InputProps extends ComponentProps<"input"> {
   inputName:
     | "search-input"
     | "name-input"

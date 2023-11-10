@@ -7,8 +7,12 @@ import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
 import { useQuery } from "@tanstack/react-query";
-import { steadyStatusFilter } from "@/services/steady/filterSteadies";
+import {
+  steadyStatusFilter,
+  steadyTypeFilter,
+} from "@/services/steady/filterSteadies";
 import getSteadies from "@/services/steady/getSteadies";
+import { searchSteadies } from "@/services/steady/searchSteadies";
 import type { Steadies } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
@@ -31,7 +35,7 @@ const Home = () => {
   const [like, setLike] = useState(false);
   const [recruit, setRecruit] = useState(false);
   const [post, setPost] = useState<Steadies>();
-  const [category, setCategory] = useState("all");
+  const [type, setType] = useState("all");
   const [filter, setFilter] = useState("최신");
   const [activeIndex, setActiveIndex] = useState(0);
   const settings = {
@@ -44,11 +48,26 @@ const Home = () => {
 
   const { data } = useQuery({
     queryKey: ["steadies"],
-    queryFn: () => getSteadies(),
+    queryFn: () => getSteadies((page - 1).toString()),
   });
 
   const handleRecruit = async () => {
     const data = await steadyStatusFilter();
+    setPost(data);
+  };
+
+  const handleSteadyType = async (type: string) => {
+    const data = await steadyTypeFilter(type);
+    setPost(data);
+  };
+
+  // const handleSteadyMode = async (mode: string) => {
+  //   const data = await steadyModeFilter(mode);
+  //   setPost(data);
+  // }
+
+  const handleSteadySearch = async (keyword: string) => {
+    const data = await searchSteadies(keyword);
     setPost(data);
   };
 
@@ -268,30 +287,39 @@ const Home = () => {
           <div className="flex gap-20">
             <div
               className={`${
-                category === "all" ? "" : "text-st-gray-100"
+                type === "all" ? "" : "text-st-gray-100"
               } cursor-pointer text-2xl font-bold`}
-              onClick={() => setCategory("all")}
+              onClick={() => setType("all")}
             >
               전체
             </div>
             <div
               className={`${
-                category === "스터디" ? "" : "text-st-gray-100"
+                type === "STUDY" ? "" : "text-st-gray-100"
               } cursor-pointer text-2xl font-bold`}
-              onClick={() => setCategory("스터디")}
+              onClick={() => {
+                setType("STUDY");
+                handleSteadyType("STUDY");
+              }}
             >
               스터디
             </div>
             <div
               className={`${
-                category === "프로젝트" ? "" : "text-st-gray-100"
+                type === "PROJECT" ? "" : "text-st-gray-100"
               } cursor-pointer text-2xl font-bold`}
-              onClick={() => setCategory("프로젝트")}
+              onClick={() => {
+                setType("PROJECT");
+                handleSteadyType("PROJECT");
+              }}
             >
               프로젝트
             </div>
           </div>
-          <Input inputName="search-input" />
+          <Input
+            inputName="search-input"
+            onChange={(e) => handleSteadySearch(e.target.value)}
+          />
         </div>
         <div className="m-10 flex w-full justify-between">
           <div className="flex items-center justify-center gap-5">
