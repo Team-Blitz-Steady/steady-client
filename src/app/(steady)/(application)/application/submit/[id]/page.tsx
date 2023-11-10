@@ -79,7 +79,7 @@ const ApplicationSubmitPage = ({ params }: { params: pageParams }) => {
             <TextArea
               className="h-100 w-full"
               value={answer}
-              onChange={(e) => handleChangeAnswer(e, id)}
+              onChange={(event) => handleChangeAnswer(event, id)}
             />
           </Question>
         ))}
