@@ -58,7 +58,7 @@ const ApplicationSubmitPage = ({ params }: { params: pageParams }) => {
     applicationData: ApplicationSurveyType[],
   ) => {
     await submitApplication(steadyId, applicationData);
-    router.push("/");
+    router.push(`/steady/detail/${steadyId}`);
   };
 
   return (
