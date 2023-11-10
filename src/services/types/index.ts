@@ -56,3 +56,13 @@ export interface SteadyDetailsType {
   isSubmittedUser: boolean;
   promotionCount: number;
 }
+
+export interface TemplateType {
+  templates: Template[];
+}
+
+interface Template {
+  id: number;
+  title: string;
+  createdAt: string;
+}
