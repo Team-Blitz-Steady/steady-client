@@ -10,9 +10,10 @@ interface InputProps {
     | "tag-input"
     | "introduce-input";
   initialValue?: string;
+  onValueChange?: (value: string) => void;
 }
 
-const Input = ({ inputName, initialValue }: InputProps) => {
+const Input = ({ inputName, initialValue, onValueChange }: InputProps) => {
   let input;
 
   switch (inputName) {
@@ -43,6 +44,9 @@ const Input = ({ inputName, initialValue }: InputProps) => {
             type="text"
             value={initialValue}
             placeholder="닉네임을 입력해주세요."
+            onChange={(event) => {
+              onValueChange?.(event.target.value);
+            }}
           />
         </div>
       );
@@ -55,6 +59,9 @@ const Input = ({ inputName, initialValue }: InputProps) => {
             type="text"
             value={initialValue}
             placeholder="스테디명"
+            onChange={(event) => {
+              onValueChange?.(event.target.value);
+            }}
           />
         </div>
       );
@@ -67,6 +74,9 @@ const Input = ({ inputName, initialValue }: InputProps) => {
             type="text"
             value={initialValue}
             placeholder="제목을 입력해주세요."
+            onChange={(event) => {
+              onValueChange?.(event.target.value);
+            }}
           />
         </div>
       );
