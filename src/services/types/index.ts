@@ -76,3 +76,10 @@ export interface ApplicationsListType {
   numberOfElements: number;
   hasNext: boolean;
 }
+
+export interface UserProfileType {
+  accountId: number;
+  nickname: string;
+  positionId: number;
+  stackIds: number[];
+}
