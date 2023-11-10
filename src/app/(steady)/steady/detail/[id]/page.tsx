@@ -123,6 +123,11 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
               {SteadyPrimitive.createdAt}
             </div>
           </div>
+          <Link href={`/steady/applicant/${params.id}`}>
+            <Button className={`${buttonSize.md} bg-st-primary text-st-white`}>
+              신청서 보기
+            </Button>
+          </Link>
           {SteadyPrimitive.ended ? (
             <Button className={`${buttonSize.md} bg-st-primary text-st-white`}>
               <Link href={`/steady/review/${SteadyPrimitive.id}`}>

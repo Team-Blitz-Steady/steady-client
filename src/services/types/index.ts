@@ -61,3 +61,18 @@ export interface ApplicationSurveyType {
   question: string;
   answer: string;
 }
+
+export interface ApplicationDetailsType {
+  surveys: ApplicationSurveyType[];
+}
+
+export interface UserType {
+  id: number;
+  nickname: string;
+  profileImage: string;
+}
+export interface ApplicationsListType {
+  content: UserType[];
+  numberOfElements: number;
+  hasNext: boolean;
+}
