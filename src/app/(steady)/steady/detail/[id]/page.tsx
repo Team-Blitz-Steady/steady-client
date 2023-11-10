@@ -222,7 +222,13 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
       <div className="flex flex-col gap-20">
         <Separator className="mt-20 h-5 w-auto bg-st-gray-400" />
         <div className="flex flex-row items-center justify-end gap-10">
-          {SteadyPrimitive.application ? (
+          {/* TODO: steadyId로 변경 */}
+          <Link href={`/application/submit/${20}`}>
+            <Button className={`${buttonSize.sm} bg-st-primary text-st-white`}>
+              신청
+            </Button>
+          </Link>
+          {/* {SteadyPrimitive.application ? (
             <Button className={`${buttonSize.sm} bg-st-primary text-st-white`}>
               신청
             </Button>
@@ -237,7 +243,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                 신청 취소
               </Button>
             </>
-          )}
+          )} */}
         </div>
         {/* 댓글 영역 */}
         <div className="flex flex-col gap-10">
