@@ -10,6 +10,7 @@ const ApplicantPage = () => {
     queryKey: ["applicationDetails"],
     queryFn: () => getApplicationDetails("12"),
   });
+
   return (
     <div className="flex w-full flex-col gap-10">
       {applicationDetailsData?.surveys.map(({ question, answer }, id) => (
@@ -26,5 +27,4 @@ const ApplicantPage = () => {
     </div>
   );
 };
-
 export default ApplicantPage;
