@@ -11,6 +11,9 @@ import getApplicationsList from "@/services/application/getApplicationsList";
 import Button, { buttonSize } from "@/components/_common/Button";
 import { AlertModal } from "@/components/_common/Modal";
 
+const selectedEffectStyle = "bg-st-skyblue-50 text-st-primary";
+const normalEffectStyle = "hover:bg-st-gray-50";
+
 const ApplicantLayout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const steadyId = pathname.split("/").at(-1);
@@ -34,8 +37,8 @@ const ApplicantLayout = ({ children }: { children: ReactNode }) => {
                 <div
                   className={`flex w-200 items-center gap-10 rounded-5 p-20 text-18 font-bold transition duration-100 ${
                     selectedItem === id
-                      ? "bg-st-skyblue-50 text-st-primary"
-                      : " hover:bg-st-gray-50"
+                      ? selectedEffectStyle
+                      : normalEffectStyle
                   }`}
                   onClick={() => setSelectedItem(id)}
                 >
