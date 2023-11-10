@@ -28,6 +28,6 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         with:
-          vercel_project_id: VERCEL_PROJECT_ID
+          vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
       - name: Get URL
         run: echo "https://${{ steps.vercel_preview_url.outputs.preview_url }}"
