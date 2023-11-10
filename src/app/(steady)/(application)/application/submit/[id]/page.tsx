@@ -1,7 +1,7 @@
 "use client";
 
 import type { ChangeEvent } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Question, Title } from "@/components/application";
 import { TextArea } from "@radix-ui/themes";
@@ -42,9 +42,6 @@ const ApplicationSubmitPage = ({ params }: { params: pageParams }) => {
       answer: "",
     })),
   );
-  useEffect(() => {
-    console.log(applicationData);
-  }, [applicationData]);
 
   const handleChangeAnswer = (
     event: ChangeEvent<HTMLTextAreaElement>,
