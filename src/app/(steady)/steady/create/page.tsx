@@ -155,7 +155,7 @@ const CreateSteadyPage = () => {
                       items={steadyRecruitmentFields}
                       className={cn("w-200")}
                       onSelectedChange={(selected) => {
-                        field.onChange(extractValue(selected));
+                        field.onChange(extractValue(selected).map(Number));
                       }}
                     />
                     <FormMessage />
@@ -226,7 +226,7 @@ const CreateSteadyPage = () => {
                       items={steadyExpectedTechStacks}
                       className={cn("w-280")}
                       onSelectedChange={(selected) => {
-                        field.onChange(extractValue(selected));
+                        field.onChange(extractValue(selected).map(Number));
                       }}
                     />
                     <FormMessage />

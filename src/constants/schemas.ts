@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { string } from "zod";
+import { number } from "zod";
 import { extractValue } from "@/utils/extractValue";
 import {
   steadyCategories,
@@ -30,10 +30,10 @@ export const SteadySchema = z.object({
   content: z.string({
     required_error: "스테디의 모집글 내용을 입력해주세요.",
   }),
-  positions: z.array(string(), {
+  positions: z.array(number(), {
     required_error: "스테디의 모집 분야를 선택해주세요.",
   }),
-  stacks: z.array(string(), {
+  stacks: z.array(number(), {
     required_error: "스테디의 기술 스택을 선택해주세요.",
   }),
 });
