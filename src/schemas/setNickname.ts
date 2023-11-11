@@ -27,7 +27,6 @@ export const positionAndStacksSchema = z.object({
   stacks: z
     .number()
     .array()
-    // .nonempty({ message: "기술 스택을 입력해주세요." })
     .refine((value) => value.length > 0, {
       message: "기술 스택을 입력해주세요.",
     })
