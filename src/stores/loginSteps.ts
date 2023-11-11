@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 const StorageKey = "loginSteps-key";
 
-interface LoginStepsState {
+interface LoginStepsStateType {
   steps: number;
   // eslint-disable-next-line no-unused-vars
   setSteps: (steps: number) => void;
@@ -11,9 +11,8 @@ interface LoginStepsState {
   setDecreaseSteps: VoidFunction;
 }
 
-// TODO: 로그인 연결하면 steps 0으로 수정
 const useLoginStepsStore = create(
-  persist<LoginStepsState>(
+  persist<LoginStepsStateType>(
     (set, get) => ({
       steps: 0,
       setSteps: (steps) => set({ steps }),
