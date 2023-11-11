@@ -56,7 +56,6 @@ const CreateQuestionsPage = () => {
   const handleSubmitTotalData = () => {
     const questions = question.map((item) => item.question);
     const totalData = { ...steadyState, questions };
-    console.log(totalData);
     createSteady(totalData)
       .then(() => {
         toast({
