@@ -38,13 +38,13 @@ import { SteadySchema } from "@/constants/schemas";
 
 const CreateSteadyPage = () => {
   const router = useRouter();
-  const { setInitialValues } = useCreateSteadyStore();
+  const { setSteadyState } = useCreateSteadyStore();
   const steadyForm = useForm<z.infer<typeof SteadySchema>>({
     resolver: zodResolver(SteadySchema),
   });
 
   const onSubmit = (data: z.infer<typeof SteadySchema>) => {
-    setInitialValues(data);
+    setSteadyState(data);
     router.push("/steady/create/questions");
   };
 
