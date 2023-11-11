@@ -36,7 +36,7 @@ const AppBar = ({ isLogin = false, className }: AppBarProps) => {
           alt="스테디 로고"
         />
       </Link>
-      {isLogin ? (
+      {isLogin && (
         <div className="flex w-250 items-center justify-between">
           <Link href={"/mysteady"}>
             <div className={appBarTextStyles}>내 스테디</div>
@@ -80,13 +80,14 @@ const AppBar = ({ isLogin = false, className }: AppBarProps) => {
             />
           </Dropdown>
         </div>
-      ) : (
-        <LoginModal
-          trigger={
-            <div className={`${appBarTextStyles} cursor-pointer`}>로그인</div>
-          }
-        />
       )}
+      <LoginModal
+        trigger={
+          !isLogin && (
+            <div className={`${appBarTextStyles} cursor-pointer`}>로그인</div>
+          )
+        }
+      />
     </div>
   );
 };
