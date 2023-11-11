@@ -1,17 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import useCreateSteadyStore from "@/stores/createSteadyData";
 import { Separator } from "@radix-ui/themes";
+import createSteady from "@/services/steady/createSteady";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import { SingleSelector } from "@/components/_common/Selector";
 
 const CreateQuestionsPage = () => {
-  const [question, setQuestion] = useState([{ id: 1 }]);
+  const [question, setQuestion] = useState([{ id: 1, question: "" }]);
   const { toast } = useToast();
+  const router = useRouter();
+  const { steadyState } = useCreateSteadyStore();
+
+  useEffect(() => {
+    if (Object.keys(steadyState).length === 0) {
+      toast({
+        description: "스테디 신청서를 먼저 작성해 주세요.",
+        variant: "red",
+      });
+      router.push("/steady/create");
+    }
+  }, [router, steadyState, toast]);
+
+  const handleCreateQuestion = () => {
+    if (question.length === 10) {
+      toast({
+        description: "질문은 최대 10개까지만 추가할 수 있습니다.",
+        variant: "red",
+      });
+      return;
+    }
+    setQuestion((prev) => [
+      ...prev,
+      { id: prev[prev.length - 1].id + 1, question: "" },
+    ]);
+  };
 
   const handleDeleteQuestion = (id: number) => {
     if (question.length === 1) {
@@ -23,6 +52,28 @@ const CreateQuestionsPage = () => {
     }
     setQuestion((prev) => prev.filter((item) => item.id !== id));
   };
+
+  const handleSubmitTotalData = () => {
+    const questions = question.map((item) => item.question);
+    const totalData = { ...steadyState, questions };
+    console.log(totalData);
+    createSteady(totalData)
+      .then(() => {
+        toast({
+          description: "스테디가 성공적으로 등록되었습니다.",
+          variant: "green",
+        });
+        useCreateSteadyStore.persist.clearStorage();
+        router.push("/");
+      })
+      .catch(() => {
+        toast({
+          description: "스테디 등록에 실패하였습니다.",
+          variant: "red",
+        });
+      });
+  };
+
   return (
     <div className={cn("mt-30")}>
       <div className={"flex w-1000 items-center justify-between"}>
@@ -38,10 +89,7 @@ const CreateQuestionsPage = () => {
               `h-40 w-130 items-center justify-center bg-st-primary text-st-white`,
             )}
             onClick={() => {
-              setQuestion((prev) => [
-                ...prev,
-                { id: prev[prev.length - 1].id + 1 },
-              ]);
+              handleCreateQuestion();
             }}
           >
             질문 추가
@@ -76,6 +124,19 @@ const CreateQuestionsPage = () => {
                   className={cn(
                     "h-50 w-300 text-20 font-semibold text-st-black outline-none",
                   )}
+                  onChange={(event) => {
+                    setQuestion((prev) =>
+                      prev.map((pItem) => {
+                        if (pItem.id === item.id) {
+                          return {
+                            ...pItem,
+                            question: event.target.value,
+                          };
+                        }
+                        return pItem;
+                      }),
+                    );
+                  }}
                 />
                 <div
                   className={cn("cursor-pointer")}
@@ -117,6 +178,9 @@ const CreateQuestionsPage = () => {
           className={cn(
             `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
           )}
+          onClick={() => {
+            handleSubmitTotalData();
+          }}
         >
           등록
         </Button>
