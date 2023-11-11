@@ -5,6 +5,7 @@ import { nicknameSchema } from "@/schemas/setNickname";
 import useLoginStepsStore from "@/stores/loginSteps";
 import useNewUserInfoStore from "@/stores/newUserInfo";
 import { zodResolver } from "@hookform/resolvers/zod";
+import checkSameNickname from "@/services/user/checkSameNickname";
 import Button, { buttonSize } from "@/components/_common/Button";
 
 export const loginTextStyles = "text-26 font-bold max-mobile:text-20";
@@ -26,7 +27,13 @@ const SetNickname = () => {
 
   const checkedNickname = () => {
     setNickname(watch("nickname"));
-    setIncreaseSteps();
+    checkSameNickname(nickname)
+      .then(() => {
+        setIncreaseSteps();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -53,7 +60,6 @@ const SetNickname = () => {
             <div className="text-st-red">{errors.nickname?.message}</div>
           )}
         </div>
-        {/* TODO: 중복검사 API 연결 */}
         <Button
           className={`${buttonSize.md} bg-st-primary text-st-white`}
           type="submit"
