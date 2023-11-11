@@ -24,7 +24,7 @@ const SetNickname = () => {
     setValue("nickname", nickname);
   }, [nickname, setValue]);
 
-  const checkNickname = () => {
+  const checkedNickname = () => {
     setNickname(watch("nickname"));
     setIncreaseSteps();
   };
@@ -37,9 +37,8 @@ const SetNickname = () => {
         </div>
         <div className={loginTextStyles}>닉네임을 설정해주세요</div>
       </div>
-
       <form
-        onSubmit={handleSubmit(checkNickname)}
+        onSubmit={handleSubmit(checkedNickname)}
         className="flex h-full flex-col items-center justify-between"
       >
         <div className="flex flex-col items-center justify-center gap-10">
