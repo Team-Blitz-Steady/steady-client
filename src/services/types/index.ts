@@ -56,3 +56,18 @@ export interface SteadyDetailsType {
   isSubmittedUser: boolean;
   promotionCount: number;
 }
+
+export interface CreateSteadyRequestBodyType {
+  name: string;
+  bio: string;
+  type: string;
+  participantLimit: number;
+  steadyMode: string;
+  scheduledPeriod: string;
+  deadline: string;
+  title: string;
+  content: string;
+  positions: number[];
+  stacks: number[];
+  questions: string[];
+}

@@ -1,7 +1,7 @@
 import { axiosInstance } from "@/services";
-import type { SteadyDetailsType } from "@/services/types";
+import type { CreateSteadyRequestBodyType } from "@/services/types";
 
-const createSteady = async (data: Partial<SteadyDetailsType>) => {
+const createSteady = async (data: CreateSteadyRequestBodyType) => {
   try {
     const response = await axiosInstance.post("/api/v1/steadies", data);
     if (Math.floor(response.status / 10) !== 20) {
