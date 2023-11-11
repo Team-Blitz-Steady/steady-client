@@ -20,9 +20,9 @@ const Posts = ({ info }: { info: Steadies }) => {
             >
               <div className="flex items-center gap-50">
                 {item.status === "RECRUITING" ? (
-                  <Tag status="모집" />
+                  <Tag status="RECRUITING" />
                 ) : (
-                  <Tag status="마감" />
+                  <Tag status="FINISHED" />
                 )}
 
                 <div className="flex flex-col gap-5">

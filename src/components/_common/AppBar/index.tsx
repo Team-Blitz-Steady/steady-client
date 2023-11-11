@@ -9,7 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import LogoImage from "@/images/logo.png";
 import { cn } from "@/lib/utils";
 import { BellIcon } from "@radix-ui/react-icons";
-import { Avatar, IconButton, Separator } from "@radix-ui/themes";
+import { Avatar, Separator } from "@radix-ui/themes";
 import Dropdown from "@/components/_common/Dropdown";
 import LoginModal from "../Modal/LoginModal";
 
@@ -36,22 +36,17 @@ const AppBar = ({ isLogin = false, className }: AppBarProps) => {
           alt="스테디 로고"
         />
       </Link>
-      {isLogin ? (
+      {isLogin && (
         <div className="flex w-250 items-center justify-between">
           <Link href={"/mysteady"}>
             <div className={appBarTextStyles}>내 스테디</div>
           </Link>
           <Popover>
             <PopoverTrigger>
-              <IconButton
-                variant={"ghost"}
-                className={"cursor-pointer text-st-black"}
-              >
-                <BellIcon
-                  width={25}
-                  height={25}
-                />
-              </IconButton>
+              <BellIcon
+                width={25}
+                height={25}
+              />
             </PopoverTrigger>
             <PopoverContent className={"h-300"}>
               <ScrollArea className={"h-full w-full rounded-md"}>
@@ -85,13 +80,14 @@ const AppBar = ({ isLogin = false, className }: AppBarProps) => {
             />
           </Dropdown>
         </div>
-      ) : (
-        <LoginModal
-          trigger={
-            <div className={`${appBarTextStyles} cursor-pointer`}>로그인</div>
-          }
-        />
       )}
+      <LoginModal
+        trigger={
+          !isLogin && (
+            <div className={`${appBarTextStyles} cursor-pointer`}>로그인</div>
+          )
+        }
+      />
     </div>
   );
 };
