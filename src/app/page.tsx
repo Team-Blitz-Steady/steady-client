@@ -1,5 +1,6 @@
 "use client";
 
+import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -31,33 +32,26 @@ import Turtle from "../../public/images/turtle.png";
 import Walrus from "../../public/images/walrus.png";
 
 const Home = () => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [like, setLike] = useState(false);
   const [recruit, setRecruit] = useState(false);
   const [post, setPost] = useState<Steadies>();
   const [type, setType] = useState("all");
   const [filter, setFilter] = useState("최신");
   const [activeIndex, setActiveIndex] = useState(0);
-  const settings = {
-    pluginKey: `${process.env.NEXT_PUBLIC_PLUGIN_KEY}`,
-    channelButtonOption: {
-      xMargin: 16,
-      yMargin: 16,
-    },
-  };
 
   const { data } = useQuery({
     queryKey: ["steadies"],
-    queryFn: () => getSteadies((page - 1).toString()),
+    queryFn: () => getSteadies(page.toString()),
   });
 
-  const handleRecruit = async () => {
-    const data = await steadyStatusFilter();
+  const handleRecruit = async (type: string, page: string) => {
+    const data = await steadyStatusFilter(type, page);
     setPost(data);
   };
 
-  const handleSteadyType = async (type: string) => {
-    const data = await steadyTypeFilter(type);
+  const handleSteadyType = async (type: string, page: string) => {
+    const data = await steadyTypeFilter(type, page);
     setPost(data);
   };
 
@@ -66,8 +60,8 @@ const Home = () => {
   //   setPost(data);
   // }
 
-  const handleSteadySearch = async (keyword: string) => {
-    const data = await searchSteadies(keyword);
+  const handleSteadySearch = async (keyword: string, page: string) => {
+    const data = await searchSteadies(keyword, page);
     setPost(data);
   };
 
@@ -83,7 +77,9 @@ const Home = () => {
 
   useEffect(() => {
     ChannelIO.loadScript();
-    ChannelIO.boot(settings);
+    ChannelIO.boot({
+      pluginKey: `${process.env.NEXT_PUBLIC_PLUGIN_KEY}`,
+    });
     ChannelIO.hideChannelButton();
   }, []);
 
@@ -289,7 +285,10 @@ const Home = () => {
               className={`${
                 type === "all" ? "" : "text-st-gray-100"
               } cursor-pointer text-2xl font-bold`}
-              onClick={() => setType("all")}
+              onClick={() => {
+                setType("all");
+                handleSteadyType("all", page.toString());
+              }}
             >
               전체
             </div>
@@ -299,7 +298,7 @@ const Home = () => {
               } cursor-pointer text-2xl font-bold`}
               onClick={() => {
                 setType("STUDY");
-                handleSteadyType("STUDY");
+                handleSteadyType("STUDY", page.toString());
               }}
             >
               스터디
@@ -310,7 +309,7 @@ const Home = () => {
               } cursor-pointer text-2xl font-bold`}
               onClick={() => {
                 setType("PROJECT");
-                handleSteadyType("PROJECT");
+                handleSteadyType("PROJECT", page.toString());
               }}
             >
               프로젝트
@@ -318,7 +317,9 @@ const Home = () => {
           </div>
           <Input
             inputName="search-input"
-            onChange={(e) => handleSteadySearch(e.target.value)}
+            onChange={(e) =>
+              handleSteadySearch(e.target.value, page.toString())
+            }
           />
         </div>
         <div className="m-10 flex w-full justify-between">
@@ -364,7 +365,7 @@ const Home = () => {
                     setRecruit(!recruit);
                     setPost(data);
                   } else {
-                    handleRecruit();
+                    handleRecruit(type, page.toString());
                     setRecruit(!recruit);
                   }
                 }}
@@ -424,6 +425,7 @@ const Home = () => {
         <Pagination
           page={page}
           setPage={setPage}
+          setPost={setPost as Dispatch<SetStateAction<Steadies>>}
         />
       </section>
       <div className="fixed bottom-40 right-10 z-10 flex gap-10">

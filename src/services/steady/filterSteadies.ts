@@ -1,10 +1,13 @@
 import { axiosInstance } from "@/services";
 import type { Steadies } from "@/services/types";
 
-export const steadyStatusFilter = async (): Promise<Steadies> => {
+export const steadyStatusFilter = async (
+  type: string,
+  page: string,
+): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=0&steadyMode=all&status=RECRUITING&like=all`,
+      `/api/v1/steadies/search?page=${page}&steadyMode=all&status=RECRUITING&like=all&steadyType=${type}`,
     );
     return response.data;
   } catch (error) {
@@ -13,10 +16,13 @@ export const steadyStatusFilter = async (): Promise<Steadies> => {
   }
 };
 
-export const steadyTypeFilter = async (type: string): Promise<Steadies> => {
+export const steadyTypeFilter = async (
+  type: string,
+  page: string,
+): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=0&steadyMode=all&status=all&like=all&steadyType=${type}`,
+      `/api/v1/steadies/search?page=${page}&steadyMode=all&status=all&like=all&steadyType=${type}`,
     );
     return response.data;
   } catch (error) {
@@ -27,10 +33,11 @@ export const steadyTypeFilter = async (type: string): Promise<Steadies> => {
 
 export const steadyPositionFilter = async (
   position: string,
+  page: string,
 ): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=0&steadyMode=all&status=all&like=all&position=${position}`,
+      `/api/v1/steadies/search?page=${page}&steadyMode=all&status=all&like=all&position=${position}`,
     );
     return response.data;
   } catch (error) {
@@ -39,10 +46,13 @@ export const steadyPositionFilter = async (
   }
 };
 
-export const steadyModeFilter = async (mode: string): Promise<Steadies> => {
+export const steadyModeFilter = async (
+  mode: string,
+  page: string,
+): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=0&steadyMode=${mode}&status=all&like=all`,
+      `/api/v1/steadies/search?page=${page}&steadyMode=${mode}&status=all&like=all`,
     );
     return response.data;
   } catch (error) {
