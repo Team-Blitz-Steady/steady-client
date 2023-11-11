@@ -3,8 +3,8 @@
 import { Fragment } from "react";
 import useLoginStepsStore from "@/stores/loginSteps";
 import {
-  SetInterestsAndStacks,
   SetNickname,
+  SetPositionAndStacks,
   SocialLoginEnd,
   SocialLoginStart,
   SteadyDescriptionEnd,
@@ -21,7 +21,7 @@ const LoginStepsContainer = () => {
       case 1:
         return <SetNickname />;
       case 2:
-        return <SetInterestsAndStacks />;
+        return <SetPositionAndStacks />;
       case 3:
         return <SteadyDescriptionStart />;
       case 4:
