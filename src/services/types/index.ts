@@ -71,3 +71,38 @@ export interface CreateTemplateType {
   title: string;
   questions: string[];
 }
+
+export interface CreateSteadyRequestBodyType {
+  name: string;
+  bio: string;
+  type: string;
+  participantLimit: number;
+  steadyMode: string;
+  scheduledPeriod: string;
+  deadline: string;
+  title: string;
+  content: string;
+  positions: number[];
+  stacks: number[];
+  questions: string[];
+}
+
+export interface ApplicationSurveyType {
+  question: string;
+  answer: string;
+}
+
+export interface ApplicationDetailsType {
+  surveys: ApplicationSurveyType[];
+}
+
+export interface UserType {
+  id: number;
+  nickname: string;
+  profileImage: string;
+}
+export interface ApplicationsListType {
+  content: UserType[];
+  numberOfElements: number;
+  hasNext: boolean;
+}
