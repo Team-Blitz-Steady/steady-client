@@ -1,7 +1,7 @@
 import type * as z from "zod";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { SteadySchema } from "@/constants/schemas";
+import type { SteadySchema } from "@/constants/schemas/steadySchema";
 
 const CreateSteadyStorageKey = "create-steady-key";
 

@@ -34,7 +34,7 @@ import {
   steadyRecruitmentFields,
   steadyRunningMethods,
 } from "@/constants/create-steady";
-import { SteadySchema } from "@/constants/schemas";
+import { SteadySchema } from "@/constants/schemas/steadySchema";
 
 const CreateSteadyPage = () => {
   const router = useRouter();
