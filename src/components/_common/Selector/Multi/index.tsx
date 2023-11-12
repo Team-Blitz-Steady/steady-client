@@ -14,6 +14,8 @@ interface MultiSelectorProps {
   initialLabel?: string;
   initialData?: SelectItem[];
   className?: string;
+  // eslint-disable-next-line no-unused-vars
+  onSelectedChange?: (selected: SelectItem[]) => void;
 }
 
 const MultiSelector = ({
@@ -21,6 +23,7 @@ const MultiSelector = ({
   initialLabel,
   initialData,
   className,
+  onSelectedChange,
 }: MultiSelectorProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
@@ -135,6 +138,7 @@ const MultiSelector = ({
                     onSelect={() => {
                       setInputValue("");
                       setSelected((prev) => [...prev, item]);
+                      onSelectedChange?.([...selected, item]);
                     }}
                     className={
                       "cursor-pointer px-35 py-8 hover:bg-accent hover:text-accent-foreground"
