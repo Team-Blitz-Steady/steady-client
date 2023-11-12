@@ -68,7 +68,7 @@ const CreateTemplatePage = () => {
     <div className="flex gap-30">
       <div>
         <div className="flex justify-between p-20 text-30 font-bold">
-          신청서 템플릿 생성
+          템플릿 생성
           <Button
             className={`${buttonSize.lg} bg-st-primary text-st-white`}
             onClick={() => validateQuestion(content)}
@@ -118,7 +118,7 @@ const CreateTemplatePage = () => {
         <div className="h-5 w-full bg-st-gray-400"></div>
         <div className="mt-20 flex w-full justify-end">
           <Button
-            onClick={() => handlePostTemplate}
+            onClick={() => handlePostTemplate()}
             className={`${buttonSize.lg} bg-st-primary text-st-white`}
           >
             생성하기

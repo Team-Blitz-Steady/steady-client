@@ -13,10 +13,10 @@ const MyTemplatePage = () => {
     <div className="flex gap-30">
       <div>
         <div className="flex justify-between p-20 text-30 font-bold">
-          내 신청서 양식
+          내 템플릿
           <Link href={"/mypage/template/create"}>
             <Button className={`${buttonSize.lg} bg-st-primary text-st-white`}>
-              신청서 생성
+              템플릿 생성
             </Button>
           </Link>
         </div>
@@ -25,7 +25,7 @@ const MyTemplatePage = () => {
           {data?.templates.map((form, id) => (
             <Link
               key={id}
-              href={`/mypage/template/${form.id}`}
+              href={`/mypage/template/edit/${form.id}`}
             >
               <div className="group flex items-center justify-between p-50 transition hover:scale-105 hover:bg-st-gray-50">
                 <div className="text-25 font-bold">{form.title}</div>

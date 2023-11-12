@@ -67,6 +67,14 @@ interface Template {
   createdAt: string;
 }
 
+export interface TemplateDetailType {
+  id: number;
+  title: string;
+  questions: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface CreateTemplateType {
   title: string;
   questions: string[];
