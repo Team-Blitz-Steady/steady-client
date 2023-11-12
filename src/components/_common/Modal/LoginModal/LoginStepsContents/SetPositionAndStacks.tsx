@@ -56,7 +56,7 @@ const SetPositionAndStacks = () => {
   };
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-evenly">
+    <div className="flex h-full w-full flex-col items-center justify-evenly px-10">
       <div className="flex h-full flex-col items-center justify-center gap-10 text-center">
         <div className={loginTextStyles}>
           <div className="mb-20">멋진 닉네임 이네요!</div>
@@ -71,7 +71,7 @@ const SetPositionAndStacks = () => {
       <Form {...userInfos}>
         <form
           onSubmit={userInfos.handleSubmit(savePositionAndStacks)}
-          className="flex h-full w-full flex-col items-center justify-between px-30"
+          className="flex h-full w-full flex-col items-center px-30"
         >
           <div className="flex h-full w-full flex-col gap-20 text-center">
             <FormField
@@ -94,7 +94,7 @@ const SetPositionAndStacks = () => {
                 </FormItem>
               )}
             />
-            <div className="h-full overflow-auto scrollbar-hide">
+            <div className="h-130 overflow-auto scrollbar-hide">
               <FormField
                 control={userInfos.control}
                 name={"stacks"}
@@ -124,7 +124,7 @@ const SetPositionAndStacks = () => {
             </div>
           </div>
           <Button
-            className={`${buttonSize.md}  bg-st-primary text-st-white`}
+            className={`${buttonSize.md} h-[50px] bg-st-primary text-st-white`}
             type="submit"
           >
             다음
