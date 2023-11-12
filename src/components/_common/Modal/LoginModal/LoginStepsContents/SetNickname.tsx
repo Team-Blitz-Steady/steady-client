@@ -69,30 +69,41 @@ const SetNickname = () => {
         onSubmit={handleSubmit(handleCheckSameNickname)}
         className="flex h-full flex-col items-center justify-between"
       >
-        <div className="flex flex-col items-center justify-center gap-10">
-          <input
-            className="max-mobile:w-full h-55 w-400 items-center rounded-12 border-2 border-solid border-st-gray-100 pl-5 pr-5 text-center text-lg outline-none"
-            type="text"
-            {...register("nickname")}
-            onChange={(event) => {
-              setValue("nickname", event.target.value);
-            }}
-            placeholder="닉네임을 입력해주세요."
-          />
+        <div className="flex flex-col gap-10">
+          <div className="flex items-center justify-center gap-10">
+            <input
+              className="max-mobile:w-full h-55 w-400 items-center rounded-12 border-2 border-solid border-st-gray-100 pl-5 pr-5 text-center text-lg outline-none"
+              type="text"
+              {...register("nickname")}
+              onChange={(event) => {
+                setValue("nickname", event.target.value);
+              }}
+              placeholder="닉네임을 입력해주세요."
+            />
+            <button
+              type="submit"
+              onClick={handleCheckSameNickname}
+            >
+              {activeNextBtn ? (
+                <Icon
+                  name="check"
+                  size={30}
+                  color="text-st-green"
+                />
+              ) : (
+                <Icon
+                  name="check"
+                  size={30}
+                  color=""
+                />
+              )}
+            </button>
+          </div>
           {errors.nickname?.message && (
             <div className="text-st-red">{errors.nickname?.message}</div>
           )}
-          <button
-            type="submit"
-            onClick={handleCheckSameNickname}
-          >
-            <Icon
-              name="check"
-              size={20}
-              color=""
-            />
-          </button>
         </div>
+
         <Button
           className={`${buttonSize.md}  text-st-white ${
             activeNextBtn ? "bg-st-primary" : "bg-st-gray-100"
