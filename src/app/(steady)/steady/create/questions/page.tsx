@@ -19,7 +19,7 @@ const CreateQuestionsPage = () => {
   const { steadyState } = useCreateSteadyStore();
 
   useEffect(() => {
-    if (Object.keys(steadyState).length === 0) {
+    if (!steadyState || Object.keys(steadyState).length === 0) {
       toast({
         description: "스테디 신청서를 먼저 작성해 주세요.",
         variant: "red",
