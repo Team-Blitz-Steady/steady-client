@@ -21,7 +21,7 @@ interface NewUserInfoStateType {
 const useNewUserInfoStore = create(
   persist<NewUserInfoStateType>(
     (set) => ({
-      accountId: 1,
+      accountId: 0,
       nickname: "",
       positionId: -1,
       stackIds: [],
