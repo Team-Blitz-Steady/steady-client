@@ -91,4 +91,3 @@ export interface ApplicationsListType {
   numberOfElements: number;
   hasNext: boolean;
 }
-

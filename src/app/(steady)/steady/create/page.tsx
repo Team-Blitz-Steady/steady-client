@@ -13,7 +13,6 @@ import { cn } from "@/lib/utils";
 import useCreateSteadyStore from "@/stores/createSteadyData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator, TextArea } from "@radix-ui/themes";
-import type * as z from "zod";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Input from "@/components/_common/Input";
 import {
@@ -34,16 +33,17 @@ import {
   steadyRecruitmentFields,
   steadyRunningMethods,
 } from "@/constants/create-steady";
+import type { SteadyStateType } from "@/constants/schemas/steadySchema";
 import { SteadySchema } from "@/constants/schemas/steadySchema";
 
 const CreateSteadyPage = () => {
   const router = useRouter();
   const { setSteadyState } = useCreateSteadyStore();
-  const steadyForm = useForm<z.infer<typeof SteadySchema>>({
+  const steadyForm = useForm<SteadyStateType>({
     resolver: zodResolver(SteadySchema),
   });
 
-  const onSubmit = (data: z.infer<typeof SteadySchema>) => {
+  const onSubmit = (data: SteadyStateType) => {
     setSteadyState(data);
     router.push("/steady/create/questions");
   };

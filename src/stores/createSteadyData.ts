@@ -1,22 +1,20 @@
-import type * as z from "zod";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { SteadySchema } from "@/constants/schemas/steadySchema";
+import type { SteadyStateType } from "@/constants/schemas/steadySchema";
 
 const CreateSteadyStorageKey = "create-steady-key";
 
 interface CreateSteadyState {
-  steadyState: z.infer<typeof SteadySchema>;
+  steadyState: SteadyStateType;
   // eslint-disable-next-line no-unused-vars
-  setSteadyState: (steadyState: z.infer<typeof SteadySchema>) => void;
+  setSteadyState: (steadyState: SteadyStateType) => void;
 }
 
 export const useCreateSteadyStore = create(
   persist<CreateSteadyState>(
     (set) => ({
-      steadyState: {} as z.infer<typeof SteadySchema>,
-      setSteadyState: (steadyState: z.infer<typeof SteadySchema>) =>
-        set({ steadyState }),
+      steadyState: {} as SteadyStateType,
+      setSteadyState: (steadyState: SteadyStateType) => set({ steadyState }),
     }),
     {
       name: CreateSteadyStorageKey,

@@ -37,3 +37,5 @@ export const SteadySchema = z.object({
     required_error: "스테디의 기술 스택을 선택해주세요.",
   }),
 });
+
+export type SteadyStateType = z.infer<typeof SteadySchema>;

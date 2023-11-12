@@ -10,6 +10,7 @@ interface InputProps {
     | "tag-input"
     | "introduce-input";
   initialValue?: string;
+  // eslint-disable-next-line no-unused-vars
   onValueChange?: (value: string) => void;
 }
 
