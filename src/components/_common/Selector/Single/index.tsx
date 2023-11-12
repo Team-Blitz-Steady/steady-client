@@ -14,8 +14,6 @@ interface SingleSelectorProps {
   initialLabel?: string;
   initialData?: SelectItemProps;
   className?: string;
-  // eslint-disable-next-line no-unused-vars
-  onSelectedChange?: (selected: string) => void;
 }
 
 const SingleSelector = ({
@@ -23,17 +21,9 @@ const SingleSelector = ({
   initialLabel,
   initialData,
   className,
-  onSelectedChange,
 }: SingleSelectorProps) => {
   return (
-    <Select
-      defaultValue={initialData?.value}
-      onValueChange={(value) => {
-        if (onSelectedChange) {
-          onSelectedChange(value);
-        }
-      }}
-    >
+    <Select defaultValue={initialData?.value}>
       <SelectTrigger className={cn(className)}>
         <SelectValue
           className={cn("font-semibold")}

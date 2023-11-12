@@ -16,26 +16,20 @@ interface DateSelectorProps {
   className?: string;
   initialLabel?: string;
   initialDate?: Date;
-  // eslint-disable-next-line no-unused-vars
-  onDateChange?: (date: Date) => void;
 }
 
 const DateSelector = ({
   className,
   initialLabel,
   initialDate,
-  onDateChange,
 }: DateSelectorProps) => {
   const [date, setDate] = useState<Date | undefined>(undefined);
 
   useEffect(() => {
     if (initialDate) {
       setDate(initialDate);
-      if (onDateChange) {
-        onDateChange(initialDate);
-      }
     }
-  }, [initialDate, onDateChange]);
+  }, [initialDate]);
 
   return (
     <Popover>
@@ -49,9 +43,7 @@ const DateSelector = ({
           )}
         >
           {date ? (
-            <span className={"mx-auto"}>
-              {format(date, "yyyy년 MM월 dd일")}
-            </span>
+            format(date, "PPP")
           ) : (
             <span className={"mx-auto"}>{initialLabel}</span>
           )}
@@ -62,12 +54,7 @@ const DateSelector = ({
         <Calendar
           mode="single"
           selected={date}
-          onSelect={(selected) => {
-            setDate(selected);
-            if (onDateChange && selected) {
-              onDateChange(selected);
-            }
-          }}
+          onSelect={setDate}
           initialFocus
         />
       </PopoverContent>
