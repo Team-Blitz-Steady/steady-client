@@ -23,24 +23,26 @@ const MyTemplatePage = () => {
         <div className="h-5 w-full bg-st-gray-400"></div>
         <div className="h-750 w-750">
           {data?.templates.map((form, id) => (
-            <div
+            <Link
               key={id}
-              className="group flex items-center justify-between p-50 transition hover:scale-105 hover:bg-st-gray-50"
+              href={`/mypage/template/${form.id}`}
             >
-              <div className="text-25 font-bold">{form.title}</div>
-              <div className="group flex">
-                <div className="transform text-15 font-bold text-st-gray-100 transition group-hover:-translate-x-[30px]">
-                  생성일 {form.createdAt}
-                </div>
-                <div className="hidden gap-20 transition duration-500 group-hover:flex">
-                  <Icon
-                    name="trash"
-                    size={20}
-                    color="text-st-gray-100"
-                  />
+              <div className="group flex items-center justify-between p-50 transition hover:scale-105 hover:bg-st-gray-50">
+                <div className="text-25 font-bold">{form.title}</div>
+                <div className="group flex">
+                  <div className="transform text-15 font-bold text-st-gray-100 transition group-hover:-translate-x-[30px]">
+                    생성일 {form.createdAt}
+                  </div>
+                  <div className="hidden gap-20 transition duration-500 group-hover:flex">
+                    <Icon
+                      name="trash"
+                      size={20}
+                      color="text-st-gray-100"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>

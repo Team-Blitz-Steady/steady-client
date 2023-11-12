@@ -66,3 +66,8 @@ interface Template {
   title: string;
   createdAt: string;
 }
+
+export interface CreateTemplateType {
+  title: string;
+  questions: string[];
+}

@@ -1,22 +1,39 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import { createTemplate } from "@/services/template/createTemplate";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 
 const CreateTemplatePage = () => {
   const [question, setQuestion] = useState([{ id: 1, value: "" }]);
-  const [count, setCount] = useState(1);
+  const [content, setContent] = useState("");
+  const [count, setCount] = useState(2);
   const { toast } = useToast();
+  const router = useRouter();
+
+  const validateQuestion = (content: string) => {
+    if (content === "") {
+      toast({
+        description: "질문은 1번에 1개씩 입력해주세요.",
+        variant: "red",
+      });
+      return;
+    } else {
+      setContent("");
+      addQuestion();
+    }
+  };
 
   const addQuestion = () => {
-    setCount(count + 1);
     const newQuestion = {
       id: count,
       value: "",
     };
     setQuestion((prev) => [...prev, newQuestion]);
+    setCount(count + 1);
   };
 
   const removeQuestion = (id: number) => {
@@ -24,10 +41,20 @@ const CreateTemplatePage = () => {
     setQuestion((prev) => prev.filter((item) => item.id !== id));
   };
 
+  const handlePostTemplate = () => {
+    const json = {
+      title: "넥터디 템플릿",
+      questions: question.map((item) => item.value),
+    };
+    createTemplate(json);
+    router.push("/mypage/template");
+  };
+
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     id: number,
   ) => {
+    setContent(event.target.value);
     const updatedQuestions = question.map((question) => {
       if (question.id === id) {
         return { ...question, value: event.target.value };
@@ -44,7 +71,7 @@ const CreateTemplatePage = () => {
           신청서 템플릿 생성
           <Button
             className={`${buttonSize.lg} bg-st-primary text-st-white`}
-            onClick={addQuestion}
+            onClick={() => validateQuestion(content)}
           >
             질문 추가
           </Button>
@@ -63,12 +90,12 @@ const CreateTemplatePage = () => {
                   placeholder="질문을 입력해 주세요."
                   value={item.value}
                   className="h-50 w-5/6 text-20 text-st-gray-200 outline-none"
-                  onChange={(event) => handleInputChange(event, item.id)}
+                  onChange={(e) => handleInputChange(e, item.id)}
                 />
                 <div
                   className="cursor-pointer"
                   onClick={() => {
-                    if (count === 1) {
+                    if (count === 2) {
                       toast({
                         description: "질문은 최소 1개 이상이어야 합니다.",
                         variant: "red",
@@ -90,7 +117,10 @@ const CreateTemplatePage = () => {
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>
         <div className="mt-20 flex w-full justify-end">
-          <Button className={`${buttonSize.lg} bg-st-primary text-st-white`}>
+          <Button
+            onClick={() => handlePostTemplate}
+            className={`${buttonSize.lg} bg-st-primary text-st-white`}
+          >
             생성하기
           </Button>
         </div>
