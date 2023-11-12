@@ -1,4 +1,3 @@
-import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/components/ui/use-toast";
@@ -21,6 +20,7 @@ const SetNickname = () => {
     setValue,
     handleSubmit,
     watch,
+    trigger,
     formState: { errors },
   } = useForm<NicknameSchemaType>({
     mode: "onChange",
@@ -35,8 +35,8 @@ const SetNickname = () => {
 
   const handleCheckSameNickname = async () => {
     const watchNickname = watch("nickname");
-    const isError = errors["nickname"];
-    if (isError) {
+    const isValid = await trigger("nickname");
+    if (!isValid) {
       setActiveNextBtn(false);
       return;
     }
@@ -57,13 +57,6 @@ const SetNickname = () => {
     }
   };
 
-  const handleNextStep = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    if (activeNextBtn) {
-      setIncreaseSteps();
-    }
-  };
-
   return (
     <div className="flex h-full w-full flex-col items-center justify-evenly">
       <div className="flex h-full flex-col items-center justify-center gap-10">
@@ -81,15 +74,17 @@ const SetNickname = () => {
             className="max-mobile:w-full h-55 w-400 items-center rounded-12 border-2 border-solid border-st-gray-100 pl-5 pr-5 text-center text-lg outline-none"
             type="text"
             {...register("nickname")}
-            onChange={(event) => setValue("nickname", event.target.value)}
+            onChange={(event) => {
+              setValue("nickname", event.target.value);
+            }}
             placeholder="닉네임을 입력해주세요."
           />
           {errors.nickname?.message && (
             <div className="text-st-red">{errors.nickname?.message}</div>
           )}
           <button
-            onClick={handleCheckSameNickname}
             type="submit"
+            onClick={handleCheckSameNickname}
           >
             <Icon
               name="check"
@@ -103,7 +98,7 @@ const SetNickname = () => {
             activeNextBtn ? "bg-st-primary" : "bg-st-gray-100"
           }`}
           type="button"
-          onClick={handleNextStep}
+          onClick={() => setIncreaseSteps()}
           disabled={!activeNextBtn}
         >
           다음
