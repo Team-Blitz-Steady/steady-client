@@ -103,7 +103,6 @@ const SetNickname = () => {
             <div className="text-st-red">{errors.nickname?.message}</div>
           )}
         </div>
-
         <Button
           className={`${buttonSize.md}  text-st-white ${
             activeNextBtn ? "bg-st-primary" : "bg-st-gray-100"

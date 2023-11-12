@@ -57,6 +57,21 @@ export interface SteadyDetailsType {
   promotionCount: number;
 }
 
+export interface CreateSteadyRequestBodyType {
+  name: string;
+  bio: string;
+  type: string;
+  participantLimit: number;
+  steadyMode: string;
+  scheduledPeriod: string;
+  deadline: string;
+  title: string;
+  content: string;
+  positions: number[];
+  stacks: number[];
+  questions: string[];
+}
+
 export interface ApplicationSurveyType {
   question: string;
   answer: string;
