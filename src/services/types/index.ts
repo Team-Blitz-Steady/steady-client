@@ -83,3 +83,7 @@ export interface UserProfileType {
   positionId: number;
   stackIds: number[];
 }
+
+export interface CheckSameUsernameType {
+  exist: boolean;
+}
