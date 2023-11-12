@@ -1,13 +1,10 @@
 import { axiosInstance } from "@/services";
 import type { Steadies } from "@/services/types";
 
-export const steadyStatusFilter = async (
-  type: string,
-  page: string,
-): Promise<Steadies> => {
+export const steadyStatusFilter = async (page: string): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=${page}&steadyMode=all&status=RECRUITING&like=all&steadyType=${type}`,
+      `/api/v1/steadies/search?page=${page}&steadyMode=all&status=RECRUITING&like=all`,
     );
     return response.data;
   } catch (error) {

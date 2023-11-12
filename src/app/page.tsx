@@ -39,14 +39,16 @@ const Home = () => {
   const [type, setType] = useState("all");
   const [filter, setFilter] = useState("최신");
   const [activeIndex, setActiveIndex] = useState(0);
+  const [keyword, setKeyword] = useState("");
+  const [debouncedValue, setDebouncedValue] = useState("");
 
   const { data } = useQuery({
     queryKey: ["steadies"],
     queryFn: () => getSteadies(page.toString()),
   });
 
-  const handleRecruit = async (type: string, page: string) => {
-    const data = await steadyStatusFilter(type, page);
+  const handleRecruit = async (page: string) => {
+    const data = await steadyStatusFilter(page);
     setPost(data);
   };
 
@@ -54,11 +56,6 @@ const Home = () => {
     const data = await steadyTypeFilter(type, page);
     setPost(data);
   };
-
-  // const handleSteadyMode = async (mode: string) => {
-  //   const data = await steadyModeFilter(mode);
-  //   setPost(data);
-  // }
 
   const handleSteadySearch = async (keyword: string, page: string) => {
     const data = await searchSteadies(keyword, page);
@@ -82,6 +79,26 @@ const Home = () => {
     });
     ChannelIO.hideChannelButton();
   }, []);
+
+  useEffect(() => {
+    const delay = 300;
+
+    const debounceTimer = setTimeout(() => {
+      setDebouncedValue(keyword);
+    }, delay);
+
+    return () => clearTimeout(debounceTimer);
+  }, [keyword]);
+
+  useEffect(() => {
+    if (debouncedValue) {
+      handleSteadySearch(debouncedValue, page.toString());
+    }
+  }, [debouncedValue]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -317,9 +334,7 @@ const Home = () => {
           </div>
           <Input
             inputName="search-input"
-            onChange={(e) =>
-              handleSteadySearch(e.target.value, page.toString())
-            }
+            onChange={(e) => handleInputChange(e)}
           />
         </div>
         <div className="m-10 flex w-full justify-between">
@@ -365,7 +380,7 @@ const Home = () => {
                     setRecruit(!recruit);
                     setPost(data);
                   } else {
-                    handleRecruit(type, page.toString());
+                    handleRecruit(page.toString());
                     setRecruit(!recruit);
                   }
                 }}
