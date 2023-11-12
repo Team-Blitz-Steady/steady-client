@@ -24,9 +24,9 @@ export const nicknameSchema = z.object({
 export const positionAndStacksSchema = z.object({
   position: z
     .number({
-      required_error: "모집 분야를 선택해주세요.",
+      required_error: "포지션을 선택해주세요.",
     })
-    .positive("모집 분야를 선택해주세요."),
+    .positive("포지션을 선택해주세요."),
   stacks: z
     .number()
     .array()
