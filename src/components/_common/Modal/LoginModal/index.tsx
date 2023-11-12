@@ -45,6 +45,22 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
     }
   }, [setSteps, searchParams, setAccountId]);
 
+  const handleCreateProfile = async () => {
+    try {
+      const userProfileCreated = await createUserProfile({
+        accountId,
+        nickname,
+        positionId,
+        stackIds,
+      });
+      if (userProfileCreated) {
+        localStorage.clear();
+      }
+    } catch (error) {
+      console.error("프로필 생성 실패", error);
+    }
+  };
+
   return (
     <AlertDialog.Root
       open={open}
@@ -89,14 +105,7 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
             {steps === 5 && (
               <Button
                 className={`${buttonSize.md} bg-st-primary text-st-white`}
-                onClick={() =>
-                  createUserProfile({
-                    accountId,
-                    nickname,
-                    positionId,
-                    stackIds,
-                  })
-                }
+                onClick={handleCreateProfile}
               >
                 시작하기
               </Button>
