@@ -7,8 +7,8 @@ import {
   useState,
 } from "react";
 import { useSearchParams } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 import useLoginStepsStore from "@/stores/loginSteps";
-import newUserInfoStore from "@/stores/newUserInfo";
 import useNewUserInfoStore from "@/stores/newUserInfo";
 import { AlertDialog } from "@radix-ui/themes";
 import getKakaoToken from "@/services/oauth/kakao/getKakaoToken";
@@ -18,13 +18,13 @@ import { setAccessToken, setRefreshToken } from "@/utils/cookies";
 import Button, { buttonSize } from "../../Button";
 import LoginStepsContainer from "./LoginStepsContainer";
 
-// TODO: steps 검사 필요 (0~5)가 아닌것들...
 const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
   const { steps, setDecreaseSteps, setSteps } = useLoginStepsStore();
-  const { accountId, nickname, positionId, stackIds } = useNewUserInfoStore();
-  const { setAccountId } = newUserInfoStore();
+  const { accountId, nickname, positionId, stackIds, setAccountId } =
+    useNewUserInfoStore();
   const [open, setOpen] = useState(false);
   const searchParams = useSearchParams();
+  const { toast } = useToast();
 
   useEffect(() => {
     const authCode = searchParams.get("code");
@@ -54,10 +54,19 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
         stackIds,
       });
       if (userProfileCreated) {
-        localStorage.clear();
+        toast({
+          description: "프로필 생성 성공",
+          variant: "green",
+        });
+        useNewUserInfoStore.persist.clearStorage();
+        useLoginStepsStore.persist.clearStorage();
       }
     } catch (error) {
       console.error("프로필 생성 실패", error);
+      toast({
+        description: "프로필 생성을 실패했습니다.",
+        variant: "red",
+      });
     }
   };
 
