@@ -20,8 +20,15 @@ import LoginStepsContainer from "./LoginStepsContainer";
 
 const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
   const { steps, setDecreaseSteps, setSteps } = useLoginStepsStore();
-  const { accountId, nickname, positionId, stackIds, setAccountId } =
-    useNewUserInfoStore();
+  const {
+    accountId,
+    nickname,
+    positionId,
+    stackIds,
+    authCode,
+    setAccountId,
+    setAuthCode,
+  } = useNewUserInfoStore();
   const [open, setOpen] = useState(false);
   const searchParams = useSearchParams();
   const { toast } = useToast();
@@ -32,8 +39,8 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
       getKakaoToken(authCode).then((data) => {
         if (data) {
           const { id, isNew, token } = data;
-          // TODO: 나중에 isNew로 변경
           if (isNew) {
+            setAuthCode(authCode);
             setAccountId(id);
             setSteps(1);
             setOpen(true);
@@ -44,7 +51,7 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
         }
       });
     }
-  }, [setSteps, searchParams, setAccountId]);
+  }, [setSteps, searchParams]);
 
   const handleCreateProfile = async () => {
     try {
@@ -55,6 +62,9 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
         stackIds,
       });
       if (userProfileCreated) {
+        const { token } = await getKakaoToken(authCode);
+        setAccessToken(token.accessToken);
+        setRefreshToken(token.refreshToken);
         toast({
           description: "프로필 생성 성공",
           variant: "green",

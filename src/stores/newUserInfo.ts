@@ -8,6 +8,7 @@ interface NewUserInfoStateType {
   nickname: string;
   positionId: number;
   stackIds: number[];
+  authCode: string;
   // eslint-disable-next-line no-unused-vars
   setAccountId: (accountId: number) => void;
   // eslint-disable-next-line no-unused-vars
@@ -16,6 +17,8 @@ interface NewUserInfoStateType {
   setPositionId: (positionId: number) => void;
   // eslint-disable-next-line no-unused-vars
   setStackIds: (stackIds: number[]) => void;
+  // eslint-disable-next-line no-unused-vars
+  setAuthCode: (authCode: string) => void;
 }
 
 const useNewUserInfoStore = create(
@@ -23,12 +26,14 @@ const useNewUserInfoStore = create(
     (set) => ({
       accountId: 0,
       nickname: "",
-      positionId: -1,
+      positionId: 0,
       stackIds: [],
+      authCode: "",
       setAccountId: (accountId) => set({ accountId }),
       setNickname: (nickname) => set({ nickname }),
       setPositionId: (positionId) => set({ positionId }),
       setStackIds: (stackIds) => set({ stackIds }),
+      setAuthCode: (authCode) => set({ authCode }),
     }),
     {
       name: StorageKey,
