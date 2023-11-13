@@ -70,9 +70,8 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
     queryFn: () => getSteadyDetails(params.id),
   });
   const router = useRouter();
-  console.log(params);
   return (
-    <div className="w-full">
+    <div className="w-1000">
       <div className="flex flex-col gap-20">
         <button onClick={() => router.back()}>
           <Icon
@@ -202,7 +201,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
         </div>
         <div className="text-20 font-bold">{SteadyPrimitive.content}</div>
       </div>
-      <div className="my-30 flex flex-col gap-20">
+      <div className="my-30 flex flex-col gap-20 ">
         <Separator className="h-2 w-auto bg-st-gray-100" />
         <div className="px-50">
           <div className="mb-10 flex h-fit flex-row items-center justify-between text-18 font-bold">
