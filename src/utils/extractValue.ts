@@ -1,13 +1,12 @@
 // thanks to @Souperman at https://stackoverflow.com/questions/73825273/creating-a-zod-enum-from-an-object
 export const extractValue = (target: { value: string; label: string }[]) => {
-  // TODO: 타입스크립트 오류 해결
-  // if (
-  //   !target ||
-  //   target.length === 0 ||
-  //   target.some((item) => item === undefined || item.value === undefined)
-  // ) {
-  //   return [];
-  // }
+  if (
+    !target ||
+    target.length === 0 ||
+    target.some((item) => item === undefined || item.value === undefined)
+  ) {
+    return [] as unknown as [property, ...property[]];
+  }
   type property = (typeof target)[number]["value"];
   const valueArray: [property, ...property[]] = [
     target[0].value,
