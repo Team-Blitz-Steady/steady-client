@@ -4,14 +4,14 @@ import { cookies } from "next/headers";
 
 export const setAccessToken = (accessToken: string) => {
   return cookies().set("access_token", accessToken, {
-    maxAge: 30,
+    maxAge: 60 * 60 * 24 * 7, // 7 days
     httpOnly: true,
   });
 };
 
 export const setRefreshToken = (refreshToken: string) => {
   return cookies().set("refresh_token", refreshToken, {
-    maxAge: 30,
+    maxAge: 60 * 60 * 24 * 7, // 7 days
     httpOnly: true,
   });
 };
