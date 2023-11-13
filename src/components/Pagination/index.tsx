@@ -14,14 +14,14 @@ const Pagination = ({ page, setPage, setPost }: PaginationProps) => {
   const firstNum = currPage - (currPage % 5) + 1;
   const lastNum = currPage - (currPage % 5) + 5;
 
-  const handleSteadies = async (page: number) => {
+  const handlePageSteadies = async (page: number) => {
     const data = await getSteadies(page.toString());
     setPost(data);
   };
 
   useEffect(() => {
     if (page !== 0) {
-      handleSteadies(page);
+      handlePageSteadies(page);
     }
   }, [page]);
 
@@ -33,7 +33,7 @@ const Pagination = ({ page, setPage, setPost }: PaginationProps) => {
           setCurrPage(page - 2);
         }}
         disabled={page === 0}
-        className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md hover:bg-st-primary hover:text-st-white"
+        className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md enabled:hover:bg-st-primary enabled:hover:text-st-white disabled:cursor-not-allowed disabled:opacity-20"
       >
         <Icon
           name="chevron-left"

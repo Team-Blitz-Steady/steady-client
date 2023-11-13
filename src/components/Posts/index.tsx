@@ -7,7 +7,7 @@ import Tag from "../_common/Tag";
 const Posts = ({ info }: { info: Steadies }) => {
   return (
     <div className="w-full">
-      {info !== undefined &&
+      {info &&
         info.content.map((item, index) => (
           <Link
             href={`/steady/detail/${item.id}`}
