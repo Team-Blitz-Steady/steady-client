@@ -33,12 +33,13 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
         if (data) {
           const { id, isNew, token } = data;
           // TODO: 나중에 isNew로 변경
-          if (!isNew) {
-            setAccessToken(token.accessToken);
-            setRefreshToken(token.refreshToken);
+          if (isNew) {
             setAccountId(id);
             setSteps(1);
             setOpen(true);
+          } else {
+            setAccessToken(token.accessToken);
+            setRefreshToken(token.refreshToken);
           }
         }
       });

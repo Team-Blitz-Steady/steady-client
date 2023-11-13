@@ -1,7 +1,8 @@
+import type { ComponentProps } from "react";
 import { MagnifyingGlassIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import { IconButton } from "@radix-ui/themes";
 
-interface InputProps {
+interface InputProps extends ComponentProps<"input"> {
   inputName:
     | "search-input"
     | "name-input"
@@ -14,13 +15,21 @@ interface InputProps {
   onValueChange?: (value: string) => void;
 }
 
-const Input = ({ inputName, initialValue, onValueChange }: InputProps) => {
+const Input = ({
+  inputName,
+  initialValue,
+  onValueChange,
+  ...props
+}: InputProps) => {
   let input;
 
   switch (inputName) {
     case "search-input":
       input = (
-        <div className="bg-input-bg hidden h-40 items-center justify-center rounded-12 border-2 border-solid border-st-gray-100 p-5 outline-none md:flex md:w-1/4 xl:w-350">
+        <div
+          {...props}
+          className="bg-input-bg hidden h-40 items-center justify-center rounded-12 border-2 border-solid border-st-gray-100 p-5 outline-none md:flex xl:w-350"
+        >
           <input
             className="bg-input-bg h-35 w-full rounded-12 p-5 font-bold outline-none"
             type="text"

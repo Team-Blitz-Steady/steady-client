@@ -1,9 +1,20 @@
 "use client";
 
+import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
+import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
+import { useQuery } from "@tanstack/react-query";
+import {
+  steadyStatusFilter,
+  steadyTypeFilter,
+} from "@/services/steady/filterSteadies";
+import getSteadies from "@/services/steady/getSteadies";
+import { searchSteadies } from "@/services/steady/searchSteadies";
+import type { Steadies } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
@@ -20,30 +31,73 @@ import Third from "../../public/images/third.svg";
 import Turtle from "../../public/images/turtle.png";
 import Walrus from "../../public/images/walrus.png";
 
-interface PostData {
-  title: string;
-  categories: string[];
-  currentParticipants: number;
-  maxParticipants: number;
-  deadline: string;
-  author: string;
-  views: number;
-  comments: number;
-  postedAgo: string;
-}
-
 const Home = () => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [like, setLike] = useState(false);
   const [recruit, setRecruit] = useState(false);
-  const [category, setCategory] = useState("전체");
+  const [post, setPost] = useState<Steadies>();
+  const [type, setType] = useState("all");
   const [filter, setFilter] = useState("최신");
   const [activeIndex, setActiveIndex] = useState(0);
-  const limit = 10;
-  const offset = (page - 1) * limit;
+  const [keyword, setKeyword] = useState("");
+  const [debouncedValue, setDebouncedValue] = useState("");
+
+  const { data } = useQuery({
+    queryKey: ["steadies"],
+    queryFn: () => getSteadies(page.toString()),
+  });
+
+  const handleRecruit = async (page: string) => {
+    const data = await steadyStatusFilter(page);
+    setPost(data);
+  };
+
+  const handleSteadyType = async (type: string, page: string) => {
+    const data = await steadyTypeFilter(type, page);
+    setPost(data);
+  };
+
+  const handleSteadySearch = async (keyword: string, page: string) => {
+    const data = await searchSteadies(keyword, page);
+    setPost(data);
+  };
 
   const handleNext = () => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % 3);
+  };
+
+  useEffect(() => {
+    if (data) {
+      setPost(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    ChannelIO.loadScript();
+    ChannelIO.boot({
+      pluginKey: `${process.env.NEXT_PUBLIC_PLUGIN_KEY}`,
+    });
+    ChannelIO.hideChannelButton();
+  }, []);
+
+  useEffect(() => {
+    const delay = 300;
+
+    const debounceTimer = setTimeout(() => {
+      setDebouncedValue(keyword);
+    }, delay);
+
+    return () => clearTimeout(debounceTimer);
+  }, [keyword]);
+
+  useEffect(() => {
+    if (debouncedValue) {
+      handleSteadySearch(debouncedValue, page.toString());
+    }
+  }, [debouncedValue]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
   };
 
   useEffect(() => {
@@ -53,13 +107,6 @@ const Home = () => {
 
     return () => clearInterval(interval);
   }, [activeIndex]);
-
-  const postsData = (posts: PostData[]) => {
-    if (posts) {
-      const result = posts.slice(offset, offset + limit);
-      return result;
-    }
-  };
 
   const bannerDefaultStyle =
     "duration-1500 absolute left-0 top-0 flex h-380 w-full justify-center transition-opacity";
@@ -109,249 +156,6 @@ const Home = () => {
     { value: "on/offline", label: "온/오프라인" },
     { value: "online", label: "온라인" },
     { value: "offline", label: "오프라인" },
-  ];
-
-  const steadyPostData = [
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "1일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "2일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "3일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "4일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "5일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "6시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "7시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "8시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "9시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "10시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "11일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "12일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "1일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "1일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "1일 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "14시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "14시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "14시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "14시간 전",
-    },
-    {
-      title:
-        "Next JS 스터디 모집합니다~! Next JS를 처음 접하셨다면 더욱 환영입니다!",
-      categories: ["프론트엔드", "넥스트"],
-      currentParticipants: 5,
-      maxParticipants: 6,
-      deadline: "2023.11.13",
-      author: "zz지존스테디장zz",
-      views: 123,
-      comments: 10,
-      postedAgo: "14시간 전",
-    },
   ];
 
   return (
@@ -496,30 +300,42 @@ const Home = () => {
           <div className="flex gap-20">
             <div
               className={`${
-                category === "전체" ? "" : "text-st-gray-100"
+                type === "all" ? "" : "text-st-gray-100"
               } cursor-pointer text-2xl font-bold`}
-              onClick={() => setCategory("전체")}
+              onClick={() => {
+                setType("all");
+                handleSteadyType("all", page.toString());
+              }}
             >
               전체
             </div>
             <div
               className={`${
-                category === "스터디" ? "" : "text-st-gray-100"
+                type === "STUDY" ? "" : "text-st-gray-100"
               } cursor-pointer text-2xl font-bold`}
-              onClick={() => setCategory("스터디")}
+              onClick={() => {
+                setType("STUDY");
+                handleSteadyType("STUDY", page.toString());
+              }}
             >
               스터디
             </div>
             <div
               className={`${
-                category === "프로젝트" ? "" : "text-st-gray-100"
+                type === "PROJECT" ? "" : "text-st-gray-100"
               } cursor-pointer text-2xl font-bold`}
-              onClick={() => setCategory("프로젝트")}
+              onClick={() => {
+                setType("PROJECT");
+                handleSteadyType("PROJECT", page.toString());
+              }}
             >
               프로젝트
             </div>
           </div>
-          <Input inputName="search-input" />
+          <Input
+            inputName="search-input"
+            onChange={(e) => handleInputChange(e)}
+          />
         </div>
         <div className="m-10 flex w-full justify-between">
           <div className="flex items-center justify-center gap-5">
@@ -559,7 +375,15 @@ const Home = () => {
             >
               <button
                 className="h-full w-full font-bold"
-                onClick={() => setRecruit(!recruit)}
+                onClick={() => {
+                  if (recruit) {
+                    setRecruit(!recruit);
+                    setPost(data);
+                  } else {
+                    handleRecruit(page.toString());
+                    setRecruit(!recruit);
+                  }
+                }}
               >
                 모집중
               </button>
@@ -594,26 +418,29 @@ const Home = () => {
                 최신 글순
               </div>
             </div>
-            <Button
-              className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
-            >
-              <Icon
-                name="pencil"
-                size={25}
-                color="text-st-white"
-              />
-              스테디 등록
-            </Button>
+            <Link href={"/steady/create"}>
+              <Button
+                className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
+              >
+                <Icon
+                  name="pencil"
+                  size={25}
+                  color="text-st-white"
+                />
+                스테디 등록
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="h-5 w-full bg-st-gray-400" />
-        <Posts info={postsData(steadyPostData)} />
+        <Posts info={post as Steadies} />
         <div className="h-5 w-full bg-st-gray-400" />
       </section>
       <section className="flex h-100 w-full items-center justify-center">
         <Pagination
           page={page}
           setPage={setPage}
+          setPost={setPost as Dispatch<SetStateAction<Steadies>>}
         />
       </section>
       <div className="fixed bottom-40 right-10 z-10 flex gap-10">
@@ -627,7 +454,7 @@ const Home = () => {
             <div className="text-17 font-bold">TOP</div>
           </div>
         </div>
-        <StickyButton onClick={() => console.log("hi")} />
+        <StickyButton onClick={() => ChannelIO.showMessenger()} />
       </div>
     </main>
   );
