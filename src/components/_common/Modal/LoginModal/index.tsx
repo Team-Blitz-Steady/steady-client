@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { redirect, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import useLoginStepsStore from "@/stores/loginSteps";
 import useNewUserInfoStore from "@/stores/newUserInfo";
@@ -24,6 +24,7 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
     useNewUserInfoStore();
   const [open, setOpen] = useState(false);
   const searchParams = useSearchParams();
+  const router = useRouter();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -61,7 +62,7 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
         });
         useNewUserInfoStore.persist.clearStorage();
         useLoginStepsStore.persist.clearStorage();
-        redirect(`${userProfileCreated.headers.location}`);
+        router.push(`${userProfileCreated.headers.location}`);
       }
     } catch (error) {
       console.error("프로필 생성 실패", error);
