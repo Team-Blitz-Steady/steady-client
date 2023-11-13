@@ -14,7 +14,7 @@ const CreateTemplatePage = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const validateQuestion = (content: string) => {
+  const handleAddQuestion = (content: string) => {
     if (content === "") {
       toast({
         description: "질문은 1번에 1개씩 입력해주세요.",
@@ -71,7 +71,7 @@ const CreateTemplatePage = () => {
           템플릿 생성
           <Button
             className={`${buttonSize.lg} bg-st-primary text-st-white`}
-            onClick={() => validateQuestion(content)}
+            onClick={() => handleAddQuestion(content)}
           >
             질문 추가
           </Button>
