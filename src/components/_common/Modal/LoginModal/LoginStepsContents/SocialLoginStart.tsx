@@ -1,12 +1,8 @@
-"use client";
-
 import Image from "next/image";
 import KaKaoLoginButton from "@/images/kakaobutton.png";
 import SteadyText from "@/images/steadytext.png";
 import SteadyTurtleIcon from "@/images/steadyturtle.png";
 import getKakaoLoginUrl from "@/services/oauth/kakao/getKakaoLoginURL";
-
-// TODO: use client 뺄 수 있으면 빼기
 
 const SocialLoginStart = () => {
   const handleClickKaKaoSocialLogin = () => {
