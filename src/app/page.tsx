@@ -23,6 +23,7 @@ import StickyButton from "@/components/_common/StickyButton";
 import {
   steadyExpectedTechStacks,
   steadyRecruitmentFields,
+  steadyRunningMethods,
 } from "@/constants/create-steady";
 import Dolphin from "../../public/images/dolphin.png";
 import First from "../../public/images/first.svg";
@@ -46,6 +47,11 @@ const Home = () => {
     queryKey: ["steadies"],
     queryFn: () => getSteadies(page.toString()),
   });
+
+  const handleGetSteadies = async (page: string) => {
+    const data = await getSteadies(page.toString());
+    setPost(data);
+  };
 
   const handleRecruit = async (page: string) => {
     const data = await steadyStatusFilter(page);
@@ -150,12 +156,6 @@ const Home = () => {
       rank: 4,
       image: "",
     },
-  ];
-
-  const mode = [
-    { value: "on/offline", label: "온/오프라인" },
-    { value: "online", label: "온라인" },
-    { value: "offline", label: "오프라인" },
   ];
 
   return (
@@ -304,7 +304,7 @@ const Home = () => {
               } cursor-pointer text-2xl font-bold`}
               onClick={() => {
                 setType("all");
-                handleSteadyType("all", page.toString());
+                handleGetSteadies(page.toString());
               }}
             >
               전체
@@ -351,7 +351,7 @@ const Home = () => {
             />
             <SingleSelector
               initialLabel={"진행 방식"}
-              items={mode}
+              items={steadyRunningMethods}
               className="mb-8 h-43 w-150"
             />
             <div
@@ -438,6 +438,7 @@ const Home = () => {
       </section>
       <section className="flex h-100 w-full items-center justify-center">
         <Pagination
+          totalPost={data?.totalElements as number}
           page={page}
           setPage={setPage}
           setPost={setPost as Dispatch<SetStateAction<Steadies>>}

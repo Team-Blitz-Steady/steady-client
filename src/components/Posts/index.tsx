@@ -6,7 +6,7 @@ import Tag from "../_common/Tag";
 
 const Posts = ({ info }: { info: Steadies }) => {
   return (
-    <div className="w-full">
+    <div className="h-[1355px] w-full">
       {info &&
         info.content.map((item, index) => (
           <Link
