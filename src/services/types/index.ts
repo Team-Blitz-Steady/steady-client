@@ -165,3 +165,14 @@ export interface CheckSameUsernameType {
 export interface ApplicationStatusType {
   status: "ACCEPTED" | "WAITING" | "REJECTED";
 }
+
+export interface SteadyParticipantsUserType {
+  id: number;
+  nickname: string;
+  profileImage: string;
+  isLeader: boolean;
+}
+
+export interface SteadyParticipantsType {
+  participants: SteadyParticipantsUserType[];
+}
