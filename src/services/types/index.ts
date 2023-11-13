@@ -7,6 +7,36 @@ export interface KakaoTokenType {
   };
 }
 
+export interface Steadies {
+  content: Content[];
+  numberOfElements: number;
+  page: number;
+  size: number;
+  sort: Sort;
+  totalPages: number;
+  totalElements: number;
+}
+
+interface Content {
+  id: number;
+  nickname: string;
+  profileImage: string;
+  title: string;
+  type: string;
+  status: string;
+  deadline: string;
+  createdAt: string;
+  participantLimit: number;
+  numberOfParticipants: number;
+  stacks: Stack[];
+}
+
+interface Stack {
+  id: number;
+  name: string;
+  imageUrl: string;
+}
+
 export interface LeaderResponseType {
   id: number;
   nickname: string;
@@ -22,6 +52,12 @@ export interface StackType {
   id: number;
   name: string;
   imageUrl: string;
+}
+
+interface Sort {
+  empty: boolean;
+  sorted: boolean;
+  unsorted: boolean;
 }
 
 export interface SteadyDetailsType {
@@ -55,6 +91,29 @@ export interface SteadyDetailsType {
   isLeader: boolean;
   isSubmittedUser: boolean;
   promotionCount: number;
+}
+
+export interface TemplateType {
+  templates: Template[];
+}
+
+interface Template {
+  id: number;
+  title: string;
+  createdAt: string;
+}
+
+export interface TemplateDetailType {
+  id: number;
+  title: string;
+  questions: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateTemplateType {
+  title: string;
+  questions: string[];
 }
 
 export interface CreateSteadyRequestBodyType {
