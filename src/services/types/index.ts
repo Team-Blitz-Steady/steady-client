@@ -127,3 +127,18 @@ export interface ApplicationsListType {
   numberOfElements: number;
   hasNext: boolean;
 }
+
+export interface UserProfileType {
+  accountId: number;
+  nickname: string;
+  positionId: number;
+  stackIds: number[];
+}
+
+export interface CheckSameUsernameType {
+  exist: boolean;
+}
+
+export interface ApplicationStatusType {
+  status: "ACCEPTED" | "WAITING" | "REJECTED";
+}

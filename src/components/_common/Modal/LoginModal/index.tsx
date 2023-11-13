@@ -7,48 +7,67 @@ import {
   useState,
 } from "react";
 import { useSearchParams } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 import useLoginStepsStore from "@/stores/loginSteps";
+import useNewUserInfoStore from "@/stores/newUserInfo";
 import { AlertDialog } from "@radix-ui/themes";
 import getKakaoToken from "@/services/oauth/kakao/getKakaoToken";
-import Button, { buttonSize } from "@/components/_common/Button";
+import createUserProfile from "@/services/user/createUserProfile";
 import Icon from "@/components/_common/Icon";
 import { setAccessToken, setRefreshToken } from "@/utils/cookies";
+import Button, { buttonSize } from "../../Button";
 import LoginStepsContainer from "./LoginStepsContainer";
 
-// TODO: steps 검사 필요 (0~5)가 아닌것들...
 const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
-  const { steps, setIncreaseSteps, setDecreaseSteps, setSteps } =
-    useLoginStepsStore();
+  const { steps, setDecreaseSteps, setSteps } = useLoginStepsStore();
+  const { accountId, nickname, positionId, stackIds, setAccountId } =
+    useNewUserInfoStore();
   const [open, setOpen] = useState(false);
   const searchParams = useSearchParams();
+  const { toast } = useToast();
 
   useEffect(() => {
     const authCode = searchParams.get("code");
     if (authCode) {
       getKakaoToken(authCode).then((data) => {
         if (data) {
-          const { isNew, token } = data;
+          const { id, isNew, token } = data;
           // TODO: 나중에 isNew로 변경
-          if (!isNew) {
-            setAccessToken(token.accessToken);
-            setRefreshToken(token.refreshToken);
+          if (isNew) {
+            setAccountId(id);
             setSteps(1);
             setOpen(true);
+          } else {
+            setAccessToken(token.accessToken);
+            setRefreshToken(token.refreshToken);
           }
         }
       });
     }
-  }, [setSteps, searchParams]);
+  }, [setSteps, searchParams, setAccountId]);
 
-  const handleClickPrev = () => {
-    if (steps > 0) {
-      setDecreaseSteps();
-    }
-  };
-
-  const handleClickNext = () => {
-    if (steps < 5) {
-      setIncreaseSteps();
+  const handleCreateProfile = async () => {
+    try {
+      const userProfileCreated = await createUserProfile({
+        accountId,
+        nickname,
+        positionId,
+        stackIds,
+      });
+      if (userProfileCreated) {
+        toast({
+          description: "프로필 생성 성공",
+          variant: "green",
+        });
+        useNewUserInfoStore.persist.clearStorage();
+        useLoginStepsStore.persist.clearStorage();
+      }
+    } catch (error) {
+      console.error("프로필 생성 실패", error);
+      toast({
+        description: "프로필 생성을 실패했습니다.",
+        variant: "red",
+      });
     }
   };
 
@@ -58,7 +77,7 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
       onOpenChange={setOpen}
     >
       <AlertDialog.Trigger>{trigger}</AlertDialog.Trigger>
-      <AlertDialog.Content className="max-mobile:h-3/4 max-mobile:w-screen max-mobile:p-10 flex h-700 w-650 items-center justify-center rounded-20 bg-st-primary">
+      <AlertDialog.Content className="max-mobile:h-3/4 max-mobile:w-screen max-mobile:p-10 flex h-700 w-650 items-center justify-center overflow-y-hidden rounded-20 bg-st-primary">
         <div className="flex h-full w-full flex-col items-center justify-between rounded-20 bg-st-white p-20">
           <div
             className={`flex w-full ${
@@ -68,7 +87,11 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
             {steps !== 0 && (
               <button
                 className="h-fit w-fit"
-                onClick={handleClickPrev}
+                onClick={() => {
+                  if (steps) {
+                    setDecreaseSteps();
+                  }
+                }}
               >
                 <Icon
                   name="chevron-left"
@@ -88,25 +111,16 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
             </AlertDialog.Cancel>
           </div>
           <LoginStepsContainer />
-          {steps > 0 && steps < 5 ? (
-            <Button
-              className={`${buttonSize.md} bg-st-primary text-st-white `}
-              onClick={handleClickNext}
-            >
-              다음
-            </Button>
-          ) : (
-            steps === 5 && (
-              <AlertDialog.Action>
-                <Button
-                  className={`${buttonSize.md} bg-st-primary text-st-white `}
-                  onClick={handleClickNext}
-                >
-                  시작하기
-                </Button>
-              </AlertDialog.Action>
-            )
-          )}
+          <AlertDialog.Action>
+            {steps === 5 && (
+              <Button
+                className={`${buttonSize.md} bg-st-primary text-st-white`}
+                onClick={handleCreateProfile}
+              >
+                시작하기
+              </Button>
+            )}
+          </AlertDialog.Action>
         </div>
       </AlertDialog.Content>
     </AlertDialog.Root>

@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import SteadyLogo from "@/images/turtle.png";
 import { Separator } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
+import changeApplicationStatus from "@/services/application/changeApplicationStatus";
 import getApplicationsList from "@/services/application/getApplicationsList";
 import Button, { buttonSize } from "@/components/_common/Button";
 import { AlertModal } from "@/components/_common/Modal";
@@ -15,12 +16,11 @@ const selectedEffectStyle = "bg-st-skyblue-50 text-st-primary";
 const normalEffectStyle = "hover:bg-st-gray-50";
 
 const ApplicantLayout = ({ children }: { children: ReactNode }) => {
-  const pathname = usePathname();
-  const steadyId = pathname.split("/").at(-1);
+  const id = usePathname().split("/").pop();
   const [selectedItem, setSelectedItem] = useState(0);
   const { data: applicationsListData } = useQuery({
     queryKey: ["applicationsList"],
-    queryFn: () => getApplicationsList(steadyId as string),
+    queryFn: () => getApplicationsList(id as string), // 스테디 id
   });
 
   return (
@@ -49,7 +49,10 @@ const ApplicantLayout = ({ children }: { children: ReactNode }) => {
                     height={50}
                     className="rounded-full border-1"
                   />
-                  <Link href={`/steady/applicant/${user.id}`}>
+                  <Link
+                    href={`/steady/applicant/${user.id}`}
+                    className="w-full"
+                  >
                     <div>{user.nickname}</div>
                   </Link>
                 </div>
@@ -60,6 +63,7 @@ const ApplicantLayout = ({ children }: { children: ReactNode }) => {
         {children}
       </div>
       <Separator className="h-5 w-auto bg-st-gray-400" />
+
       <div className="flex justify-end gap-10">
         <AlertModal
           trigger={
@@ -68,7 +72,15 @@ const ApplicantLayout = ({ children }: { children: ReactNode }) => {
             </Button>
           }
           actionButton={
-            <Button className={`${buttonSize.sm} bg-st-red text-st-white`}>
+            <Button
+              className={`${buttonSize.sm} bg-st-red text-st-white`}
+              onClick={() =>
+                id &&
+                changeApplicationStatus(id, {
+                  status: "REJECTED",
+                })
+              }
+            >
               거절
             </Button>
           }
@@ -82,7 +94,15 @@ const ApplicantLayout = ({ children }: { children: ReactNode }) => {
             </Button>
           }
           actionButton={
-            <Button className={`${buttonSize.sm} bg-st-green text-st-white`}>
+            <Button
+              className={`${buttonSize.sm} bg-st-green text-st-white`}
+              onClick={() =>
+                id &&
+                changeApplicationStatus(id, {
+                  status: "ACCEPTED",
+                })
+              }
+            >
               승인
             </Button>
           }
