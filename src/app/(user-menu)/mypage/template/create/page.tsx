@@ -6,13 +6,23 @@ import { useToast } from "@/components/ui/use-toast";
 import { createTemplate } from "@/services/template/createTemplate";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
+import InputModal from "@/components/_common/Modal/InputModal";
 
 const CreateTemplatePage = () => {
   const [question, setQuestion] = useState([{ id: 1, value: "" }]);
   const [content, setContent] = useState("");
   const [count, setCount] = useState(2);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleAddQuestion = (content: string) => {
     if (content === "") {
@@ -41,9 +51,9 @@ const CreateTemplatePage = () => {
     setQuestion((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const handlePostTemplate = () => {
+  const handlePostTemplate = (title: string) => {
     const json = {
-      title: "넥터디 템플릿",
+      title: title,
       questions: question.map((item) => item.value),
     };
     createTemplate(json);
@@ -118,11 +128,16 @@ const CreateTemplatePage = () => {
         <div className="h-5 w-full bg-st-gray-400"></div>
         <div className="mt-20 flex w-full justify-end">
           <Button
-            onClick={() => handlePostTemplate()}
+            onClick={() => openModal()}
             className={`${buttonSize.lg} bg-st-primary text-st-white`}
           >
             생성하기
           </Button>
+          <InputModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            onSave={handlePostTemplate}
+          />
         </div>
       </div>
     </div>
