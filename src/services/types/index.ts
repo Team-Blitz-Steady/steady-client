@@ -102,3 +102,7 @@ export interface UserProfileType {
 export interface CheckSameUsernameType {
   exist: boolean;
 }
+
+export interface ApplicationStatusType {
+  status: "ACCEPTED" | "WAITING" | "REJECTED";
+
