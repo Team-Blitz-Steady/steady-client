@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import useLoginStepsStore from "@/stores/loginSteps";
 import useNewUserInfoStore from "@/stores/newUserInfo";
@@ -20,15 +20,8 @@ import LoginStepsContainer from "./LoginStepsContainer";
 
 const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
   const { steps, setDecreaseSteps, setSteps } = useLoginStepsStore();
-  const {
-    accountId,
-    nickname,
-    positionId,
-    stackIds,
-    authCode,
-    setAccountId,
-    setAuthCode,
-  } = useNewUserInfoStore();
+  const { accountId, nickname, positionId, stackIds, setAccountId } =
+    useNewUserInfoStore();
   const [open, setOpen] = useState(false);
   const searchParams = useSearchParams();
   const { toast } = useToast();
@@ -40,7 +33,6 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
         if (data) {
           const { id, isNew, token } = data;
           if (isNew) {
-            setAuthCode(authCode);
             setAccountId(id);
             setSteps(1);
             setOpen(true);
@@ -61,16 +53,15 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
         positionId,
         stackIds,
       });
+      console.log(userProfileCreated.headers.location);
       if (userProfileCreated) {
-        const { token } = await getKakaoToken(authCode);
-        setAccessToken(token.accessToken);
-        setRefreshToken(token.refreshToken);
         toast({
           description: "프로필 생성 성공",
           variant: "green",
         });
         useNewUserInfoStore.persist.clearStorage();
         useLoginStepsStore.persist.clearStorage();
+        redirect(`${userProfileCreated.headers.location}`);
       }
     } catch (error) {
       console.error("프로필 생성 실패", error);
