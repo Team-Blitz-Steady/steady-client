@@ -91,3 +91,8 @@ export interface ApplicationsListType {
   numberOfElements: number;
   hasNext: boolean;
 }
+
+export interface ApplicationStatusType {
+  status: "ACCEPTED" | "WAITING" | "REJECTED";
+}
+
