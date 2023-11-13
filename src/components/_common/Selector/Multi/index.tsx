@@ -29,14 +29,16 @@ const MultiSelector = ({
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<SelectItem[]>([]);
   const [inputValue, setInputValue] = useState("");
-
   const handleUnselect = useCallback(
     (item: SelectItem) => {
-      setSelected((prev) => prev.filter(({ value }) => value !== item.value));
+      setSelected((prev) => {
+        const newSelected = prev.filter(({ value }) => value !== item.value);
+        onSelectedChange?.(newSelected);
+        return newSelected;
+      });
     },
-    [setSelected],
+    [setSelected, onSelectedChange],
   );
-
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLInputElement>) => {
       const input = inputRef.current;
@@ -57,17 +59,14 @@ const MultiSelector = ({
     },
     [setSelected],
   );
-
   useEffect(() => {
     if (initialData) {
       setSelected(initialData);
     }
   }, [initialData]);
-
   const selectables = items.filter(
     (item) => !selected.some(({ value }) => value === item.value),
   );
-
   return (
     <Command
       onKeyDown={handleKeyDown}
@@ -155,5 +154,4 @@ const MultiSelector = ({
     </Command>
   );
 };
-
 export default MultiSelector;
