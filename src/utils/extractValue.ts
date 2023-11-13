@@ -7,6 +7,7 @@ export const extractValue = (target: { value: string; label: string }[]) => {
   ) {
     return [] as unknown as [property, ...property[]];
   }
+
   type property = (typeof target)[number]["value"];
   const valueArray: [property, ...property[]] = [
     target[0].value,

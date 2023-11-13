@@ -93,6 +93,29 @@ export interface SteadyDetailsType {
   promotionCount: number;
 }
 
+export interface TemplateType {
+  templates: Template[];
+}
+
+interface Template {
+  id: number;
+  title: string;
+  createdAt: string;
+}
+
+export interface TemplateDetailType {
+  id: number;
+  title: string;
+  questions: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateTemplateType {
+  title: string;
+  questions: string[];
+}
+
 export interface CreateSteadyRequestBodyType {
   name: string;
   bio: string;
