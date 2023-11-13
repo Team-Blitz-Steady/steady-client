@@ -105,4 +105,4 @@ export interface CheckSameUsernameType {
 
 export interface ApplicationStatusType {
   status: "ACCEPTED" | "WAITING" | "REJECTED";
-
+}
