@@ -14,7 +14,7 @@ const MyTemplatePage = () => {
   });
 
   const handleDeleteTemplate = async (e: React.MouseEvent, id: string) => {
-    e.preventDefault();
+    e.stopPropagation();
     deleteTemplate(id);
     refetch();
   };
