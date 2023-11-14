@@ -179,3 +179,11 @@ export interface SteadyParticipantsUserType {
 export interface SteadyParticipantsType {
   participants: SteadyParticipantsUserType[];
 }
+
+export interface StackResponse {
+  stacks: StackType[];
+}
+
+export interface PositionResponse {
+  positions: PositionType[];
+}
