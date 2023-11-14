@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
@@ -9,11 +10,13 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyParticipants from "@/services/steady/getSteadyParticipants";
 import promoteSteady from "@/services/steady/promoteSteady";
+import type { SteadyDetailsType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
 import { AlertModal, InfoModal, UserModal } from "@/components/_common/Modal";
 import Tag from "@/components/_common/Tag";
+import { transformCreatedAt } from "@/utils/transformCreatedAt";
 import {
   steadyCategoriesWithEmoji,
   steadyExpectedPeriods,
@@ -88,9 +91,14 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
     queryKey: ["steadyParticipants"],
     queryFn: () => getSteadyParticipants(params.id),
   });
-
   const router = useRouter();
   const { toast } = useToast();
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleClickPromoteBtn = async (steadyId: string) => {
     if (steadyDetailsData.promotionCount === 0) {
@@ -109,10 +117,20 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
     }
   };
 
-  const matchingData = (defineData, serverData) => {
+  const matchingData = (
+    defineData: { value: string; label: string }[],
+    serverData:
+      | SteadyDetailsType["status"]
+      | SteadyDetailsType["steadyMode"]
+      | SteadyDetailsType["scheduledPeriod"],
+  ) => {
     const match = defineData.find((item) => item.value === serverData);
     return match ? match.label : null;
   };
+
+  if (!isClient) {
+    return;
+  }
 
   return (
     <div className="w-1000">
@@ -168,8 +186,13 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                   <div>{User.bio}</div>
                   <div>{User.techInfo}</div> */}
             </UserModal>
-            <div className="text-16 font-bold text-st-gray-100">
-              {steadyDetailsData.createdAt}
+            <div className="flex gap-10 text-16 font-bold text-st-gray-100">
+              <span>
+                {transformCreatedAt(steadyDetailsData.createdAt).date}
+              </span>
+              <span>
+                {transformCreatedAt(steadyDetailsData.createdAt).time}
+              </span>
             </div>
           </div>
           <Link href={`/steady/applicant/${steadyDetailsData.id}`}>
@@ -269,8 +292,8 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
               </button>
             }
           >
-            <div>
-              <div>
+            <div className="flex flex-col items-center justify-center gap-10">
+              <div className="flex flex-col items-center justify-center gap-10">
                 <Avatar
                   src={
                     steadyDetailsData.leaderResponse.profileImage
@@ -288,7 +311,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
               {steadyParticipantsData.participants.map((participant, id) => (
                 <div
                   key={id}
-                  className="justify-content flex flex-col items-center"
+                  className="flex flex-col items-center justify-center gap-10"
                 >
                   {!participant.isLeader && (
                     <>
@@ -319,7 +342,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
         <div className="px-50">
           <div className="mb-10 flex h-fit flex-row items-center justify-between text-18 font-bold">
             <div>
-              포지션:
+              포지션:{" "}
               {steadyDetailsData.positions.map((position, id) => {
                 const match = steadyRecruitmentFields.find(
                   (field) => field.value === position.id.toString(),
@@ -328,11 +351,11 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
               })}
             </div>
             <div>
-              진행 방식:
+              진행 방식:{" "}
               {matchingData(steadyRunningMethods, steadyDetailsData.steadyMode)}
             </div>
             <div>
-              예상 기간:
+              예상 기간:{" "}
               {matchingData(
                 steadyExpectedPeriods,
                 steadyDetailsData.scheduledPeriod,
