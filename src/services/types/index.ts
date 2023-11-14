@@ -165,3 +165,10 @@ export interface CheckSameUsernameType {
 export interface ApplicationStatusType {
   status: "ACCEPTED" | "WAITING" | "REJECTED";
 }
+export interface StackResponse {
+  stacks: StackType[];
+}
+
+export interface PositionResponse {
+  positions: PositionType[];
+}
