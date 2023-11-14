@@ -91,6 +91,9 @@ export interface SteadyDetailsType {
   isLeader: boolean;
   isSubmittedUser: boolean;
   promotionCount: number;
+  createdAt: string;
+  finishedAt: string;
+  isReviewEnabled: boolean;
 }
 
 export interface TemplateType {
