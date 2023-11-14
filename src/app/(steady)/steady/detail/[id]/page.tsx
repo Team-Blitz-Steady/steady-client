@@ -24,59 +24,6 @@ import {
   steadyRunningMethods,
 } from "@/constants/create-steady";
 
-// {
-//   "id": 1,
-//   "leaderResponse": {
-//     "id": 1,
-//     "nickname": "weonest",
-//     "profileImage": "123"
-//   },
-//   "name": "테스트 스테디",
-//   "bio": "스테디원 모집합니다",
-//   "type": "STUDY",
-//   "status": "RECRUITING",
-//   "participantLimit": 6,
-//   "numberOfParticipants": 1,
-//   "steadyMode": "ONLINE",
-//   "scheduledPeriod": "ONE_WEEK",
-//   "deadline": "2023-11-27",
-//   "title": "스테디원 모집합니다",
-//   "content": "많관부",
-//   "positions": [
-//     {
-//       "id": 1,
-//       "name": "백엔드"
-//     }
-//   ],
-//   "stacks": [
-//     {
-//       "id": 1,
-//       "name": "Java",
-//       "imageUrl": "www"
-//     }
-//   ],
-//   "isLeader": true,
-//   "isSubmittedUser": false,
-//   "promotionCount": 3
-// }
-
-// {
-//   "participants": [
-//     {
-//       "id": 1,
-//       "nickname": "weonest",
-//       "profileImage": "url1",
-//       "isLeader": true
-//     },
-//     {
-//       "id": 2,
-//       "nickname": "nayjk",
-//       "profileImage": "url2",
-//       "isLeader": false
-//     }
-//   ]
-// }
-
 interface PageParams {
   id: string;
 }
