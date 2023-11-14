@@ -48,8 +48,11 @@ const Home = () => {
     queryFn: () => getSteadies(page.toString()),
   });
 
+  const [totalPost, setTotalPost] = useState(data?.totalElements);
+
   const handleGetSteadies = async (page: string) => {
     const data = await getSteadies(page.toString());
+    setTotalPost(data.totalElements);
     setPost(data);
   };
 
@@ -63,8 +66,10 @@ const Home = () => {
     setPost(data);
   };
 
-  const handleSteadySearch = async (keyword: string, page: string) => {
-    const data = await searchSteadies(keyword, page);
+  const handleSteadySearch = async (keyword: string) => {
+    const data = await searchSteadies(keyword);
+    setPage(0);
+    setTotalPost(data.totalElements);
     setPost(data);
   };
 
@@ -98,7 +103,9 @@ const Home = () => {
 
   useEffect(() => {
     if (debouncedValue) {
-      handleSteadySearch(debouncedValue, page.toString());
+      handleSteadySearch(debouncedValue);
+    } else {
+      handleGetSteadies(page.toString());
     }
   }, [debouncedValue]);
 
@@ -438,7 +445,7 @@ const Home = () => {
       </section>
       <section className="flex h-100 w-full items-center justify-center">
         <Pagination
-          totalPost={data?.totalElements as number}
+          totalPost={totalPost as number}
           page={page}
           setPage={setPage}
           setPost={setPost as Dispatch<SetStateAction<Steadies>>}

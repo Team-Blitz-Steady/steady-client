@@ -69,7 +69,7 @@ const Pagination = ({ totalPost, page, setPage, setPost }: PaginationProps) => {
                 page === i && "bg-st-primary text-st-white"
               } h-35 w-35 rounded-15 text-center font-bold shadow-md hover:bg-st-primary hover:text-st-white`}
               onClick={() => {
-                setPage(i + 1);
+                setPage(i);
               }}
               aria-current={page === i + 1 ? "page" : undefined}
             >
