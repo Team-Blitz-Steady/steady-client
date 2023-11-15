@@ -3,7 +3,7 @@ import getMySteadies from "@/services/steady/getMySteadies";
 
 interface MySteadyQueryProps {
   status: string;
-  direction?: string;
+  direction: string;
 }
 
 export const useMySteadiesQuery = ({
@@ -17,11 +17,11 @@ export const useMySteadiesQuery = ({
   } = useSuspenseInfiniteQuery({
     queryKey: ["mysteady", status, direction],
     queryFn: ({ pageParam }) =>
-      getMySteadies({ status, page: pageParam.toString(), direction: "" }),
+      getMySteadies({ status, page: pageParam.toString(), direction }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => {
+    getNextPageParam: (lastPage, pages) => {
       if (lastPage.hasNext) {
-        return lastPage.numberOfElements + 1;
+        return pages.length;
       } else {
         return undefined;
       }
