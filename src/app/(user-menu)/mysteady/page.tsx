@@ -103,31 +103,6 @@ const MySteadyPage = () => {
     }
   };
 
-  /*const renderIcon = ({
-    if (isSubmitted) {
-      return (
-        <AlertModal
-          trigger={
-            <Icon
-              name="cross"
-              size={20}
-              color="text-st-black"
-            />
-          }
-          actionButton={
-            <Button className={`${buttonSize.sm} bg-st-red text-st-white`}>
-              네
-            </Button>
-          }
-        >
-          <div className="flex items-center justify-center">
-            <div className="font-bold text-20">정말 취소하시겠습니까?</div>
-          </div>
-        </AlertModal>
-      );
-    }
-  };*/
-
   return (
     <div className="flex w-1000 flex-col">
       <div className="flex items-center justify-between">
