@@ -124,7 +124,7 @@ const SetPositionAndStacks = () => {
             </div>
           </div>
           <Button
-            className={`${buttonSize.md} h-[50px] bg-st-primary text-st-white`}
+            className={`${buttonSize.md} min-h-50 bg-st-primary text-st-white`}
             type="submit"
           >
             다음

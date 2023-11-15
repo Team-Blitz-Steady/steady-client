@@ -91,6 +91,9 @@ export interface SteadyDetailsType {
   isLeader: boolean;
   isSubmittedUser: boolean;
   promotionCount: number;
+  createdAt: string;
+  finishedAt: string;
+  isReviewEnabled: boolean;
 }
 
 export interface TemplateType {
@@ -164,4 +167,23 @@ export interface CheckSameUsernameType {
 
 export interface ApplicationStatusType {
   status: "ACCEPTED" | "WAITING" | "REJECTED";
+}
+
+export interface SteadyParticipantsUserType {
+  id: number;
+  nickname: string;
+  profileImage: string;
+  isLeader: boolean;
+}
+
+export interface SteadyParticipantsType {
+  participants: SteadyParticipantsUserType[];
+}
+
+export interface StackResponse {
+  stacks: StackType[];
+}
+
+export interface PositionResponse {
+  positions: PositionType[];
 }

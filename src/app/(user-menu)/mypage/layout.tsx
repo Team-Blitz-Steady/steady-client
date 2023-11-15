@@ -6,8 +6,12 @@ const myPageList = [
     href: "/mypage",
   },
   {
-    label: "내 신청서",
+    label: "내 템플릿",
     href: "/mypage/template",
+  },
+  {
+    label: "내 신청서 관리",
+    href: "/mypage/application",
   },
   {
     label: "내가 받은 리뷰",

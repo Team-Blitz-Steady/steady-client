@@ -13,6 +13,10 @@ import { cn } from "@/lib/utils";
 import useCreateSteadyStore from "@/stores/createSteadyData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator, TextArea } from "@radix-ui/themes";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import getPositions from "@/services/steady/getPositions";
+import getStacks from "@/services/steady/getStacks";
+import type { PositionResponse, StackResponse } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Input from "@/components/_common/Input";
 import {
@@ -28,9 +32,7 @@ import {
   STEADY_SECTION_INTRO,
   steadyCategories,
   steadyExpectedPeriods,
-  steadyExpectedTechStacks,
   steadyParticipantsLimit,
-  steadyRecruitmentFields,
   steadyRunningMethods,
 } from "@/constants/create-steady";
 import type { SteadyStateType } from "@/constants/schemas/steadySchema";
@@ -42,6 +44,24 @@ const CreateSteadyPage = () => {
   const steadyForm = useForm<SteadyStateType>({
     resolver: zodResolver(SteadySchema),
   });
+  const { data: positions, error: positionsError } =
+    useSuspenseQuery<PositionResponse>({
+      queryKey: ["positions"],
+      queryFn: () => getPositions(),
+    });
+
+  if (positionsError) {
+    console.error(positionsError);
+  }
+
+  const { data: stacks, error: stacksError } = useSuspenseQuery<StackResponse>({
+    queryKey: ["stacks"],
+    queryFn: () => getStacks(),
+  });
+
+  if (stacksError) {
+    console.error(stacksError);
+  }
 
   const onSubmit = (data: SteadyStateType) => {
     setSteadyState(data);
@@ -152,7 +172,10 @@ const CreateSteadyPage = () => {
                   <FormItem>
                     <MultiSelector
                       initialLabel={"모집 분야"}
-                      items={steadyRecruitmentFields}
+                      items={positions.positions.map((position) => ({
+                        value: position.id.toString(),
+                        label: position.name,
+                      }))}
                       className={cn("w-200")}
                       onSelectedChange={(selected) => {
                         field.onChange(extractValue(selected).map(Number));
@@ -223,7 +246,10 @@ const CreateSteadyPage = () => {
                   <FormItem>
                     <MultiSelector
                       initialLabel={"기술 스택"}
-                      items={steadyExpectedTechStacks}
+                      items={stacks.stacks.map((stack) => ({
+                        value: stack.id.toString(),
+                        label: stack.name,
+                      }))}
                       className={cn("w-280")}
                       onSelectedChange={(selected) => {
                         field.onChange(extractValue(selected).map(Number));
