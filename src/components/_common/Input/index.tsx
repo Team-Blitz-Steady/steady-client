@@ -33,7 +33,7 @@ const Input = ({
           <input
             className="bg-input-bg h-35 w-full rounded-12 p-5 font-bold outline-none"
             type="text"
-            value={initialValue}
+            defaultValue={initialValue}
             placeholder="검색어를 입력해주세요."
           />
           <IconButton variant="ghost">
@@ -52,7 +52,7 @@ const Input = ({
           <input
             className="max-mobile:w-full h-55 w-400 items-center rounded-12 border-2 border-solid border-st-gray-100 pl-5 pr-5 text-center text-lg outline-none"
             type="text"
-            value={initialValue}
+            defaultValue={initialValue}
             placeholder="닉네임을 입력해주세요."
             onChange={(event) => {
               onValueChange?.(event.target.value);
@@ -67,7 +67,7 @@ const Input = ({
           <input
             className="h-60 w-1000 pl-5 pr-5 text-3xl font-bold outline-none"
             type="text"
-            value={initialValue}
+            defaultValue={initialValue}
             placeholder="스테디명"
             onChange={(event) => {
               onValueChange?.(event.target.value);
@@ -82,7 +82,7 @@ const Input = ({
           <input
             className="h-60 w-1000 pl-5 pr-5 text-3xl font-bold outline-none"
             type="text"
-            value={initialValue}
+            defaultValue={initialValue}
             placeholder="제목을 입력해주세요."
             onChange={(event) => {
               onValueChange?.(event.target.value);
@@ -97,7 +97,7 @@ const Input = ({
           <input
             className="h-25 w-250 pl-5 pr-5 text-lg outline-none"
             type="text"
-            value={initialValue}
+            defaultValue={initialValue}
             placeholder="태그를 설정하세요 (최대 5개)"
           />
         </div>
@@ -109,7 +109,7 @@ const Input = ({
           <input
             className="h-60 w-full rounded-12 p-5 text-xl font-bold outline-none"
             type="text"
-            value={initialValue}
+            defaultValue={initialValue}
             placeholder="한 줄 소개로 자신을 표현해 주세요!"
           />
           <IconButton variant="ghost">

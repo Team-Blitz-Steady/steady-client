@@ -63,7 +63,7 @@ const MultiSelector = ({
     if (initialData) {
       setSelected(initialData);
     }
-  }, [initialData]);
+  }, []);
   const selectables = items.filter(
     (item) => !selected.some(({ value }) => value === item.value),
   );

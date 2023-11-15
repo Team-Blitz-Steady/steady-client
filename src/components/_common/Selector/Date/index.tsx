@@ -31,12 +31,8 @@ const DateSelector = ({
   useEffect(() => {
     if (initialDate) {
       setDate(initialDate);
-      if (onDateChange) {
-        onDateChange(initialDate);
-      }
     }
-  }, [initialDate, onDateChange]);
-
+  }, []);
   return (
     <Popover>
       <PopoverTrigger asChild>
