@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -12,6 +13,7 @@ import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
 import { AlertModal } from "@/components/_common/Modal";
 import { useMySteadiesQuery } from "@/hooks/useMySteadiesQuery";
+import { useScrollTo } from "@/hooks/useScrollTo";
 
 const filterOptions = [
   {
@@ -20,7 +22,7 @@ const filterOptions = [
   },
   {
     label: "참여",
-    linkTo: "/mysteady?status=recruiting" || "/mysteady?status=closed",
+    linkTo: "/mysteady?status=recruiting",
   },
   {
     label: "종료",
@@ -30,69 +32,70 @@ const filterOptions = [
 
 const MySteadyPage = () => {
   const searchParams = useSearchParams();
-  const search = searchParams.get("status");
+  const search = searchParams.get("status") ?? undefined;
   const { mySteadyData, fetchNextPage, hasNextPage } = useMySteadiesQuery({
     status: search,
     direction: "desc",
   });
-  const renderIcon = (search: string, steady: MySteadyContentType) => {
+  const ref = useScrollTo<HTMLDivElement>({ top: 0 }, [search]);
+
+  const renderIcon = (steady: MySteadyContentType) => {
     if (search === "finished") {
       return <div className="h-20 w-20" />;
     }
-    if (search === "recruiting" || search === "closed") {
-      if (steady.isLeader) {
-        return (
-          <Dropdown
-            options={[
-              {
-                label: "스테디 수정",
-                linkTo: `/steady/edit/${steady.steadyId}`,
-              },
-              {
-                label: "스테디 질문 수정",
-                linkTo: `/steady/edit/questions/${steady.steadyId}`,
-              },
-              {
-                label: "스테디 운영",
-                linkTo: `/steady/manage/${steady.steadyId}`,
-              },
-            ]}
-          >
-            <div className="cursor-pointer">
-              <Icon
-                name="gear"
-                size={20}
-                color="text-st-black"
-              />
-            </div>
-          </Dropdown>
-        );
-      } else {
-        return (
-          <AlertModal
-            trigger={
-              <Icon
-                name="exit"
-                size={20}
-                color="text-st-black"
-              />
-            }
-            actionButton={
-              <Button className={`${buttonSize.sm} bg-st-red text-st-white`}>
-                탈퇴
-              </Button>
-            }
-          >
-            <div className="flex items-center justify-center">
-              <div className="text-20 font-bold">정말 탈퇴하시겠습니까?</div>
-            </div>
-          </AlertModal>
-        );
-      }
+    if (steady.isLeader && search !== "finished") {
+      return (
+        <Dropdown
+          options={[
+            {
+              label: "스테디 수정",
+              linkTo: `/steady/edit/${steady.steadyId}`,
+            },
+            {
+              label: "스테디 질문 수정",
+              linkTo: `/steady/edit/questions/${steady.steadyId}`,
+            },
+            {
+              label: "스테디 운영",
+              linkTo: `/steady/manage/${steady.steadyId}`,
+            },
+          ]}
+        >
+          <div className="cursor-pointer">
+            <Icon
+              name="gear"
+              size={20}
+              color="text-st-black"
+            />
+          </div>
+        </Dropdown>
+      );
+    }
+    if (!steady.isLeader && (search === "recruiting" || search === "closed")) {
+      return (
+        <AlertModal
+          trigger={
+            <Icon
+              name="exit"
+              size={20}
+              color="text-st-black"
+            />
+          }
+          actionButton={
+            <Button className={`${buttonSize.sm} bg-st-red text-st-white`}>
+              탈퇴
+            </Button>
+          }
+        >
+          <div className="flex items-center justify-center">
+            <div className="text-20 font-bold">정말 탈퇴하시겠습니까?</div>
+          </div>
+        </AlertModal>
+      );
     }
   };
 
-  const emptySteadiesMessage = (search: string | null) => {
+  const emptySteadiesMessage = () => {
     switch (search) {
       case "finished":
         return "종료된 ";
@@ -121,7 +124,10 @@ const MySteadyPage = () => {
         </Dropdown>
       </div>
       <Separator className="h-5 w-full bg-st-gray-400" />
-      <div className="max-h-[1000px] overflow-y-auto scrollbar-hide">
+      <div
+        ref={ref}
+        className="max-h-[1000px] overflow-y-auto"
+      >
         <InfiniteScroll
           className="flex h-full w-full flex-col"
           hasMore={hasNextPage}
@@ -130,7 +136,7 @@ const MySteadyPage = () => {
         >
           {mySteadyData.pages.map((steadies, pageIndex) =>
             steadies.content.length ? (
-              <>
+              <Fragment key={pageIndex}>
                 {steadies.content.map((steady, steadyIndex) => (
                   <div
                     key={`${pageIndex}-${steadyIndex}`}
@@ -159,18 +165,18 @@ const MySteadyPage = () => {
                         생성일:{" "}
                         {format(new Date(steady.joinedAt), "yyyy.MM.dd p")}
                       </div>
-                      {search && renderIcon(search, steady)}
+                      {renderIcon(steady)}
                     </div>
                   </div>
                 ))}
-              </>
+              </Fragment>
             ) : (
               <div
                 className="flex h-1000 flex-col items-center justify-center gap-20 text-30 font-bold"
                 key={`${pageIndex}`}
               >
                 <div>
-                  {emptySteadiesMessage(search)}
+                  {emptySteadiesMessage()}
                   스테디가 없습니다.
                 </div>
                 <Link href="/steady/create">
