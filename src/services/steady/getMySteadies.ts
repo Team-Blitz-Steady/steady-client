@@ -2,11 +2,17 @@ import type { AxiosResponse } from "axios";
 import { axiosInstance } from "..";
 import type { MySteadyType } from "../types";
 
-const getMySteadies = async (
-  status: string,
-  page: string,
-  direction: string,
-) => {
+interface getMySteadiesProps {
+  status: string;
+  page: string;
+  direction: string;
+}
+
+const getMySteadies = async ({
+  status,
+  page,
+  direction,
+}: getMySteadiesProps) => {
   try {
     const response: AxiosResponse<MySteadyType> = await axiosInstance.get(
       "/api/v1/steadies/my",
