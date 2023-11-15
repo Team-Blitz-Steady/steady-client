@@ -71,11 +71,6 @@ const MyApplicationPage = () => {
                   </div>
                   <div className="hidden gap-20 transition duration-500 group-hover:flex">
                     <Icon
-                      name="pencil"
-                      size={20}
-                      color="text-st-gray-100"
-                    />
-                    <Icon
                       name="trash"
                       size={20}
                       color="text-st-gray-100"
