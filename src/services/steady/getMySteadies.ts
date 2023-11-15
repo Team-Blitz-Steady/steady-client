@@ -3,7 +3,7 @@ import { axiosInstance } from "..";
 import type { MySteadyType } from "../types";
 
 interface getMySteadiesProps {
-  status: string | null;
+  status?: string;
   page?: string;
   direction?: string;
 }
