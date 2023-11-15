@@ -2,7 +2,7 @@ import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import getMySteadies from "@/services/steady/getMySteadies";
 
 interface MySteadyQueryProps {
-  status: string;
+  status: string | null;
   direction: string;
 }
 

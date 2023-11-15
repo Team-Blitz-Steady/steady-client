@@ -3,9 +3,9 @@ import { axiosInstance } from "..";
 import type { MySteadyType } from "../types";
 
 interface getMySteadiesProps {
-  status: string;
-  page: string;
-  direction: string;
+  status: string | null;
+  page?: string;
+  direction?: string;
 }
 
 const getMySteadies = async ({

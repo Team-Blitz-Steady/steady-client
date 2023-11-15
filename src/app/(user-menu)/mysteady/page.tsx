@@ -16,32 +16,30 @@ import { useMySteadiesQuery } from "@/hooks/useMySteadiesQuery";
 const filterOptions = [
   {
     label: "전체",
-    linkTo: `/mysteady`,
+    linkTo: "/mysteady",
   },
   {
     label: "참여",
-    linkTo: `/mysteady?status=recruiting`,
+    linkTo: "/mysteady?status=recruiting" || "/mysteady?status=closed",
   },
   {
     label: "종료",
-    linkTo: `/mysteady?status=closed`,
+    linkTo: "/mysteady?status=finished",
   },
 ];
 
 const MySteadyPage = () => {
-  const { mySteadyData, fetchNextPage, hasNextPage } = useMySteadiesQuery({
-    status: "closed",
-    direction: "asc",
-  });
-
   const searchParams = useSearchParams();
   const search = searchParams.get("status");
-  console.log(search);
+  const { mySteadyData, fetchNextPage, hasNextPage } = useMySteadiesQuery({
+    status: search,
+    direction: "desc",
+  });
   const renderIcon = (search: string, steady: MySteadyContentType) => {
-    if (search === "closed") {
+    if (search === "finished") {
       return <div className="h-20 w-20" />;
     }
-    if (search === "recruiting") {
+    if (search === "recruiting" || search === "closed") {
       if (steady.isLeader) {
         return (
           <Dropdown
@@ -94,6 +92,17 @@ const MySteadyPage = () => {
     }
   };
 
+  const emptySteadiesMessage = (search: string | null) => {
+    switch (search) {
+      case "finished":
+        return "종료된 ";
+      case "recruiting" || "closed":
+        return "참여중인 ";
+      default:
+        return "참여중이거나 종료된";
+    }
+  };
+
   /*const renderIcon = ({
     if (isSubmitted) {
       return (
@@ -137,42 +146,65 @@ const MySteadyPage = () => {
         </Dropdown>
       </div>
       <Separator className="h-5 w-full bg-st-gray-400" />
-      <div className=" max-h-[1000px]  overflow-y-auto">
+      <div className="max-h-[1000px] overflow-y-auto scrollbar-hide">
         <InfiniteScroll
-          className="flex w-full flex-col"
+          className="flex h-full w-full flex-col"
           hasMore={hasNextPage}
           loadMore={() => fetchNextPage()}
           useWindow={false}
         >
           {mySteadyData.pages.map((steadies, pageIndex) =>
-            steadies.content.map((steady, steadyIndex) => (
-              <div
-                key={`${pageIndex}-${steadyIndex}`}
-                className={cn(
-                  "flex h-140 w-full cursor-pointer items-center justify-between border-b-1 border-st-gray-200 p-50",
-                )}
-              >
-                <Link
-                  href={`/steady/detail/${steady.steadyId}`}
-                  className="flex w-fit flex-grow"
-                >
+            steadies.content.length ? (
+              <>
+                {steadies.content.map((steady, steadyIndex) => (
                   <div
-                    className={`text-black flex flex-col justify-between text-25 font-bold ${
-                      search === "closed" ? "text-st-gray-100 line-through" : ""
-                    }`}
+                    key={`${pageIndex}-${steadyIndex}`}
+                    className={cn(
+                      "flex h-140 w-full cursor-pointer items-center justify-between border-b-1 border-st-gray-200 px-50",
+                    )}
                   >
-                    {steady.name}
+                    <Link
+                      href={`/steady/detail/${steady.steadyId}`}
+                      className="flex h-full w-fit flex-grow"
+                    >
+                      <div
+                        className={`text-black flex items-center justify-center text-center text-25 font-bold ${
+                          search === "finished"
+                            ? "text-st-gray-100 line-through"
+                            : ""
+                        }`}
+                      >
+                        {steady.isLeader
+                          ? `👑 ${steady.name}`
+                          : `${steady.name}`}
+                      </div>
+                    </Link>
+                    <div className="flex items-center justify-center gap-30">
+                      <div className="text-bold max-w-fit text-15 text-st-gray-100">
+                        생성일:{" "}
+                        {format(new Date(steady.joinedAt), "yyyy.MM.dd p")}
+                      </div>
+                      {search && renderIcon(search, steady)}
+                    </div>
                   </div>
-                </Link>
-
-                <div className="flex items-center justify-center gap-30">
-                  <div className="text-bold max-w-fit text-15 text-st-gray-100">
-                    생성일: {format(new Date(steady.joinedAt), "yyyy.MM.dd p")}
-                  </div>
-                  {search && renderIcon(search, steady)}
+                ))}
+              </>
+            ) : (
+              <div
+                className="flex h-1000 flex-col items-center justify-center gap-20 text-30 font-bold"
+                key={`${pageIndex}`}
+              >
+                <div>
+                  {emptySteadiesMessage(search)}
+                  스테디가 없습니다.
                 </div>
+                <Link href="/steady/create">
+                  <Button className="h-80 w-250 bg-st-primary text-25 text-st-white">
+                    스테디 생성하기
+                  </Button>
+                </Link>
               </div>
-            )),
+            ),
           )}
         </InfiniteScroll>
       </div>
