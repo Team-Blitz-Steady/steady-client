@@ -2,8 +2,8 @@ import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import getMySteadies from "@/services/steady/getMySteadies";
 
 interface MySteadyQueryProps {
-  status: string | null;
-  direction: string;
+  status?: string;
+  direction?: string;
 }
 
 export const useMySteadiesQuery = ({
