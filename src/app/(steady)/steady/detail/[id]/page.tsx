@@ -7,6 +7,7 @@ import { useToast } from "@/components/ui/use-toast";
 import SteadyTurtle from "@/images/steadytext.png";
 import { Avatar, Separator, TextArea } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyParticipants from "@/services/steady/getSteadyParticipants";
 import promoteSteady from "@/services/steady/promoteSteady";
@@ -16,7 +17,6 @@ import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
 import { AlertModal, InfoModal, UserModal } from "@/components/_common/Modal";
 import Tag from "@/components/_common/Tag";
-import { transformCreatedAt } from "@/utils/transformCreatedAt";
 import {
   steadyCategoriesWithEmoji,
   steadyExpectedPeriods,
@@ -47,8 +47,12 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
     setIsClient(true);
   }, []);
 
+  if (!isClient) {
+    return;
+  }
+
   const handleClickPromoteBtn = async (steadyId: string) => {
-    if (steadyDetailsData.promotionCount === 0) {
+    if (steadyDetailsData.promotionCount <= 0) {
       toast({
         description: "스터디 끌어올리기 횟수를 다 사용했습니다!",
         variant: "red",
@@ -74,10 +78,6 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
     const match = defineData.find((item) => item.value === serverData);
     return match ? match.label : null;
   };
-
-  if (!isClient) {
-    return;
-  }
 
   return (
     <div className="w-1000">
@@ -135,10 +135,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
             </UserModal>
             <div className="flex gap-10 text-16 font-bold text-st-gray-100">
               <span>
-                {transformCreatedAt(steadyDetailsData.createdAt).date}
-              </span>
-              <span>
-                {transformCreatedAt(steadyDetailsData.createdAt).time}
+                {format(new Date(steadyDetailsData.createdAt), "yyyy.MM.dd p")}
               </span>
             </div>
           </div>
