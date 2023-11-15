@@ -44,6 +44,11 @@ export const STEADY_RESPONSE_MOCK_DATA = {
     "∙ 연락할 수 있는 방법을 남겨주세요. (이메일, 카카오 오픈채팅방 등...) : 카카오톡 오픈채팅방 링크\n",
 };
 
+export const steadyCategoriesWithEmoji = {
+  STUDY: "📖 스터디",
+  PROJECT: "🖥️ 프로젝트",
+};
+
 export const steadyCategories = [
   { value: "STUDY", label: "스터디" },
   { value: "PROJECT", label: "프로젝트" },
@@ -112,5 +117,6 @@ export const steadyExpectedTechStacks = [
 
 export const steadyRecruitmentStatus = [
   { value: "RECRUITING", label: "모집중" },
-  { value: "CLOSED", label: "모집 마감" },
+  { value: "FINISHED", label: "종료" },
+  { value: "CLOSED", label: "마감" },
 ];
