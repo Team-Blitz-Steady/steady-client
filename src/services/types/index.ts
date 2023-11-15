@@ -187,3 +187,16 @@ export interface StackResponse {
 export interface PositionResponse {
   positions: PositionType[];
 }
+
+export interface MySteadyContentType {
+  steadyId: number;
+  name: string;
+  isLeader: boolean;
+  joinedAt: string;
+}
+
+export interface MySteadyType {
+  content: MySteadyContentType[];
+  numberOfElements: number;
+  hasNext: boolean;
+}
