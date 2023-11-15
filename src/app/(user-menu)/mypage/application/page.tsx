@@ -30,13 +30,19 @@ const MyApplicationPage = () => {
       <div>
         <div className="flex justify-between p-20 text-30 font-bold">
           내 신청서 관리
-          <div className="flex items-center justify-center gap-10 text-20 font-bold">
-            <div className="h-10 w-10 rounded-full bg-st-green"></div>
-            승인
-            <div className="h-10 w-10 rounded-full bg-st-red"></div>
-            거절
-            <div className="h-10 w-10 rounded-full bg-st-primary"></div>
-            보류
+          <div className="flex items-center justify-center gap-20">
+            <div className="flex items-center justify-center gap-10 text-20 font-bold">
+              <div className="h-10 w-10 rounded-full bg-st-green"></div>
+              승인
+            </div>
+            <div className="flex items-center justify-center gap-10 text-20 font-bold">
+              <div className="h-10 w-10 rounded-full bg-st-red"></div>
+              거절
+            </div>
+            <div className="flex items-center justify-center gap-10 text-20 font-bold">
+              <div className="h-10 w-10 rounded-full bg-st-primary"></div>
+              보류
+            </div>
           </div>
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>
