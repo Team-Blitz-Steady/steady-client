@@ -15,8 +15,8 @@ const MyTemplatePage = () => {
   });
   const router = useRouter();
 
-  const handleDeleteTemplate = async (e: React.MouseEvent, id: string) => {
-    e.stopPropagation();
+  const handleDeleteTemplate = async (event: React.MouseEvent, id: string) => {
+    event.stopPropagation();
     deleteTemplate(id);
     refetch();
   };
@@ -50,8 +50,8 @@ const MyTemplatePage = () => {
                   생성일 {template.createdAt}
                 </div>
                 <div
-                  onClick={(e) =>
-                    handleDeleteTemplate(e, template.id.toString())
+                  onClick={(event) =>
+                    handleDeleteTemplate(event, template.id.toString())
                   }
                   className="hidden cursor-pointer gap-20 transition duration-500 group-hover:flex"
                 >
