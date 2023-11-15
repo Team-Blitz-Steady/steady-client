@@ -13,7 +13,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator, TextArea } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { parse } from "date-fns";
+import getPositions from "@/services/steady/getPositions";
+import getStacks from "@/services/steady/getStacks";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
+import type { PositionResponse, StackResponse } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Input from "@/components/_common/Input";
 import {
@@ -28,9 +31,7 @@ import {
   STEADY_SECTION_INTRO,
   steadyCategories,
   steadyExpectedPeriods,
-  steadyExpectedTechStacks,
   steadyParticipantsLimit,
-  steadyRecruitmentFields,
   steadyRecruitmentStatus,
   steadyRunningMethods,
 } from "@/constants/create-steady";
@@ -42,6 +43,23 @@ const SteadyEditPage = ({
 }: {
   params: { id: string };
 }) => {
+  const { data, error } = useSuspenseQuery({
+    queryKey: ["steady"],
+    queryFn: () => getSteadyDetails(steadyId),
+  });
+
+  const { data: positionItems, error: positionsError } =
+    useSuspenseQuery<PositionResponse>({
+      queryKey: ["positions"],
+      queryFn: () => getPositions(),
+    });
+
+  const { data: stackItems, error: stacksError } =
+    useSuspenseQuery<StackResponse>({
+      queryKey: ["stacks"],
+      queryFn: () => getStacks(),
+    });
+
   const steadyEditForm = useForm<SteadyEditStateType>({
     resolver: zodResolver(SteadyEditSchema),
   });
@@ -50,13 +68,16 @@ const SteadyEditPage = ({
     console.log(data);
   };
 
-  const { data, error } = useSuspenseQuery({
-    queryKey: ["steady"],
-    queryFn: () => getSteadyDetails(steadyId),
-  });
-
   if (error) {
     return <div>에러가 발생했습니다.</div>;
+  }
+
+  if (positionsError) {
+    console.error(positionsError);
+  }
+
+  if (stacksError) {
+    console.error(stacksError);
   }
 
   const {
@@ -75,6 +96,26 @@ const SteadyEditPage = ({
     stacks,
   } = data;
 
+  const positionsInitialData = positions.map((position) => ({
+    label: position.name,
+    value: position.id.toString(),
+  }));
+
+  const positionsItemsData = positionItems.positions.map((position) => ({
+    value: position.id.toString(),
+    label: position.name,
+  }));
+
+  const stacksInitialData = stacks.map((stack) => ({
+    label: stack.name,
+    value: stack.id.toString(),
+  }));
+
+  const stacksItemsData = stackItems.stacks.map((stack) => ({
+    value: stack.id.toString(),
+    label: stack.name,
+  }));
+
   return (
     <div className={cn("mt-30")}>
       <Form {...steadyEditForm}>
@@ -88,9 +129,9 @@ const SteadyEditPage = ({
           <div className={cn("mx-40 flex flex-row justify-between")}>
             <FormField
               control={steadyEditForm.control}
+              defaultValue={type}
               name={"type"}
               render={({ field }) => {
-                field.value = type;
                 return (
                   <FormItem>
                     <SingleSelector
@@ -109,6 +150,7 @@ const SteadyEditPage = ({
             />
             <FormField
               control={steadyEditForm.control}
+              defaultValue={participantLimit}
               name={"participantLimit"}
               render={({ field }) => (
                 <FormItem>
@@ -133,6 +175,7 @@ const SteadyEditPage = ({
           />
           <FormField
             control={steadyEditForm.control}
+            defaultValue={name}
             name={"name"}
             render={({ field }) => (
               <FormItem>
@@ -151,6 +194,7 @@ const SteadyEditPage = ({
           />
           <FormField
             control={steadyEditForm.control}
+            defaultValue={bio}
             name={"bio"}
             render={({ field }) => (
               <FormItem>
@@ -181,18 +225,14 @@ const SteadyEditPage = ({
             <div className={cn("mx-20 flex flex-row justify-between gap-15")}>
               <FormField
                 control={steadyEditForm.control}
+                defaultValue={extractValue(positionsInitialData).map(Number)}
                 name={"positions"}
                 render={({ field }) => (
                   <FormItem>
                     <MultiSelector
                       initialLabel={"모집 분야"}
-                      initialData={positions.map((position) => {
-                        return {
-                          label: position.name,
-                          value: position.id.toString(),
-                        };
-                      })}
-                      items={steadyRecruitmentFields}
+                      initialData={positionsInitialData}
+                      items={positionsItemsData}
                       className={cn("w-200")}
                       onSelectedChange={(selected) => {
                         field.onChange(extractValue(selected).map(Number));
@@ -205,6 +245,7 @@ const SteadyEditPage = ({
 
               <FormField
                 control={steadyEditForm.control}
+                defaultValue={steadyMode}
                 name={"steadyMode"}
                 render={({ field }) => (
                   <FormItem>
@@ -224,6 +265,7 @@ const SteadyEditPage = ({
 
               <FormField
                 control={steadyEditForm.control}
+                defaultValue={scheduledPeriod}
                 name={"scheduledPeriod"}
                 render={({ field }) => (
                   <FormItem>
@@ -242,6 +284,7 @@ const SteadyEditPage = ({
               />
               <FormField
                 control={steadyEditForm.control}
+                defaultValue={deadline}
                 name={"deadline"}
                 render={({ field }) => (
                   <FormItem>
@@ -261,18 +304,14 @@ const SteadyEditPage = ({
             <div className={cn("mx-20 flex flex-row justify-start gap-15")}>
               <FormField
                 control={steadyEditForm.control}
+                defaultValue={extractValue(stacksInitialData).map(Number)}
                 name={"stacks"}
                 render={({ field }) => (
                   <FormItem>
                     <MultiSelector
                       initialLabel={"기술 스택"}
-                      initialData={stacks.map((stack) => {
-                        return {
-                          label: stack.name,
-                          value: stack.id.toString(),
-                        };
-                      })}
-                      items={steadyExpectedTechStacks}
+                      initialData={stacksInitialData}
+                      items={stacksItemsData}
                       className={cn("w-280")}
                       onSelectedChange={(selected) => {
                         field.onChange(extractValue(selected).map(Number));
@@ -285,6 +324,7 @@ const SteadyEditPage = ({
               <FormField
                 name={"status"}
                 control={steadyEditForm.control}
+                defaultValue={status}
                 render={({ field }) => (
                   <FormItem>
                     <SingleSelector
@@ -309,6 +349,7 @@ const SteadyEditPage = ({
             />
             <FormField
               control={steadyEditForm.control}
+              defaultValue={title}
               name={"title"}
               render={({ field }) => (
                 <FormItem>
@@ -325,6 +366,7 @@ const SteadyEditPage = ({
             />
             <FormField
               control={steadyEditForm.control}
+              defaultValue={content}
               name={"content"}
               render={({ field }) => (
                 <FormItem>
