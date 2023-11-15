@@ -131,6 +131,7 @@ const EditTemplatePage = () => {
                   type="text"
                   placeholder="질문을 입력해 주세요."
                   value={item.value}
+                  disabled={!isModify}
                   onChange={(event) => handleInputChange(event, item.id)}
                   className="h-50 w-5/6 text-20 text-st-gray-200 outline-none"
                 />
