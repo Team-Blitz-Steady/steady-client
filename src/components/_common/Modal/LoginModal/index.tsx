@@ -11,10 +11,10 @@ import { useToast } from "@/components/ui/use-toast";
 import useLoginStepsStore from "@/stores/loginSteps";
 import useNewUserInfoStore from "@/stores/newUserInfo";
 import { AlertDialog } from "@radix-ui/themes";
+import { setCookie } from "cookies-next";
 import getKakaoToken from "@/services/oauth/kakao/getKakaoToken";
 import createUserProfile from "@/services/user/createUserProfile";
 import Icon from "@/components/_common/Icon";
-import { setAccessToken, setRefreshToken } from "@/utils/cookies";
 import Button, { buttonSize } from "../../Button";
 import LoginStepsContainer from "./LoginStepsContainer";
 
@@ -38,8 +38,12 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
             setSteps(1);
             setOpen(true);
           } else {
-            setAccessToken(token.accessToken);
-            setRefreshToken(token.refreshToken);
+            setCookie("access_token", token.accessToken, {
+              maxAge: 60 * 60 * 24 * 7,
+            });
+            setCookie("refresh_token", token.refreshToken, {
+              maxAge: 60 * 60 * 24 * 7,
+            });
             redirect("/");
           }
         }

@@ -2,12 +2,12 @@
 
 import { useEffect } from "react";
 import { redirect } from "next/navigation";
-import { deleteAccessToken, deleteRefreshToken } from "@/utils/cookies";
+import { deleteCookie } from "cookies-next";
 
 const LogOutPage = () => {
   useEffect(() => {
-    deleteAccessToken();
-    deleteRefreshToken();
+    deleteCookie("access_token");
+    deleteCookie("refresh_token");
     redirect("/");
   }, []);
   return null;

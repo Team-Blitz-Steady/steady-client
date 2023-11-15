@@ -1,78 +1,86 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import SteadyTurtle from "@/images/steadytext.png";
 import { Avatar, Separator, TextArea } from "@radix-ui/themes";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
+import getSteadyParticipants from "@/services/steady/getSteadyParticipants";
+import promoteSteady from "@/services/steady/promoteSteady";
+import type { SteadyDetailsType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
+import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
-import { AlertModal, UserModal } from "@/components/_common/Modal";
+import { AlertModal, InfoModal, UserModal } from "@/components/_common/Modal";
 import Tag from "@/components/_common/Tag";
+import {
+  steadyCategoriesWithEmoji,
+  steadyExpectedPeriods,
+  steadyRecruitmentFields,
+  steadyRunningMethods,
+} from "@/constants/create-steady";
 
-const User = {
-  id: "11", // 유저 id
-  profileImageUrl:
-    "https://i.namu.wiki/i/w1bnPZXZOfmkgB1n2_1rQOIUhn-QAh4sNhDnLFAvlzmn7fSkV_XZMw-VFnG0ERPfifY9I0i54bQOMgHbPNBoyg.webp", // 프로필 이미지
-  nickname: "oort", // 닉네임
-  bio: "안녕하세요 전 윤하입니다", // 한 줄 소개
-  techInfo: ["react", "next", "typescript"], // 유저의 현재 관심 스택 정보
-  position: ["fe", "be"], // 유저의 현재 포지션 정보
-  //"formList": 유저가 작성한 폼 리스트
-  createdAt: "2023.10.29", // User 생성일
-};
-
-const SteadyPrimitive = {
-  id: "2", // 스테디 id,
-  masterId: "11", // 스테디 만든사람 id
-  title: "스테디를 만들자", // 스테디 제목
-  content: "스테디 모집합니다~", // 스테디 내용
-  type: "스터디", // 스테디 유형(스터디, 프로젝트)
-  createdAt: "2023.10.29", // 스테디 생성일(yyyy.mm.dd)
-  status: "모집", // 스테디 상태(모집/마감)
-  memberList: ["1", "3", "5", "7"], // 스테디에 참여한 유저id 목록
-  ended: true,
-  application: false, // 신청여부
-};
-
-const Announcement = {
-  title: "프론트 3명 구해요",
-  content: "프론트 같이 공부할 사람 구해요",
-  deadline: "2023.11.11", // 모집글 마감일
-  tags: ["프론트엔드", "리액트", "넥스트"], // 해쉬태그
-  createdAt: "2023.10.29", // 모집글 생성일
-  viewersNumber: 135, // 조회수
-  commentsNumber: 0, // 댓글 수
-  position: "프론트엔드", // 모집 분야
-  mode: "온라인", // 진행 방식(온/오프라인)
-  techStacks: [
-    {
-      id: "44",
-      name: "next", // techStackName
-      createdAt: Date, // Form 생성일
-    },
-    {
-      id: "55",
-      name: "react", // techStackName
-      createdAt: Date, // Form 생성일
-    },
-  ], // 기술스택
-  period: 3, // 예상기간
-  renewalTimes: 2, // 끌어올리기 남은 횟수
-};
 interface PageParams {
   id: string;
 }
 
 const SteadyDetailPage = ({ params }: { params: PageParams }) => {
-  const { data: steadyDetailsData } = useQuery({
-    queryKey: ["steadyDetails"],
-    queryFn: () => getSteadyDetails(params.id),
+  const { data: steadyDetailsData, refetch: steadyDetailsRefetch } =
+    useSuspenseQuery({
+      queryKey: ["steadyDetails"],
+      queryFn: () => getSteadyDetails(params.id),
+    });
+  const { data: steadyParticipantsData } = useSuspenseQuery({
+    queryKey: ["steadyParticipants"],
+    queryFn: () => getSteadyParticipants(params.id),
   });
   const router = useRouter();
-  console.log(params);
+  const { toast } = useToast();
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return;
+  }
+
+  const handleClickPromoteBtn = async (steadyId: string) => {
+    if (steadyDetailsData.promotionCount <= 0) {
+      toast({
+        description: "스터디 끌어올리기 횟수를 다 사용했습니다!",
+        variant: "red",
+      });
+    }
+    const isPromote = await promoteSteady(steadyId);
+    if (isPromote) {
+      toast({
+        description: "스터디 끌어올리기를 성공했습니다!",
+        variant: "green",
+      });
+      steadyDetailsRefetch();
+    }
+  };
+
+  const matchingData = (
+    defineData: { value: string; label: string }[],
+    serverData:
+      | SteadyDetailsType["status"]
+      | SteadyDetailsType["steadyMode"]
+      | SteadyDetailsType["scheduledPeriod"],
+  ) => {
+    const match = defineData.find((item) => item.value === serverData);
+    return match ? match.label : null;
+  };
+
   return (
-    <div className="w-full">
+    <div className="w-1000">
       <div className="flex flex-col gap-20">
         <button onClick={() => router.back()}>
           <Icon
@@ -84,8 +92,8 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
 
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center justify-center gap-20">
-            {steadyDetailsData && <Tag status={steadyDetailsData.status} />}
-            <div className="text-35 font-bold">{Announcement.title}</div>
+            <Tag status={steadyDetailsData.status} />
+            <div className="text-35 font-bold">{steadyDetailsData.name}</div>
           </div>
           {/* TODO: 좋아요 API 연결 */}
           <button>
@@ -96,63 +104,71 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
             />
           </button>
         </div>
-        {/* 유저 프로필 */}
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center justify-center gap-20">
             <UserModal
               trigger={
                 <div className="flex gap-10">
                   <Avatar
-                    src={User.profileImageUrl}
+                    src={
+                      steadyDetailsData.leaderResponse.profileImage
+                        ? steadyDetailsData.leaderResponse.profileImage
+                        : `/${SteadyTurtle}`
+                    }
                     alt="작성자 프로필"
                     size={"4"}
                     radius="full"
                     className="cursor-pointer"
-                    fallback={"loading"}
+                    fallback={""}
                   />
-                  <button className="text-20 font-bold">{User.nickname}</button>
+                  <button className="text-20 font-bold">
+                    {steadyDetailsData.leaderResponse.nickname}
+                  </button>
                 </div>
               }
             >
-              <div>{User.profileImageUrl}</div>
-              <div>{User.nickname}</div>
-              <div>{User.bio}</div>
-              <div>{User.techInfo}</div>
+              {/* TODO: 유저 정보 API 연결 */}
+              {/* <div>{User.profileImageUrl}</div>
+                  <div>{User.nickname}</div>
+                  <div>{User.bio}</div>
+                  <div>{User.techInfo}</div> */}
             </UserModal>
-            <div className="text-16 font-bold text-st-gray-100">
-              {SteadyPrimitive.createdAt}
+            <div className="flex gap-10 text-16 font-bold text-st-gray-100">
+              <span>
+                {format(new Date(steadyDetailsData.createdAt), "yyyy.MM.dd p")}
+              </span>
             </div>
           </div>
-          <Link href={`/steady/applicant/${params.id}`}>
+          <Link href={`/steady/applicant/${steadyDetailsData.id}`}>
+            {/* TODO: 신청자 보기 API 연결 */}
             <Button className={`${buttonSize.md} bg-st-primary text-st-white`}>
-              신청서 보기
+              신청자 보기
             </Button>
           </Link>
-          {SteadyPrimitive.ended ? (
+          {steadyDetailsData.status === "FINISHED" ? (
             <Button className={`${buttonSize.md} bg-st-primary text-st-white`}>
-              <Link href={`/steady/review/${SteadyPrimitive.id}`}>
+              <Link href={`/steady/review/${steadyDetailsData.id}`}>
                 리뷰 남기기
               </Link>
             </Button>
           ) : null}
         </div>
-        {/*  */}
         <Separator className="mb-20 h-5 w-auto bg-st-gray-400" />
       </div>
-      {/*  */}
       <div className="flex flex-col gap-10">
         <div className="flex flex-row justify-between">
           <div className="flex flex-row gap-10">
-            {Announcement.tags.map((tag, id) => (
-              <div
-                key={id}
-                className="text-15 font-bold"
-              >{`#${tag}`}</div>
-            ))}
+            {/* TODO: 해시태그 API 연결 */}
+            {["프론트엔드", "백엔드", "자바", "풀스택", "긴급"].map(
+              (tag, id) => (
+                <div
+                  key={id}
+                  className="text-15 font-bold"
+                >{`#${tag}`}</div>
+              ),
+            )}
           </div>
-
-          {/* 갱신 하기 누르면 숫자 감소 */}
-          {SteadyPrimitive.masterId === User.id ? (
+          {steadyDetailsData.isLeader && (
             <div className="flex flex-row gap-10">
               <AlertModal
                 trigger={
@@ -162,88 +178,190 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                 }
                 actionButton={
                   <Button
-                    className={`${buttonSize.sm} bg-st-green text-st-white`}
+                    className={`${buttonSize.sm} bg-st-primary text-st-white`}
+                    onClick={() =>
+                      handleClickPromoteBtn(steadyDetailsData.id.toString())
+                    }
                   >
                     등록
                   </Button>
                 }
               >
-                <div className="flex flex-col items-center justify-center gap-10 text-16 font-bold">
+                <button className="flex flex-col items-center justify-center gap-10 text-16 font-bold">
                   현재 최신글로 등록할 수 있는 남은 횟수
-                  <span className=" text-20 text-st-green">
-                    {Announcement.renewalTimes}
+                  <span className=" text-20 text-st-primary">
+                    {steadyDetailsData.promotionCount}
                   </span>
                   등록하시겠습니까?
-                </div>
+                </button>
               </AlertModal>
-              {/*  */}
-              <Link href={`/steady/config/${SteadyPrimitive.id}`}>
+              <Dropdown
+                options={[
+                  {
+                    label: "스테디 수정",
+                    linkTo: `/steady/edit/${steadyDetailsData.id}`,
+                  },
+                  {
+                    label: "스테디 운영",
+                    linkTo: `/steady/manage/${steadyDetailsData.id}`,
+                  },
+                  {
+                    label: "질문 수정",
+                    linkTo: `/steady/edit/questions/${steadyDetailsData.id}`,
+                  },
+                ]}
+              >
                 <Icon
                   name="gear"
                   size={25}
                   color="text-st-gray-200"
                 />
-              </Link>
+              </Dropdown>
             </div>
-          ) : null}
+          )}
         </div>
         <div className="flex items-center text-16 font-bold">
-          {SteadyPrimitive.type === "스터디" ? "📖 스터디" : "🗂️ 프로젝트"}
+          {steadyCategoriesWithEmoji[steadyDetailsData.type]}
         </div>
-        <div className="text-35 font-bold ">{SteadyPrimitive.title}</div>
+        <div className="text-35 font-bold ">{steadyDetailsData.title}</div>
         <div className="mb-10">
-          {/* TODO: 신청서 보기, 참여자 목록 보기 */}
+          {/* TODO: 신청서 보기 API 연결 */}
           <button className="mr-10 text-15 font-bold text-st-red">
             신청서 보기
           </button>
-          <button className="text-15 font-bold text-st-gray-250">
-            참여자 목록 보기
-          </button>
+          <InfoModal
+            trigger={
+              <button className="text-15 font-bold text-st-gray-250">
+                참여자 목록 보기
+              </button>
+            }
+          >
+            <div className="flex flex-col items-center justify-center gap-10">
+              <div className="flex flex-col items-center justify-center gap-10">
+                <Avatar
+                  src={
+                    steadyDetailsData.leaderResponse.profileImage
+                      ? steadyDetailsData.leaderResponse.profileImage
+                      : `/${SteadyTurtle}`
+                  }
+                  alt="참여자 이미지"
+                  size={"6"}
+                  radius="full"
+                  className="cursor-pointer"
+                  fallback={""}
+                />
+                <div>{steadyDetailsData.leaderResponse.nickname}</div>
+              </div>
+              {steadyParticipantsData.participants.map((participant, id) => (
+                <div
+                  key={id}
+                  className="flex flex-col items-center justify-center gap-10"
+                >
+                  {!participant.isLeader && (
+                    <>
+                      <Avatar
+                        src={
+                          participant.profileImage
+                            ? participant.profileImage
+                            : `/${SteadyTurtle}`
+                        }
+                        alt="참여자 이미지"
+                        size={"6"}
+                        radius="full"
+                        className="cursor-pointer"
+                        fallback={""}
+                      />
+                      <div>{participant.nickname}</div>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          </InfoModal>
         </div>
-        <div className="text-20 font-bold">{SteadyPrimitive.content}</div>
+        <div className="text-20 font-bold">{steadyDetailsData.bio}</div>
       </div>
-      <div className="my-30 flex flex-col gap-20">
+      <div className="my-30 flex flex-col gap-20 ">
         <Separator className="h-2 w-auto bg-st-gray-100" />
         <div className="px-50">
           <div className="mb-10 flex h-fit flex-row items-center justify-between text-18 font-bold">
-            <div>모집 분야: {Announcement.position}</div>
-            <div>진행 방식: {Announcement.mode}</div>
-            <div>예상 기간: {Announcement.period}</div>
-            <div>마감일: {Announcement.deadline}</div>
+            <div>
+              포지션:{" "}
+              {steadyDetailsData.positions.map((position, id) => {
+                const match = steadyRecruitmentFields.find(
+                  (field) => field.value === position.id.toString(),
+                );
+                return match ? <div key={id}>{match.label}</div> : null;
+              })}
+            </div>
+            <div>
+              진행 방식:{" "}
+              {matchingData(steadyRunningMethods, steadyDetailsData.steadyMode)}
+            </div>
+            <div>
+              예상 기간:{" "}
+              {matchingData(
+                steadyExpectedPeriods,
+                steadyDetailsData.scheduledPeriod,
+              )}
+            </div>
+            <div>마감일: {steadyDetailsData.deadline}</div>
           </div>
           <div className="flex h-fit flex-row items-center text-18 font-bold">
-            기술 스택:{" "}
-            {Announcement.techStacks.map((tech) => tech.name).join(" ")}
+            기술 스택:
+            {steadyDetailsData.stacks.map((stack, id) => (
+              <div key={id}>{stack.imageUrl}</div>
+            ))}
           </div>
         </div>
         <Separator className="h-2 w-auto bg-st-gray-100" />
       </div>
-      <div className="text-15">{Announcement.content}</div>
+      <div className="text-15">{steadyDetailsData.content}</div>
       <div className="flex flex-col gap-20">
         <Separator className="mt-20 h-5 w-auto bg-st-gray-400" />
         <div className="flex flex-row items-center justify-end gap-10">
-          {/* TODO: steadyId로 변경 */}
-          <Link href={`/application/submit/${20}`}>
-            <Button className={`${buttonSize.sm} bg-st-primary text-st-white`}>
-              신청
-            </Button>
-          </Link>
-          {/* {SteadyPrimitive.application ? (
-            <Button className={`${buttonSize.sm} bg-st-primary text-st-white`}>
-              신청
-            </Button>
-          ) : (
+          {!steadyDetailsData.isLeader && (
             <>
-              <Button
-                className={`${buttonSize.sm} bg-st-primary  text-st-white`}
-              >
-                신청서 수정
-              </Button>
-              <Button className={`${buttonSize.sm} bg-st-red text-st-white`}>
-                신청 취소
-              </Button>
+              {steadyDetailsData.isSubmittedUser ? (
+                <>
+                  <Link href={`/application/edit/${steadyDetailsData.id}`}>
+                    <Button
+                      className={`${buttonSize.sm} bg-st-primary  text-st-white`}
+                    >
+                      신청서 수정
+                    </Button>
+                  </Link>
+                  {/* TODO: 신청 취소 API*/}
+                  <AlertModal
+                    trigger={
+                      <Button
+                        className={`${buttonSize.sm} bg-st-red text-st-white`}
+                      >
+                        신청 취소
+                      </Button>
+                    }
+                    actionButton={
+                      <Button
+                        className={`${buttonSize.sm} bg-st-primary text-st-white`}
+                      >
+                        예
+                      </Button>
+                    }
+                  >
+                    정말 취소 하시겠습니까?
+                  </AlertModal>
+                </>
+              ) : (
+                <Link href={`/application/submit/${steadyDetailsData.id}`}>
+                  <Button
+                    className={`${buttonSize.sm} bg-st-primary text-st-white`}
+                  >
+                    신청
+                  </Button>
+                </Link>
+              )}
             </>
-          )} */}
+          )}
         </div>
         {/* 댓글 영역 */}
         <div className="flex flex-col gap-10">
