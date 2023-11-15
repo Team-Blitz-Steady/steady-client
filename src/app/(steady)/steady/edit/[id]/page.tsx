@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -8,6 +9,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator, TextArea } from "@radix-ui/themes";
@@ -16,6 +18,7 @@ import { parse } from "date-fns";
 import getPositions from "@/services/steady/getPositions";
 import getStacks from "@/services/steady/getStacks";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
+import updateSteady from "@/services/steady/updateSteady";
 import type { PositionResponse, StackResponse } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Input from "@/components/_common/Input";
@@ -43,6 +46,8 @@ const SteadyEditPage = ({
 }: {
   params: { id: string };
 }) => {
+  const { toast } = useToast();
+  const router = useRouter();
   const { data, error } = useSuspenseQuery({
     queryKey: ["steady"],
     queryFn: () => getSteadyDetails(steadyId),
@@ -64,10 +69,6 @@ const SteadyEditPage = ({
     resolver: zodResolver(SteadyEditSchema),
   });
 
-  const onSubmit = (data: SteadyEditStateType) => {
-    console.log(data);
-  };
-
   if (error) {
     return <div>에러가 발생했습니다.</div>;
   }
@@ -81,7 +82,7 @@ const SteadyEditPage = ({
   }
 
   const {
-    // id,
+    id,
     name,
     bio,
     type,
@@ -115,6 +116,17 @@ const SteadyEditPage = ({
     value: stack.id.toString(),
     label: stack.name,
   }));
+
+  const onSubmit = async (data: SteadyEditStateType) => {
+    updateSteady(id, data).then((res) => {
+      if (res?.status === 204) {
+        toast({ variant: "green", description: "스테디가 수정되었습니다!" });
+        router.push(`/steady/detail/${id}`);
+      } else {
+        toast({ variant: "red", description: "스테디 수정에 실패하였습니다." });
+      }
+    });
+  };
 
   return (
     <div className={cn("mt-30")}>
