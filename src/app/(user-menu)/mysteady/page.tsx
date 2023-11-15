@@ -1,133 +1,49 @@
+"use client";
+
+import InfiniteScroll from "react-infinite-scroller";
+import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/themes";
+import { format } from "date-fns";
+import type { MySteadyContentType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
 import { AlertModal } from "@/components/_common/Modal";
-import { SingleSelector } from "@/components/_common/Selector";
+import { useMySteadiesQuery } from "@/hooks/useMySteadiesQuery";
 
-const steadyInfo = [
-  {
-    title: "리더인 스터디임",
-    createdAt: "2023.10.25",
-    isLeader: true,
-    isParticipated: true,
-    isSubmitted: false,
-    isEnded: false,
-  },
-  {
-    title: "참여한 스터디임",
-    createdAt: "2023.10.25",
-    isLeader: false,
-    isParticipated: true,
-    isSubmitted: false,
-    isEnded: false,
-  },
-  {
-    title: "신청한 스터디임",
-    createdAt: "2023.10.25",
-    isLeader: false,
-    isParticipated: false,
-    isSubmitted: true,
-    isEnded: false,
-  },
-  {
-    title: "종료된 스터디임",
-    createdAt: "2023.10.25",
-    isLeader: false,
-    isParticipated: true,
-    isSubmitted: false,
-    isEnded: true,
-  },
-  {
-    title: "신청한 스터디임",
-    createdAt: "2023.10.25",
-    isLeader: false,
-    isParticipated: false,
-    isSubmitted: true,
-    isEnded: false,
-  },
-  {
-    title: "종료된 스터디임",
-    createdAt: "2023.10.25",
-    isLeader: false,
-    isParticipated: true,
-    isSubmitted: false,
-    isEnded: true,
-  },
-  {
-    title: "신청한 스터디임",
-    createdAt: "2023.10.25",
-    isLeader: false,
-    isParticipated: true,
-    isSubmitted: true,
-    isEnded: false,
-  },
-  {
-    title: "종료된 스터디임",
-    createdAt: "2023.10.25",
-    isLeader: false,
-    isParticipated: true,
-    isSubmitted: false,
-    isEnded: true,
-  },
-];
-
-const filter = [
-  {
-    value: "all",
-    label: "전체",
-  },
-  {
-    value: "participated",
-    label: "참여",
-  },
-  {
-    value: "application",
-    label: "신청",
-  },
-  {
-    value: "ended",
-    label: "종료",
-  },
-];
-
-const configList = [
-  {
-    label: "스테디 수정",
-    linkTo: "/steady/edit/1",
-  },
-  {
-    label: "스테디 질문 수정",
-    linkTo: "/steady/edit/questions/1",
-  },
-  {
-    label: "스테디 운영",
-    linkTo: "/steady/manage/1",
-  },
-];
-
-// TODO: 무한 스크롤
-// TODO: 필터 적용
 const MySteadyPage = () => {
-  const renderIcon = ({
-    isEnded,
-    isParticipated,
-    isSubmitted,
-    isLeader,
-  }: {
-    isLeader: boolean;
-    isEnded: boolean;
-    isParticipated: boolean;
-    isSubmitted: boolean;
-  }) => {
-    if (isEnded) {
+  const { mySteadyData, fetchNextPage, hasNextPage } = useMySteadiesQuery({
+    status: "closed",
+    direction: "asc",
+  });
+  console.log(mySteadyData);
+  const searchParams = useSearchParams();
+  const search = searchParams.get("status");
+
+  const renderIcon = (search: string, steady: MySteadyContentType) => {
+    if (search === "closed") {
       return <div className="h-20 w-20" />;
     }
-    if (isParticipated) {
-      if (isLeader) {
+    if (search === "recruiting") {
+      if (steady.isLeader) {
         return (
-          <Dropdown options={configList}>
+          <Dropdown
+            options={[
+              {
+                label: "스테디 수정",
+                linkTo: `/steady/edit/${steady.steadyId}`,
+              },
+              {
+                label: "스테디 질문 수정",
+                linkTo: `/steady/edit/questions/${steady.steadyId}`,
+              },
+              {
+                label: "스테디 운영",
+                linkTo: `/steady/manage/${steady.steadyId}`,
+              },
+            ]}
+          >
             <div className="cursor-pointer">
               <Icon
                 name="gear"
@@ -160,6 +76,9 @@ const MySteadyPage = () => {
         );
       }
     }
+  };
+
+  /*const renderIcon = ({
     if (isSubmitted) {
       return (
         <AlertModal
@@ -177,52 +96,74 @@ const MySteadyPage = () => {
           }
         >
           <div className="flex items-center justify-center">
-            <div className="text-20 font-bold">정말 취소하시겠습니까?</div>
+            <div className="font-bold text-20">정말 취소하시겠습니까?</div>
           </div>
         </AlertModal>
       );
     }
-  };
+  };*/
 
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex w-1000 flex-col">
       <div className="flex items-center justify-between">
         <div className="min-w-fit px-40 py-20 text-30 font-bold">
           내 스테디 목록
         </div>
-        <SingleSelector
-          items={filter}
-          className="h-45 w-110 border-2 text-25 font-bold"
-          initialLabel="필터"
-        />
+        <Dropdown
+          options={[
+            {
+              label: "전체",
+              linkTo: `/mysteady?status=`,
+            },
+            {
+              label: "참여",
+              linkTo: `/mysteady?status=recruiting`,
+            },
+            {
+              label: "종료",
+              linkTo: `/mysteady?status=closed`,
+            },
+          ]}
+        >
+          필터
+        </Dropdown>
       </div>
-
       <Separator className="h-5 w-full bg-st-gray-400" />
-      <div className="flex h-750 w-full flex-col overflow-y-scroll">
-        {steadyInfo.map((steady, id) => (
-          <div
-            key={id}
-            className={cn(
-              "flex h-140 w-full cursor-pointer items-center justify-between border-b-1 border-st-gray-200 p-50",
-            )}
-          >
-            <div
-              className={`text-black text-25 font-bold ${
-                steady.isEnded ? "text-st-gray-100 line-through" : ""
-              }`}
-            >
-              {steady.title}
-            </div>
-            <div className="flex items-center justify-center">
-              <div className="flex items-center justify-center gap-30">
-                <div className="text-bold text-15 text-st-gray-100">
-                  생성일 {steady.createdAt}
+      <div className=" max-h-[1000px]  overflow-y-auto">
+        <InfiniteScroll
+          className="flex w-full flex-col"
+          hasMore={hasNextPage}
+          loadMore={() => fetchNextPage()}
+          useWindow={false}
+        >
+          {mySteadyData.pages.map((steadies, pageIndex) =>
+            steadies.content.map((steady, steadyIndex) => (
+              <div
+                key={`${pageIndex}-${steadyIndex}`}
+                className={cn(
+                  "flex h-140 w-full cursor-pointer items-center justify-between border-b-1 border-st-gray-200 p-50",
+                )}
+              >
+                <div
+                  className={`text-black text-25 font-bold ${
+                    search === "closed" ? "text-st-gray-100 line-through" : ""
+                  }`}
+                >
+                  {steady.name}
                 </div>
-                {renderIcon(steady)}
+                <div className="flex items-center justify-center">
+                  <div className="flex items-center justify-center gap-30">
+                    <div className="text-bold text-15 text-st-gray-100">
+                      생성일:{" "}
+                      {format(new Date(steady.joinedAt), "yyyy.MM.dd p")}
+                    </div>
+                    {search && renderIcon(search, steady)}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
+            )),
+          )}
+        </InfiniteScroll>
       </div>
       <Separator className="h-5 w-full bg-st-gray-400" />
     </div>
