@@ -1,8 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Box } from "@radix-ui/themes";
 
@@ -25,7 +25,8 @@ const SideBar = ({
   listType,
   className,
 }: SideBarProps) => {
-  const [selectedItem, setSelectedItem] = useState(0);
+  const pathname = usePathname();
+  const page = pathname.split("/")[2];
 
   return (
     <Box
@@ -45,11 +46,10 @@ const SideBar = ({
             className={`${
               listType === "mypage" ? "w-250" : "w-200"
             } h-full rounded-5 p-20 text-18 font-bold transition duration-100 ${
-              selectedItem === id
+              item.href.split("/")[2] === page
                 ? "bg-st-skyblue-50 text-st-primary"
                 : " hover:bg-st-gray-50"
             }`}
-            onClick={() => setSelectedItem(id)}
           >
             {item.label}
           </div>
