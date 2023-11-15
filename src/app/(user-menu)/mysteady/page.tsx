@@ -1,6 +1,7 @@
 "use client";
 
 import InfiniteScroll from "react-infinite-scroller";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/themes";
@@ -12,15 +13,30 @@ import Icon from "@/components/_common/Icon";
 import { AlertModal } from "@/components/_common/Modal";
 import { useMySteadiesQuery } from "@/hooks/useMySteadiesQuery";
 
+const filterOptions = [
+  {
+    label: "전체",
+    linkTo: `/mysteady`,
+  },
+  {
+    label: "참여",
+    linkTo: `/mysteady?status=recruiting`,
+  },
+  {
+    label: "종료",
+    linkTo: `/mysteady?status=closed`,
+  },
+];
+
 const MySteadyPage = () => {
   const { mySteadyData, fetchNextPage, hasNextPage } = useMySteadiesQuery({
     status: "closed",
     direction: "asc",
   });
-  console.log(mySteadyData);
+
   const searchParams = useSearchParams();
   const search = searchParams.get("status");
-
+  console.log(search);
   const renderIcon = (search: string, steady: MySteadyContentType) => {
     if (search === "closed") {
       return <div className="h-20 w-20" />;
@@ -109,23 +125,15 @@ const MySteadyPage = () => {
         <div className="min-w-fit px-40 py-20 text-30 font-bold">
           내 스테디 목록
         </div>
-        <Dropdown
-          options={[
-            {
-              label: "전체",
-              linkTo: `/mysteady?status=`,
-            },
-            {
-              label: "참여",
-              linkTo: `/mysteady?status=recruiting`,
-            },
-            {
-              label: "종료",
-              linkTo: `/mysteady?status=closed`,
-            },
-          ]}
-        >
-          필터
+        <Dropdown options={filterOptions}>
+          <div className="flex gap-10 text-16 text-st-black">
+            필터
+            <Icon
+              name="chevron-down"
+              size={20}
+              color=""
+            />
+          </div>
         </Dropdown>
       </div>
       <Separator className="h-5 w-full bg-st-gray-400" />
@@ -144,21 +152,24 @@ const MySteadyPage = () => {
                   "flex h-140 w-full cursor-pointer items-center justify-between border-b-1 border-st-gray-200 p-50",
                 )}
               >
-                <div
-                  className={`text-black text-25 font-bold ${
-                    search === "closed" ? "text-st-gray-100 line-through" : ""
-                  }`}
+                <Link
+                  href={`/steady/detail/${steady.steadyId}`}
+                  className="flex w-fit flex-grow"
                 >
-                  {steady.name}
-                </div>
-                <div className="flex items-center justify-center">
-                  <div className="flex items-center justify-center gap-30">
-                    <div className="text-bold text-15 text-st-gray-100">
-                      생성일:{" "}
-                      {format(new Date(steady.joinedAt), "yyyy.MM.dd p")}
-                    </div>
-                    {search && renderIcon(search, steady)}
+                  <div
+                    className={`text-black flex flex-col justify-between text-25 font-bold ${
+                      search === "closed" ? "text-st-gray-100 line-through" : ""
+                    }`}
+                  >
+                    {steady.name}
                   </div>
+                </Link>
+
+                <div className="flex items-center justify-center gap-30">
+                  <div className="text-bold max-w-fit text-15 text-st-gray-100">
+                    생성일: {format(new Date(steady.joinedAt), "yyyy.MM.dd p")}
+                  </div>
+                  {search && renderIcon(search, steady)}
                 </div>
               </div>
             )),
