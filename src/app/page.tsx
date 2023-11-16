@@ -12,8 +12,8 @@ import {
   steadyStatusFilter,
   steadyTypeFilter,
 } from "@/services/steady/filterSteadies";
-import { getSteadies } from "@/services/steady/getSteadies";
-import { searchSteadies } from "@/services/steady/searchSteadies";
+import getSteadies from "@/services/steady/getSteadies";
+import searchSteadies from "@/services/steady/searchSteadies";
 import type { Steadies } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
