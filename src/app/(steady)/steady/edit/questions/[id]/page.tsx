@@ -79,7 +79,7 @@ const EditQuestionsPage = ({ params }: { params: { id: string } }) => {
           description: "질문이 수정되었습니다.",
           variant: "green",
         });
-        router.push(`/steady/detail/${params.id}/`);
+        router.replace(`/steady/detail/${params.id}/`);
       } else {
         toast({
           description: "질문 수정에 실패했습니다.",
@@ -184,7 +184,12 @@ const EditQuestionsPage = ({ params }: { params: { id: string } }) => {
         className={cn("h-5 bg-st-gray-400")}
       />
       <div className={"flex justify-end gap-20"}>
-        <Button className={cn(`${buttonSize.sm} items-center justify-center`)}>
+        <Button
+          className={cn(`${buttonSize.sm} items-center justify-center`)}
+          onClick={() => {
+            router.back();
+          }}
+        >
           취소
         </Button>
         <Button
