@@ -1,7 +1,7 @@
 import { axiosInstance } from "@/services";
 import type { Steadies } from "@/services/types";
 
-export const getSteadies = async (page: string): Promise<Steadies> => {
+const getSteadies = async (page: string): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
       `/api/v1/steadies/search?page=${page}&like=false`,
@@ -12,3 +12,5 @@ export const getSteadies = async (page: string): Promise<Steadies> => {
     throw error;
   }
 };
+
+export default getSteadies;

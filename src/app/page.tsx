@@ -67,8 +67,8 @@ const Home = () => {
     setPost(data);
   };
 
-  const handleSteadySearch = async (keyword: string) => {
-    const data = await searchSteadies(keyword);
+  const handleSteadySearch = async (page: string, keyword: string) => {
+    const data = await searchSteadies(page, keyword);
     setTotalPost(data.totalElements);
     setPost(data);
   };
@@ -103,7 +103,7 @@ const Home = () => {
 
   useEffect(() => {
     if (debouncedValue) {
-      handleSteadySearch(debouncedValue);
+      handleSteadySearch(page.toString(), debouncedValue);
     } else {
       handleGetSteadies(page.toString());
     }
