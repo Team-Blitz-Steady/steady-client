@@ -1,5 +1,5 @@
 import type { ComponentProps } from "react";
-import { MagnifyingGlassIcon, Pencil1Icon } from "@radix-ui/react-icons";
+import { Pencil1Icon } from "@radix-ui/react-icons";
 import { IconButton } from "@radix-ui/themes";
 
 interface InputProps extends ComponentProps<"input"> {
@@ -26,24 +26,12 @@ const Input = ({
   switch (inputName) {
     case "search-input":
       input = (
-        <div
+        <input
+          className="bg-input-bg h-40 w-full rounded-12 border-3 border-st-gray-100 px-10 py-20 text-center text-20 font-bold outline-none transition-all duration-300 focus:border-st-primary md:w-700"
+          type="text"
+          placeholder="검색어를 입력해주세요."
           {...props}
-          className="bg-input-bg hidden h-40 items-center justify-center rounded-12 border-2 border-solid border-st-gray-100 p-5 outline-none md:flex xl:w-350"
-        >
-          <input
-            className="bg-input-bg h-35 w-full rounded-12 p-5 font-bold outline-none"
-            type="text"
-            defaultValue={initialValue}
-            placeholder="검색어를 입력해주세요."
-          />
-          <IconButton variant="ghost">
-            <MagnifyingGlassIcon
-              width="25"
-              height="25"
-              color="#b4b4b4"
-            />
-          </IconButton>
-        </div>
+        />
       );
       break;
     case "name-input":

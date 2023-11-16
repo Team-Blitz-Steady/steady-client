@@ -37,7 +37,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
               )}
             >
               <AppBar isLogin={hasAccessToken} />
-              <div className={cn("my-30")}>{children}</div>
+              <div className={cn("mb-30")}>{children}</div>
               <Footer />
             </div>
           </Theme>
