@@ -12,7 +12,7 @@ import type { SelectItem as SelectItemProps } from "@/components/_common/Selecto
 interface SingleSelectorProps {
   items: SelectItemProps[];
   initialLabel?: string;
-  initialData?: SelectItemProps;
+  initialData?: string | number;
   className?: string;
   // eslint-disable-next-line no-unused-vars
   onSelectedChange?: (selected: string) => void;
@@ -27,7 +27,7 @@ const SingleSelector = ({
 }: SingleSelectorProps) => {
   return (
     <Select
-      defaultValue={initialData?.value}
+      defaultValue={initialData?.toString()}
       onValueChange={(value) => {
         if (onSelectedChange) {
           onSelectedChange(value);
