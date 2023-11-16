@@ -15,7 +15,11 @@ import Icon from "@/components/_common/Icon";
 import { SingleSelector } from "@/components/_common/Selector";
 
 const EditQuestionsPage = ({ params }: { params: { id: string } }) => {
-  const { data: questionsData, error } = useSuspenseQuery({
+  const {
+    data: questionsData,
+    error,
+    refetch: refetchQuestions,
+  } = useSuspenseQuery({
     queryKey: ["questions"],
     queryFn: () => getSteadyQuestions(params.id),
   });
@@ -70,6 +74,7 @@ const EditQuestionsPage = ({ params }: { params: { id: string } }) => {
     const questionData = question.map((item) => item.question);
     updateSteadyQuestions(params.id, questionData).then((res) => {
       if (res.status === 204) {
+        refetchQuestions();
         toast({
           description: "질문이 수정되었습니다.",
           variant: "green",
