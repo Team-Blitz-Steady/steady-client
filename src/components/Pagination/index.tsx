@@ -98,7 +98,7 @@ const Pagination = ({ totalPost, page, setPage, setPost }: PaginationProps) => {
           setPage(page + 1);
         }}
         disabled={page === totalPage - 1}
-        className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md hover:bg-st-primary hover:text-st-white"
+        className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md enabled:hover:bg-st-primary enabled:hover:text-st-white disabled:cursor-not-allowed disabled:opacity-20"
       >
         <Icon
           name="chevron-right"
@@ -111,7 +111,7 @@ const Pagination = ({ totalPost, page, setPage, setPost }: PaginationProps) => {
           setPage(totalPage - 1);
         }}
         disabled={page === totalPage - 1}
-        className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md hover:bg-st-primary hover:text-st-white"
+        className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md enabled:hover:bg-st-primary enabled:hover:text-st-white disabled:cursor-not-allowed disabled:opacity-20"
       >
         <Icon
           name="double-arrow-right"
