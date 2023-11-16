@@ -189,6 +189,7 @@ export interface PositionResponse {
 }
 
 export interface SteadyQuestionsType {
+  steadyName: string;
   steadyQuestions: [
     {
       id: number;
