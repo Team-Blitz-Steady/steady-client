@@ -160,10 +160,10 @@ const MySteadyPage = () => {
                           : `${steady.name}`}
                       </div>
                     </Link>
-                    <div className="flex items-center justify-center gap-30">
+                    <div className="flex items-center justify-center gap-20">
                       <div className="text-bold max-w-fit text-15 text-st-gray-100">
-                        생성일:{" "}
-                        {format(new Date(steady.joinedAt), "yyyy.MM.dd p")}
+                        {steady.isLeader ? "생성일: " : "참여일: "}
+                        {format(new Date(steady.joinedAt), "yyyy.MM.dd")}
                       </div>
                       {renderIcon(steady)}
                     </div>
@@ -180,7 +180,7 @@ const MySteadyPage = () => {
                   스테디가 없습니다.
                 </div>
                 <Link href="/steady/create">
-                  <Button className="h-80 w-250 bg-st-primary text-25 text-st-white">
+                  <Button className="h-50 w-200 bg-st-primary text-20 text-st-white">
                     스테디 생성하기
                   </Button>
                 </Link>
