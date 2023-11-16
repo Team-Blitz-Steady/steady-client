@@ -6,9 +6,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { Question, Title } from "@/components/application";
 import { useToast } from "@/components/ui/use-toast";
 import { TextArea } from "@radix-ui/themes";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import type { QueryKey } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import submitApplication from "@/services/application/submitApplication";
+import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyQuestions from "@/services/steady/getSteadyQuestions";
+import type { SteadyDetailsType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 
 interface pageParams {
@@ -16,13 +19,15 @@ interface pageParams {
 }
 
 const ApplicationSubmitPage = ({ params }: { params: pageParams }) => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
   const steadyId = params.id;
   const pageType = pathname.split("/")[2];
   const { data: steadyQuestionsData } = useSuspenseQuery({
-    queryKey: ["steadyQuestionsSubmit"],
+    queryKey: ["steadyQuestionsSubmit", steadyId],
     queryFn: () => getSteadyQuestions(steadyId),
+    staleTime: 10000,
   });
   const [applicationData, setApplicationData] = useState(
     steadyQuestionsData.steadyQuestions.map((item) => ({
@@ -31,14 +36,18 @@ const ApplicationSubmitPage = ({ params }: { params: pageParams }) => {
     })),
   );
   const { toast } = useToast();
-  const [isSubmit, setIsSubmit] = useState(false);
-  // isSubmit한사람이면 replace 상세페이지
+
+  const { data: steadyDetailsData } = useSuspenseQuery({
+    queryKey: ["steadyDetails", steadyId],
+    queryFn: () => getSteadyDetails(steadyId),
+    staleTime: 10000,
+  });
 
   useEffect(() => {
-    if (isSubmit) {
+    if (steadyDetailsData.isSubmittedUser) {
       router.replace(`/steady/detail/${steadyId}`);
     }
-  }, [isSubmit, router, steadyId]);
+  }, [steadyDetailsData.isSubmittedUser, router, steadyId]);
 
   const handleChangeAnswer = (
     event: ChangeEvent<HTMLTextAreaElement>,
@@ -68,7 +77,21 @@ const ApplicationSubmitPage = ({ params }: { params: pageParams }) => {
           description: "스테디 참여 신청서 제출 성공!",
           variant: "green",
         });
-        setIsSubmit(true);
+        // 낙관적 업데이트
+        const previousSteady = queryClient.getQueryData<SteadyDetailsType>([
+          "steadyDetails",
+          steadyId,
+        ]);
+        if (previousSteady) {
+          queryClient.setQueryData<
+            SteadyDetailsType,
+            QueryKey,
+            SteadyDetailsType
+          >(["steadyDetails", steadyId], {
+            ...previousSteady,
+            isSubmittedUser: true,
+          });
+        }
       } catch (error) {
         toast({
           description: "스테디 참여 신청서 제출 실패!",
@@ -106,22 +129,18 @@ const ApplicationSubmitPage = ({ params }: { params: pageParams }) => {
         ))}
       </Title>
       <div className="flex items-center justify-end gap-20">
-        {!isSubmit && (
-          <>
-            <Button
-              className={`${buttonSize.sm} bg-st-white`}
-              onClick={() => router.back()}
-            >
-              취소
-            </Button>
-            <Button
-              onClick={onSubmitAnswers}
-              className={`${buttonSize.sm} bg-st-primary text-st-white`}
-            >
-              제출 완료
-            </Button>
-          </>
-        )}
+        <Button
+          className={`${buttonSize.sm} bg-st-white`}
+          onClick={() => router.back()}
+        >
+          취소
+        </Button>
+        <Button
+          onClick={onSubmitAnswers}
+          className={`${buttonSize.sm} bg-st-primary text-st-white`}
+        >
+          제출 완료
+        </Button>
       </div>
     </>
   );
