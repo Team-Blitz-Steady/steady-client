@@ -10,6 +10,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyParticipants from "@/services/steady/getSteadyParticipants";
+import getSteadyQuestions from "@/services/steady/getSteadyQuestions";
 import promoteSteady from "@/services/steady/promoteSteady";
 import type { SteadyDetailsType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
@@ -38,6 +39,11 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
     queryKey: ["steadyParticipants"],
     queryFn: () => getSteadyParticipants(params.id),
   });
+  const { data: steadyQuestionsData } = useSuspenseQuery({
+    queryKey: ["steadyQuestions"],
+    queryFn: () => getSteadyQuestions(params.id),
+  });
+
   const router = useRouter();
   const { toast } = useToast();
 
@@ -225,10 +231,26 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
         </div>
         <div className="text-35 font-bold ">{steadyDetailsData.title}</div>
         <div className="mb-10">
-          {/* TODO: 신청서 보기 API 연결 */}
-          <button className="mr-10 text-15 font-bold text-st-red">
-            신청서 보기
-          </button>
+          <InfoModal
+            trigger={
+              <button className="mr-10 text-15 font-bold text-st-red">
+                신청서 보기
+              </button>
+            }
+          >
+            <div className="flex flex-col items-center justify-center gap-10">
+              <div className="flex flex-col items-center justify-center gap-10">
+                {steadyQuestionsData.steadyQuestions.map(({ id, content }) => (
+                  <div
+                    key={id}
+                    className="mt-20 flex flex-col items-center justify-center gap-10"
+                  >
+                    <div className={"font-semibold"}>{content}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </InfoModal>
           <InfoModal
             trigger={
               <button className="text-15 font-bold text-st-gray-250">
