@@ -1,6 +1,6 @@
 import z from "zod";
 
-const REGEX = /^[a-zA-Z가-힣0-9 ]+$/;
+const NICKNAME_REGEX = /^[a-zA-Z가-힣0-9 ]+$/;
 
 export type NicknameSchemaType = z.infer<typeof nicknameSchema>;
 export type PositionAndStacksSchemaType = z.infer<
@@ -16,7 +16,7 @@ export const nicknameSchema = z.object({
     .refine((value) => /\S/.test(value), {
       message: "닉네임은 양 쪽 공백을 제외하고 문자로 구성되어야 합니다!",
     })
-    .refine((value) => REGEX.test(value), {
+    .refine((value) => NICKNAME_REGEX.test(value), {
       message: "닉네임은 한글, 영문, 숫자만 가능합니다!",
     }),
 });
