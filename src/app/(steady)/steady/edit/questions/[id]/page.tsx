@@ -1,34 +1,56 @@
 "use client";
 
 import type { ChangeEvent } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/themes";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import getSteadyQuestions from "@/services/steady/getSteadyQuestions";
+import updateSteadyQuestions from "@/services/steady/updateSteadyQuestions";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import { SingleSelector } from "@/components/_common/Selector";
 
-const QuestionsExample = [
-  { id: 1, question: "희망하시는 포지션을 말씀해주세요." },
-  { id: 2, question: "주로 사용하시는 기술 스택을 기입해주세요." },
-  {
-    id: 3,
-    question: "저희는 주로 오프라인 모임을 진행합니다. 참석이 가능하신가요?",
-  },
-];
+const EditQuestionsPage = ({ params }: { params: { id: string } }) => {
+  const { data: questionsData, error } = useSuspenseQuery({
+    queryKey: ["questions"],
+    queryFn: () => getSteadyQuestions(params.id),
+  });
 
-const EditQuestionsPage = () => {
-  const [question, setQuestion] = useState(QuestionsExample);
+  const [question, setQuestion] = useState<
+    { question: string; sequence: number }[]
+  >([]);
+
+  useEffect(() => {
+    if (questionsData) {
+      setQuestion(
+        questionsData.steadyQuestions.map((item) => ({
+          question: item.content,
+          sequence: item.sequence,
+        })),
+      );
+    }
+  }, []);
   const { toast } = useToast();
+  const router = useRouter();
+
+  if (error) {
+    return (
+      <div>
+        <h1>에러가 발생했습니다.</h1>
+      </div>
+    );
+  }
 
   const handleAddQuestion = () => {
     setQuestion((prev) => {
       const newQuestion = [...prev];
       newQuestion.push({
-        id: prev[prev.length - 1].id + 1,
         question: "",
+        sequence: prev[prev.length - 1].sequence + 1,
       });
       return newQuestion;
     });
@@ -39,16 +61,30 @@ const EditQuestionsPage = () => {
     questionId: number,
   ) => {
     const newQuestion = [...question];
-    newQuestion[questionId - 1].question = event.target.value;
+    const index = question.findIndex((item) => item.sequence === questionId);
+    newQuestion[index].question = event.target.value;
     setQuestion(newQuestion);
   };
 
   const handleSubmitQuestion = () => {
     const questionData = question.map((item) => item.question);
-    console.log(questionData); // TODO: 추후 API 나오면 요청 함수로 변경
+    updateSteadyQuestions(params.id, questionData).then((res) => {
+      if (res.status === 204) {
+        toast({
+          description: "질문이 수정되었습니다.",
+          variant: "green",
+        });
+        router.push(`/steady/detail/${params.id}/`);
+      } else {
+        toast({
+          description: "질문 수정에 실패했습니다.",
+          variant: "red",
+        });
+      }
+    });
   };
 
-  const handleDeleteQuestion = (id: number) => {
+  const handleDeleteQuestion = (sequence: number) => {
     if (question.length === 1) {
       toast({
         description: "질문은 최소 1개 이상이어야 합니다.",
@@ -56,7 +92,7 @@ const EditQuestionsPage = () => {
       });
       return;
     }
-    setQuestion((prev) => prev.filter((item) => item.id !== id));
+    setQuestion((prev) => prev.filter((item) => item.sequence !== sequence));
   };
 
   return (
@@ -91,7 +127,7 @@ const EditQuestionsPage = () => {
           <div className={cn("flex w-full flex-col gap-20 p-20")}>
             {question.map((item) => (
               <div
-                key={item.id}
+                key={item.sequence}
                 className={cn(
                   "z-10 flex h-70 items-center justify-center gap-30 rounded-10 p-10 shadow-lg",
                 )}
@@ -107,13 +143,13 @@ const EditQuestionsPage = () => {
                     `h-50 min-w-[300px] text-20 font-semibold text-st-black outline-none`,
                   )}
                   onChange={(event) => {
-                    handleInputQuestion(event, item.id);
+                    handleInputQuestion(event, item.sequence);
                   }}
                 />
                 <div
                   className={cn("cursor-pointer")}
                   onClick={() => {
-                    handleDeleteQuestion(item.id);
+                    handleDeleteQuestion(item.sequence);
                   }}
                 >
                   <Icon
