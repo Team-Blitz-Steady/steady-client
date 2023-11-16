@@ -19,7 +19,8 @@ const Posts = ({ info }: { info: Steadies }) => {
       const currentDate = new Date();
       const calculatedDifferences = info?.content.map((serverDate) => {
         const serverDateObject = new Date(serverDate.createdAt);
-        const timeDifference = currentDate - serverDateObject;
+        const timeDifference =
+          currentDate.valueOf() - serverDateObject.valueOf();
         const daysDifference = Math.floor(
           timeDifference / (1000 * 60 * 60 * 24),
         );
