@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import getSteadies from "@/services/steady/getSteadies";
+import { getSteadies } from "@/services/steady/getSteadies";
 import type { Steadies } from "@/services/types";
 import Icon from "../_common/Icon";
 
 interface PaginationProps {
+  type?: string;
   totalPost: number;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
@@ -14,14 +15,15 @@ const Pagination = ({ totalPost, page, setPage, setPost }: PaginationProps) => {
   const [currentPageArray, setCurrentPageArray] = useState<number[]>([]);
   const [totalPageArray, setTotalPageArray] = useState<number[][]>([]);
   const totalPage = Math.ceil(totalPost / 10);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    if (page + (1 % 5) === 1) {
-      setCurrentPageArray(totalPageArray[Math.floor((page + 1) / 5)]);
-    } else if (page + (1 % 5) === 0) {
-      setCurrentPageArray(totalPageArray[Math.floor(page + 1 / 5) - 1]);
-    }
+    setIndex(Math.floor(page / 5));
   }, [page]);
+
+  useEffect(() => {
+    setCurrentPageArray(totalPageArray[Math.floor(page / 5)]);
+  }, [index]);
 
   useEffect(() => {
     if (totalPage) {
@@ -47,6 +49,19 @@ const Pagination = ({ totalPost, page, setPage, setPost }: PaginationProps) => {
 
   return (
     <div className="flex">
+      <button
+        onClick={() => {
+          setPage(0);
+        }}
+        disabled={page === 0}
+        className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md enabled:hover:bg-st-primary enabled:hover:text-st-white disabled:cursor-not-allowed disabled:opacity-20"
+      >
+        <Icon
+          name="double-arrow-left"
+          size={20}
+          color="black"
+        />
+      </button>
       <button
         onClick={() => {
           setPage(page - 1);
@@ -82,10 +97,24 @@ const Pagination = ({ totalPost, page, setPage, setPost }: PaginationProps) => {
         onClick={() => {
           setPage(page + 1);
         }}
+        disabled={page === totalPage}
         className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md hover:bg-st-primary hover:text-st-white"
       >
         <Icon
           name="chevron-right"
+          size={20}
+          color="black"
+        />
+      </button>
+      <button
+        onClick={() => {
+          setPage(totalPage - 1);
+        }}
+        disabled={page === totalPage}
+        className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md hover:bg-st-primary hover:text-st-white"
+      >
+        <Icon
+          name="double-arrow-right"
           size={20}
           color="black"
         />

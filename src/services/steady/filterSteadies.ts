@@ -31,10 +31,11 @@ export const steadyTypeFilter = async (
 export const steadyPositionFilter = async (
   position: string,
   page: string,
+  type: string,
 ): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=${page}&like=false&position=${position}`,
+      `/api/v1/steadies/search?page=${page}&like=false&position=${position}&steadyType=${type}`,
     );
     return response.data;
   } catch (error) {
@@ -46,10 +47,11 @@ export const steadyPositionFilter = async (
 export const steadyModeFilter = async (
   mode: string,
   page: string,
+  type: string,
 ): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=${page}&steadyMode=${mode}&like=false`,
+      `/api/v1/steadies/search?page=${page}&steadyMode=${mode}&like=false&steadyType=${type}`,
     );
     return response.data;
   } catch (error) {
