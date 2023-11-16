@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getSteadies } from "@/services/steady/getSteadies";
+import getSteadies from "@/services/steady/getSteadies";
 import type { Steadies } from "@/services/types";
 import Icon from "../_common/Icon";
 
