@@ -97,7 +97,7 @@ const Pagination = ({ totalPost, page, setPage, setPost }: PaginationProps) => {
         onClick={() => {
           setPage(page + 1);
         }}
-        disabled={page === totalPage}
+        disabled={page === totalPage - 1}
         className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md hover:bg-st-primary hover:text-st-white"
       >
         <Icon
@@ -110,7 +110,7 @@ const Pagination = ({ totalPost, page, setPage, setPost }: PaginationProps) => {
         onClick={() => {
           setPage(totalPage - 1);
         }}
-        disabled={page === totalPage}
+        disabled={page === totalPage - 1}
         className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md hover:bg-st-primary hover:text-st-white"
       >
         <Icon
