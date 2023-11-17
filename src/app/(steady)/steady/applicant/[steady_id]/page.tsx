@@ -12,6 +12,7 @@ const SteadyApplicantPage = ({ params }: { params: { steady_id: string } }) => {
     QueryKey,
     ApplicationsListType
   >(["applicationsList", steadyId]);
+
   return (
     <div className="flex w-full items-center justify-center">
       <span className="text-25 font-bold">
