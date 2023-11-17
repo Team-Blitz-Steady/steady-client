@@ -4,7 +4,7 @@ import type { Steadies } from "@/services/types";
 export const steadyStatusFilter = async (page: string): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=${page}&steadyMode=all&status=RECRUITING&like=all`,
+      `/api/v1/steadies/search?page=${page}&status=RECRUITING&like=false`,
     );
     return response.data;
   } catch (error) {
@@ -19,7 +19,7 @@ export const steadyTypeFilter = async (
 ): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=${page}&steadyMode=all&status=all&like=all&steadyType=${type}`,
+      `/api/v1/steadies/search?page=${page}&like=false&steadyType=${type}`,
     );
     return response.data;
   } catch (error) {
@@ -31,10 +31,11 @@ export const steadyTypeFilter = async (
 export const steadyPositionFilter = async (
   position: string,
   page: string,
+  type: string,
 ): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=${page}&steadyMode=all&status=all&like=all&position=${position}`,
+      `/api/v1/steadies/search?page=${page}&like=false&position=${position}&steadyType=${type}`,
     );
     return response.data;
   } catch (error) {
@@ -46,10 +47,11 @@ export const steadyPositionFilter = async (
 export const steadyModeFilter = async (
   mode: string,
   page: string,
+  type: string,
 ): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=${page}&steadyMode=${mode}&status=all&like=all`,
+      `/api/v1/steadies/search?page=${page}&steadyMode=${mode}&like=false&steadyType=${type}`,
     );
     return response.data;
   } catch (error) {

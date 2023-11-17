@@ -13,7 +13,7 @@ import {
   steadyTypeFilter,
 } from "@/services/steady/filterSteadies";
 import getSteadies from "@/services/steady/getSteadies";
-import { searchSteadies } from "@/services/steady/searchSteadies";
+import searchSteadies from "@/services/steady/searchSteadies";
 import type { Steadies } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
@@ -23,6 +23,7 @@ import StickyButton from "@/components/_common/StickyButton";
 import {
   steadyExpectedTechStacks,
   steadyRecruitmentFields,
+  steadyRunningMethods,
 } from "@/constants/create-steady";
 import Dolphin from "../../public/images/dolphin.png";
 import First from "../../public/images/first.svg";
@@ -37,7 +38,6 @@ const Home = () => {
   const [recruit, setRecruit] = useState(false);
   const [post, setPost] = useState<Steadies>();
   const [type, setType] = useState("all");
-  const [filter, setFilter] = useState("최신");
   const [activeIndex, setActiveIndex] = useState(0);
   const [keyword, setKeyword] = useState("");
   const [debouncedValue, setDebouncedValue] = useState("");
@@ -47,18 +47,29 @@ const Home = () => {
     queryFn: () => getSteadies(page.toString()),
   });
 
+  const [totalPost, setTotalPost] = useState(data?.totalElements);
+
+  const handleGetSteadies = async (page: string) => {
+    const data = await getSteadies(page.toString());
+    setTotalPost(data.totalElements);
+    setPost(data);
+  };
+
   const handleRecruit = async (page: string) => {
     const data = await steadyStatusFilter(page);
+    setTotalPost(data.totalElements);
     setPost(data);
   };
 
   const handleSteadyType = async (type: string, page: string) => {
     const data = await steadyTypeFilter(type, page);
+    // setTotalPost(data.totalElements);
     setPost(data);
   };
 
-  const handleSteadySearch = async (keyword: string, page: string) => {
-    const data = await searchSteadies(keyword, page);
+  const handleSteadySearch = async (page: string, keyword: string) => {
+    const data = await searchSteadies(page, keyword);
+    setTotalPost(data.totalElements);
     setPost(data);
   };
 
@@ -92,7 +103,9 @@ const Home = () => {
 
   useEffect(() => {
     if (debouncedValue) {
-      handleSteadySearch(debouncedValue, page.toString());
+      handleSteadySearch(page.toString(), debouncedValue);
+    } else {
+      handleGetSteadies(page.toString());
     }
   }, [debouncedValue]);
 
@@ -109,7 +122,7 @@ const Home = () => {
   }, [activeIndex]);
 
   const bannerDefaultStyle =
-    "duration-1500 absolute left-0 top-0 flex h-380 w-full justify-center transition-opacity";
+    "duration-1500 absolute left-0 top-0 flex h-350 w-full justify-center transition-opacity";
   const bannerValidStyle = "opacity-100 transition-opacity ease-in";
   const bannerInvalidStyle = "opacity-0 transition-opacity ease-out";
 
@@ -152,15 +165,9 @@ const Home = () => {
     },
   ];
 
-  const mode = [
-    { value: "on/offline", label: "온/오프라인" },
-    { value: "online", label: "온라인" },
-    { value: "offline", label: "오프라인" },
-  ];
-
   return (
     <main className="relative flex flex-col items-center">
-      <div className="relative flex h-380 w-screen transition">
+      <div className="relative flex h-350 w-screen transition">
         <div
           className={`${
             activeIndex === 1 ? bannerValidStyle : bannerInvalidStyle
@@ -248,7 +255,7 @@ const Home = () => {
           onClick={() => setActiveIndex(2)}
         ></div>
       </div>
-      <section className="my-50 flex flex-col flex-wrap items-center justify-center overflow-hidden">
+      <section className="mb-20 mt-50 flex flex-col flex-wrap items-center justify-center overflow-hidden">
         <div className="w-3/4 text-2xl font-bold xl:w-full">🔥 인기 스테디</div>
         <div className="mt-20 flex h-220 flex-wrap items-center justify-center overflow-hidden">
           {popularSteadyData.map((item) => (
@@ -296,15 +303,15 @@ const Home = () => {
         </div>
       </section>
       <section className="flex w-3/4 flex-col items-center xl:w-1300">
-        <div className="flex w-full justify-between p-20">
-          <div className="flex gap-20">
+        <div className="flex w-full flex-col items-center justify-center gap-25 p-20">
+          <div className="flex gap-30">
             <div
               className={`${
                 type === "all" ? "" : "text-st-gray-100"
-              } cursor-pointer text-2xl font-bold`}
+              } cursor-pointer text-3xl font-bold`}
               onClick={() => {
                 setType("all");
-                handleSteadyType("all", page.toString());
+                handleGetSteadies(page.toString());
               }}
             >
               전체
@@ -312,7 +319,7 @@ const Home = () => {
             <div
               className={`${
                 type === "STUDY" ? "" : "text-st-gray-100"
-              } cursor-pointer text-2xl font-bold`}
+              } cursor-pointer text-3xl font-bold`}
               onClick={() => {
                 setType("STUDY");
                 handleSteadyType("STUDY", page.toString());
@@ -323,7 +330,7 @@ const Home = () => {
             <div
               className={`${
                 type === "PROJECT" ? "" : "text-st-gray-100"
-              } cursor-pointer text-2xl font-bold`}
+              } cursor-pointer text-3xl font-bold`}
               onClick={() => {
                 setType("PROJECT");
                 handleSteadyType("PROJECT", page.toString());
@@ -351,7 +358,7 @@ const Home = () => {
             />
             <SingleSelector
               initialLabel={"진행 방식"}
-              items={mode}
+              items={steadyRunningMethods}
               className="mb-8 h-43 w-150"
             />
             <div
@@ -390,34 +397,6 @@ const Home = () => {
             </div>
           </div>
           <div className="flex items-center justify-center gap-20">
-            <div className="hidden items-center justify-center gap-20 xl:flex">
-              <div
-                className={`${
-                  filter === "마감" ? "" : "text-st-gray-100"
-                } flex cursor-pointer items-center justify-center gap-5 font-bold`}
-                onClick={() => setFilter("마감")}
-              >
-                <div
-                  className={`${
-                    filter === "마감" ? "bg-st-primary" : "bg-st-gray-100"
-                  } h-10 w-10 rounded-full `}
-                ></div>
-                마감 임박순
-              </div>
-              <div
-                className={`${
-                  filter === "최신" ? "" : "text-st-gray-100"
-                } flex cursor-pointer items-center justify-center gap-5 font-bold`}
-                onClick={() => setFilter("최신")}
-              >
-                <div
-                  className={`${
-                    filter === "최신" ? "bg-st-primary" : "bg-st-gray-100"
-                  } h-10 w-10 rounded-full `}
-                ></div>
-                최신 글순
-              </div>
-            </div>
             <Link href={"/steady/create"}>
               <Button
                 className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
@@ -438,6 +417,7 @@ const Home = () => {
       </section>
       <section className="flex h-100 w-full items-center justify-center">
         <Pagination
+          totalPost={totalPost as number}
           page={page}
           setPage={setPage}
           setPost={setPost as Dispatch<SetStateAction<Steadies>>}

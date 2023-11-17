@@ -199,4 +199,13 @@ export interface MySteadyType {
   content: MySteadyContentType[];
   numberOfElements: number;
   hasNext: boolean;
+
+export interface SteadyQuestionsType {
+  steadyQuestions: [
+    {
+      id: number;
+      content: string;
+      sequence: number;
+    },
+  ];
 }

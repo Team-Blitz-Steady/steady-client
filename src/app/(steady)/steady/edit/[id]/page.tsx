@@ -119,7 +119,7 @@ const SteadyEditPage = ({
 
   const onSubmit = async (data: SteadyEditStateType) => {
     updateSteady(id, data).then((res) => {
-      if (res?.status === 204) {
+      if (res.status === 204) {
         toast({ variant: "green", description: "스테디가 수정되었습니다!" });
         router.push(`/steady/detail/${id}`);
       } else {

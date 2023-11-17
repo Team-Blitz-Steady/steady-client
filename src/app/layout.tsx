@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { cookies } from "next/headers";
 import { Toaster } from "@/components/ui/toaster";
 import QueryProvider from "@/lib/react-query/QueryProvider";
 import { cn } from "@/lib/utils";
@@ -21,8 +20,6 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
-  const hasAccessToken = cookies().has("access_token");
-
   return (
     <QueryProvider>
       <html
@@ -36,8 +33,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                 `max-mobile:w-9/10 mx-auto flex w-3/4 flex-col items-center`,
               )}
             >
-              <AppBar isLogin={hasAccessToken} />
-              <div className={cn("my-30")}>{children}</div>
+              <AppBar />
+              <div className={cn("mb-30")}>{children}</div>
               <Footer />
             </div>
           </Theme>
