@@ -218,13 +218,24 @@ export interface MyProfileType {
   profileImage: string;
   nickname: string;
   bio: null;
-  position: {
-    id: number;
-    name: string;
+  position: PositionType;
+  stacks: StackType[];
+}
+
+export interface UserCardType {
+  cardId: number;
+  content: string;
+  count: number;
+}
+export interface UsersProfileType {
+  user: {
+    userId: number;
+    profileImage: string;
+    nickname: string;
+    bio: null;
+    position: PositionType;
+    stacks: StackType[];
   };
-  stacks: {
-    id: number;
-    name: string;
-    imageUrl: string;
-  }[];
+  userCards: UserCardType[];
+  reviews: string[];
 }
