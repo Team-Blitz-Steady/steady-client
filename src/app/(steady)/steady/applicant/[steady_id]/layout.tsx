@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import SteadyLogo from "@/images/turtle.png";
 import { Avatar } from "@radix-ui/themes";
@@ -20,16 +20,11 @@ const SteadyApplicantLayout = ({
 }) => {
   const steadyId = params.steady_id;
   const [selectedItem, setSelectedItem] = useState(0);
-  const { data: applicationsListData, refetch: applicationListRefetch } =
-    useSuspenseQuery({
-      queryKey: ["applicationsList", steadyId],
-      queryFn: () => getApplicationsList(steadyId),
-      staleTime: 10000,
-    });
-
-  useEffect(() => {
-    applicationListRefetch();
-  }, [applicationListRefetch]);
+  const { data: applicationsListData } = useSuspenseQuery({
+    queryKey: ["applicationsList", steadyId],
+    queryFn: () => getApplicationsList(steadyId),
+    staleTime: 10000,
+  });
 
   return (
     <>
