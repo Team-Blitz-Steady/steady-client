@@ -1,10 +1,10 @@
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const token = JSON.parse(req.headers.get("Authorization") as string);
+    const { token } = await req.json();
     cookies().set("access_token", token.access, {
       maxAge: 60 * 60 * 24 * 7, // 7 days
       httpOnly: true,
@@ -16,5 +16,6 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error(error);
   }
-  return NextResponse.redirect(new URL("/", req.nextUrl));
+
+  return redirect("/");
 }
