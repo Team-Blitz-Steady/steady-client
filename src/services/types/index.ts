@@ -239,3 +239,11 @@ export interface UsersProfileType {
   userCards: UserCardType[];
   reviews: string[];
 }
+
+export interface UpdateMyProfileType {
+  profileImage: string;
+  nickname: string;
+  bio: string;
+  positionId: number;
+  stacksId: number[];
+}
