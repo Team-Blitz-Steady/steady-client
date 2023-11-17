@@ -202,6 +202,7 @@ export interface MySteadyType {
 }
 
 export interface SteadyQuestionsType {
+  steadyName: string;
   steadyQuestions: [
     {
       id: number;
