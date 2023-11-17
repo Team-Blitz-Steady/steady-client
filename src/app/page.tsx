@@ -9,6 +9,7 @@ import Posts from "@/components/Posts";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
 import { useQuery } from "@tanstack/react-query";
 import {
+  steadyDeadlineFilter,
   steadyStatusFilter,
   steadyTypeFilter,
 } from "@/services/steady/filterSteadies";
@@ -41,6 +42,7 @@ const Home = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [keyword, setKeyword] = useState("");
   const [debouncedValue, setDebouncedValue] = useState("");
+  const [deadline, setDeadline] = useState(false);
 
   const { data } = useQuery({
     queryKey: ["steadies"],
@@ -70,6 +72,11 @@ const Home = () => {
   const handleSteadySearch = async (page: string, keyword: string) => {
     const data = await searchSteadies(page, keyword);
     setTotalPost(data.totalElements);
+    setPost(data);
+  };
+
+  const handleSteadyDeadline = async (page: string) => {
+    const data = await steadyDeadlineFilter(page);
     setPost(data);
   };
 
@@ -397,6 +404,27 @@ const Home = () => {
             </div>
           </div>
           <div className="flex items-center justify-center gap-20">
+            <div
+              onClick={() => {
+                if (!deadline) {
+                  setDeadline(!deadline);
+                  handleSteadyDeadline(page.toString());
+                } else {
+                  setDeadline(!deadline);
+                  handleGetSteadies(page.toString());
+                }
+              }}
+              className={`${
+                deadline ? "" : "text-st-gray-100"
+              } flex cursor-pointer items-center justify-center gap-10 font-bold`}
+            >
+              <div
+                className={`${
+                  deadline ? "bg-st-primary" : "bg-st-gray-100"
+                } h-10 w-10 rounded-full text-20`}
+              ></div>
+              마감 임박순
+            </div>
             <Link href={"/steady/create"}>
               <Button
                 className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
