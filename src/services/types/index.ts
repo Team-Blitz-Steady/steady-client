@@ -211,3 +211,20 @@ export interface SteadyQuestionsType {
     },
   ];
 }
+
+export interface MyProfileType {
+  platform: string;
+  userId: number;
+  profileImage: string;
+  nickname: string;
+  bio: null;
+  position: {
+    id: number;
+    name: string;
+  };
+  stacks: {
+    id: number;
+    name: string;
+    imageUrl: string;
+  }[];
+}
