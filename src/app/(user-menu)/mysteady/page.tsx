@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/themes";
 import Button, { buttonSize } from "@/components/_common/Button";
