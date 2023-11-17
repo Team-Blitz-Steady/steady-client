@@ -211,3 +211,51 @@ export interface SteadyQuestionsType {
     },
   ];
 }
+
+export interface MyProfileType {
+  platform: string;
+  userId: number;
+  profileImage: string;
+  nickname: string;
+  bio: null;
+  position: PositionType;
+  stacks: StackType[];
+}
+
+export interface UserCardType {
+  cardId: number;
+  content: string;
+  count: number;
+}
+export interface UsersProfileType {
+  user: {
+    userId: number;
+    profileImage: string;
+    nickname: string;
+    bio: null;
+    position: PositionType;
+    stacks: StackType[];
+  };
+  userCards: UserCardType[];
+  reviews: string[];
+}
+
+export interface UpdateMyProfileType {
+  profileImage: string;
+  nickname: string;
+  bio: string;
+  positionId: number;
+  stacksId: number[];
+}
+
+export interface Notification {
+  id: number;
+  type: "FRESH_APPLICATION" | "APPLICATION_RESULT";
+  content: string;
+  redirectUri: string;
+  isRead: boolean;
+}
+export interface AllNotificationsType {
+  notifications: Notification[];
+  freshCount: number;
+}
