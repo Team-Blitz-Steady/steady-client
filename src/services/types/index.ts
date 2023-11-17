@@ -158,7 +158,7 @@ export interface UserProfileType {
   accountId: number;
   nickname: string;
   positionId: number;
-  stackIds: number[];
+  stacksId: number[];
 }
 
 export interface CheckSameUsernameType {
