@@ -15,10 +15,10 @@ const SteadyApplicantPage = ({ params }: { params: { steady_id: string } }) => {
   return (
     <div className="flex w-full items-center justify-center">
       <span className="text-25 font-bold">
-        {previousApplicants?.content ? (
+        {previousApplicants?.numberOfElements !== 0 ? (
           <>
             <span className="text-28 text-st-primary">
-              {previousApplicants.numberOfElements}
+              {previousApplicants?.numberOfElements}
             </span>
             명의 신청자가 스테디 참여를 기다리고 있어요!
           </>
