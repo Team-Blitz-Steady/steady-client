@@ -1,8 +1,8 @@
 "use client";
 
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Question } from "@/components/application";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import changeApplicationStatus from "@/services/application/changeApplicationStatus";
 import getApplicationDetails from "@/services/application/getApplicationDetails";
 import Button, { buttonSize } from "@/components/_common/Button";
@@ -13,17 +13,31 @@ const UserApplicantPage = ({
 }: {
   params: { steady_id: string; application_id: string };
 }) => {
-  const steadyId = params.steady_id;
   const applicationId = params.application_id;
-  const router = useRouter();
+  const steadyId = params.steady_id;
+  const queryClient = useQueryClient();
   const { data: applicationDetailsData } = useSuspenseQuery({
     queryKey: ["applicationDetails", applicationId],
     queryFn: () => getApplicationDetails(applicationId),
   });
+  const router = useRouter();
 
   const handleClickAccept = async () => {
     await changeApplicationStatus(applicationId, {
       status: "ACCEPTED",
+    });
+    await queryClient.invalidateQueries({
+      queryKey: ["applicationsList", steadyId],
+    });
+    router.replace(`/steady/applicant/${steadyId}`);
+  };
+
+  const handleClickReject = async () => {
+    await changeApplicationStatus(applicationId, {
+      status: "REJECTED",
+    });
+    await queryClient.invalidateQueries({
+      queryKey: ["applicationsList", steadyId],
     });
     router.replace(`/steady/applicant/${steadyId}`);
   };
@@ -51,11 +65,7 @@ const UserApplicantPage = ({
           actionButton={
             <Button
               className={`${buttonSize.sm} bg-st-red text-st-white`}
-              onClick={() =>
-                changeApplicationStatus(applicationId, {
-                  status: "REJECTED",
-                })
-              }
+              onClick={handleClickReject}
             >
               거절
             </Button>
