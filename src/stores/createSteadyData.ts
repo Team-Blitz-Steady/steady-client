@@ -10,7 +10,7 @@ interface CreateSteadyState {
   setSteadyState: (steadyState: SteadyStateType) => void;
 }
 
-export const useCreateSteadyStore = create(
+const useCreateSteadyStore = create(
   persist<CreateSteadyState>(
     (set) => ({
       steadyState: {} as SteadyStateType,
