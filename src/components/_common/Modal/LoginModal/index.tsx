@@ -6,12 +6,13 @@ import {
   useEffect,
   useState,
 } from "react";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import useAuthStore from "@/stores/isAuth";
 import useLoginStepsStore from "@/stores/loginSteps";
 import useNewUserInfoStore from "@/stores/newUserInfo";
 import { AlertDialog } from "@radix-ui/themes";
-import { setCookie } from "cookies-next";
+import axios from "axios";
 import getKakaoToken from "@/services/oauth/kakao/getKakaoToken";
 import createUserProfile from "@/services/user/createUserProfile";
 import Icon from "@/components/_common/Icon";
@@ -25,6 +26,7 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
   const [open, setOpen] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { setIsAuth } = useAuthStore();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -38,13 +40,19 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
             setSteps(1);
             setOpen(true);
           } else {
-            setCookie("access_token", token.accessToken, {
-              maxAge: 60 * 60 * 24 * 7,
-            });
-            setCookie("refresh_token", token.refreshToken, {
-              maxAge: 60 * 60 * 24 * 7,
-            });
-            redirect("/");
+            axios
+              .get("https://steady-client.vercel.app/login", {
+                headers: {
+                  Authorization: JSON.stringify({
+                    access: token.accessToken,
+                    refresh: token.refreshToken,
+                  }),
+                },
+              })
+              .then(() => {
+                setIsAuth(true);
+                router.replace("/");
+              });
           }
         }
       });

@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -8,13 +10,13 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import LogoImage from "@/images/logo.png";
 import { cn } from "@/lib/utils";
+import useAuthStore from "@/stores/isAuth";
 import { BellIcon } from "@radix-ui/react-icons";
 import { Avatar, Separator } from "@radix-ui/themes";
 import Dropdown from "@/components/_common/Dropdown";
 import LoginModal from "../Modal/LoginModal";
 
 interface AppBarProps {
-  isLogin: boolean;
   className?: string;
 }
 
@@ -22,7 +24,8 @@ const notifications = Array.from({ length: 10 }, (_, i) => `Notification ${i}`);
 
 export const appBarTextStyles = "text-lg font-bold";
 
-const AppBar = ({ isLogin = false, className }: AppBarProps) => {
+const AppBar = ({ className }: AppBarProps) => {
+  const { isAuth } = useAuthStore();
   return (
     <div
       className={cn(
@@ -36,7 +39,7 @@ const AppBar = ({ isLogin = false, className }: AppBarProps) => {
           alt="스테디 로고"
         />
       </Link>
-      {isLogin && (
+      {isAuth && (
         <div className="flex w-250 items-center justify-between">
           <Link href={"/mysteady"}>
             <div className={appBarTextStyles}>내 스테디</div>
@@ -83,7 +86,7 @@ const AppBar = ({ isLogin = false, className }: AppBarProps) => {
       )}
       <LoginModal
         trigger={
-          !isLogin && (
+          !isAuth && (
             <div className={`${appBarTextStyles} cursor-pointer`}>로그인</div>
           )
         }
