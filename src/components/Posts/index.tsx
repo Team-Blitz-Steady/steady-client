@@ -102,7 +102,10 @@ const Posts = ({ info }: { info: Steadies }) => {
                       className="rounded-full"
                     />
                   )}
-                  | {item.nickname}
+                  |{" "}
+                  {item.nickname.length > 7
+                    ? `${item.nickname.slice(0, 7)}...`
+                    : item.nickname}
                 </div>
                 <div className="flex items-center justify-start gap-10">
                   <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">

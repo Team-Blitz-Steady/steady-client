@@ -4,14 +4,20 @@ import type { Steadies } from "@/services/types";
 import Icon from "../_common/Icon";
 
 interface PaginationProps {
-  type?: string;
+  type: string;
   totalPost: number;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   setPost: React.Dispatch<React.SetStateAction<Steadies>>;
 }
 
-const Pagination = ({ totalPost, page, setPage, setPost }: PaginationProps) => {
+const Pagination = ({
+  type,
+  totalPost,
+  page,
+  setPage,
+  setPost,
+}: PaginationProps) => {
   const [currentPageArray, setCurrentPageArray] = useState<number[]>([]);
   const [totalPageArray, setTotalPageArray] = useState<number[][]>([]);
   const totalPage = Math.ceil(totalPost / 10);
@@ -38,13 +44,13 @@ const Pagination = ({ totalPost, page, setPage, setPost }: PaginationProps) => {
     }
   }, [totalPage]);
 
-  const handlePageSteadies = async (page: number) => {
-    const data = await getSteadies(page.toString());
+  const handlePageSteadies = async (type: string, page: number) => {
+    const data = await getSteadies(type, page.toString());
     setPost(data);
   };
 
   useEffect(() => {
-    handlePageSteadies(page);
+    handlePageSteadies(type, page);
   }, [page]);
 
   return (
