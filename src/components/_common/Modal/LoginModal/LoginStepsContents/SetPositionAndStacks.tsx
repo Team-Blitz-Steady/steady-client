@@ -7,13 +7,12 @@ import {
 import useLoginStepsStore from "@/stores/loginSteps";
 import useNewUserInfoStore from "@/stores/newUserInfo";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import getPositions from "@/services/steady/getPositions";
+import getStacks from "@/services/steady/getStacks";
 import Button, { buttonSize } from "@/components/_common/Button";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import { extractValue } from "@/utils/extractValue";
-import {
-  steadyExpectedTechStacks,
-  steadyRecruitmentFields,
-} from "@/constants/create-steady";
 import { loginTextStyles } from "./SetNickname";
 
 const SetPositionAndStacks = () => {
@@ -23,6 +22,16 @@ const SetPositionAndStacks = () => {
   const userInfos = useForm<PositionAndStacksSchemaType>({
     values: { position: positionId, stacks: stacksId },
     resolver: zodResolver(positionAndStacksSchema),
+  });
+  const { data: stacksData } = useSuspenseQuery({
+    queryKey: ["stacks"],
+    queryFn: () => getStacks(),
+    staleTime: Infinity,
+  });
+  const { data: positionsData } = useSuspenseQuery({
+    queryKey: ["positions"],
+    queryFn: () => getPositions(),
+    staleTime: Infinity,
   });
 
   const savePositionAndStacks = (data: PositionAndStacksSchemaType) => {
@@ -57,11 +66,14 @@ const SetPositionAndStacks = () => {
                 <FormItem className="flex flex-col gap-10">
                   <SingleSelector
                     initialLabel={
-                      steadyRecruitmentFields.find(
-                        (position) => position.value === String(positionId),
-                      )?.label ?? "포지션"
+                      positionsData.positions.find(
+                        (position) => position.id === positionId,
+                      )?.name ?? "포지션"
                     }
-                    items={steadyRecruitmentFields}
+                    items={positionsData.positions.map((position) => ({
+                      value: position.id.toString(),
+                      label: position.name,
+                    }))}
                     onSelectedChange={(selected) => {
                       setPositionId(Number(selected));
                     }}
@@ -79,15 +91,16 @@ const SetPositionAndStacks = () => {
                     <MultiSelector
                       initialLabel={
                         stacksId.length
-                          ? steadyExpectedTechStacks
-                              .filter((item) =>
-                                stacksId.includes(Number(item.value)),
-                              )
-                              .map((item) => item.label)
+                          ? stacksData.stacks
+                              .filter((item) => stacksId.includes(item.id))
+                              .map((item) => item.name)
                               .join(", ")
                           : "기술 스택"
                       }
-                      items={steadyExpectedTechStacks}
+                      items={stacksData.stacks.map((stack) => ({
+                        value: stack.id.toString(),
+                        label: stack.name,
+                      }))}
                       onSelectedChange={(selected) => {
                         const stacksId = extractValue(selected).map(Number);
                         setStackIds(stacksId);
