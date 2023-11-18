@@ -217,7 +217,7 @@ export interface MyProfileType {
   userId: number;
   profileImage: string;
   nickname: string;
-  bio: null;
+  bio: string;
   position: PositionType;
   stacks: StackType[];
 }
@@ -232,7 +232,7 @@ export interface UsersProfileType {
     userId: number;
     profileImage: string;
     nickname: string;
-    bio: null;
+    bio: string;
     position: PositionType;
     stacks: StackType[];
   };
