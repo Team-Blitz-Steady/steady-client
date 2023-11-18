@@ -19,6 +19,7 @@ import getStacks from "@/services/steady/getStacks";
 import type { PositionResponse, StackResponse } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Input from "@/components/_common/Input";
+import AlertModal from "@/components/_common/Modal/AlertModal";
 import {
   DateSelector,
   MultiSelector,
@@ -39,7 +40,7 @@ import { SteadySchema } from "@/constants/schemas/steadySchema";
 
 const CreateSteadyPage = () => {
   const router = useRouter();
-  const { setSteadyState } = useCreateSteadyStore();
+  const { steadyState, setSteadyState } = useCreateSteadyStore();
   const steadyForm = useForm<SteadyStateType>({
     resolver: zodResolver(SteadySchema),
   });
@@ -65,6 +66,13 @@ const CreateSteadyPage = () => {
   const onSubmit = (data: SteadyStateType) => {
     setSteadyState(data);
     router.push("/steady/create/questions");
+  };
+
+  const handleCancelProcess = () => {
+    if (steadyState) {
+      useCreateSteadyStore.persist.clearStorage();
+    }
+    router.replace("/");
   };
 
   return (
@@ -296,11 +304,32 @@ const CreateSteadyPage = () => {
               )}
             />
             <div className={"flex justify-end gap-20"}>
-              <Button
-                className={cn(`${buttonSize.sm} items-center justify-center`)}
+              <AlertModal
+                actionButton={
+                  <Button
+                    className={cn(
+                      `bg-st-red ${buttonSize.sm} items-center justify-center text-st-white`,
+                    )}
+                    onClick={handleCancelProcess}
+                  >
+                    돌아가기
+                  </Button>
+                }
+                trigger={
+                  <Button
+                    className={cn(
+                      `${buttonSize.sm} items-center justify-center`,
+                    )}
+                  >
+                    취소
+                  </Button>
+                }
               >
-                취소
-              </Button>
+                <div className="text-18 font-bold">
+                  메인 페이지로 돌아갈까요? <br /> 작성하시던 데이터가
+                  사라집니다!
+                </div>
+              </AlertModal>
               <Button
                 className={cn(
                   `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
