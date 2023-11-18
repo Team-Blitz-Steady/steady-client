@@ -50,7 +50,7 @@ const Home = () => {
 
   const { data } = useQuery({
     queryKey: ["steadies"],
-    queryFn: () => getSteadies(type, page.toString()),
+    queryFn: () => getSteadies(deadline, recruit, type, page.toString()),
   });
 
   const { data: stacks, error: stacksError } = useSuspenseQuery<StackResponse>({
@@ -74,8 +74,13 @@ const Home = () => {
 
   const [totalPost, setTotalPost] = useState(data?.totalElements);
 
-  const handleGetSteadies = async (type: string, page: string) => {
-    const data = await getSteadies(type, page.toString());
+  const handleGetSteadies = async (
+    deadline: boolean,
+    recruit: boolean,
+    type: string,
+    page: string,
+  ) => {
+    const data = await getSteadies(deadline, recruit, type, page.toString());
     setTotalPost(data.totalElements);
     setPost(data);
   };
@@ -133,7 +138,7 @@ const Home = () => {
     if (debouncedValue) {
       handleSteadySearch(debouncedValue);
     } else {
-      handleGetSteadies(type, page.toString());
+      handleGetSteadies(deadline, recruit, type, page.toString());
     }
   }, [debouncedValue]);
 
@@ -147,7 +152,7 @@ const Home = () => {
 
   useEffect(() => {
     setPage(0);
-  }, [type, stack, position, mode]);
+  }, [type, stack, position, mode, recruit, deadline]);
 
   const bannerDefaultStyle =
     "duration-1500 absolute left-0 top-0 flex h-350 w-full justify-center transition-opacity";
@@ -339,7 +344,7 @@ const Home = () => {
               } cursor-pointer text-3xl font-bold`}
               onClick={() => {
                 setType("all");
-                handleGetSteadies("all", page.toString());
+                handleGetSteadies(deadline, recruit, "all", page.toString());
               }}
             >
               전체
@@ -350,7 +355,7 @@ const Home = () => {
               } cursor-pointer text-3xl font-bold`}
               onClick={() => {
                 setType("STUDY");
-                handleGetSteadies("STUDY", page.toString());
+                handleGetSteadies(deadline, recruit, "STUDY", page.toString());
               }}
             >
               스터디
@@ -361,7 +366,12 @@ const Home = () => {
               } cursor-pointer text-3xl font-bold`}
               onClick={() => {
                 setType("PROJECT");
-                handleGetSteadies("PROJECT", page.toString());
+                handleGetSteadies(
+                  deadline,
+                  recruit,
+                  "PROJECT",
+                  page.toString(),
+                );
               }}
             >
               프로젝트
@@ -443,7 +453,7 @@ const Home = () => {
                   handleSteadyDeadline(page.toString());
                 } else {
                   setDeadline(!deadline);
-                  handleGetSteadies(type, page.toString());
+                  handleGetSteadies(false, recruit, type, page.toString());
                 }
               }}
               className={`${
@@ -477,6 +487,8 @@ const Home = () => {
       </section>
       <section className="flex h-100 w-full items-center justify-center">
         <Pagination
+          deadline={deadline}
+          recruit={recruit}
           type={type}
           totalPost={totalPost as number}
           page={page}
