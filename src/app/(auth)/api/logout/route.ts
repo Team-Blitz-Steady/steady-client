@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -7,6 +7,8 @@ export async function GET() {
     cookies().delete("refresh_token");
   } catch (error) {
     console.error(error);
+    return NextResponse.json({ message: "Logout failed!" });
   }
-  return redirect("/clear");
+
+  return NextResponse.json({ message: "Logout success!" });
 }

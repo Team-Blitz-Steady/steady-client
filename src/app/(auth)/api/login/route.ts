@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,5 +17,7 @@ export async function POST(req: NextRequest) {
     console.error(error);
   }
 
-  return redirect("/");
+  return NextResponse.json({
+    message: "login success!",
+  });
 }
