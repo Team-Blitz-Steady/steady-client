@@ -5,14 +5,14 @@ const createUserProfile = async ({
   accountId,
   nickname,
   positionId,
-  stackIds,
+  stacksId,
 }: UserProfileType) => {
   try {
     const response = await axiosInstance.post("/api/v1/user/profile", {
       accountId,
       nickname,
       positionId,
-      stackIds,
+      stacksId,
     });
     if (Math.floor(response.status / 10) !== 20) {
       throw new Error("Failed to fetch create user profile api!");
