@@ -247,3 +247,15 @@ export interface UpdateMyProfileType {
   positionId: number;
   stacksId: number[];
 }
+
+export interface Notification {
+  id: number;
+  type: "FRESH_APPLICATION" | "APPLICATION_RESULT";
+  content: string;
+  redirectUri: string;
+  isRead: boolean;
+}
+export interface AllNotificationsType {
+  notifications: Notification[];
+  freshCount: number;
+}
