@@ -158,7 +158,7 @@ export interface UserProfileType {
   accountId: number;
   nickname: string;
   positionId: number;
-  stackIds: number[];
+  stacksId: number[];
 }
 
 export interface CheckSameUsernameType {
@@ -188,7 +188,21 @@ export interface PositionResponse {
   positions: PositionType[];
 }
 
+export interface MySteadyContentType {
+  steadyId: number;
+  name: string;
+  isLeader: boolean;
+  joinedAt: string;
+}
+
+export interface MySteadyType {
+  content: MySteadyContentType[];
+  numberOfElements: number;
+  hasNext: boolean;
+}
+
 export interface SteadyQuestionsType {
+  steadyName: string;
   steadyQuestions: [
     {
       id: number;
@@ -196,4 +210,52 @@ export interface SteadyQuestionsType {
       sequence: number;
     },
   ];
+}
+
+export interface MyProfileType {
+  platform: string;
+  userId: number;
+  profileImage: string;
+  nickname: string;
+  bio: string;
+  position: PositionType;
+  stacks: StackType[];
+}
+
+export interface UserCardType {
+  cardId: number;
+  content: string;
+  count: number;
+}
+export interface UsersProfileType {
+  user: {
+    userId: number;
+    profileImage: string;
+    nickname: string;
+    bio: string;
+    position: PositionType;
+    stacks: StackType[];
+  };
+  userCards: UserCardType[];
+  reviews: string[];
+}
+
+export interface UpdateMyProfileType {
+  profileImage: string;
+  nickname: string;
+  bio: string;
+  positionId: number;
+  stacksId: number[];
+}
+
+export interface Notification {
+  id: number;
+  type: "FRESH_APPLICATION" | "APPLICATION_RESULT";
+  content: string;
+  redirectUri: string;
+  isRead: boolean;
+}
+export interface AllNotificationsType {
+  notifications: Notification[];
+  freshCount: number;
 }

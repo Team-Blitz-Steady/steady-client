@@ -1,13 +1,14 @@
 import { cookies } from "next/headers";
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     cookies().delete("access_token");
     cookies().delete("refresh_token");
   } catch (error) {
     console.error(error);
+    return NextResponse.json({ message: "Logout failed!" });
   }
-  return NextResponse.redirect(new URL("/clear", req.nextUrl));
+
+  return NextResponse.json({ message: "Logout success!" });
 }

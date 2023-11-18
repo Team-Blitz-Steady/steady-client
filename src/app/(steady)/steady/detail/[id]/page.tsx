@@ -30,18 +30,21 @@ interface PageParams {
 }
 
 const SteadyDetailPage = ({ params }: { params: PageParams }) => {
+  const steadyId = params.id;
   const { data: steadyDetailsData, refetch: steadyDetailsRefetch } =
     useSuspenseQuery({
-      queryKey: ["steadyDetails"],
-      queryFn: () => getSteadyDetails(params.id),
+      queryKey: ["steadyDetails", steadyId],
+      queryFn: () => getSteadyDetails(steadyId),
+      staleTime: 10000,
     });
   const { data: steadyParticipantsData } = useSuspenseQuery({
-    queryKey: ["steadyParticipants"],
-    queryFn: () => getSteadyParticipants(params.id),
+    queryKey: ["steadyParticipants", steadyId],
+    queryFn: () => getSteadyParticipants(steadyId),
   });
   const { data: steadyQuestionsData } = useSuspenseQuery({
-    queryKey: ["steadyQuestions"],
-    queryFn: () => getSteadyQuestions(params.id),
+    queryKey: ["steadyQuestions", steadyId],
+    queryFn: () => getSteadyQuestions(steadyId),
+    staleTime: 10000,
   });
 
   const router = useRouter();

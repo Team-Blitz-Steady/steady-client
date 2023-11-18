@@ -21,7 +21,7 @@ import LoginStepsContainer from "./LoginStepsContainer";
 
 const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
   const { steps, setDecreaseSteps, setSteps } = useLoginStepsStore();
-  const { accountId, nickname, positionId, stackIds, setAccountId } =
+  const { accountId, nickname, positionId, stacksId, setAccountId } =
     useNewUserInfoStore();
   const [open, setOpen] = useState(false);
   const searchParams = useSearchParams();
@@ -41,12 +41,10 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
             setOpen(true);
           } else {
             axios
-              .get("https://steady-client.vercel.app/login", {
-                headers: {
-                  Authorization: JSON.stringify({
-                    access: token.accessToken,
-                    refresh: token.refreshToken,
-                  }),
+              .post("https://steady-client.vercel.app/api/login", {
+                token: {
+                  access: token.accessToken,
+                  refresh: token.refreshToken,
                 },
               })
               .then(() => {
@@ -65,7 +63,7 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
         accountId,
         nickname,
         positionId,
-        stackIds,
+        stacksId,
       });
       console.log(userProfileCreated.headers.location);
       if (userProfileCreated) {

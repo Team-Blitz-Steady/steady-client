@@ -7,46 +7,31 @@ import {
 import useLoginStepsStore from "@/stores/loginSteps";
 import useNewUserInfoStore from "@/stores/newUserInfo";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import getPositions from "@/services/steady/getPositions";
+import getStacks from "@/services/steady/getStacks";
 import Button, { buttonSize } from "@/components/_common/Button";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import { extractValue } from "@/utils/extractValue";
 import { loginTextStyles } from "./SetNickname";
 
-const dummyPositions = [
-  { value: "1", label: "프론트엔드" },
-  { value: "2", label: "백엔드" },
-  { value: "3", label: "디자인" },
-  { value: "4", label: "기획" },
-  { value: "5", label: "마케팅" },
-  { value: "6", label: "기타" },
-];
-
-const dummyStacks = [
-  { value: "1", label: "React" },
-  { value: "2", label: "Next.js" },
-  { value: "3", label: "Vue" },
-  { value: "4", label: "Nuxt.js" },
-  { value: "5", label: "Angular" },
-  { value: "6", label: "Svelte" },
-  { value: "7", label: "Express" },
-  { value: "8", label: "Nest.js" },
-  { value: "9", label: "Django" },
-  { value: "10", label: "Flask" },
-  { value: "11", label: "Spring" },
-  { value: "12", label: "MyBatis" },
-  { value: "13", label: "JPA" },
-  { value: "14", label: "Hibernate" },
-  { value: "15", label: "MySQL" },
-  { value: "16", label: "MariaDB" },
-];
-
 const SetPositionAndStacks = () => {
   const { setIncreaseSteps } = useLoginStepsStore();
-  const { nickname, positionId, stackIds, setPositionId, setStackIds } =
+  const { nickname, positionId, stacksId, setPositionId, setStackIds } =
     useNewUserInfoStore();
   const userInfos = useForm<PositionAndStacksSchemaType>({
-    values: { position: positionId, stacks: stackIds },
+    values: { position: positionId, stacks: stacksId },
     resolver: zodResolver(positionAndStacksSchema),
+  });
+  const { data: stacksData } = useSuspenseQuery({
+    queryKey: ["stacks"],
+    queryFn: () => getStacks(),
+    staleTime: Infinity,
+  });
+  const { data: positionsData } = useSuspenseQuery({
+    queryKey: ["positions"],
+    queryFn: () => getPositions(),
+    staleTime: Infinity,
   });
 
   const savePositionAndStacks = (data: PositionAndStacksSchemaType) => {
@@ -81,11 +66,14 @@ const SetPositionAndStacks = () => {
                 <FormItem className="flex flex-col gap-10">
                   <SingleSelector
                     initialLabel={
-                      dummyPositions.find(
-                        (position) => position.value === String(positionId),
-                      )?.label ?? "포지션"
+                      positionsData.positions.find(
+                        (position) => position.id === positionId,
+                      )?.name ?? "포지션"
                     }
-                    items={dummyPositions}
+                    items={positionsData.positions.map((position) => ({
+                      value: position.id.toString(),
+                      label: position.name,
+                    }))}
                     onSelectedChange={(selected) => {
                       setPositionId(Number(selected));
                     }}
@@ -102,19 +90,20 @@ const SetPositionAndStacks = () => {
                   <FormItem className="flex flex-col gap-10">
                     <MultiSelector
                       initialLabel={
-                        stackIds.length
-                          ? dummyStacks
-                              .filter((item) =>
-                                stackIds.includes(Number(item.value)),
-                              )
-                              .map((item) => item.label)
+                        stacksId.length
+                          ? stacksData.stacks
+                              .filter((item) => stacksId.includes(item.id))
+                              .map((item) => item.name)
                               .join(", ")
                           : "기술 스택"
                       }
-                      items={dummyStacks}
+                      items={stacksData.stacks.map((stack) => ({
+                        value: stack.id.toString(),
+                        label: stack.name,
+                      }))}
                       onSelectedChange={(selected) => {
-                        const stackIds = extractValue(selected).map(Number);
-                        setStackIds(stackIds);
+                        const stacksId = extractValue(selected).map(Number);
+                        setStackIds(stacksId);
                       }}
                     />
                     <FormMessage />
