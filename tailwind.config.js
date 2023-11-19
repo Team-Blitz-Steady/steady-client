@@ -10,6 +10,7 @@ module.exports = {
   theme: {
     colors: {
       "st-skyblue-300": "#9dd5ff",
+      "st-skyblue-50": "#ddf1ff",
       "st-primary": "#5585ff",
       "st-red": "#ff5353",
       "st-green": "#35cc00",

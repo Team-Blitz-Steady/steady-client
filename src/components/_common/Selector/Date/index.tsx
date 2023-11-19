@@ -11,6 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
+import isPastDate from "@/utils/isPastDate";
 
 interface DateSelectorProps {
   className?: string;
@@ -18,6 +19,7 @@ interface DateSelectorProps {
   initialDate?: Date;
   // eslint-disable-next-line no-unused-vars
   onDateChange?: (date: Date) => void;
+  pastSelectable?: boolean;
 }
 
 const DateSelector = ({
@@ -25,14 +27,22 @@ const DateSelector = ({
   initialLabel,
   initialDate,
   onDateChange,
+  pastSelectable = true,
 }: DateSelectorProps) => {
   const [date, setDate] = useState<Date | undefined>(undefined);
 
-  useEffect(() => {
-    if (initialDate) {
-      setDate(initialDate);
+  const handleSelect = (selected: Date | undefined) => {
+    if (!pastSelectable && selected && isPastDate(selected)) {
+      return;
     }
+    selected && setDate(selected);
+    selected && onDateChange && onDateChange(selected);
+  };
+
+  useEffect(() => {
+    initialDate && setDate(initialDate);
   }, []);
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -59,10 +69,7 @@ const DateSelector = ({
           mode="single"
           selected={date}
           onSelect={(selected) => {
-            setDate(selected);
-            if (onDateChange && selected) {
-              onDateChange(selected);
-            }
+            handleSelect(selected);
           }}
           initialFocus
         />

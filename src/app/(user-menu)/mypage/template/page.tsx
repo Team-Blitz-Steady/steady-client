@@ -17,8 +17,10 @@ const MyTemplatePage = () => {
 
   const handleDeleteTemplate = async (event: React.MouseEvent, id: string) => {
     event.stopPropagation();
-    deleteTemplate(id);
-    refetch();
+    const data = await deleteTemplate(id);
+    if (!data) {
+      refetch();
+    }
   };
 
   const handleTemplateDetail = (id: number) => {

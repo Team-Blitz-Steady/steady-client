@@ -47,8 +47,31 @@ const ReviewPage = () => {
       <div className="text-30 font-bold">스테디 이름 리뷰</div>
       <div className="flex flex-col items-center gap-30">
         <div className="h-5 w-1000 bg-st-gray-400"></div>
-        <div className="h-200 w-800 rounded-10 text-center text-30 font-bold shadow-md">
-          스테디 정보
+        <div className="flex h-200 w-800 flex-wrap items-center justify-center rounded-10 px-30 py-20 text-center text-30 font-bold shadow-md">
+          <div className="flex w-1/2 items-center text-20">
+            <div className="flex h-40 w-100 items-center justify-center rounded-20 bg-st-skyblue-50 text-15 font-bold shadow-md">
+              스테디 구분
+            </div>
+            <div className="flex-1 text-17">프로젝트</div>
+          </div>
+          <div className="flex w-1/2 items-center text-20">
+            <div className="flex h-40 w-100 items-center justify-center rounded-20 bg-st-skyblue-50 text-15 font-bold shadow-md">
+              진행 방식
+            </div>
+            <div className="flex-1 text-17">오프라인</div>
+          </div>
+          <div className="flex w-1/2 items-center text-20">
+            <div className="flex h-40 w-100 items-center justify-center rounded-20 bg-st-skyblue-50 text-15 font-bold shadow-md">
+              진행 기간
+            </div>
+            <div className="flex-1 text-17">2023.11.17 ~ 2023.12.07</div>
+          </div>
+          <div className="flex w-1/2 items-center text-20">
+            <div className="flex h-40 w-100 items-center justify-center rounded-20 bg-st-skyblue-50 text-15 font-bold shadow-md">
+              진행 인원
+            </div>
+            <div className="flex-1 text-17">5명</div>
+          </div>
         </div>
         <div className="flex items-center justify-center gap-50">
           {participantList.map((participant, index) => (
@@ -175,7 +198,7 @@ const ReviewPage = () => {
         </div>
         <div className="h-5 w-1000 bg-st-gray-400"></div>
       </div>
-      <div className="flex flex-col justify-center gap-10">
+      <div className="mt-20 flex flex-col justify-center gap-10">
         <div className="text-25 font-bold">한 줄 평 남기기</div>
         <TextArea
           className="rc:outline-none h-100 w-1000 p-10"
