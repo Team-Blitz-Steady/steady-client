@@ -9,8 +9,14 @@ const Logout = () => {
   const router = useRouter();
   const { setIsAuth } = useAuthStore();
   axios.get("https://steady-client.vercel.app/api/logout").then(() => {
-    deleteCookie("access_token", { path: "steady-client.vercel.app" });
-    deleteCookie("refresh_token", { path: "steady-client.vercel.app" });
+    deleteCookie("access_token", {
+      path: "/",
+      domain: "steady-client.vercel.app",
+    });
+    deleteCookie("refresh_token", {
+      path: "/",
+      domain: "steady-client.vercel.app",
+    });
     setIsAuth(false);
     router.replace("/");
   });
