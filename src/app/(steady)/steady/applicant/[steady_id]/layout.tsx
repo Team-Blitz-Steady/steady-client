@@ -1,12 +1,14 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import SteadyLogo from "@/images/turtle.png";
 import { Avatar } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import getApplicationsList from "@/services/application/getApplicationsList";
+import { UserModal } from "@/components/_common/Modal";
+import UserItems from "@/components/_common/Modal/UserModal/UserItems";
 
 const selectedEffectStyle = "bg-st-skyblue-50 text-st-primary";
 const normalEffectStyle = "hover:bg-st-gray-50";
@@ -38,15 +40,24 @@ const SteadyApplicantLayout = ({
                 }`}
                 onClick={() => setSelectedItem(id)}
               >
-                {/* TODO: 유저 프로필 이미지 클릭시 모달 오픈 */}
-                <Avatar
-                  src={user.profileImage ? user.profileImage : `/${SteadyLogo}`}
-                  alt="유저 프로필 이미지"
-                  size={"4"}
-                  radius="full"
-                  className="cursor-pointer"
-                  fallback={""}
-                />
+                <UserModal
+                  trigger={
+                    <div>
+                      <Avatar
+                        src={user.profileImage ?? `/${SteadyLogo}`}
+                        alt="유저 프로필 이미지"
+                        size={"4"}
+                        radius="full"
+                        className="cursor-pointer"
+                        fallback={""}
+                      />
+                    </div>
+                  }
+                >
+                  <Suspense fallback={null}>
+                    <UserItems userId={user.userId} />
+                  </Suspense>
+                </UserModal>
                 <Link
                   href={`/steady/applicant/${steadyId}/${user.applicationId}`}
                   className="w-full"
