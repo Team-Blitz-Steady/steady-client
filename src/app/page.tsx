@@ -160,7 +160,7 @@ const Home = () => {
 
   useEffect(() => {
     setPage(0);
-  }, [type, stack, position, mode, recruit, deadline]);
+  }, [type, stack, position, mode, recruit, deadline, debouncedValue]);
 
   const bannerDefaultStyle =
     "duration-1500 absolute left-0 top-0 flex h-350 w-full justify-center transition-opacity";
