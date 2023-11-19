@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { SteadyStateType } from "@/constants/schemas/steadySchema";
 
-const CreateSteadyStorageKey = "create-steady-key";
+const CreateSteadyStorageKey = "steadyState";
 
 interface CreateSteadyState {
   steadyState: SteadyStateType;

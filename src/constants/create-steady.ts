@@ -13,6 +13,9 @@ export const STEADY_SECTION_INTRO = "📖 스테디 정보를 입력해주세요
 
 export const RECRUITMENT_SECTION_INTRO = "✍️ 모집글 정보를 입력해주세요.";
 
+export const CREATE_STEADY_PAGE_HEADING =
+  "📖 스테디 / ✍️ 모집글 정보를 입력해주세요.";
+
 export const STEADY_RESPONSE_MOCK_DATA = {
   id: 1,
   nickname: "닉네임",

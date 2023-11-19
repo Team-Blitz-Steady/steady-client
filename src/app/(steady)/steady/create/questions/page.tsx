@@ -55,6 +55,13 @@ const CreateQuestionsPage = () => {
 
   const handleSubmitTotalData = () => {
     const questions = question.map((item) => item.question);
+    if (questions.some((item) => item.length === 0)) {
+      toast({
+        description: "질문의 내용을 입력해주세요.",
+        variant: "red",
+      });
+      return;
+    }
     const totalData = { ...steadyState, questions };
     createSteady(totalData)
       .then(() => {
@@ -170,7 +177,10 @@ const CreateQuestionsPage = () => {
         className={cn("h-5 bg-st-gray-400")}
       />
       <div className={"flex justify-end gap-20"}>
-        <Button className={cn(`${buttonSize.sm} items-center justify-center`)}>
+        <Button
+          className={cn(`${buttonSize.sm} items-center justify-center`)}
+          onClick={() => router.back()}
+        >
           취소
         </Button>
         <Button
