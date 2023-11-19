@@ -177,7 +177,10 @@ const CreateQuestionsPage = () => {
         className={cn("h-5 bg-st-gray-400")}
       />
       <div className={"flex justify-end gap-20"}>
-        <Button className={cn(`${buttonSize.sm} items-center justify-center`)}>
+        <Button
+          className={cn(`${buttonSize.sm} items-center justify-center`)}
+          onClick={() => router.back()}
+        >
           취소
         </Button>
         <Button
