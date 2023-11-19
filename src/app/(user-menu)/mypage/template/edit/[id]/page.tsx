@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 import { useQuery } from "@tanstack/react-query";
+import deleteTemplate from "@/services/template/deleteTemplate";
 import getTemplateDetail from "@/services/template/getTemplateDetail";
 import updateTemplate from "@/services/template/updateTemplate";
 import Button, { buttonSize } from "@/components/_common/Button";
@@ -89,6 +90,11 @@ const EditTemplatePage = () => {
     setQuestion(updatedQuestions);
   };
 
+  const handleDeleteTemplate = (id: string) => {
+    deleteTemplate(id);
+    router.push("/mypage/template");
+  };
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -103,12 +109,20 @@ const EditTemplatePage = () => {
         <div className="flex justify-between p-20 text-30 font-bold">
           {data?.title} 템플릿
           {isModify ? (
-            <Button
-              className={`${buttonSize.lg} bg-st-primary text-st-white`}
-              onClick={() => handleAddQuestion(content)}
-            >
-              질문 추가
-            </Button>
+            <div className="flex justify-center gap-20">
+              <Button
+                className={`${buttonSize.lg} bg-st-red text-st-white`}
+                onClick={() => handleDeleteTemplate(templateId)}
+              >
+                템플릿 삭제
+              </Button>
+              <Button
+                className={`${buttonSize.lg} bg-st-primary text-st-white`}
+                onClick={() => handleAddQuestion(content)}
+              >
+                질문 추가
+              </Button>
+            </div>
           ) : (
             <Button
               className={`${buttonSize.lg} bg-st-primary text-st-white`}
@@ -133,7 +147,7 @@ const EditTemplatePage = () => {
                   value={item.value}
                   disabled={!isModify}
                   onChange={(event) => handleInputChange(event, item.id)}
-                  className="h-50 w-5/6 text-20 text-st-gray-200 outline-none"
+                  className="h-50 w-5/6 bg-st-white text-20 text-st-black outline-none"
                 />
                 {isModify && (
                   <div
