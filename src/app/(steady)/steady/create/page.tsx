@@ -232,6 +232,7 @@ const CreateSteadyPage = () => {
                       onDateChange={(date) => {
                         field.onChange(formatDate(date));
                       }}
+                      pastSelectable={false}
                     />
                     <FormMessage />
                   </FormItem>
