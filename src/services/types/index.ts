@@ -259,3 +259,8 @@ export interface AllNotificationsType {
   notifications: Notification[];
   freshCount: number;
 }
+
+export interface LikeSteadyType {
+  likeCount: number;
+  isLike: boolean;
+}
