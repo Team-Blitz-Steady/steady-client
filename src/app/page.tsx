@@ -50,7 +50,8 @@ const Home = () => {
 
   const { data } = useQuery({
     queryKey: ["steadies"],
-    queryFn: () => getSteadies(deadline, recruit, type, page.toString()),
+    queryFn: () =>
+      getSteadies(keyword, deadline, recruit, type, page.toString()),
   });
 
   const { data: stacks, error: stacksError } = useSuspenseQuery<StackResponse>({
@@ -75,12 +76,19 @@ const Home = () => {
   const [totalPost, setTotalPost] = useState(data?.totalElements);
 
   const handleGetSteadies = async (
+    keyword: string,
     deadline: boolean,
     recruit: boolean,
     type: string,
     page: string,
   ) => {
-    const data = await getSteadies(deadline, recruit, type, page.toString());
+    const data = await getSteadies(
+      keyword,
+      deadline,
+      recruit,
+      type,
+      page.toString(),
+    );
     setTotalPost(data.totalElements);
     setPost(data);
   };
@@ -138,7 +146,7 @@ const Home = () => {
     if (debouncedValue) {
       handleSteadySearch(debouncedValue);
     } else {
-      handleGetSteadies(deadline, recruit, type, page.toString());
+      handleGetSteadies(keyword, deadline, recruit, type, page.toString());
     }
   }, [debouncedValue]);
 
@@ -344,7 +352,13 @@ const Home = () => {
               } cursor-pointer text-3xl font-bold`}
               onClick={() => {
                 setType("all");
-                handleGetSteadies(deadline, recruit, "all", page.toString());
+                handleGetSteadies(
+                  keyword,
+                  deadline,
+                  recruit,
+                  "all",
+                  page.toString(),
+                );
               }}
             >
               전체
@@ -355,7 +369,13 @@ const Home = () => {
               } cursor-pointer text-3xl font-bold`}
               onClick={() => {
                 setType("STUDY");
-                handleGetSteadies(deadline, recruit, "STUDY", page.toString());
+                handleGetSteadies(
+                  keyword,
+                  deadline,
+                  recruit,
+                  "STUDY",
+                  page.toString(),
+                );
               }}
             >
               스터디
@@ -367,6 +387,7 @@ const Home = () => {
               onClick={() => {
                 setType("PROJECT");
                 handleGetSteadies(
+                  keyword,
                   deadline,
                   recruit,
                   "PROJECT",
@@ -453,7 +474,13 @@ const Home = () => {
                   handleSteadyDeadline(page.toString());
                 } else {
                   setDeadline(!deadline);
-                  handleGetSteadies(false, recruit, type, page.toString());
+                  handleGetSteadies(
+                    keyword,
+                    false,
+                    recruit,
+                    type,
+                    page.toString(),
+                  );
                 }
               }}
               className={`${
@@ -487,6 +514,7 @@ const Home = () => {
       </section>
       <section className="flex h-100 w-full items-center justify-center">
         <Pagination
+          keyword={keyword}
           deadline={deadline}
           recruit={recruit}
           type={type}

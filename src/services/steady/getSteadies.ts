@@ -2,6 +2,7 @@ import { axiosInstance } from "@/services";
 import type { Steadies } from "@/services/types";
 
 const getSteadies = async (
+  keyword: string,
   deadline: boolean,
   recruit: boolean,
   type: string,
@@ -13,7 +14,7 @@ const getSteadies = async (
         type !== "all" ? `&steadyType=${type}` : ""
       }${recruit ? `&status=RECRUITING` : ""}${
         deadline ? `&direction=asc&criteria=deadline` : ""
-      }`,
+      }${keyword !== "" ? `&keyword=${keyword}` : ""}`,
     );
     return response.data;
   } catch (error) {
