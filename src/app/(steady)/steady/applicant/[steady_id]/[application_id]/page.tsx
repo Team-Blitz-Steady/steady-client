@@ -55,7 +55,7 @@ const UserApplicantPage = ({
           </div>
         </Question>
       ))}
-      <div className="mt-20 flex justify-end gap-20">
+      <div className="mt-auto flex justify-end gap-20">
         <AlertModal
           trigger={
             <Button className={`${buttonSize.sm} bg-st-red text-st-white`}>
