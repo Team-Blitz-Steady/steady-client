@@ -83,6 +83,8 @@ const Home = () => {
 
   const handleGetSteadies = async (
     stack: string,
+    position: string,
+    mode: string,
     keyword: string,
     deadline: boolean,
     recruit: boolean,
@@ -135,6 +137,7 @@ const Home = () => {
       status,
       deadline,
     );
+    setTotalPost(data.totalElements);
     setPost(data);
   };
 
@@ -168,6 +171,8 @@ const Home = () => {
     } else {
       handleGetSteadies(
         stack,
+        position,
+        mode,
         keyword,
         deadline,
         recruit,
@@ -420,7 +425,7 @@ const Home = () => {
             <SingleSelector
               initialLabel={"모집 분야"}
               items={positions.positions.map((position) => ({
-                value: position.id.toString(),
+                value: position.name,
                 label: position.name,
               }))}
               onSelectedChange={(value) => setPosition(value)}
