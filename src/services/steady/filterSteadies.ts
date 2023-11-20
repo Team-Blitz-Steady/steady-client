@@ -60,4 +60,16 @@ export const steadyModeFilter = async (
   }
 };
 
+export const steadyDeadlineFilter = async (page: string): Promise<Steadies> => {
+  try {
+    const response = await axiosInstance.get(
+      `/api/v1/steadies/search?page=${page}&direction=asc&criteria=deadline&like=false`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 // TODO: [기술 스택 및 내 좋아요 및 정렬 방향 추가하기]

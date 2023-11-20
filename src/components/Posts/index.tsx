@@ -84,7 +84,7 @@ const Posts = ({ info }: { info: Steadies }) => {
               </div>
               <div className="flex w-170 flex-col gap-30">
                 <div className="flex items-center gap-10 font-bold">
-                  {item.profileImage !== "default_profile_image_url.jpg" ? (
+                  {item.profileImage !== "new_profile_image.jpg" ? (
                     <Avatar
                       src={item.profileImage}
                       alt="profile"
@@ -102,7 +102,10 @@ const Posts = ({ info }: { info: Steadies }) => {
                       className="rounded-full"
                     />
                   )}
-                  | {item.nickname}
+                  |{" "}
+                  {item.nickname.length > 6
+                    ? `${item.nickname.slice(0, 6)}...`
+                    : item.nickname}
                 </div>
                 <div className="flex items-center justify-start gap-10">
                   <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
