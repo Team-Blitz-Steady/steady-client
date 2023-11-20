@@ -7,7 +7,7 @@ const changeApplicationStatus = async (
 ) => {
   try {
     const response = await axiosInstance.patch(
-      `/applications/${applicationId}/status`,
+      `/api/v1/applications/${applicationId}/status`,
       status,
     );
     if (Math.floor(response.status / 10) !== 20) {

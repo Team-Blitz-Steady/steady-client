@@ -12,7 +12,7 @@ import Button, { buttonSize } from "@/components/_common/Button";
 import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
 import { AlertModal } from "@/components/_common/Modal";
-import { useMySteadiesQuery } from "@/hooks/useMySteadiesQuery";
+import { useMySteadiesQuery } from "@/hooks/query/useMySteadiesQuery";
 import { useScrollTo } from "@/hooks/useScrollTo";
 
 const filterOptions = [
