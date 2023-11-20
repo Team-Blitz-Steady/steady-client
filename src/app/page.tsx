@@ -7,11 +7,8 @@ import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import {
-  steadyDeadlineFilter,
-  steadyStatusFilter,
-} from "@/services/steady/filterSteadies";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import steadyFilter from "@/services/steady/filterSteadies";
 import getPositions from "@/services/steady/getPositions";
 import getStacks from "@/services/steady/getStacks";
 import getSteadies from "@/services/steady/getSteadies";
@@ -48,10 +45,19 @@ const Home = () => {
   const [position, setPosition] = useState("");
   const [mode, setMode] = useState("");
 
-  const { data } = useQuery({
+  const { data } = useSuspenseQuery<Steadies>({
     queryKey: ["steadies"],
     queryFn: () =>
-      getSteadies(keyword, deadline, recruit, type, page.toString()),
+      getSteadies(
+        stack,
+        position,
+        mode,
+        keyword,
+        deadline,
+        recruit,
+        type,
+        page.toString(),
+      ),
   });
 
   const { data: stacks, error: stacksError } = useSuspenseQuery<StackResponse>({
@@ -76,6 +82,7 @@ const Home = () => {
   const [totalPost, setTotalPost] = useState(data?.totalElements);
 
   const handleGetSteadies = async (
+    stack: string,
     keyword: string,
     deadline: boolean,
     recruit: boolean,
@@ -83,6 +90,9 @@ const Home = () => {
     page: string,
   ) => {
     const data = await getSteadies(
+      stack,
+      position,
+      mode,
       keyword,
       deadline,
       recruit,
@@ -93,20 +103,9 @@ const Home = () => {
     setPost(data);
   };
 
-  const handleRecruit = async (page: string) => {
-    const data = await steadyStatusFilter(page);
-    setTotalPost(data.totalElements);
-    setPost(data);
-  };
-
   const handleSteadySearch = async (keyword: string) => {
     const data = await searchSteadies(keyword);
     setTotalPost(data.totalElements);
-    setPost(data);
-  };
-
-  const handleSteadyDeadline = async (page: string) => {
-    const data = await steadyDeadlineFilter(page);
     setPost(data);
   };
 
@@ -116,6 +115,27 @@ const Home = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
+  };
+
+  const handleFilter = async (
+    type: string,
+    keyword: string,
+    stack: string,
+    position: string,
+    mode: string,
+    status: boolean,
+    deadline: boolean,
+  ) => {
+    const data = await steadyFilter(
+      type,
+      keyword,
+      stack,
+      position,
+      mode,
+      status,
+      deadline,
+    );
+    setPost(data);
   };
 
   useEffect(() => {
@@ -146,7 +166,14 @@ const Home = () => {
     if (debouncedValue) {
       handleSteadySearch(debouncedValue);
     } else {
-      handleGetSteadies(keyword, deadline, recruit, type, page.toString());
+      handleGetSteadies(
+        stack,
+        keyword,
+        deadline,
+        recruit,
+        type,
+        page.toString(),
+      );
     }
   }, [debouncedValue]);
 
@@ -160,6 +187,7 @@ const Home = () => {
 
   useEffect(() => {
     setPage(0);
+    handleFilter(type, keyword, stack, position, mode, recruit, deadline);
   }, [type, stack, position, mode, recruit, deadline, debouncedValue]);
 
   const bannerDefaultStyle =
@@ -350,16 +378,7 @@ const Home = () => {
               className={`${
                 type === "all" ? "" : "text-st-gray-100"
               } cursor-pointer text-3xl font-bold`}
-              onClick={() => {
-                setType("all");
-                handleGetSteadies(
-                  keyword,
-                  deadline,
-                  recruit,
-                  "all",
-                  page.toString(),
-                );
-              }}
+              onClick={() => setType("all")}
             >
               전체
             </div>
@@ -367,16 +386,7 @@ const Home = () => {
               className={`${
                 type === "STUDY" ? "" : "text-st-gray-100"
               } cursor-pointer text-3xl font-bold`}
-              onClick={() => {
-                setType("STUDY");
-                handleGetSteadies(
-                  keyword,
-                  deadline,
-                  recruit,
-                  "STUDY",
-                  page.toString(),
-                );
-              }}
+              onClick={() => setType("STUDY")}
             >
               스터디
             </div>
@@ -384,16 +394,7 @@ const Home = () => {
               className={`${
                 type === "PROJECT" ? "" : "text-st-gray-100"
               } cursor-pointer text-3xl font-bold`}
-              onClick={() => {
-                setType("PROJECT");
-                handleGetSteadies(
-                  keyword,
-                  deadline,
-                  recruit,
-                  "PROJECT",
-                  page.toString(),
-                );
-              }}
+              onClick={() => setType("PROJECT")}
             >
               프로젝트
             </div>
@@ -452,15 +453,7 @@ const Home = () => {
             >
               <button
                 className="h-full w-full font-bold"
-                onClick={() => {
-                  if (recruit) {
-                    setRecruit(!recruit);
-                    setPost(data);
-                  } else {
-                    handleRecruit(page.toString());
-                    setRecruit(!recruit);
-                  }
-                }}
+                onClick={() => setRecruit(!recruit)}
               >
                 모집중
               </button>
@@ -468,21 +461,7 @@ const Home = () => {
           </div>
           <div className="flex items-center justify-center gap-20">
             <div
-              onClick={() => {
-                if (!deadline) {
-                  setDeadline(!deadline);
-                  handleSteadyDeadline(page.toString());
-                } else {
-                  setDeadline(!deadline);
-                  handleGetSteadies(
-                    keyword,
-                    false,
-                    recruit,
-                    type,
-                    page.toString(),
-                  );
-                }
-              }}
+              onClick={() => setDeadline(!deadline)}
               className={`${
                 deadline ? "" : "text-st-gray-100"
               } flex cursor-pointer items-center justify-center gap-10 font-bold`}
@@ -514,6 +493,9 @@ const Home = () => {
       </section>
       <section className="flex h-100 w-full items-center justify-center">
         <Pagination
+          stack={stack}
+          position={position}
+          mode={mode}
           keyword={keyword}
           deadline={deadline}
           recruit={recruit}
