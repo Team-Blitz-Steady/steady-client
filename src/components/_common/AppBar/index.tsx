@@ -21,7 +21,7 @@ import {
   RocketIcon,
 } from "@radix-ui/react-icons";
 import { Avatar, IconButton, Separator } from "@radix-ui/themes";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import deleteAllNotifications from "@/services/notification/deleteAllNotifications";
 import deleteNotification from "@/services/notification/deleteNotification";
 import getAllNotifications from "@/services/notification/getAllNotifications";
@@ -29,6 +29,7 @@ import readAllNotifications from "@/services/notification/readAllNotifications";
 import readNotification from "@/services/notification/readNotification";
 import Button from "@/components/_common/Button";
 import Dropdown from "@/components/_common/Dropdown";
+import Spinner from "@/components/_common/Spinner";
 import LoginModal from "../Modal/LoginModal";
 
 interface AppBarProps {
@@ -39,19 +40,28 @@ export const appBarTextStyles = "text-lg font-bold";
 
 const AppBar = ({ className }: AppBarProps) => {
   const router = useRouter();
+  const { isAuth } = useAuthStore();
   const [notificationMenuOpen, setNotificationMenuOpen] = useState(false);
   const {
     data: notificationsData,
+    isSuccess: notificationsSuccess,
     error: notificationsError,
     refetch: refetchNotifications,
-  } = useSuspenseQuery({
+  } = useQuery({
     queryKey: ["notifications"],
     queryFn: () => getAllNotifications(),
+    enabled: isAuth,
   });
+
   if (notificationsError) {
     console.error(notificationsError);
     refetchNotifications();
   }
+
+  if (!notificationsSuccess) {
+    return <Spinner size={"small"} />;
+  }
+
   const { notifications, freshCount } = notificationsData;
 
   const handleNavigateTo = (id: string, path: string) => {
@@ -86,7 +96,6 @@ const AppBar = ({ className }: AppBarProps) => {
     });
   };
 
-  const { isAuth } = useAuthStore();
   return (
     <div
       className={cn(
