@@ -148,7 +148,10 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
               </span>
             </div>
           </div>
-          <Link href={`/steady/applicant/${steadyDetailsData.id}`}>
+          <Link
+            href={`/steady/applicant/${steadyDetailsData.id}`}
+            replace={true}
+          >
             {/* TODO: 신청자 보기 API 연결 */}
             <Button className={`${buttonSize.md} bg-st-primary text-st-white`}>
               신청자 보기
@@ -377,7 +380,10 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                   </AlertModal>
                 </>
               ) : (
-                <Link href={`/application/submit/${steadyDetailsData.id}`}>
+                <Link
+                  href={`/application/submit/${steadyDetailsData.id}`}
+                  replace={true}
+                >
                   <Button
                     className={`${buttonSize.sm} bg-st-primary text-st-white`}
                   >
