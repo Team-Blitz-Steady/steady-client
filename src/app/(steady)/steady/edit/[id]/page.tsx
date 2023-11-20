@@ -30,8 +30,7 @@ import {
 import { extractValue } from "@/utils/extractValue";
 import { formatDate } from "@/utils/formatDate";
 import {
-  RECRUITMENT_SECTION_INTRO,
-  STEADY_SECTION_INTRO,
+  CREATE_STEADY_PAGE_HEADING,
   steadyCategories,
   steadyExpectedPeriods,
   steadyParticipantsLimit,
@@ -132,58 +131,13 @@ const SteadyEditPage = ({
     <div className={cn("mt-30")}>
       <Form {...steadyEditForm}>
         <form onSubmit={steadyEditForm.handleSubmit(onSubmit)}>
-          <h1 className={cn("mx-8 font-semibold")}>{STEADY_SECTION_INTRO}</h1>
+          <h1 className={cn("mx-8 font-semibold")}>
+            {CREATE_STEADY_PAGE_HEADING}
+          </h1>
           <Separator
             size={"4"}
             my={"3"}
-            className={cn("h-5 bg-st-gray-400")}
-          />
-          <div className={cn("mx-40 flex flex-row justify-between")}>
-            <FormField
-              control={steadyEditForm.control}
-              defaultValue={type}
-              name={"type"}
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <SingleSelector
-                      initialLabel={"프로젝트 / 스터디"}
-                      initialData={type}
-                      items={steadyCategories}
-                      className={cn("w-430")}
-                      onSelectedChange={(selected) => {
-                        field.onChange(selected);
-                      }}
-                    />
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            />
-            <FormField
-              control={steadyEditForm.control}
-              defaultValue={participantLimit}
-              name={"participantLimit"}
-              render={({ field }) => (
-                <FormItem>
-                  <SingleSelector
-                    initialLabel={"스테디 정원"}
-                    initialData={participantLimit}
-                    items={steadyParticipantsLimit}
-                    className={cn("w-430")}
-                    onSelectedChange={(selected) => {
-                      field.onChange(Number(selected));
-                    }}
-                  />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <Separator
-            size={"4"}
-            my={"3"}
-            className={cn("h-5 bg-st-gray-400")}
+            className={cn("h-3 bg-st-gray-400")}
           />
           <FormField
             control={steadyEditForm.control}
@@ -204,20 +158,18 @@ const SteadyEditPage = ({
               </FormItem>
             )}
           />
+          <div className={cn("my-10")} />
           <FormField
             control={steadyEditForm.control}
-            defaultValue={bio}
             name={"bio"}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <TextArea
-                    className={cn("h-380 w-full")}
-                    my={"3"}
-                    placeholder={"스테디 소개"}
-                    defaultValue={bio}
-                    onChange={(event) => {
-                      field.onChange(event.target.value);
+                  <Input
+                    inputName={"steady-bio-input"}
+                    initialValue={bio}
+                    onValueChange={(value) => {
+                      field.onChange(value);
                     }}
                   />
                 </FormControl>
@@ -226,33 +178,32 @@ const SteadyEditPage = ({
             )}
           />
           <div className={cn("mt-30")}>
-            <h1 className={cn("mx-8 font-semibold")}>
-              {RECRUITMENT_SECTION_INTRO}
-            </h1>
             <Separator
               size={"4"}
               my={"3"}
-              className={cn("h-5 bg-st-gray-400")}
+              className={cn("h-3 bg-st-gray-400")}
             />
             <div className={cn("mx-20 flex flex-row justify-between gap-15")}>
               <FormField
                 control={steadyEditForm.control}
-                defaultValue={extractValue(positionsInitialData).map(Number)}
-                name={"positions"}
-                render={({ field }) => (
-                  <FormItem>
-                    <MultiSelector
-                      initialLabel={"모집 분야"}
-                      initialData={positionsInitialData}
-                      items={positionsItemsData}
-                      className={cn("w-200")}
-                      onSelectedChange={(selected) => {
-                        field.onChange(extractValue(selected).map(Number));
-                      }}
-                    />
-                    <FormMessage />
-                  </FormItem>
-                )}
+                defaultValue={type}
+                name={"type"}
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <SingleSelector
+                        initialLabel={"프로젝트 / 스터디"}
+                        initialData={type}
+                        items={steadyCategories}
+                        className={cn("w-200")}
+                        onSelectedChange={(selected) => {
+                          field.onChange(selected);
+                        }}
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
 
               <FormField
@@ -277,23 +228,24 @@ const SteadyEditPage = ({
 
               <FormField
                 control={steadyEditForm.control}
-                defaultValue={scheduledPeriod}
-                name={"scheduledPeriod"}
+                defaultValue={participantLimit}
+                name={"participantLimit"}
                 render={({ field }) => (
                   <FormItem>
                     <SingleSelector
-                      initialLabel={"예상 기간"}
-                      initialData={scheduledPeriod}
-                      items={steadyExpectedPeriods}
+                      initialLabel={"스테디 정원"}
+                      initialData={participantLimit}
+                      items={steadyParticipantsLimit}
                       className={cn("w-200")}
                       onSelectedChange={(selected) => {
-                        field.onChange(selected);
+                        field.onChange(Number(selected));
                       }}
                     />
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={steadyEditForm.control}
                 defaultValue={deadline}
@@ -313,7 +265,46 @@ const SteadyEditPage = ({
                 )}
               />
             </div>
-            <div className={cn("mx-20 flex flex-row justify-start gap-15")}>
+            <div className={cn("my-10")} />
+            <div className={cn("mx-20 flex flex-row justify-between gap-15")}>
+              <FormField
+                control={steadyEditForm.control}
+                defaultValue={extractValue(positionsInitialData).map(Number)}
+                name={"positions"}
+                render={({ field }) => (
+                  <FormItem>
+                    <MultiSelector
+                      initialLabel={"모집 분야"}
+                      initialData={positionsInitialData}
+                      items={positionsItemsData}
+                      className={cn("w-200")}
+                      onSelectedChange={(selected) => {
+                        field.onChange(extractValue(selected).map(Number));
+                      }}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={steadyEditForm.control}
+                defaultValue={scheduledPeriod}
+                name={"scheduledPeriod"}
+                render={({ field }) => (
+                  <FormItem>
+                    <SingleSelector
+                      initialLabel={"예상 기간"}
+                      initialData={scheduledPeriod}
+                      items={steadyExpectedPeriods}
+                      className={cn("w-200")}
+                      onSelectedChange={(selected) => {
+                        field.onChange(selected);
+                      }}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={steadyEditForm.control}
                 defaultValue={extractValue(stacksInitialData).map(Number)}
@@ -324,7 +315,7 @@ const SteadyEditPage = ({
                       initialLabel={"기술 스택"}
                       initialData={stacksInitialData}
                       items={stacksItemsData}
-                      className={cn("w-280")}
+                      className={cn("w-200")}
                       onSelectedChange={(selected) => {
                         field.onChange(extractValue(selected).map(Number));
                       }}
@@ -343,7 +334,7 @@ const SteadyEditPage = ({
                       initialLabel={"상태"}
                       initialData={status}
                       items={steadyRecruitmentStatus}
-                      className={cn("w-280")}
+                      className={cn("w-200")}
                       onSelectedChange={(selected) => {
                         field.onChange(selected);
                       }}
@@ -357,7 +348,7 @@ const SteadyEditPage = ({
             <Separator
               size={"4"}
               my={"3"}
-              className={cn("h-5 bg-st-gray-400")}
+              className={cn("h-3 bg-st-gray-400")}
             />
             <FormField
               control={steadyEditForm.control}
@@ -397,6 +388,7 @@ const SteadyEditPage = ({
             <div className={"flex justify-end gap-20"}>
               <Button
                 className={cn(`${buttonSize.sm} items-center justify-center`)}
+                onClick={() => router.back()}
               >
                 취소
               </Button>
