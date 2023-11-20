@@ -4,14 +4,26 @@ import type { Steadies } from "@/services/types";
 import Icon from "../_common/Icon";
 
 interface PaginationProps {
-  type?: string;
+  keyword: string;
+  deadline: boolean;
+  recruit: boolean;
+  type: string;
   totalPost: number;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   setPost: React.Dispatch<React.SetStateAction<Steadies>>;
 }
 
-const Pagination = ({ totalPost, page, setPage, setPost }: PaginationProps) => {
+const Pagination = ({
+  keyword,
+  deadline,
+  recruit,
+  type,
+  totalPost,
+  page,
+  setPage,
+  setPost,
+}: PaginationProps) => {
   const [currentPageArray, setCurrentPageArray] = useState<number[]>([]);
   const [totalPageArray, setTotalPageArray] = useState<number[][]>([]);
   const totalPage = Math.ceil(totalPost / 10);
@@ -38,13 +50,25 @@ const Pagination = ({ totalPost, page, setPage, setPost }: PaginationProps) => {
     }
   }, [totalPage]);
 
-  const handlePageSteadies = async (page: number) => {
-    const data = await getSteadies(page.toString());
+  const handlePageSteadies = async (
+    keyword: string,
+    deadline: boolean,
+    recruit: boolean,
+    type: string,
+    page: number,
+  ) => {
+    const data = await getSteadies(
+      keyword,
+      deadline,
+      recruit,
+      type,
+      page.toString(),
+    );
     setPost(data);
   };
 
   useEffect(() => {
-    handlePageSteadies(page);
+    handlePageSteadies(keyword, deadline, recruit, type, page);
   }, [page]);
 
   return (

@@ -7,24 +7,26 @@ import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import {
+  steadyDeadlineFilter,
   steadyStatusFilter,
-  steadyTypeFilter,
 } from "@/services/steady/filterSteadies";
+import getPositions from "@/services/steady/getPositions";
+import getStacks from "@/services/steady/getStacks";
 import getSteadies from "@/services/steady/getSteadies";
 import searchSteadies from "@/services/steady/searchSteadies";
-import type { Steadies } from "@/services/types";
+import type {
+  PositionResponse,
+  StackResponse,
+  Steadies,
+} from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import StickyButton from "@/components/_common/StickyButton";
-import {
-  steadyExpectedTechStacks,
-  steadyRecruitmentFields,
-  steadyRunningMethods,
-} from "@/constants/create-steady";
+import { steadyRunningMethods } from "@/constants/create-steady";
 import Dolphin from "../../public/images/dolphin.png";
 import First from "../../public/images/first.svg";
 import Second from "../../public/images/second.svg";
@@ -41,16 +43,52 @@ const Home = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [keyword, setKeyword] = useState("");
   const [debouncedValue, setDebouncedValue] = useState("");
+  const [deadline, setDeadline] = useState(false);
+  const [stack, setStack] = useState("");
+  const [position, setPosition] = useState("");
+  const [mode, setMode] = useState("");
 
   const { data } = useQuery({
     queryKey: ["steadies"],
-    queryFn: () => getSteadies(page.toString()),
+    queryFn: () =>
+      getSteadies(keyword, deadline, recruit, type, page.toString()),
   });
+
+  const { data: stacks, error: stacksError } = useSuspenseQuery<StackResponse>({
+    queryKey: ["stacks"],
+    queryFn: () => getStacks(),
+  });
+
+  if (stacksError) {
+    console.error(stacksError);
+  }
+
+  const { data: positions, error: positionsError } =
+    useSuspenseQuery<PositionResponse>({
+      queryKey: ["positions"],
+      queryFn: () => getPositions(),
+    });
+
+  if (positionsError) {
+    console.log(positionsError);
+  }
 
   const [totalPost, setTotalPost] = useState(data?.totalElements);
 
-  const handleGetSteadies = async (page: string) => {
-    const data = await getSteadies(page.toString());
+  const handleGetSteadies = async (
+    keyword: string,
+    deadline: boolean,
+    recruit: boolean,
+    type: string,
+    page: string,
+  ) => {
+    const data = await getSteadies(
+      keyword,
+      deadline,
+      recruit,
+      type,
+      page.toString(),
+    );
     setTotalPost(data.totalElements);
     setPost(data);
   };
@@ -61,20 +99,23 @@ const Home = () => {
     setPost(data);
   };
 
-  const handleSteadyType = async (type: string, page: string) => {
-    const data = await steadyTypeFilter(type, page);
-    // setTotalPost(data.totalElements);
+  const handleSteadySearch = async (keyword: string) => {
+    const data = await searchSteadies(keyword);
+    setTotalPost(data.totalElements);
     setPost(data);
   };
 
-  const handleSteadySearch = async (page: string, keyword: string) => {
-    const data = await searchSteadies(page, keyword);
-    setTotalPost(data.totalElements);
+  const handleSteadyDeadline = async (page: string) => {
+    const data = await steadyDeadlineFilter(page);
     setPost(data);
   };
 
   const handleNext = () => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % 3);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
   };
 
   useEffect(() => {
@@ -103,15 +144,11 @@ const Home = () => {
 
   useEffect(() => {
     if (debouncedValue) {
-      handleSteadySearch(page.toString(), debouncedValue);
+      handleSteadySearch(debouncedValue);
     } else {
-      handleGetSteadies(page.toString());
+      handleGetSteadies(keyword, deadline, recruit, type, page.toString());
     }
   }, [debouncedValue]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
-  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -120,6 +157,10 @@ const Home = () => {
 
     return () => clearInterval(interval);
   }, [activeIndex]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [type, stack, position, mode, recruit, deadline, debouncedValue]);
 
   const bannerDefaultStyle =
     "duration-1500 absolute left-0 top-0 flex h-350 w-full justify-center transition-opacity";
@@ -311,7 +352,13 @@ const Home = () => {
               } cursor-pointer text-3xl font-bold`}
               onClick={() => {
                 setType("all");
-                handleGetSteadies(page.toString());
+                handleGetSteadies(
+                  keyword,
+                  deadline,
+                  recruit,
+                  "all",
+                  page.toString(),
+                );
               }}
             >
               전체
@@ -322,7 +369,13 @@ const Home = () => {
               } cursor-pointer text-3xl font-bold`}
               onClick={() => {
                 setType("STUDY");
-                handleSteadyType("STUDY", page.toString());
+                handleGetSteadies(
+                  keyword,
+                  deadline,
+                  recruit,
+                  "STUDY",
+                  page.toString(),
+                );
               }}
             >
               스터디
@@ -333,7 +386,13 @@ const Home = () => {
               } cursor-pointer text-3xl font-bold`}
               onClick={() => {
                 setType("PROJECT");
-                handleSteadyType("PROJECT", page.toString());
+                handleGetSteadies(
+                  keyword,
+                  deadline,
+                  recruit,
+                  "PROJECT",
+                  page.toString(),
+                );
               }}
             >
               프로젝트
@@ -348,18 +407,29 @@ const Home = () => {
           <div className="flex items-center justify-center gap-5">
             <MultiSelector
               initialLabel={"기술 스택"}
-              items={steadyExpectedTechStacks}
+              items={stacks.stacks.map((stack) => ({
+                value: stack.id.toString(),
+                label: stack.name,
+              }))}
+              onSelectedChange={(value) =>
+                setStack(value.map((item) => item.label).join(","))
+              }
               className="w-220"
             />
             <SingleSelector
-              initialLabel={"포지션"}
-              items={steadyRecruitmentFields}
+              initialLabel={"모집 분야"}
+              items={positions.positions.map((position) => ({
+                value: position.id.toString(),
+                label: position.name,
+              }))}
+              onSelectedChange={(value) => setPosition(value)}
               className="mb-8 h-43 w-150"
             />
             <SingleSelector
               initialLabel={"진행 방식"}
               items={steadyRunningMethods}
               className="mb-8 h-43 w-150"
+              onSelectedChange={(value) => setMode(value)}
             />
             <div
               className={`${
@@ -397,6 +467,33 @@ const Home = () => {
             </div>
           </div>
           <div className="flex items-center justify-center gap-20">
+            <div
+              onClick={() => {
+                if (!deadline) {
+                  setDeadline(!deadline);
+                  handleSteadyDeadline(page.toString());
+                } else {
+                  setDeadline(!deadline);
+                  handleGetSteadies(
+                    keyword,
+                    false,
+                    recruit,
+                    type,
+                    page.toString(),
+                  );
+                }
+              }}
+              className={`${
+                deadline ? "" : "text-st-gray-100"
+              } flex cursor-pointer items-center justify-center gap-10 font-bold`}
+            >
+              <div
+                className={`${
+                  deadline ? "bg-st-primary" : "bg-st-gray-100"
+                } h-10 w-10 rounded-full text-20`}
+              ></div>
+              마감 임박순
+            </div>
             <Link href={"/steady/create"}>
               <Button
                 className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
@@ -417,6 +514,10 @@ const Home = () => {
       </section>
       <section className="flex h-100 w-full items-center justify-center">
         <Pagination
+          keyword={keyword}
+          deadline={deadline}
+          recruit={recruit}
+          type={type}
           totalPost={totalPost as number}
           page={page}
           setPage={setPage}
