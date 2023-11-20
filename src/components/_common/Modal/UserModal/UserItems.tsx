@@ -32,7 +32,7 @@ const UserItems = ({ userId }: { userId: number }) => {
             <div className="text-20 font-bold">
               {userProfileData.user.nickname}
             </div>
-            <Link href={`/chat/${userProfileData.user.userId}`}>
+            <Link href="/chat">
               <Icon
                 name={"chat"}
                 size={20}
