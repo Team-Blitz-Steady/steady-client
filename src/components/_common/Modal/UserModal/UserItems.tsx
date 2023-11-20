@@ -15,7 +15,7 @@ const UserItems = ({ userId }: { userId: number }) => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center justify-center gap-20">
+      <div className="flex h-full w-full flex-col items-center justify-center gap-20">
         <div className="flex w-full flex-col items-center justify-center gap-10">
           <Avatar
             src={userProfileData.user.profileImage ?? `/${SteadyLogo}`}
@@ -71,10 +71,9 @@ const UserItems = ({ userId }: { userId: number }) => {
             </div>
           </div>
         </div>
-        {/* TODO 스크롤... */}
-        <div className="flex w-full flex-col items-center justify-center gap-10 overflow-y-auto">
+        <div className="flex w-full flex-grow flex-col items-center justify-center gap-10 overflow-y-auto">
           <div className="text-13 font-bold">한 줄 평</div>
-          <div className="flex h-full w-full flex-col overflow-y-auto">
+          <div className="flex h-200 w-full flex-col overflow-y-scroll">
             {userProfileData.reviews.map((review, id) => (
               <div
                 key={id}
