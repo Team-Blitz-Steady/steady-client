@@ -1,13 +1,12 @@
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import SteadyLogo from "@/images/turtle.png";
 import { Avatar } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import getUserProfile from "@/services/user/getUserProfile";
-import { userCardsType } from "@/constants/userCards";
-import Button, { buttonSize } from "../../Button";
+import Icon from "../../Icon";
+import UserCards from "./UserCards";
 
 const UserItems = ({ userId }: { userId: number }) => {
-  const router = useRouter();
   const { data: userProfileData } = useSuspenseQuery({
     queryKey: ["userProfile", userId],
     queryFn: () => getUserProfile(userId.toString()),
@@ -26,55 +25,67 @@ const UserItems = ({ userId }: { userId: number }) => {
             className="cursor-pointer"
             fallback={""}
           />
-          <div className="text-25 font-bold">
-            {userProfileData.user.nickname}
+          <div className="rounded-10 bg-st-gray-50 px-10 py-2 text-12 font-bold text-st-gray-200">
+            {userProfileData.user.position.name}
           </div>
-          <div className="text-18 text-st-gray-400">
+          <div className="flex items-center justify-center gap-10">
+            <div className="text-20 font-bold">
+              {userProfileData.user.nickname}
+            </div>
+            <Link href={`/chat/${userProfileData.user.userId}`}>
+              <Icon
+                name={"chat"}
+                size={20}
+                color="text-st-gray-400"
+              />
+            </Link>
+          </div>
+          <div className="text-16 text-st-gray-400">
             {userProfileData.user.bio}
           </div>
         </div>
         <div className="flex w-full flex-col items-center justify-center gap-10">
-          <div className="text-20 font-bold">관심스택</div>
+          <div className="text-15 font-bold">관심스택</div>
           <div>
             {userProfileData.user.stacks.map((stack) => (
-              <div key={stack.id}>{stack.name}</div>
+              <div
+                key={stack.id}
+                className="rounded-10 bg-st-gray-50 px-10 py-2 text-12 font-bold text-st-gray-200"
+              >
+                {stack.name}
+              </div>
             ))}
           </div>
         </div>
         <div className="flex w-full flex-col items-center justify-center gap-10">
-          <div className="text-20 font-bold">받은카드</div>
-          <div className="flex h-80 w-400 flex-col items-center justify-evenly shadow-md">
-            <div className="flex items-center justify-evenly">
-              {userCardsType.map((item, id) => (
-                <div
-                  key={id}
-                  className="text-30"
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-            <div className="flex">
+          <div className="text-15 font-bold">받은카드</div>
+          <div className="flex h-70 w-400 flex-col items-center justify-evenly shadow-md">
+            <UserCards />
+            <div className="flex w-full items-center justify-evenly">
               {userProfileData.userCards.map((card) => (
                 <div
                   key={card.cardId}
-                  className="text-25"
+                  className="text-18 font-bold"
                 >{`(${card.count})`}</div>
               ))}
             </div>
           </div>
         </div>
-        <div className="flex w-full flex-col items-center justify-center gap-10">
-          <div className="text-15 font-bold">한 줄 평</div>
-          <div>{userProfileData.reviews.slice(0, 3)}</div>
+        {/* TODO 스크롤... */}
+        <div className="flex w-full flex-col items-center justify-center gap-10 overflow-y-auto">
+          <div className="text-13 font-bold">한 줄 평</div>
+          <div className="flex h-full w-full flex-col overflow-y-auto">
+            {userProfileData.reviews.map((review, id) => (
+              <div
+                key={id}
+                className="flex w-full items-center justify-center text-12"
+              >
+                {review}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-      <Button
-        onClick={() => router.push(`/review/${userProfileData.user.userId}`)}
-        className={`${buttonSize.sm} bg-st-primary text-center text-15 font-bold text-st-white`}
-      >
-        리뷰 보기
-      </Button>
     </>
   );
 };
