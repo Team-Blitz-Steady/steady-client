@@ -1,3 +1,5 @@
+"use client";
+
 import type { AxiosRequestConfig } from "axios";
 import axios from "axios";
 import { getCookie } from "cookies-next";
