@@ -312,6 +312,7 @@ const Icon = ({ name, size, color }: IconProps) => {
           ></path>
         </svg>
       );
+      break;
     case "person":
       content = (
         <svg
