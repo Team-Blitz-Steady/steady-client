@@ -8,6 +8,7 @@ import SteadyLogo from "@/images/turtle.png";
 import { Avatar } from "@radix-ui/themes";
 import { UserModal } from "@/components/_common/Modal";
 import UserItems from "@/components/_common/Modal/UserModal/UserItems";
+import Spinner from "@/components/_common/Spinner";
 import useApplicationsListQuery from "@/hooks/query/useApplicantListQuery";
 
 const selectedEffectStyle = "bg-st-skyblue-50 text-st-primary";
@@ -36,7 +37,7 @@ const SteadyApplicantLayout = ({
           >
             {applicantListData.pages.map((page) =>
               page.content.map((user, id) => (
-                <div key={id}>
+                <div key={user.userId}>
                   <div
                     className={`flex w-200 items-center gap-10 rounded-5 p-20 text-18 font-bold transition duration-100 ${
                       selectedItem === id
@@ -59,7 +60,7 @@ const SteadyApplicantLayout = ({
                         </div>
                       }
                     >
-                      <Suspense fallback={null}>
+                      <Suspense fallback={<Spinner size="medium" />}>
                         <UserItems userId={user.userId} />
                       </Suspense>
                     </UserModal>
