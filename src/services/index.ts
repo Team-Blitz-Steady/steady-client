@@ -8,8 +8,15 @@ const BASE_URL = "https://dev.steadies.kr";
 const config: AxiosRequestConfig = { baseURL: BASE_URL };
 export const axiosInstance = axios.create(config);
 
-axiosInstance.interceptors.request.use((config) => {
-  const access_token = getCookie("access_token");
+axiosInstance.interceptors.request.use(async (config) => {
+  let access_token = null;
+  if (typeof window !== "undefined") {
+    access_token = getCookie("access_token");
+  } else {
+    const { cookies } = await import("next/headers");
+    access_token = cookies().get("access_token");
+  }
+  console.log("access_token은!!", access_token);
   if (access_token) {
     config.headers.Authorization = `Bearer ${access_token}`;
   }
