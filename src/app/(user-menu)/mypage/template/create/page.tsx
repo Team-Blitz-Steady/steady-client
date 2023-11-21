@@ -51,12 +51,12 @@ const CreateTemplatePage = () => {
     setQuestion((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const handlePostTemplate = (title: string) => {
+  const handlePostTemplate = async (title: string) => {
     const json = {
       title: title,
       questions: question.map((item) => item.value),
     };
-    createTemplate(json);
+    await createTemplate(json);
     router.push("/mypage/template");
   };
 

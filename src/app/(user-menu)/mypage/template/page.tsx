@@ -39,10 +39,10 @@ const MyTemplatePage = () => {
           </Link>
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>
-        <div className="h-750 w-750">
-          {data?.templates.map((template, id) => (
+        <div className="h-750 w-750 overflow-x-hidden overflow-y-scroll">
+          {data?.templates.map((template) => (
             <div
-              key={id}
+              key={template.id}
               onClick={() => handleTemplateDetail(template.id)}
               className="group flex cursor-pointer items-center justify-between p-50 transition hover:scale-105 hover:bg-st-gray-50"
             >
