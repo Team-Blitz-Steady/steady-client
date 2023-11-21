@@ -32,7 +32,11 @@ import Turtle from "../../public/images/turtle.png";
 import Walrus from "../../public/images/walrus.png";
 
 const Home = () => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState<number>(() => {
+    return sessionStorage.getItem("page")
+      ? parseInt(sessionStorage.getItem("page")!)
+      : 0;
+  });
   const [like, setLike] = useState(false);
   const [recruit, setRecruit] = useState(false);
   const [post, setPost] = useState<Steadies>();
@@ -44,6 +48,7 @@ const Home = () => {
   const [stack, setStack] = useState("");
   const [position, setPosition] = useState("");
   const [mode, setMode] = useState("");
+  const [isInitialRender, setIsInitialRender] = useState(true);
 
   const { data } = useSuspenseQuery<Steadies>({
     queryKey: ["steadies"],
@@ -83,6 +88,8 @@ const Home = () => {
 
   const handleGetSteadies = async (
     stack: string,
+    position: string,
+    mode: string,
     keyword: string,
     deadline: boolean,
     recruit: boolean,
@@ -140,6 +147,7 @@ const Home = () => {
 
   useEffect(() => {
     if (data) {
+      setIsInitialRender(false);
       setPost(data);
     }
   }, [data]);
@@ -163,17 +171,21 @@ const Home = () => {
   }, [keyword]);
 
   useEffect(() => {
-    if (debouncedValue) {
-      handleSteadySearch(debouncedValue);
-    } else {
-      handleGetSteadies(
-        stack,
-        keyword,
-        deadline,
-        recruit,
-        type,
-        page.toString(),
-      );
+    if (!isInitialRender) {
+      if (debouncedValue) {
+        handleSteadySearch(debouncedValue);
+      } else {
+        handleGetSteadies(
+          stack,
+          position,
+          mode,
+          keyword,
+          deadline,
+          recruit,
+          type,
+          page.toString(),
+        );
+      }
     }
   }, [debouncedValue]);
 
@@ -186,8 +198,10 @@ const Home = () => {
   }, [activeIndex]);
 
   useEffect(() => {
-    setPage(0);
-    handleFilter(type, keyword, stack, position, mode, recruit, deadline);
+    if (!isInitialRender) {
+      setPage(0);
+      handleFilter(type, keyword, stack, position, mode, recruit, deadline);
+    }
   }, [type, stack, position, mode, recruit, deadline, debouncedValue]);
 
   const bannerDefaultStyle =
@@ -417,14 +431,16 @@ const Home = () => {
               }
               className="w-220"
             />
-            <SingleSelector
+            <MultiSelector
               initialLabel={"모집 분야"}
               items={positions.positions.map((position) => ({
                 value: position.id.toString(),
                 label: position.name,
               }))}
-              onSelectedChange={(value) => setPosition(value)}
-              className="mb-8 h-43 w-150"
+              onSelectedChange={(value) =>
+                setPosition(value.map((item) => item.label).join(","))
+              }
+              className="w-220"
             />
             <SingleSelector
               initialLabel={"진행 방식"}

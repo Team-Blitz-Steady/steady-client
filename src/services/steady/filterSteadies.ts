@@ -17,7 +17,7 @@ const steadyFilter = async (
       }${keyword !== "" ? `&keyword=${keyword}` : ""}${
         stack !== "" ? `&stack=${stack}` : ""
       }${position !== "" ? `&position=${position}` : ""}${
-        mode !== "" ? `&steadyMode=${mode}` : ""
+        mode !== "0" ? `&steadyMode=${mode}` : ""
       }${status ? `&status=RECRUITING` : ""}${
         deadline ? `&direction=asc&criteria=deadline` : ""
       }`,
