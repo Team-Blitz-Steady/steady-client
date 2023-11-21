@@ -135,7 +135,7 @@ const AppBar = ({ className }: AppBarProps) => {
                 />
               </div>
             </PopoverTrigger>
-            <PopoverContent className={"h-300 w-350 p-16 pb-35"}>
+            <PopoverContent className={"h-300 w-350 p-16 pb-40"}>
               <ScrollArea
                 className={"h-full w-full rounded-md"}
                 scrollBarClassName={"hidden"}
@@ -212,9 +212,7 @@ const AppBar = ({ className }: AppBarProps) => {
                   )}
                 </div>
               </ScrollArea>
-              <div
-                className={"mb-4 flex h-35 w-full items-center justify-between"}
-              >
+              <div className={"flex h-35 w-full items-end justify-evenly"}>
                 <Button
                   className={cn("h-30 w-1/3 bg-st-primary text-st-white")}
                   onClick={() => handleReadAllNotification()}
