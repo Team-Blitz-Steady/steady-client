@@ -234,15 +234,6 @@ const AppBar = ({ className }: AppBarProps) => {
                     </div>
                   )}
                 </div>
-                {/*{notifications.length <= 0 && (*/}
-                {/*  <div*/}
-                {/*    className={*/}
-                {/*      "h-full w-full items-center justify-center text-st-gray-250"*/}
-                {/*    }*/}
-                {/*  >*/}
-                {/*    알림이 없습니다.*/}
-                {/*  </div>*/}
-                {/*)}*/}
               </ScrollArea>
               {notifications.length > 0 && (
                 <div className={"flex h-35 w-full items-end justify-evenly"}>
