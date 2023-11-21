@@ -260,3 +260,31 @@ export interface AllNotificationsType {
   notifications: Notification[];
   freshCount: number;
 }
+
+export interface ReviewType {
+  reviewId: number;
+  comment: string;
+  isPublic: boolean;
+  createdAt: string;
+}
+
+export interface SteadyReviewType {
+  steadyId: number;
+  steadyName: string;
+  reviews: ReviewType[];
+}
+
+export interface MyReviewsType {
+  userCards: UserCardType[];
+  reviews: SteadyReviewType[];
+}
+
+export interface ReviewStatusType {
+  isPublic: boolean;
+}
+
+export interface CreateReviewType {
+  revieweeId: number;
+  cardsId: number[];
+  comment: string;
+}
