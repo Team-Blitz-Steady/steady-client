@@ -142,6 +142,7 @@ const Home = () => {
       status,
       deadline,
     );
+    setTotalPost(data.totalElements);
     setPost(data);
   };
 
@@ -434,7 +435,7 @@ const Home = () => {
             <MultiSelector
               initialLabel={"모집 분야"}
               items={positions.positions.map((position) => ({
-                value: position.id.toString(),
+                value: position.name,
                 label: position.name,
               }))}
               onSelectedChange={(value) =>
