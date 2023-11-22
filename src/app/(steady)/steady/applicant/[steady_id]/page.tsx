@@ -1,30 +1,25 @@
 "use client";
 
-import type { QueryKey } from "@tanstack/react-query";
-import { useQueryClient } from "@tanstack/react-query";
-import type { ApplicationsListType } from "@/services/types";
+import useApplicantListQuery from "@/hooks/query/useApplicantListQuery";
 
 const SteadyApplicantPage = ({ params }: { params: { steady_id: string } }) => {
   const steadyId = params.steady_id;
-  const queryClient = useQueryClient();
-  const previousApplicants = queryClient.getQueryData<
-    ApplicationsListType,
-    QueryKey,
-    ApplicationsListType
-  >(["applicationsList", steadyId]);
+  const { applicantListData } = useApplicantListQuery({ steadyId });
 
   return (
     <div className="flex w-full items-center justify-center">
       <span className="text-25 font-bold">
-        {previousApplicants?.numberOfElements !== 0 ? (
-          <>
-            <span className="text-28 text-st-primary">
-              {previousApplicants?.numberOfElements}
-            </span>
-            명의 신청자가 스테디 참여를 기다리고 있어요!
-          </>
-        ) : (
-          "아직 스테디에 참여한 신청자가 없어요!"
+        {applicantListData.pages.map((page) =>
+          page.numberOfElements === 0 ? (
+            "아직 스테디에 신청한 사람이 없어요!"
+          ) : (
+            <>
+              <span className="text-28 text-st-primary">
+                {page.numberOfElements}
+              </span>
+              명의 신청자가 스테디 참여를 기다리고 있어요!
+            </>
+          ),
         )}
       </span>
     </div>
