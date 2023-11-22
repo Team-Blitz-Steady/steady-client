@@ -19,7 +19,7 @@ export const config = {
     "/steady/manage/:id*",
     "/steady/review/:id*",
     "/steady/applicant/:id*",
-    "/application",
+    "/application/:id*",
     "/mysteady",
     "/mypage/:path*",
     "/logout",
