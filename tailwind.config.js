@@ -16,7 +16,6 @@ module.exports = {
       "st-primary": "#5585ff",
       "st-red": "#ff5353",
       "st-green": "#35cc00",
-      "st-skyblue-50": "#ddf1ff",
       "st-gray-50": "#f5f5f5",
       "st-gray-75": "#dbdbdb",
       "st-gray-100": "#b4b4b4",
