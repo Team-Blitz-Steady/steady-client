@@ -9,7 +9,7 @@ import { Avatar } from "@radix-ui/themes";
 import { UserModal } from "@/components/_common/Modal";
 import UserItems from "@/components/_common/Modal/UserModal/UserItems";
 import Spinner from "@/components/_common/Spinner";
-import useApplicationsListQuery from "@/hooks/query/useApplicantListQuery";
+import useApplicantListQuery from "@/hooks/query/useApplicantListQuery";
 
 const selectedEffectStyle = "bg-st-skyblue-50 text-st-primary";
 const normalEffectStyle = "hover:bg-st-gray-50";
@@ -24,7 +24,7 @@ const SteadyApplicantLayout = ({
   const steadyId = params.steady_id;
   const [selectedItem, setSelectedItem] = useState(0);
   const { applicantListData, hasNextPage, fetchNextPage } =
-    useApplicationsListQuery({ steadyId });
+    useApplicantListQuery({ steadyId });
 
   return (
     <>
