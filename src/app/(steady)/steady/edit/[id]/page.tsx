@@ -16,7 +16,7 @@ import { SteadyEditSchema } from "@/schemas/steadyEditSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator, TextArea } from "@radix-ui/themes";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { parse } from "date-fns";
+import { format, parse } from "date-fns";
 import getPositions from "@/services/steady/getPositions";
 import getStacks from "@/services/steady/getStacks";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
@@ -30,7 +30,6 @@ import {
   SingleSelector,
 } from "@/components/_common/Selector";
 import { extractValue } from "@/utils/extractValue";
-import { formatDate } from "@/utils/formatDate";
 import {
   CREATE_STEADY_PAGE_HEADING,
   steadyCategories,
@@ -260,7 +259,7 @@ const SteadyEditPage = ({
                       initialDate={parse(deadline, "yyyy-MM-dd", new Date())}
                       className={cn("w-200")}
                       onDateChange={(date) => {
-                        field.onChange(formatDate(date));
+                        field.onChange(format(date, "yyyy-MM-dd"));
                       }}
                     />
                     <FormMessage />
