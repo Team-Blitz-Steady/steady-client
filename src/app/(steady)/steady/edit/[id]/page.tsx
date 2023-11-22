@@ -48,7 +48,7 @@ const SteadyEditPage = ({
   const { toast } = useToast();
   const router = useRouter();
   const { data, error } = useSuspenseQuery({
-    queryKey: ["steady"],
+    queryKey: ["steadyDetails", steadyId],
     queryFn: () => getSteadyDetails(steadyId),
   });
 
