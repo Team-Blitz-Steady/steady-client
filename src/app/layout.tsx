@@ -17,7 +17,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <QueryProvider>
       <html lang="ko">
-        <body className="h-screen">
+        <body className="h-screen overflow-x-hidden">
           <Theme>
             <div
               className={cn(
