@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   if (isAuthenticated) {
     return NextResponse.next();
   } else {
-    return NextResponse.redirect("https://steady-client.vercel.app/");
+    return NextResponse.redirect("https://steadies.kr/");
   }
 }
 
