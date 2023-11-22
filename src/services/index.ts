@@ -9,7 +9,6 @@ export const axiosInstance = axios.create(config);
 
 axiosInstance.interceptors.request.use(async (config) => {
   const access_token = await cookieService.get("access_token");
-  console.log("access_token은!!", access_token);
   if (access_token) {
     config.headers.Authorization = `Bearer ${access_token}`;
   }
@@ -33,13 +32,12 @@ export const cookieService = {
     const { setCookie: set_cookie } = await import("cookies-next");
     return set_cookie(key, value);
   },
+  delete: async (key: string) => {
+    if (typeof window === "undefined") {
+      const { cookies } = await import("next/headers");
+      return cookies().delete(key);
+    }
+    const { deleteCookie: delete_cookie } = await import("cookies-next");
+    return delete_cookie(key);
+  },
 };
-
-// export const getCookie = async (key: string) => {
-//   if (typeof window === "undefined") {
-//     const { cookies } = await import("next/headers");
-//     return cookies().get(key);
-//   }
-//   const { getCookie: get_cookie } = await import("cookies-next");
-//   return get_cookie(key);
-// };
