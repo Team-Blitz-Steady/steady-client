@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import QueryProvider from "@/lib/react-query/QueryProvider";
 import { cn } from "@/lib/utils";
@@ -9,11 +8,6 @@ import AppBar from "@/components/_common/AppBar";
 import Footer from "@/components/_common/Footer";
 import "./global.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   title: "Steady",
   description: "The New Study & Project Join Platform",
@@ -22,10 +16,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <QueryProvider>
-      <html
-        lang="ko"
-        className={inter.className}
-      >
+      <html lang="ko">
         <body className="h-screen">
           <Theme>
             <div
