@@ -41,11 +41,11 @@ const Posts = ({ info }: { info: Steadies }) => {
   return (
     <div
       className={`h-[1355px] w-full ${
-        info.content.length === 0 && "flex items-center justify-center"
+        info?.content.length === 0 && "flex items-center justify-center"
       }`}
     >
-      {info.content.length !== 0 ? (
-        info.content.map((item, index) => (
+      {info?.content.length !== 0 ? (
+        info?.content.map((item, index) => (
           <Link
             href={`/steady/detail/${item.id}`}
             key={index}
