@@ -311,45 +311,58 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
             {steadyDetailsData.bio}
           </div>
         </div>
-        <div className="my-50 flex h-220 flex-col items-center justify-center gap-20 px-150 text-18 font-bold shadow-md">
-          <div className="flex w-full justify-between">
+        <div className="my-50 flex h-220 flex-col items-center justify-center gap-20 px-50 text-18 font-bold shadow-md">
+          <div className="flex w-full gap-15">
             <div className="flex flex-grow items-center gap-30">
-              {/* 가로 스크롤 */}
               <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
                 모집 분야
               </div>
-              {steadyDetailsData.positions.map((position, id) => (
-                <div key={id}>{position.name}</div>
-              ))}
-            </div>
-            <div className="flex w-225 items-center gap-30">
-              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
-                진행 방식
-              </div>
-              <div>
-                {matchingData(
-                  steadyRunningMethods,
-                  steadyDetailsData.steadyMode,
-                )}
+              <div className="flex w-0 flex-grow flex-wrap gap-10">
+                {steadyDetailsData.positions.map((position, id) => (
+                  <div
+                    key={id}
+                    className="whitespace-nowrap"
+                  >
+                    {position.name}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-          <div className="flex w-full justify-between">
-            <div className="flex w-345 items-center gap-30">
-              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
-                예상 기간
+          <div className="flex w-full gap-15">
+            <div className="flex w-full">
+              <div className="flex w-225 items-center gap-30">
+                <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
+                  진행 방식
+                </div>
+                <div>
+                  {matchingData(
+                    steadyRunningMethods,
+                    steadyDetailsData.steadyMode,
+                  )}
+                </div>
               </div>
-
-              {matchingData(
-                steadyExpectedPeriods,
-                steadyDetailsData.scheduledPeriod,
-              )}
             </div>
-            <div className="flex items-center justify-center gap-30">
-              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
-                마감일
+            <div className="flex w-full">
+              <div className="flex flex-grow items-center gap-30">
+                <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
+                  예상 기간
+                </div>
+                {matchingData(
+                  steadyExpectedPeriods,
+                  steadyDetailsData.scheduledPeriod,
+                )}
               </div>
-              {format(new Date(steadyDetailsData.deadline), "yyyy.MM.dd")}
+            </div>
+            <div className="flex w-full">
+              <div className="flex w-225 items-center gap-30">
+                <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
+                  마감일
+                </div>
+                <div>
+                  {format(new Date(steadyDetailsData.deadline), "yyyy.MM.dd")}
+                </div>
+              </div>
             </div>
           </div>
           <div className="flex w-full justify-between">
