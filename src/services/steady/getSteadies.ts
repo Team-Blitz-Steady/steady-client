@@ -1,4 +1,4 @@
-import { axiosInstance } from "@/services";
+import { axiosInstance, isAbnormalCode } from "@/services";
 import type { Steadies } from "@/services/types";
 
 const getSteadies = async (
@@ -16,6 +16,9 @@ const getSteadies = async (
         deadline ? `&direction=asc&criteria=deadline` : ""
       }${keyword !== "" ? `&keyword=${keyword}` : ""}`,
     );
+    if (isAbnormalCode(response.status)) {
+      throw new Error("Failed to fetch search steadies api!");
+    }
     return response.data;
   } catch (error) {
     console.error(error);

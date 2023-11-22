@@ -1,4 +1,4 @@
-import { axiosInstance } from "@/services";
+import { axiosInstance, isAbnormalCode } from "@/services";
 import type { AxiosResponse } from "axios";
 
 const deleteTemplate = async (id: string) => {
@@ -6,6 +6,9 @@ const deleteTemplate = async (id: string) => {
     const response: AxiosResponse = await axiosInstance.delete(
       `/api/v1/template/${id}`,
     );
+    if (isAbnormalCode(response.status)) {
+      throw new Error("Failed to fetch delete template api!");
+    }
     return response.data;
   } catch (error) {
     console.error(error);

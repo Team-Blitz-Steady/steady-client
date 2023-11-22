@@ -1,4 +1,4 @@
-import { axiosInstance } from "@/services";
+import { axiosInstance, isAbnormalCode } from "@/services";
 import type { AxiosResponse } from "axios";
 import type { SteadyQuestionsType } from "@/services/types";
 
@@ -9,7 +9,7 @@ const getSteadyQuestions = async (steadyId: string) => {
         `/api/v1/steadies/${steadyId}/questions`,
       );
 
-    if (Math.floor(response.status / 10) !== 20) {
+    if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch steady questions!");
     }
 
