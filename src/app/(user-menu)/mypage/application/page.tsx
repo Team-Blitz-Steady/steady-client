@@ -35,7 +35,7 @@ const MyApplicationPage = () => {
             </div>
             <div className="flex items-center justify-center gap-10 text-20 font-bold">
               <div className="h-10 w-10 rounded-full bg-st-primary"></div>
-              보류
+              대기
             </div>
           </div>
         </div>
