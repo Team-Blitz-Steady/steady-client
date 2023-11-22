@@ -15,9 +15,10 @@ const SteadyApplicantPage = ({ params }: { params: { steady_id: string } }) => {
           ) : (
             <>
               <span className="text-28 text-st-primary">
-                {page.numberOfElements}
+                {page.numberOfElements === 10
+                  ? "명 이상의 신청자가 스테디 참여를 기다리고 있어요!"
+                  : "명의 신청자가 스테디 참여를 기다리고 있어요!"}
               </span>
-              명의 신청자가 스테디 참여를 기다리고 있어요!
             </>
           ),
         )}
