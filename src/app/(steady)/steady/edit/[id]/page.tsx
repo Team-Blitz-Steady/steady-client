@@ -390,7 +390,10 @@ const SteadyEditPage = ({
             <div className={"flex justify-end gap-20"}>
               <Button
                 className={cn(`${buttonSize.sm} items-center justify-center`)}
-                onClick={() => router.back()}
+                onClick={(event) => {
+                  event.preventDefault();
+                  router.back();
+                }}
               >
                 취소
               </Button>
