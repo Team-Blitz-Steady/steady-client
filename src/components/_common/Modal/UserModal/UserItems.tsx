@@ -46,7 +46,7 @@ const UserItems = ({ userId }: { userId: number }) => {
         </div>
         <div className="flex w-full flex-col items-center justify-center gap-10">
           <div className="text-15 font-bold">관심스택</div>
-          <div>
+          <div className="flex gap-10">
             {userProfileData.user.stacks.map((stack) => (
               <div
                 key={stack.id}

@@ -288,3 +288,8 @@ export interface CreateReviewType {
   cardsId: number[];
   comment: string;
 }
+
+export interface LikeSteadyType {
+  likeCount: number;
+  isLike: boolean;
+}
