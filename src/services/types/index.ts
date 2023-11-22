@@ -293,3 +293,16 @@ export interface LikeSteadyType {
   likeCount: number;
   isLike: boolean;
 }
+
+export interface ApplicationList {
+  content: Application[];
+  numberOfElements: number;
+  hasNext: boolean;
+}
+
+interface Application {
+  applicationId: number;
+  steadyName: string;
+  createdAt: string;
+  status: string;
+}
