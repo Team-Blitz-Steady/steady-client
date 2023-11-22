@@ -13,7 +13,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator, TextArea } from "@radix-ui/themes";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { parse } from "date-fns";
 import getPositions from "@/services/steady/getPositions";
 import getStacks from "@/services/steady/getStacks";
@@ -47,8 +47,9 @@ const SteadyEditPage = ({
 }) => {
   const { toast } = useToast();
   const router = useRouter();
-  const { data, error } = useSuspenseQuery({
-    queryKey: ["steady"],
+  const queryClient = useQueryClient();
+  const { data, error, refetch } = useSuspenseQuery({
+    queryKey: ["steadyDetails", steadyId],
     queryFn: () => getSteadyDetails(steadyId),
   });
 
@@ -117,14 +118,15 @@ const SteadyEditPage = ({
   }));
 
   const onSubmit = async (data: SteadyEditStateType) => {
-    updateSteady(id, data).then((res) => {
-      if (res.status === 204) {
-        toast({ variant: "green", description: "스테디가 수정되었습니다!" });
-        router.push(`/steady/detail/${id}`);
-      } else {
-        toast({ variant: "red", description: "스테디 수정에 실패하였습니다." });
-      }
-    });
+    const res = await updateSteady(id, data);
+    if (res.status === 204) {
+      toast({ variant: "green", description: "스테디가 수정되었습니다!" });
+      await queryClient.invalidateQueries({ queryKey: ["steadyDetails", id] });
+      await refetch();
+      router.replace(`/steady/detail/${id}`);
+    } else {
+      toast({ variant: "red", description: "스테디 수정에 실패하였습니다." });
+    }
   };
 
   return (
@@ -161,6 +163,7 @@ const SteadyEditPage = ({
           <div className={cn("my-10")} />
           <FormField
             control={steadyEditForm.control}
+            defaultValue={bio}
             name={"bio"}
             render={({ field }) => (
               <FormItem>

@@ -1,64 +1,34 @@
 "use client";
 
-import Image from "next/image";
-import SteadyTurtle from "@/images/steadyturtle.png";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import changeReviewStatus from "@/services/review/changeReviewStatus";
+import getMyReviews from "@/services/review/getMyReviews";
+import Icon from "@/components/_common/Icon";
+import { SingleSelector } from "@/components/_common/Selector";
 import { subMyPageTextStyles } from "@/constants/commonStyle";
 
-const UserCards = [
-  {
-    stickerLabel: "👍",
-    count: 2,
-  },
-  {
-    stickerLabel: "🔥",
-    count: 0,
-  },
-  {
-    stickerLabel: "📖",
-    count: 1,
-  },
-  {
-    stickerLabel: "📢",
-    count: 3,
-  },
-  {
-    stickerLabel: "♥️",
-    count: 5,
-  },
-];
-
-const Review = [
-  {
-    nickname: "aaa1",
-    comment: "스터디에 적극적으로 참여했습니다.",
-  },
-  {
-    nickname: "aaa2",
-    comment: "스터디에 적극적으로 참여했습니다.",
-  },
-  {
-    nickname: "aaa3",
-    comment: "스터디에 적극적으로 참여했습니다.",
-  },
-  {
-    nickname: "aaa1",
-    comment: "스터디에 적극적으로 참여했습니다.",
-  },
-  {
-    nickname: "aaa2",
-    comment: "스터디에 적극적으로 참여했습니다.",
-  },
-  {
-    nickname: "aaa3",
-    comment: "스터디에 적극적으로 참여했습니다.",
-  },
-];
-
-// TODO: 무한스크롤 구현, 프로필 클릭시 유저 모달, 아이콘 임시
 const MyReviewsPage = () => {
+  const { data: myReviewData } = useSuspenseQuery({
+    queryKey: ["myreview"],
+    queryFn: () => getMyReviews(),
+    staleTime: 10000,
+  });
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+
+  const selectedReviews = myReviewData.reviews.find(
+    (review) => review.steadyId === Number(selectedId),
+  );
+
+  const handlePublicReview = async (reviewId: number) => {
+    await changeReviewStatus(reviewId.toString());
+    queryClient.invalidateQueries({ queryKey: ["myreview"] });
+  };
+
   return (
-    <div className="flex h-full flex-col gap-100">
+    <div className="flex h-full w-fit flex-col gap-100">
       <div className="text-30 font-bold">내가 받은 리뷰</div>
       <div className={cn("flex flex-col gap-30")}>
         <div className={cn(subMyPageTextStyles.title)}>받은 카드</div>
@@ -67,45 +37,73 @@ const MyReviewsPage = () => {
             "flex h-116 w-718 items-center justify-evenly rounded-6 border-2 border-st-gray-100 px-30 py-20",
           )}
         >
-          {UserCards.map((card, id) => (
+          {myReviewData.userCards.map((card) => (
             <div
-              key={id}
+              key={card.cardId}
               className={cn(
                 subMyPageTextStyles.content,
-                "flex h-full w-full items-center justify-center gap-5",
+                "flex h-full flex-col items-center justify-center gap-5",
               )}
             >
-              <div className="h-fit w-fit text-40">{card.stickerLabel}</div>
-              <div
-                className={cn(subMyPageTextStyles.content)}
-              >{`(${card.count})`}</div>
+              {/* TODO: 카드 이미지 */}
+              {/* <Image
+                src={card.content}
+                alt="카드 이미지"
+                width={80}
+                height={80}
+              /> */}
+              <div className={cn(subMyPageTextStyles.content)}>
+                {card.count}
+              </div>
             </div>
           ))}
         </div>
       </div>
-      <div className={cn("flex flex-col gap-30")}>
+      <div className={cn("flex w-718 flex-col gap-30")}>
         <div className={cn(subMyPageTextStyles.title)}>한 줄 평</div>
-        {Review.map((review, id) => (
-          <div
-            key={id}
-            className={cn(
-              "flex h-95 w-718 items-center gap-20 rounded-6 border-2 border-st-gray-100 px-30",
-            )}
-          >
-            <div className="flex flex-col items-center justify-center">
-              <Image
-                src={SteadyTurtle}
-                alt="유저 프로필"
-                width={50}
-                height={50}
-              />
-              <div>{review.nickname}</div>
-            </div>
-            <div className={cn(subMyPageTextStyles.content)}>
-              {review.comment}
-            </div>
-          </div>
-        ))}
+        <SingleSelector
+          items={myReviewData.reviews.map((review) => ({
+            value: review.steadyId.toString(),
+            label: review.steadyName,
+          }))}
+          initialLabel="전체"
+          onSelectedChange={(value) => setSelectedId(value)}
+          className="h-60"
+        />
+        <div
+          className={`${
+            selectedReviews
+              ? "border-2 border-st-gray-100"
+              : "items-center justify-center"
+          } flex h-230 flex-col gap-20 overflow-auto px-10 py-5`}
+        >
+          {selectedReviews &&
+            selectedReviews.reviews.map((review) => (
+              <div
+                key={review.reviewId}
+                className="flex items-center justify-between"
+              >
+                <div className="text-ellipsis text-15 font-bold">
+                  {review.comment}
+                </div>
+                <button onClick={() => handlePublicReview(review.reviewId)}>
+                  {review.isPublic ? (
+                    <Icon
+                      name="eye"
+                      size={25}
+                      color="text-black"
+                    />
+                  ) : (
+                    <Icon
+                      name="eye-none"
+                      size={25}
+                      color="text-black"
+                    />
+                  )}
+                </button>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );

@@ -1,27 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import SteadyTurtle from "@/images/steadytext.png";
-import { Avatar, Separator, TextArea } from "@radix-ui/themes";
+import { Avatar, Separator } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyParticipants from "@/services/steady/getSteadyParticipants";
-import getSteadyQuestions from "@/services/steady/getSteadyQuestions";
+import likeSteady from "@/services/steady/likeSteady";
 import promoteSteady from "@/services/steady/promoteSteady";
 import type { SteadyDetailsType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
 import { AlertModal, InfoModal, UserModal } from "@/components/_common/Modal";
+import UserItems from "@/components/_common/Modal/UserModal/UserItems";
+import Spinner from "@/components/_common/Spinner";
 import Tag from "@/components/_common/Tag";
 import {
   steadyCategoriesWithEmoji,
   steadyExpectedPeriods,
-  steadyRecruitmentFields,
   steadyRunningMethods,
 } from "@/constants/create-steady";
 
@@ -40,11 +42,6 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
   const { data: steadyParticipantsData } = useSuspenseQuery({
     queryKey: ["steadyParticipants", steadyId],
     queryFn: () => getSteadyParticipants(steadyId),
-  });
-  const { data: steadyQuestionsData } = useSuspenseQuery({
-    queryKey: ["steadyQuestions", steadyId],
-    queryFn: () => getSteadyQuestions(steadyId),
-    staleTime: 10000,
   });
 
   const router = useRouter();
@@ -88,6 +85,10 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
     return match ? match.label : null;
   };
 
+  const handleClickLike = async () => {
+    await likeSteady(steadyId);
+  };
+
   return (
     <div className="w-1000">
       <div className="flex flex-col gap-20">
@@ -98,19 +99,26 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
             color="text-black"
           />
         </button>
-
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center justify-center gap-20">
             <Tag status={steadyDetailsData.status} />
             <div className="text-35 font-bold">{steadyDetailsData.name}</div>
           </div>
-          {/* TODO: 좋아요 API 연결 */}
-          <button>
-            <Icon
-              name="heart"
-              size={30}
-              color="text-black"
-            />
+          <button onClick={handleClickLike}>
+            {/* TODO: 좋아요 API 연결 */}
+            {/* {steadyLikeData?.isLike ? (
+              <Icon
+                name="heart"
+                size={30}
+                color="text-st-red"
+              />
+            ) : (
+              <Icon
+                name="empty-heart"
+                size={30}
+                color="text-black"
+              />
+            )} */}
           </button>
         </div>
         <div className="flex flex-row items-center justify-between">
@@ -136,11 +144,9 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                 </div>
               }
             >
-              {/* TODO: 유저 정보 API 연결 */}
-              {/* <div>{User.profileImageUrl}</div>
-                  <div>{User.nickname}</div>
-                  <div>{User.bio}</div>
-                  <div>{User.techInfo}</div> */}
+              <Suspense fallback={<Spinner size="medium" />}>
+                <UserItems userId={steadyDetailsData.leaderResponse.id} />
+              </Suspense>
             </UserModal>
             <div className="flex gap-10 text-16 font-bold text-st-gray-100">
               <span>
@@ -148,205 +154,227 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
               </span>
             </div>
           </div>
-          <Link
-            href={`/steady/applicant/${steadyDetailsData.id}`}
-            replace={true}
-          >
-            {/* TODO: 신청자 보기 API 연결 */}
-            <Button className={`${buttonSize.md} bg-st-primary text-st-white`}>
-              신청자 보기
-            </Button>
-          </Link>
-          {steadyDetailsData.status === "FINISHED" ? (
-            <Button className={`${buttonSize.md} bg-st-primary text-st-white`}>
-              <Link href={`/steady/review/${steadyDetailsData.id}`}>
-                리뷰 남기기
-              </Link>
-            </Button>
-          ) : null}
-        </div>
-        <Separator className="mb-20 h-5 w-auto bg-st-gray-400" />
-      </div>
-      <div className="flex flex-col gap-10">
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-row gap-10">
-            {/* TODO: 해시태그 API 연결 */}
-            {["프론트엔드", "백엔드", "자바", "풀스택", "긴급"].map(
-              (tag, id) => (
-                <div
-                  key={id}
-                  className="text-15 font-bold"
-                >{`#${tag}`}</div>
-              ),
-            )}
-          </div>
-          {steadyDetailsData.isLeader && (
-            <div className="flex flex-row gap-10">
-              <AlertModal
-                trigger={
-                  <button className="text-16 font-bold text-st-gray-100">
-                    최신글로 등록하기
-                  </button>
-                }
-                actionButton={
+          <div className="flex gap-20">
+            {steadyDetailsData.status === "FINISHED" &&
+              steadyDetailsData.isReviewEnabled && (
+                <Link
+                  href={`/steady/review/${steadyDetailsData.id}`}
+                  replace={true}
+                >
                   <Button
-                    className={`${buttonSize.sm} bg-st-primary text-st-white`}
-                    onClick={() =>
-                      handleClickPromoteBtn(steadyDetailsData.id.toString())
-                    }
+                    className={`${buttonSize.md} bg-st-primary text-st-white`}
                   >
-                    등록
+                    리뷰 남기기
+                  </Button>
+                </Link>
+              )}
+            {steadyDetailsData.isLeader ? (
+              <Link
+                href={`/steady/applicant/${steadyDetailsData.id}`}
+                replace={true}
+              >
+                <Button
+                  className={`${buttonSize.md} bg-st-primary text-st-white`}
+                >
+                  신청자 보기
+                </Button>
+              </Link>
+            ) : (
+              <InfoModal
+                trigger={
+                  <Button
+                    className={`${buttonSize.md} bg-st-primary text-st-white`}
+                  >
+                    참여자 보기
                   </Button>
                 }
               >
-                <button className="flex flex-col items-center justify-center gap-10 text-16 font-bold">
-                  현재 최신글로 등록할 수 있는 남은 횟수
-                  <span className=" text-20 text-st-primary">
-                    {steadyDetailsData.promotionCount}
-                  </span>
-                  등록하시겠습니까?
-                </button>
-              </AlertModal>
-              <Dropdown
-                options={[
-                  {
-                    label: "스테디 수정",
-                    linkTo: `/steady/edit/${steadyDetailsData.id}`,
-                  },
-                  {
-                    label: "스테디 운영",
-                    linkTo: `/steady/manage/${steadyDetailsData.id}`,
-                  },
-                  {
-                    label: "질문 수정",
-                    linkTo: `/steady/edit/questions/${steadyDetailsData.id}`,
-                  },
-                ]}
-              >
-                <Icon
-                  name="gear"
-                  size={25}
-                  color="text-st-gray-200"
-                />
-              </Dropdown>
-            </div>
-          )}
-        </div>
-        <div className="flex items-center text-16 font-bold">
-          {steadyCategoriesWithEmoji[steadyDetailsData.type]}
-        </div>
-        <div className="text-35 font-bold ">{steadyDetailsData.title}</div>
-        <div className="mb-10">
-          <InfoModal
-            trigger={
-              <button className="mr-10 text-15 font-bold text-st-red">
-                신청서 보기
-              </button>
-            }
-          >
-            <div className="flex flex-col items-center justify-center gap-10">
-              <div className="flex flex-col items-center justify-center gap-10">
-                {steadyQuestionsData.steadyQuestions.map(({ id, content }) => (
-                  <div
-                    key={id}
-                    className="mt-20 flex flex-col items-center justify-center gap-10"
-                  >
-                    <div className={"font-semibold"}>{content}</div>
+                <div className="flex flex-col items-center justify-center gap-10">
+                  <div className="flex flex-col items-center justify-center gap-10">
+                    <Avatar
+                      src={
+                        steadyDetailsData.leaderResponse.profileImage
+                          ? steadyDetailsData.leaderResponse.profileImage
+                          : `/${SteadyTurtle}`
+                      }
+                      alt="참여자 이미지"
+                      size={"6"}
+                      radius="full"
+                      className="cursor-pointer"
+                      fallback={""}
+                    />
+                    <button className="text-20 font-bold">
+                      {steadyDetailsData.leaderResponse.nickname}
+                    </button>
                   </div>
-                ))}
-              </div>
-            </div>
-          </InfoModal>
-          <InfoModal
-            trigger={
-              <button className="text-15 font-bold text-st-gray-250">
-                참여자 목록 보기
-              </button>
-            }
-          >
-            <div className="flex flex-col items-center justify-center gap-10">
-              <div className="flex flex-col items-center justify-center gap-10">
-                <Avatar
-                  src={
-                    steadyDetailsData.leaderResponse.profileImage
-                      ? steadyDetailsData.leaderResponse.profileImage
-                      : `/${SteadyTurtle}`
-                  }
-                  alt="참여자 이미지"
-                  size={"6"}
-                  radius="full"
-                  className="cursor-pointer"
-                  fallback={""}
-                />
-                <div>{steadyDetailsData.leaderResponse.nickname}</div>
-              </div>
-              {steadyParticipantsData.participants.map((participant, id) => (
-                <div
-                  key={id}
-                  className="flex flex-col items-center justify-center gap-10"
-                >
-                  {!participant.isLeader && (
-                    <>
-                      <Avatar
-                        src={
-                          participant.profileImage
-                            ? participant.profileImage
-                            : `/${SteadyTurtle}`
-                        }
-                        alt="참여자 이미지"
-                        size={"6"}
-                        radius="full"
-                        className="cursor-pointer"
-                        fallback={""}
-                      />
-                      <div>{participant.nickname}</div>
-                    </>
-                  )}
+                  {steadyParticipantsData.participants.map((participant) => (
+                    <div key={participant.id}>
+                      {!participant.isLeader && (
+                        <>
+                          <UserModal
+                            trigger={
+                              <div className="flex flex-col items-center justify-center gap-10">
+                                <Avatar
+                                  src={
+                                    participant.profileImage
+                                      ? participant.profileImage
+                                      : `/${SteadyTurtle}`
+                                  }
+                                  alt="참여자 이미지"
+                                  size={"6"}
+                                  radius="full"
+                                  className="cursor-pointer"
+                                  fallback={""}
+                                />
+                                <button className="text-20 font-bold">
+                                  {participant.nickname}
+                                </button>
+                              </div>
+                            }
+                          >
+                            <Suspense fallback={<Spinner size="medium" />}>
+                              <UserItems userId={participant.id} />
+                            </Suspense>
+                          </UserModal>
+                        </>
+                      )}
+                    </div>
+                  ))}
                 </div>
+              </InfoModal>
+            )}
+          </div>
+        </div>
+        <Separator className="h-2 w-auto bg-st-gray-75" />
+      </div>
+      <div className="flex h-full w-full flex-col bg-st-white-100 p-20">
+        <div className="flex flex-col gap-10">
+          <div className="flex flex-row justify-between">
+            <div className="flex items-center text-18 font-bold text-st-gray-400">
+              {steadyCategoriesWithEmoji[steadyDetailsData.type]}
+            </div>
+            {steadyDetailsData.isLeader &&
+              steadyDetailsData.status !== "FINISHED" && (
+                <div className="flex flex-row gap-10">
+                  <AlertModal
+                    trigger={
+                      <Button className="h-30 w-170 bg-st-primary text-16 font-bold text-st-white">
+                        최신글로 등록하기
+                      </Button>
+                    }
+                    actionButton={
+                      <Button
+                        className={`${buttonSize.sm} bg-st-primary text-st-white`}
+                        onClick={() =>
+                          handleClickPromoteBtn(steadyDetailsData.id.toString())
+                        }
+                      >
+                        등록
+                      </Button>
+                    }
+                  >
+                    <button className="flex flex-col items-center justify-center gap-10 text-16 font-bold">
+                      현재 최신글로 등록할 수 있는 남은 횟수
+                      <span className=" text-20 text-st-primary">
+                        {steadyDetailsData.promotionCount}
+                      </span>
+                      등록하시겠습니까?
+                    </button>
+                  </AlertModal>
+                  <Dropdown
+                    options={[
+                      {
+                        label: "스테디 수정",
+                        linkTo: `/steady/edit/${steadyDetailsData.id}`,
+                      },
+                      {
+                        label: "스테디 운영",
+                        linkTo: `/steady/manage/${steadyDetailsData.id}`,
+                      },
+                      {
+                        label: "질문 수정",
+                        linkTo: `/steady/edit/questions/${steadyDetailsData.id}`,
+                      },
+                    ]}
+                  >
+                    <Icon
+                      name="gear"
+                      size={25}
+                      color="text-st-gray-200"
+                    />
+                  </Dropdown>
+                </div>
+              )}
+          </div>
+          <div className="text-35 font-bold">{steadyDetailsData.title}</div>
+          <div className="text-20 font-bold italic text-st-gray-400">
+            {steadyDetailsData.bio}
+          </div>
+        </div>
+        <div className="my-50 flex h-220 flex-col items-center justify-center gap-20 px-150 text-18 font-bold shadow-md">
+          <div className="flex w-full justify-between">
+            <div className="flex flex-grow items-center gap-30">
+              {/* 가로 스크롤 */}
+              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
+                모집 분야
+              </div>
+              {steadyDetailsData.positions.map((position, id) => (
+                <div key={id}>{position.name}</div>
               ))}
             </div>
-          </InfoModal>
-        </div>
-        <div className="text-20 font-bold">{steadyDetailsData.bio}</div>
-      </div>
-      <div className="my-30 flex flex-col gap-20 ">
-        <Separator className="h-2 w-auto bg-st-gray-100" />
-        <div className="px-50">
-          <div className="mb-10 flex h-fit flex-row items-center justify-between text-18 font-bold">
-            <div>
-              포지션:{" "}
-              {steadyDetailsData.positions.map((position, id) => {
-                const match = steadyRecruitmentFields.find(
-                  (field) => field.value === position.id.toString(),
-                );
-                return match ? <div key={id}>{match.label}</div> : null;
-              })}
+            <div className="flex w-225 items-center gap-30">
+              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
+                진행 방식
+              </div>
+              <div>
+                {matchingData(
+                  steadyRunningMethods,
+                  steadyDetailsData.steadyMode,
+                )}
+              </div>
             </div>
-            <div>
-              진행 방식:{" "}
-              {matchingData(steadyRunningMethods, steadyDetailsData.steadyMode)}
-            </div>
-            <div>
-              예상 기간:{" "}
+          </div>
+          <div className="flex w-full justify-between">
+            <div className="flex w-345 items-center gap-30">
+              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
+                예상 기간
+              </div>
+
               {matchingData(
                 steadyExpectedPeriods,
                 steadyDetailsData.scheduledPeriod,
               )}
             </div>
-            <div>마감일: {steadyDetailsData.deadline}</div>
+            <div className="flex items-center justify-center gap-30">
+              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
+                마감일
+              </div>
+              {format(new Date(steadyDetailsData.deadline), "yyyy.MM.dd")}
+            </div>
           </div>
-          <div className="flex h-fit flex-row items-center text-18 font-bold">
-            기술 스택:
-            {steadyDetailsData.stacks.map((stack, id) => (
-              <div key={id}>{stack.imageUrl}</div>
-            ))}
+          <div className="flex w-full justify-between">
+            <div className="flex items-center justify-center gap-30">
+              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
+                기술 스택
+              </div>
+              {steadyDetailsData.stacks.map((stack) => (
+                <Image
+                  key={stack.id}
+                  src={`/${stack.imageUrl}`}
+                  alt="기술 스택"
+                  width={50}
+                  height={50}
+                />
+              ))}
+            </div>
           </div>
         </div>
-        <Separator className="h-2 w-auto bg-st-gray-100" />
+        <div className="flex min-h-200 w-full items-center p-20 text-18 font-bold shadow-md">
+          {steadyDetailsData.content}
+        </div>
       </div>
-      <div className="text-15">{steadyDetailsData.content}</div>
+      <Separator className="mb-20 h-2 w-auto bg-st-gray-75" />
       <div className="flex flex-col gap-20">
-        <Separator className="mt-20 h-5 w-auto bg-st-gray-400" />
         <div className="flex flex-row items-center justify-end gap-10">
           {!steadyDetailsData.isLeader && (
             <>
@@ -354,7 +382,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                 <>
                   <Link href={`/application/edit/${steadyDetailsData.id}`}>
                     <Button
-                      className={`${buttonSize.sm} bg-st-primary  text-st-white`}
+                      className={`${buttonSize.sm} bg-st-primary text-14 text-st-white`}
                     >
                       신청서 수정
                     </Button>
@@ -395,15 +423,15 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
           )}
         </div>
         {/* 댓글 영역 */}
-        <div className="flex flex-col gap-10">
-          <div className="text-15 font-bold">댓글</div>
-          <TextArea className="h-150 w-full rounded-15" />
+        {/* <div className="flex flex-col gap-10">
+          <div className="font-bold text-15">댓글</div>
+          <TextArea className="w-full h-150 rounded-15" />
           <Button
             className={`${buttonSize.sm} ml-auto bg-st-primary text-st-white`}
           >
             등록
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
