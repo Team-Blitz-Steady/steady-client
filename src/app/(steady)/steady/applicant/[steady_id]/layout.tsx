@@ -3,9 +3,9 @@
 import type { ReactNode } from "react";
 import { Suspense, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
+import Image from "next/image";
 import Link from "next/link";
-import SteadyLogo from "@/images/turtle.png";
-import { Avatar } from "@radix-ui/themes";
+import Logo from "@/images/logo.svg";
 import { UserModal } from "@/components/_common/Modal";
 import UserItems from "@/components/_common/Modal/UserModal/UserItems";
 import Spinner from "@/components/_common/Spinner";
@@ -49,13 +49,16 @@ const SteadyApplicantLayout = ({
                     <UserModal
                       trigger={
                         <div>
-                          <Avatar
-                            src={user.profileImage ?? `/${SteadyLogo}`}
+                          <Image
+                            className="cursor-pointer rounded-full border-1"
+                            src={
+                              `/${user.profileImage}`
+                                ? `/${user.profileImage}`
+                                : Logo
+                            }
                             alt="유저 프로필 이미지"
-                            size={"4"}
-                            radius="full"
-                            className="cursor-pointer"
-                            fallback={""}
+                            width={50}
+                            height={50}
                           />
                         </div>
                       }
