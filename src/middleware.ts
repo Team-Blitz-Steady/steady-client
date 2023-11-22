@@ -14,6 +14,7 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/steady/edit/:path*",
+    "/steady/create",
     "/steady/create/:path*",
     "/steady/manage/:id*",
     "/steady/review/:id*",
