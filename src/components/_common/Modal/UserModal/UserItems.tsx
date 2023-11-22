@@ -1,6 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import SteadyLogo from "@/images/turtle.png";
-import { Avatar } from "@radix-ui/themes";
+import Logo from "@/images/logo.svg";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import getUserProfile from "@/services/user/getUserProfile";
 import Icon from "../../Icon";
@@ -17,13 +17,16 @@ const UserItems = ({ userId }: { userId: number }) => {
     <>
       <div className="flex h-full w-full flex-col items-center justify-center gap-20">
         <div className="flex w-full flex-col items-center justify-center gap-10">
-          <Avatar
-            src={userProfileData.user.profileImage ?? `/${SteadyLogo}`}
+          <Image
+            className="cursor-pointer rounded-full border-1"
+            src={
+              `/${userProfileData.user.profileImage}`
+                ? `/${userProfileData.user.profileImage}`
+                : Logo
+            }
             alt="유저 프로필 이미지"
-            size={"6"}
-            radius="full"
-            className="cursor-pointer"
-            fallback={""}
+            width={100}
+            height={100}
           />
           <div className="rounded-10 bg-st-gray-50 px-10 py-2 text-12 font-bold text-st-gray-200">
             {userProfileData.user.position.name}
