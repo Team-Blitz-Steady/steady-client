@@ -27,7 +27,7 @@ const UserApplicantPage = ({
       status: "ACCEPTED",
     });
     await queryClient.invalidateQueries({
-      queryKey: ["applicationsList", steadyId],
+      queryKey: ["applicantList", steadyId],
     });
     router.replace(`/steady/applicant/${steadyId}`);
   };
@@ -37,7 +37,7 @@ const UserApplicantPage = ({
       status: "REJECTED",
     });
     await queryClient.invalidateQueries({
-      queryKey: ["applicationsList", steadyId],
+      queryKey: ["applicantList", steadyId],
     });
     router.replace(`/steady/applicant/${steadyId}`);
   };

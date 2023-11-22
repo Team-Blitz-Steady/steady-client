@@ -143,14 +143,14 @@ export interface ApplicationDetailsType {
   surveys: ApplicationSurveyType[];
 }
 
-export interface ApplicationUserType {
+export interface ApplicantType {
   applicationId: number;
   userId: number;
   nickname: string;
   profileImage: string;
 }
-export interface ApplicationsListType {
-  content: ApplicationUserType[];
+export interface ApplicantListType {
+  content: ApplicantType[];
   numberOfElements: number;
   hasNext: boolean;
 }
