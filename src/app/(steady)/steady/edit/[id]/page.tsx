@@ -161,6 +161,7 @@ const SteadyEditPage = ({
           <div className={cn("my-10")} />
           <FormField
             control={steadyEditForm.control}
+            defaultValue={bio}
             name={"bio"}
             render={({ field }) => (
               <FormItem>
