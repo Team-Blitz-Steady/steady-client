@@ -30,14 +30,14 @@ import {
   SingleSelector,
 } from "@/components/_common/Selector";
 import { extractValue } from "@/utils/extractValue";
+import { CREATE_STEADY_PAGE_HEADING } from "@/constants/labelData";
 import {
-  CREATE_STEADY_PAGE_HEADING,
   steadyCategories,
   steadyExpectedPeriods,
   steadyParticipantsLimit,
   steadyRecruitmentStatus,
   steadyRunningMethods,
-} from "@/constants/create-steady";
+} from "@/constants/selectorItems";
 
 const SteadyEditPage = ({
   params: { id: steadyId },

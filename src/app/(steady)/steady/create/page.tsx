@@ -32,11 +32,13 @@ import { extractValue } from "@/utils/extractValue";
 import {
   CREATE_STEADY_PAGE_HEADING,
   STEADY_RECRUITMENT_EXAMPLE,
+} from "@/constants/labelData";
+import {
   steadyCategories,
   steadyExpectedPeriods,
   steadyParticipantsLimit,
   steadyRunningMethods,
-} from "@/constants/create-steady";
+} from "@/constants/selectorItems";
 
 const CreateSteadyPage = () => {
   const router = useRouter();

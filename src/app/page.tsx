@@ -26,7 +26,7 @@ import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import StickyButton from "@/components/_common/StickyButton";
-import { steadyRunningMethods } from "@/constants/create-steady";
+import { steadyRunningMethods } from "@/constants/selectorItems";
 import Dolphin from "../../public/images/dolphin.png";
 import First from "../../public/images/first.svg";
 import Second from "../../public/images/second.svg";

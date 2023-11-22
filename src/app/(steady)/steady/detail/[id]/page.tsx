@@ -21,11 +21,11 @@ import { AlertModal, InfoModal, UserModal } from "@/components/_common/Modal";
 import UserItems from "@/components/_common/Modal/UserModal/UserItems";
 import Spinner from "@/components/_common/Spinner";
 import Tag from "@/components/_common/Tag";
+import { steadyCategoriesWithEmoji } from "@/constants/labelData";
 import {
-  steadyCategoriesWithEmoji,
   steadyExpectedPeriods,
   steadyRunningMethods,
-} from "@/constants/create-steady";
+} from "@/constants/selectorItems";
 
 interface PageParams {
   id: string;
