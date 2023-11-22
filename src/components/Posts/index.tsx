@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Avatar } from "@radix-ui/themes";
 import type { Steadies } from "@/services/types";
+import noResult from "../../../public/images/no_result.png";
 import DefaultImage from "../../../public/images/steadyturtle.png";
 import Icon from "../_common/Icon";
 import Tag from "../_common/Tag";
@@ -38,8 +39,12 @@ const Posts = ({ info }: { info: Steadies }) => {
   }, [info]);
 
   return (
-    <div className="h-[1355px] w-full">
-      {info &&
+    <div
+      className={`h-[1355px] w-full ${
+        info.content.length === 0 && "flex items-center justify-center"
+      }`}
+    >
+      {info.content.length !== 0 ? (
         info.content.map((item, index) => (
           <Link
             href={`/steady/detail/${item.id}`}
@@ -128,7 +133,15 @@ const Posts = ({ info }: { info: Steadies }) => {
               </div>
             </div>
           </Link>
-        ))}
+        ))
+      ) : (
+        <Image
+          src={noResult}
+          alt="no_result"
+          width={400}
+          height={280}
+        />
+      )}
     </div>
   );
 };
