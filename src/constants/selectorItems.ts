@@ -15,15 +15,6 @@ export const steadyParticipantsLimit = [
   { value: "10", label: "10명" },
 ];
 
-export const steadyRecruitmentFields = [
-  { value: "1", label: "프론트엔드" },
-  { value: "2", label: "백엔드" },
-  { value: "3", label: "디자인" },
-  { value: "4", label: "기획" },
-  { value: "5", label: "마케팅" },
-  { value: "6", label: "기타" },
-];
-
 export const steadyRunningMethods = [
   { value: "OFFLINE", label: "오프라인" },
   { value: "ONLINE", label: "온라인" },
@@ -45,27 +36,7 @@ export const steadyExpectedPeriods = [
   { value: "LONG_TERM", label: "장기" },
 ];
 
-export const steadyExpectedTechStacks = [
-  { value: "1", label: "React" },
-  { value: "2", label: "Next.js" },
-  { value: "3", label: "Vue" },
-  { value: "4", label: "Nuxt.js" },
-  { value: "5", label: "Angular" },
-  { value: "6", label: "Svelte" },
-  { value: "7", label: "Express" },
-  { value: "8", label: "Nest.js" },
-  { value: "9", label: "Django" },
-  { value: "10", label: "Flask" },
-  { value: "11", label: "Spring" },
-  { value: "12", label: "MyBatis" },
-  { value: "13", label: "JPA" },
-  { value: "14", label: "Hibernate" },
-  { value: "15", label: "MySQL" },
-  { value: "16", label: "MariaDB" },
-];
-
 export const steadyRecruitmentStatus = [
   { value: "RECRUITING", label: "모집중" },
-  { value: "FINISHED", label: "종료" },
   { value: "CLOSED", label: "마감" },
 ];
