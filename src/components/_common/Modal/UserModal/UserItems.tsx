@@ -1,9 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 import Logo from "@/images/logo.svg";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import getUserProfile from "@/services/user/getUserProfile";
-import Icon from "../../Icon";
 import UserCards from "./UserCards";
 
 const UserItems = ({ userId }: { userId: number }) => {
@@ -28,24 +26,17 @@ const UserItems = ({ userId }: { userId: number }) => {
             width={100}
             height={100}
           />
-          <div className="rounded-10 bg-st-gray-50 px-10 py-2 text-12 font-bold text-st-gray-200">
-            {userProfileData.user.position.name}
-          </div>
-          <div className="flex items-center justify-center gap-10">
+          <div className="flex flex-col items-center justify-center gap-10">
             <div className="text-20 font-bold">
               {userProfileData.user.nickname}
             </div>
-            <Link href="/chat">
-              <Icon
-                name={"chat"}
-                size={20}
-                color="text-st-gray-400"
-              />
-            </Link>
+            <div className="rounded-10 bg-st-gray-50 px-10 py-2 text-12 font-bold text-st-gray-200">
+              {userProfileData.user.position.name}
+            </div>
           </div>
-          <div className="text-16 text-st-gray-400">
-            {userProfileData.user.bio}
-          </div>
+        </div>
+        <div className="text-16 text-st-gray-400">
+          {userProfileData.user.bio}
         </div>
         <div className="flex w-full flex-col items-center justify-center gap-10">
           <div className="text-15 font-bold">관심스택</div>
