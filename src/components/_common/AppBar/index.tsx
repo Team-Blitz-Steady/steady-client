@@ -34,7 +34,7 @@ const AppBar = ({ className }: AppBarProps) => {
           height={70}
         />
       </Link>
-      {
+      {isAuth && (
         <div className="flex w-250 items-center justify-between">
           <Link href={"/mysteady"}>
             <div className={cn(appBarTextStyles, "w-80")}>내 스테디</div>
@@ -55,7 +55,7 @@ const AppBar = ({ className }: AppBarProps) => {
             />
           </Dropdown>
         </div>
-      }
+      )}
       <LoginModal
         trigger={
           !isAuth && (
