@@ -62,11 +62,6 @@ const Posts = ({ info }: { info: Steadies }) => {
                     {item.type === "STUDY" ? "📖스터디" : "🖥프로젝트"}
                   </div>
                   <div className="text-25 font-bold">{item.title}</div>
-                  {/* <div className="flex gap-20 text-st-gray-200">
-                  {item.map((category, catIndex) => (
-                    <div key={catIndex}>#{category}</div>
-                  ))}
-                </div> */}
                   <div className="flex gap-20">
                     <div className="flex items-center justify-center gap-10 font-bold">
                       <Icon
@@ -114,15 +109,15 @@ const Posts = ({ info }: { info: Steadies }) => {
                       size={22}
                       color="text-st-gray-100"
                     />
-                    {/* {item.views} */}
+                    {item.viewCount}
                   </div>
                   <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
                     <Icon
-                      name="chat"
+                      name="heart"
                       size={20}
                       color="text-st-gray-100"
                     />
-                    {/* {item.comments} */}
+                    {item.likeCount}
                   </div>
                   <div className="text-15">
                     {differences && differences[index]?.days === 0

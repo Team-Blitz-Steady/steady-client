@@ -32,10 +32,12 @@ import Turtle from "../../public/images/turtle.png";
 import Walrus from "../../public/images/walrus.png";
 
 const Home = () => {
-  const [page, setPage] = useState<number>(() => {
-    return sessionStorage.getItem("page")
-      ? parseInt(sessionStorage.getItem("page")!)
-      : 0;
+  const [page, setPage] = useState(() => {
+    if (typeof window !== "undefined" && sessionStorage.getItem("page")) {
+      return parseInt(sessionStorage.getItem("page")!);
+    } else {
+      return 0;
+    }
   });
   const [like, setLike] = useState(false);
   const [recruit, setRecruit] = useState(false);
@@ -204,6 +206,16 @@ const Home = () => {
       handleFilter(type, keyword, stack, position, mode, recruit, deadline);
     }
   }, [type, stack, position, mode, recruit, deadline, debouncedValue]);
+
+  useEffect(() => {
+    sessionStorage.setItem("page", page.toString());
+  }, [page]);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("page")) {
+      setPage(parseInt(sessionStorage.getItem("page")!));
+    }
+  }, []);
 
   const bannerDefaultStyle =
     "duration-1500 absolute left-0 top-0 flex h-350 w-full justify-center transition-opacity";
