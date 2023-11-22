@@ -10,6 +10,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
+import type { SteadyStateType } from "@/schemas/steadySchema";
+import { SteadySchema } from "@/schemas/steadySchema";
 import useCreateSteadyStore from "@/stores/createSteadyData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator, TextArea } from "@radix-ui/themes";
@@ -35,8 +37,6 @@ import {
   steadyParticipantsLimit,
   steadyRunningMethods,
 } from "@/constants/create-steady";
-import type { SteadyStateType } from "@/constants/schemas/steadySchema";
-import { SteadySchema } from "@/constants/schemas/steadySchema";
 
 const CreateSteadyPage = () => {
   const router = useRouter();

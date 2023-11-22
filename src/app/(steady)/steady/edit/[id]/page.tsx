@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import type { SteadyEditStateType } from "@/schemas/steadyEditSchema";
+import { SteadyEditSchema } from "@/schemas/steadyEditSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator, TextArea } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -37,8 +39,6 @@ import {
   steadyRecruitmentStatus,
   steadyRunningMethods,
 } from "@/constants/create-steady";
-import type { SteadyEditStateType } from "@/constants/schemas/steadyEditSchema";
-import { SteadyEditSchema } from "@/constants/schemas/steadyEditSchema";
 
 const SteadyEditPage = ({
   params: { id: steadyId },

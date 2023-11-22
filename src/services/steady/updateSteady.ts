@@ -1,5 +1,5 @@
+import type { SteadyEditStateType } from "@/schemas/steadyEditSchema";
 import { axiosInstance } from "@/services";
-import type { SteadyEditStateType } from "@/constants/schemas/steadyEditSchema";
 
 const updateSteady = async (steadyId: number, data: SteadyEditStateType) => {
   try {
