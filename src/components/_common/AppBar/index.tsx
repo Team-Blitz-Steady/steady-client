@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import LogoImage from "@/images/logo.png";
+import HeaderLogo from "@/images/headerLogo.svg";
+import Logo from "@/images/logo.svg";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
-import { Avatar } from "@radix-ui/themes";
 import Dropdown from "@/components/_common/Dropdown";
 import NotificationPopup from "@/components/_common/NotificationPopup";
 import LoginModal from "../Modal/LoginModal";
@@ -28,11 +28,13 @@ const AppBar = ({ className }: AppBarProps) => {
     >
       <Link href={"/"}>
         <Image
-          src={LogoImage}
+          src={HeaderLogo}
           alt="스테디 로고"
+          width={150}
+          height={70}
         />
       </Link>
-      {isAuth && (
+      {
         <div className="flex w-250 items-center justify-between">
           <Link href={"/mysteady"}>
             <div className={cn(appBarTextStyles, "w-80")}>내 스테디</div>
@@ -44,14 +46,16 @@ const AppBar = ({ className }: AppBarProps) => {
               { label: "로그아웃", linkTo: "/logout" },
             ]}
           >
-            <Avatar
-              radius={"full"}
-              fallback={<div>?</div>}
-              src={"/images/steadyturtle.png"}
+            <Image
+              className="rounded-full border-1"
+              src={Logo}
+              alt="스테디 로고"
+              width={45}
+              height={45}
             />
           </Dropdown>
         </div>
-      )}
+      }
       <LoginModal
         trigger={
           !isAuth && (
