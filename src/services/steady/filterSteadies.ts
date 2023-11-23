@@ -1,75 +1,32 @@
 import { axiosInstance } from "@/services";
 import type { Steadies } from "@/services/types";
 
-export const steadyStatusFilter = async (page: string): Promise<Steadies> => {
-  try {
-    const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=${page}&status=RECRUITING&like=false`,
-    );
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const steadyTypeFilter = async (
+const steadyFilter = async (
   type: string,
-  page: string,
-): Promise<Steadies> => {
-  try {
-    const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=${page}&like=false&steadyType=${type}`,
-    );
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const steadyPositionFilter = async (
+  keyword: string,
+  stack: string,
   position: string,
-  page: string,
-  type: string,
-): Promise<Steadies> => {
-  try {
-    const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=${page}&like=false&position=${position}&steadyType=${type}`,
-    );
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const steadyModeFilter = async (
   mode: string,
-  page: string,
-  type: string,
+  status: boolean,
+  deadline: boolean,
 ): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=${page}&steadyMode=${mode}&like=false&steadyType=${type}`,
+      `/api/v1/steadies/search?page=0&like=false${
+        type !== "all" ? `&steadyType=${type}` : ""
+      }${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        stack !== "" ? `&stack=${stack}` : ""
+      }${position !== "" ? `&position=${position}` : ""}${
+        mode !== "0" ? `&steadyMode=${mode}` : ""
+      }${status ? `&status=RECRUITING` : ""}${
+        deadline ? `&direction=asc&criteria=deadline` : ""
+      }`,
     );
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.log(error);
     throw error;
   }
 };
 
-export const steadyDeadlineFilter = async (page: string): Promise<Steadies> => {
-  try {
-    const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=${page}&direction=asc&criteria=deadline&like=false`,
-    );
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-// TODO: [기술 스택 및 내 좋아요 및 정렬 방향 추가하기]
+export default steadyFilter;

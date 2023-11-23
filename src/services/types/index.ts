@@ -28,7 +28,9 @@ interface Content {
   createdAt: string;
   participantLimit: number;
   numberOfParticipants: number;
+  viewCount: number;
   stacks: Stack[];
+  likeCount: number;
 }
 
 interface Stack {
