@@ -4,8 +4,22 @@ import { NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
   const cookie = request.headers.get("Cookie");
   const isAuthenticated = cookie?.includes("access_token"); // TODO: 토큰 이름 은닉?
+  const response = NextResponse.next();
+  response.headers.append("Access-Control-Allow-Credentials", "true");
+  response.headers.append(
+    "Access-Control-Allow-Origin",
+    "https://www.steadies.kr",
+  );
+  response.headers.append(
+    "Access-Control-Allow-Methods",
+    "GET,DELETE,PATCH,POST,PUT",
+  );
+  response.headers.append(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+  );
   if (isAuthenticated) {
-    return NextResponse.next();
+    return response;
   } else {
     return NextResponse.redirect("https://steadies.kr/");
   }

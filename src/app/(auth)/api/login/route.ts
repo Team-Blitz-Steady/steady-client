@@ -15,7 +15,12 @@ export async function POST(req: NextRequest) {
     console.error(error);
   }
 
-  return NextResponse.json({
-    message: "login success!",
-  });
+  return NextResponse.json(
+    {
+      message: "login success!",
+    },
+    {
+      status: 200,
+    },
+  );
 }
