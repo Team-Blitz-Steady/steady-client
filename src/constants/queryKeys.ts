@@ -4,6 +4,8 @@ export const getApplicationDetailsKey = (applicationId: string) => [
   applicationId,
 ];
 
+export const getApplicationListKey = ["myApplication"];
+
 export const getApplicantListKey = (steadyId: string) => [
   "applicantList",
   steadyId,
