@@ -7,10 +7,11 @@ import deleteTemplate from "@/services/template/deleteTemplate";
 import getTemplates from "@/services/template/getTemplates";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
+import { TemplatesKey } from "@/constants/queryKeys";
 
 const MyTemplatePage = () => {
   const { data, refetch } = useQuery({
-    queryKey: ["templates"],
+    queryKey: TemplatesKey,
     queryFn: getTemplates,
   });
   const router = useRouter();

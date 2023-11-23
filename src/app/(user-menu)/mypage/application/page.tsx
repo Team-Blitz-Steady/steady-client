@@ -1,29 +1,30 @@
 "use client";
 
-import Link from "next/link";
+import InfiniteScroll from "react-infinite-scroller";
+import { useRouter } from "next/navigation";
+import deleteApplication from "@/services/application/deleteApplication";
 import Icon from "@/components/_common/Icon";
+import useApplicationListQuery from "@/hooks/query/useApplicationListQuery";
 
 const MyApplicationPage = () => {
-  const data = [
-    {
-      id: 1,
-      steadyTitle: "넥터디",
-      status: "APPROVED",
-      createdAt: "2023.11.15",
-    },
-    {
-      id: 2,
-      steadyTitle: "넥터디",
-      status: "REJECTED",
-      createdAt: "2023.11.15",
-    },
-    {
-      id: 3,
-      steadyTitle: "넥터디",
-      status: "PENDING",
-      createdAt: "2023.11.15",
-    },
-  ];
+  const router = useRouter();
+  const { applicationListData, hasNextPage, fetchNextPage, refetch } =
+    useApplicationListQuery();
+
+  const handleApplicationDetail = (id: number) => {
+    router.push(`/application/edit/${id}`);
+  };
+
+  const handleDeleteApplication = async (
+    event: React.MouseEvent,
+    id: string,
+  ) => {
+    event.stopPropagation();
+    const data = await deleteApplication(id);
+    if (!data) {
+      refetch();
+    }
+  };
 
   return (
     <div className="flex gap-30">
@@ -41,51 +42,68 @@ const MyApplicationPage = () => {
             </div>
             <div className="flex items-center justify-center gap-10 text-20 font-bold">
               <div className="h-10 w-10 rounded-full bg-st-primary"></div>
-              보류
+              대기
             </div>
           </div>
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>
-        <div className="h-750 w-750">
-          {data.map((application, index) => (
-            <Link
-              key={index}
-              href={`/application/edit/${application.id}`}
-            >
-              <div className="group flex items-center justify-between p-50 transition hover:scale-105 hover:bg-st-gray-50">
-                <div className="text-25 font-bold">
-                  {application.status === "APPROVED" ? (
-                    <div className="flex items-center justify-center gap-10">
-                      {application.steadyTitle}
-                      <div className="h-10 w-10 rounded-full bg-st-green"></div>
-                    </div>
-                  ) : application.status === "REJECTED" ? (
-                    <div className="flex items-center justify-center gap-10">
-                      {application.steadyTitle}
-                      <div className="h-10 w-10 rounded-full bg-st-red"></div>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-center gap-10">
-                      {application.steadyTitle}
-                      <div className="h-10 w-10 rounded-full bg-st-primary"></div>
-                    </div>
-                  )}
-                </div>
-                <div className="group flex">
-                  <div className="transform text-15 font-bold text-st-gray-100 transition group-hover:-translate-x-[30px]">
-                    제출일 {application.createdAt}
+        <div className="h-750 w-750 overflow-x-hidden overflow-y-scroll">
+          <InfiniteScroll
+            hasMore={hasNextPage}
+            loadMore={() => fetchNextPage()}
+            useWindow={false}
+          >
+            {applicationListData.pages.map((applications) =>
+              applications.content.map((application) => (
+                <div
+                  key={application.applicationId}
+                  onClick={() =>
+                    handleApplicationDetail(application.applicationId)
+                  }
+                  className="group flex cursor-pointer items-center justify-between p-50 transition hover:scale-105 hover:bg-st-gray-50"
+                >
+                  <div className="text-25 font-bold">
+                    {application.status === "APPROVED" ? (
+                      <div className="flex items-center justify-center gap-10">
+                        {application.steadyName}
+                        <div className="h-10 w-10 rounded-full bg-st-green"></div>
+                      </div>
+                    ) : application.status === "REJECTED" ? (
+                      <div className="flex items-center justify-center gap-10">
+                        {application.steadyName}
+                        <div className="h-10 w-10 rounded-full bg-st-red"></div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center gap-10">
+                        {application.steadyName}
+                        <div className="h-10 w-10 rounded-full bg-st-primary"></div>
+                      </div>
+                    )}
                   </div>
-                  <div className="hidden gap-20 transition duration-500 group-hover:flex">
-                    <Icon
-                      name="trash"
-                      size={20}
-                      color="text-st-gray-100"
-                    />
+                  <div className="group flex">
+                    <div className="transform text-15 font-bold text-st-gray-100 transition group-hover:-translate-x-[30px]">
+                      제출일 {application.createdAt.slice(0, 10)}
+                    </div>
+                    <div
+                      onClick={(event) =>
+                        handleDeleteApplication(
+                          event,
+                          application.applicationId.toString(),
+                        )
+                      }
+                      className="hidden gap-20 transition duration-500 group-hover:flex"
+                    >
+                      <Icon
+                        name="trash"
+                        size={25}
+                        color="text-st-gray-100"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              )),
+            )}
+          </InfiniteScroll>
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>
       </div>

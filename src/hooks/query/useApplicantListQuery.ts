@@ -1,5 +1,6 @@
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import getApplicantList from "@/services/application/getApplicantList";
+import { getApplicantListKey } from "@/constants/queryKeys";
 
 const useApplicantListQuery = ({ steadyId }: { steadyId: string }) => {
   const {
@@ -7,7 +8,7 @@ const useApplicantListQuery = ({ steadyId }: { steadyId: string }) => {
     hasNextPage,
     fetchNextPage,
   } = useSuspenseInfiniteQuery({
-    queryKey: ["applicantList", steadyId],
+    queryKey: getApplicantListKey(steadyId),
     queryFn: ({ pageParam }) => getApplicantList(steadyId, pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage, pages) => {
