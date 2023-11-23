@@ -6,10 +6,7 @@ export function middleware(request: NextRequest) {
   const isAuthenticated = cookie?.includes("access_token"); // TODO: 토큰 이름 은닉?
   const response = NextResponse.next();
   response.headers.append("Access-Control-Allow-Credentials", "true");
-  response.headers.append(
-    "Access-Control-Allow-Origin",
-    "https://steadies.kr/",
-  );
+  response.headers.append("Access-Control-Allow-Origin", "https://steadies.kr");
   response.headers.append(
     "Access-Control-Allow-Methods",
     "GET,DELETE,PATCH,POST,PUT",
