@@ -6,6 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
+import { cn } from "@/lib/utils";
+import useAuthStore from "@/stores/isAuth";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import {
@@ -24,6 +26,8 @@ import type {
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
+import AlertModal from "@/components/_common/Modal/AlertModal";
+import LoginModal from "@/components/_common/Modal/LoginModal";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import StickyButton from "@/components/_common/StickyButton";
 import { steadyRunningMethods } from "@/constants/create-steady";
@@ -47,6 +51,7 @@ const Home = () => {
   const [stack, setStack] = useState("");
   const [position, setPosition] = useState("");
   const [mode, setMode] = useState("");
+  const { isAuth } = useAuthStore();
 
   const { data } = useQuery({
     queryKey: ["steadies"],
@@ -494,18 +499,54 @@ const Home = () => {
               ></div>
               마감 임박순
             </div>
-            <Link href={"/steady/create"}>
-              <Button
-                className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
+            {isAuth && (
+              <Link href={"/steady/create"}>
+                <Button
+                  className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
+                >
+                  <Icon
+                    name="pencil"
+                    size={25}
+                    color="text-st-white"
+                  />
+                  스테디 등록
+                </Button>
+              </Link>
+            )}
+            {!isAuth && (
+              <AlertModal
+                actionButton={
+                  <LoginModal
+                    trigger={
+                      <Button
+                        className={cn(
+                          `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
+                        )}
+                      >
+                        로그인
+                      </Button>
+                    }
+                  />
+                }
+                trigger={
+                  <Button
+                    className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
+                  >
+                    <Icon
+                      name="pencil"
+                      size={25}
+                      color="text-st-white"
+                    />
+                    스테디 등록
+                  </Button>
+                }
               >
-                <Icon
-                  name="pencil"
-                  size={25}
-                  color="text-st-white"
-                />
-                스테디 등록
-              </Button>
-            </Link>
+                <div className="text-18 font-bold">
+                  로그인이 필요한 기능입니다! <br />
+                  로그인 하시겠어요?
+                </div>
+              </AlertModal>
+            )}
           </div>
         </div>
         <div className="h-5 w-full bg-st-gray-400" />
