@@ -10,6 +10,8 @@ export const getApplicantListKey = (steadyId: string) => [
 ];
 
 // Steady
+export const getSteadiesKey = ["steadies"];
+
 export const getSteadyDetailsKey = (steadyId: string | number) => [
   "steadyDetails",
   steadyId,
