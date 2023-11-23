@@ -440,7 +440,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                         </Button>
                       }
                     >
-                      <div className="text-18 font-bold">
+                      <div className="text-center text-18 font-bold">
                         로그인이 필요한 기능입니다! <br />
                         로그인 하시겠어요?
                       </div>
