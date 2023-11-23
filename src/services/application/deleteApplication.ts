@@ -1,11 +1,14 @@
 import { axiosInstance } from "@/services";
 import type { AxiosResponse } from "axios";
 
-const deleteTemplate = async (id: string) => {
+const deleteApplication = async (applicationId: string) => {
   try {
     const response: AxiosResponse = await axiosInstance.delete(
-      `/api/v1/applications/${id}`,
+      `/api/v1/applications/${applicationId}`,
     );
+    if (Math.floor(response.status / 10) !== 20) {
+      throw new Error("Failed to delete application!");
+    }
     return response.data;
   } catch (error) {
     console.error(error);
@@ -13,4 +16,4 @@ const deleteTemplate = async (id: string) => {
   }
 };
 
-export default deleteTemplate;
+export default deleteApplication;

@@ -2,26 +2,14 @@
 
 import InfiniteScroll from "react-infinite-scroller";
 import { useRouter } from "next/navigation";
-import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import deleteApplication from "@/services/application/deleteApplication";
-import getApplicationList from "@/services/application/getApplicationList";
 import Icon from "@/components/_common/Icon";
+import useApplicationListQuery from "@/hooks/query/useApplicationListQuery";
 
 const MyApplicationPage = () => {
   const router = useRouter();
-  const { data, hasNextPage, fetchNextPage, refetch } =
-    useSuspenseInfiniteQuery({
-      queryKey: ["my-application"],
-      queryFn: ({ pageParam }) => getApplicationList(pageParam),
-      initialPageParam: 0,
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage.hasNext) {
-          return pages.length;
-        } else {
-          return undefined;
-        }
-      },
-    });
+  const { applicationListData, hasNextPage, fetchNextPage, refetch } =
+    useApplicationListQuery();
 
   const handleApplicationDetail = (id: number) => {
     router.push(`/application/edit/${id}`);
@@ -65,7 +53,7 @@ const MyApplicationPage = () => {
             loadMore={() => fetchNextPage()}
             useWindow={false}
           >
-            {data.pages.map((applications) =>
+            {applicationListData.pages.map((applications) =>
               applications.content.map((application) => (
                 <div
                   key={application.applicationId}
