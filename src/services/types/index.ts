@@ -241,6 +241,7 @@ export interface UsersProfileType {
   };
   userCards: UserCardType[];
   reviews: string[];
+  isDeleted: boolean;
 }
 
 export interface UpdateMyProfileType {
