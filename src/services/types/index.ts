@@ -295,3 +295,7 @@ export interface LikeSteadyType {
   likeCount: number;
   isLike: boolean;
 }
+
+export interface EditApplicationType {
+  answers: string[];
+}
