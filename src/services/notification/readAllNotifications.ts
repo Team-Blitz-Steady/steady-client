@@ -1,9 +1,9 @@
-import { axiosInstance } from "@/services";
+import { axiosInstance, isAbnormalCode } from "@/services";
 
 const readAllNotifications = async () => {
   try {
     const response = await axiosInstance.patch("/api/v1/notifications/readAll");
-    if (Math.floor(response.status / 10) !== 20) {
+    if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch read all notification api!");
     }
     return response;

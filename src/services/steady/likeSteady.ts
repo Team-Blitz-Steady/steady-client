@@ -1,5 +1,5 @@
 import type { AxiosResponse } from "axios";
-import { axiosInstance } from "..";
+import { axiosInstance, isAbnormalCode } from "..";
 import type { LikeSteadyType } from "../types";
 
 const likeSteady = async (steadyId: string) => {
@@ -7,7 +7,7 @@ const likeSteady = async (steadyId: string) => {
     const response: AxiosResponse<LikeSteadyType> = await axiosInstance.patch(
       `/api/v1/steadies/${steadyId}/like`,
     );
-    if (Math.floor(response.status / 10) !== 20) {
+    if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch like steady api!");
     }
     return response.data;

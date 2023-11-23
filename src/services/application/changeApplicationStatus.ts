@@ -1,4 +1,4 @@
-import { axiosInstance } from "..";
+import { axiosInstance, isAbnormalCode } from "..";
 import type { ApplicationStatusType } from "../types";
 
 const changeApplicationStatus = async (
@@ -10,7 +10,7 @@ const changeApplicationStatus = async (
       `/api/v1/applications/${applicationId}/status`,
       status,
     );
-    if (Math.floor(response.status / 10) !== 20) {
+    if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch change application status url!");
     }
     return response;

@@ -5,7 +5,7 @@ import {
   steadyCategories,
   steadyExpectedPeriods,
   steadyRunningMethods,
-} from "@/constants/create-steady";
+} from "@/constants/selectorItems";
 
 export const SteadySchema = z.object({
   name: z.string({ required_error: "스테디의 이름을 입력해주세요." }),
