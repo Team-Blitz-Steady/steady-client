@@ -5,8 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import SteadyTurtle from "@/images/steadytext.png";
-import { Avatar, Separator } from "@radix-ui/themes";
+import Logo from "@/images/logo.svg";
+import { cn } from "@/lib/utils";
+import useAuthStore from "@/stores/isAuth";
+import { Separator } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
@@ -18,6 +20,7 @@ import Button, { buttonSize } from "@/components/_common/Button";
 import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
 import { AlertModal, InfoModal, UserModal } from "@/components/_common/Modal";
+import LoginModal from "@/components/_common/Modal/LoginModal";
 import UserItems from "@/components/_common/Modal/UserModal/UserItems";
 import Spinner from "@/components/_common/Spinner";
 import Tag from "@/components/_common/Tag";
@@ -46,7 +49,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
 
   const router = useRouter();
   const { toast } = useToast();
-
+  const { isAuth } = useAuthStore();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -126,17 +129,16 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
             <UserModal
               trigger={
                 <div className="flex gap-10">
-                  <Avatar
+                  <Image
+                    className="cursor-pointer rounded-full border-1"
                     src={
-                      steadyDetailsData.leaderResponse.profileImage
-                        ? steadyDetailsData.leaderResponse.profileImage
-                        : `/${SteadyTurtle}`
+                      `/${steadyDetailsData.leaderResponse.profileImage}`
+                        ? `/${steadyDetailsData.leaderResponse.profileImage}`
+                        : Logo
                     }
                     alt="작성자 프로필"
-                    size={"4"}
-                    radius="full"
-                    className="cursor-pointer"
-                    fallback={""}
+                    width={60}
+                    height={60}
                   />
                   <button className="text-20 font-bold">
                     {steadyDetailsData.leaderResponse.nickname}
@@ -191,17 +193,16 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
               >
                 <div className="flex flex-col items-center justify-center gap-10">
                   <div className="flex flex-col items-center justify-center gap-10">
-                    <Avatar
+                    <Image
+                      className="cursor-pointer rounded-full border-1"
                       src={
-                        steadyDetailsData.leaderResponse.profileImage
-                          ? steadyDetailsData.leaderResponse.profileImage
-                          : `/${SteadyTurtle}`
+                        `/${steadyDetailsData.leaderResponse.profileImage}`
+                          ? `/${steadyDetailsData.leaderResponse.profileImage}`
+                          : Logo
                       }
                       alt="참여자 이미지"
-                      size={"6"}
-                      radius="full"
-                      className="cursor-pointer"
-                      fallback={""}
+                      width={80}
+                      height={80}
                     />
                     <button className="text-20 font-bold">
                       {steadyDetailsData.leaderResponse.nickname}
@@ -214,19 +215,18 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                           <UserModal
                             trigger={
                               <div className="flex flex-col items-center justify-center gap-10">
-                                <Avatar
+                                <Image
+                                  className="cursor-pointer rounded-full border-1"
                                   src={
-                                    participant.profileImage
-                                      ? participant.profileImage
-                                      : `/${SteadyTurtle}`
+                                    `/${participant.profileImage}`
+                                      ? `/${participant.profileImage}`
+                                      : Logo
                                   }
                                   alt="참여자 이미지"
-                                  size={"6"}
-                                  radius="full"
-                                  className="cursor-pointer"
-                                  fallback={""}
+                                  width={80}
+                                  height={80}
                                 />
-                                <button className="text-20 font-bold">
+                                <button className="text-18 font-bold">
                                   {participant.nickname}
                                 </button>
                               </div>
@@ -408,16 +408,45 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                   </AlertModal>
                 </>
               ) : (
-                <Link
-                  href={`/application/submit/${steadyDetailsData.id}`}
-                  replace={true}
-                >
-                  <Button
-                    className={`${buttonSize.sm} bg-st-primary text-st-white`}
-                  >
-                    신청
-                  </Button>
-                </Link>
+                <>
+                  {isAuth ? (
+                    <Link href={`/application/submit/${steadyDetailsData.id}`}>
+                      <Button
+                        className={`${buttonSize.sm} bg-st-primary text-14 text-st-white`}
+                      >
+                        신청하기
+                      </Button>
+                    </Link>
+                  ) : (
+                    <AlertModal
+                      actionButton={
+                        <LoginModal
+                          trigger={
+                            <Button
+                              className={cn(
+                                `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
+                              )}
+                            >
+                              로그인
+                            </Button>
+                          }
+                        />
+                      }
+                      trigger={
+                        <Button
+                          className={`${buttonSize.sm} bg-st-primary text-st-white`}
+                        >
+                          신청
+                        </Button>
+                      }
+                    >
+                      <div className="text-center text-18 font-bold">
+                        로그인이 필요한 기능입니다! <br />
+                        로그인 하시겠어요?
+                      </div>
+                    </AlertModal>
+                  )}
+                </>
               )}
             </>
           )}

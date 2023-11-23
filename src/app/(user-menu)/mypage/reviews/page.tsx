@@ -78,35 +78,29 @@ const MyReviewsPage = () => {
           } flex h-230 flex-col gap-20 overflow-auto px-10 py-5`}
         >
           {selectedReviews &&
-            (selectedReviews.reviews.length ? (
-              selectedReviews.reviews.map((review) => (
-                <div
-                  key={review.reviewId}
-                  className="flex items-center justify-between"
-                >
-                  <div className="text-ellipsis text-15 font-bold">
-                    {review.comment}
-                  </div>
-                  <button onClick={() => handlePublicReview(review.reviewId)}>
-                    {review.isPublic ? (
-                      <Icon
-                        name="eye"
-                        size={25}
-                        color="text-black"
-                      />
-                    ) : (
-                      <Icon
-                        name="eye-none"
-                        size={25}
-                        color="text-black"
-                      />
-                    )}
-                  </button>
+            selectedReviews.reviews.map((review) => (
+              <div
+                key={review.reviewId}
+                className="flex items-center justify-between"
+              >
+                <div className="text-ellipsis text-15 font-bold">
+                  {review.comment}
                 </div>
-              ))
-            ) : (
-              <div className="flex h-full items-center justify-center text-18 font-bold">
-                리뷰가 없습니다.
+                <button onClick={() => handlePublicReview(review.reviewId)}>
+                  {review.isPublic ? (
+                    <Icon
+                      name="eye"
+                      size={25}
+                      color="text-black"
+                    />
+                  ) : (
+                    <Icon
+                      name="eye-none"
+                      size={25}
+                      color="text-black"
+                    />
+                  )}
+                </button>
               </div>
             ))}
         </div>

@@ -28,7 +28,9 @@ interface Content {
   createdAt: string;
   participantLimit: number;
   numberOfParticipants: number;
+  viewCount: number;
   stacks: Stack[];
+  likeCount: number;
 }
 
 interface Stack {
@@ -305,4 +307,8 @@ interface Application {
   steadyName: string;
   createdAt: string;
   status: string;
+}
+
+export interface EditApplicationType {
+  answers: string[];
 }

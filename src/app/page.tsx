@@ -6,12 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
+import { cn } from "@/lib/utils";
+import useAuthStore from "@/stores/isAuth";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import {
-  steadyDeadlineFilter,
-  steadyStatusFilter,
-} from "@/services/steady/filterSteadies";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import steadyFilter from "@/services/steady/filterSteadies";
 import getPositions from "@/services/steady/getPositions";
 import getStacks from "@/services/steady/getStacks";
 import getSteadies from "@/services/steady/getSteadies";
@@ -24,6 +23,8 @@ import type {
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
+import AlertModal from "@/components/_common/Modal/AlertModal";
+import LoginModal from "@/components/_common/Modal/LoginModal";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import StickyButton from "@/components/_common/StickyButton";
 import { steadyRunningMethods } from "@/constants/create-steady";
@@ -35,7 +36,13 @@ import Turtle from "../../public/images/turtle.png";
 import Walrus from "../../public/images/walrus.png";
 
 const Home = () => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(() => {
+    if (typeof window !== "undefined" && sessionStorage.getItem("page")) {
+      return parseInt(sessionStorage.getItem("page")!);
+    } else {
+      return 0;
+    }
+  });
   const [like, setLike] = useState(false);
   const [recruit, setRecruit] = useState(false);
   const [post, setPost] = useState<Steadies>();
@@ -47,11 +54,22 @@ const Home = () => {
   const [stack, setStack] = useState("");
   const [position, setPosition] = useState("");
   const [mode, setMode] = useState("");
+  const { isAuth } = useAuthStore();
+  const [isInitialRender, setIsInitialRender] = useState(true);
 
-  const { data } = useQuery({
+  const { data } = useSuspenseQuery<Steadies>({
     queryKey: ["steadies"],
     queryFn: () =>
-      getSteadies(keyword, deadline, recruit, type, page.toString()),
+      getSteadies(
+        stack,
+        position,
+        mode,
+        keyword,
+        deadline,
+        recruit,
+        type,
+        page.toString(),
+      ),
   });
 
   const { data: stacks, error: stacksError } = useSuspenseQuery<StackResponse>({
@@ -76,6 +94,9 @@ const Home = () => {
   const [totalPost, setTotalPost] = useState(data?.totalElements);
 
   const handleGetSteadies = async (
+    stack: string,
+    position: string,
+    mode: string,
     keyword: string,
     deadline: boolean,
     recruit: boolean,
@@ -83,6 +104,9 @@ const Home = () => {
     page: string,
   ) => {
     const data = await getSteadies(
+      stack,
+      position,
+      mode,
       keyword,
       deadline,
       recruit,
@@ -93,20 +117,9 @@ const Home = () => {
     setPost(data);
   };
 
-  const handleRecruit = async (page: string) => {
-    const data = await steadyStatusFilter(page);
-    setTotalPost(data.totalElements);
-    setPost(data);
-  };
-
   const handleSteadySearch = async (keyword: string) => {
     const data = await searchSteadies(keyword);
     setTotalPost(data.totalElements);
-    setPost(data);
-  };
-
-  const handleSteadyDeadline = async (page: string) => {
-    const data = await steadyDeadlineFilter(page);
     setPost(data);
   };
 
@@ -118,8 +131,31 @@ const Home = () => {
     setKeyword(e.target.value);
   };
 
+  const handleFilter = async (
+    type: string,
+    keyword: string,
+    stack: string,
+    position: string,
+    mode: string,
+    status: boolean,
+    deadline: boolean,
+  ) => {
+    const data = await steadyFilter(
+      type,
+      keyword,
+      stack,
+      position,
+      mode,
+      status,
+      deadline,
+    );
+    setTotalPost(data.totalElements);
+    setPost(data);
+  };
+
   useEffect(() => {
     if (data) {
+      setIsInitialRender(false);
       setPost(data);
     }
   }, [data]);
@@ -143,10 +179,21 @@ const Home = () => {
   }, [keyword]);
 
   useEffect(() => {
-    if (debouncedValue) {
-      handleSteadySearch(debouncedValue);
-    } else {
-      handleGetSteadies(keyword, deadline, recruit, type, page.toString());
+    if (!isInitialRender) {
+      if (debouncedValue) {
+        handleSteadySearch(debouncedValue);
+      } else {
+        handleGetSteadies(
+          stack,
+          position,
+          mode,
+          keyword,
+          deadline,
+          recruit,
+          type,
+          page.toString(),
+        );
+      }
     }
   }, [debouncedValue]);
 
@@ -159,8 +206,21 @@ const Home = () => {
   }, [activeIndex]);
 
   useEffect(() => {
-    setPage(0);
+    if (!isInitialRender) {
+      setPage(0);
+      handleFilter(type, keyword, stack, position, mode, recruit, deadline);
+    }
   }, [type, stack, position, mode, recruit, deadline, debouncedValue]);
+
+  useEffect(() => {
+    sessionStorage.setItem("page", page.toString());
+  }, [page]);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("page")) {
+      setPage(parseInt(sessionStorage.getItem("page")!));
+    }
+  }, []);
 
   const bannerDefaultStyle =
     "duration-1500 absolute left-0 top-0 flex h-350 w-full justify-center transition-opacity";
@@ -350,16 +410,7 @@ const Home = () => {
               className={`${
                 type === "all" ? "" : "text-st-gray-100"
               } cursor-pointer text-3xl font-bold`}
-              onClick={() => {
-                setType("all");
-                handleGetSteadies(
-                  keyword,
-                  deadline,
-                  recruit,
-                  "all",
-                  page.toString(),
-                );
-              }}
+              onClick={() => setType("all")}
             >
               전체
             </div>
@@ -367,16 +418,7 @@ const Home = () => {
               className={`${
                 type === "STUDY" ? "" : "text-st-gray-100"
               } cursor-pointer text-3xl font-bold`}
-              onClick={() => {
-                setType("STUDY");
-                handleGetSteadies(
-                  keyword,
-                  deadline,
-                  recruit,
-                  "STUDY",
-                  page.toString(),
-                );
-              }}
+              onClick={() => setType("STUDY")}
             >
               스터디
             </div>
@@ -384,16 +426,7 @@ const Home = () => {
               className={`${
                 type === "PROJECT" ? "" : "text-st-gray-100"
               } cursor-pointer text-3xl font-bold`}
-              onClick={() => {
-                setType("PROJECT");
-                handleGetSteadies(
-                  keyword,
-                  deadline,
-                  recruit,
-                  "PROJECT",
-                  page.toString(),
-                );
-              }}
+              onClick={() => setType("PROJECT")}
             >
               프로젝트
             </div>
@@ -416,14 +449,16 @@ const Home = () => {
               }
               className="w-220"
             />
-            <SingleSelector
+            <MultiSelector
               initialLabel={"모집 분야"}
               items={positions.positions.map((position) => ({
-                value: position.id.toString(),
+                value: position.name,
                 label: position.name,
               }))}
-              onSelectedChange={(value) => setPosition(value)}
-              className="mb-8 h-43 w-150"
+              onSelectedChange={(value) =>
+                setPosition(value.map((item) => item.label).join(","))
+              }
+              className="w-220"
             />
             <SingleSelector
               initialLabel={"진행 방식"}
@@ -436,12 +471,41 @@ const Home = () => {
                 like ? "border-5 border-st-yellow" : "border border-st-gray-100"
               } transition-border mx-10 mb-8 flex h-43 w-150 items-center justify-center rounded-5 duration-100`}
             >
-              <button
-                className="h-full w-full font-bold"
-                onClick={() => setLike(!like)}
-              >
-                💛 내 좋아요
-              </button>
+              {isAuth && (
+                <button
+                  className="h-full w-full font-bold"
+                  onClick={() => setLike(!like)}
+                >
+                  💛 내 좋아요
+                </button>
+              )}
+              {!isAuth && (
+                <AlertModal
+                  actionButton={
+                    <LoginModal
+                      trigger={
+                        <Button
+                          className={cn(
+                            `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
+                          )}
+                        >
+                          로그인
+                        </Button>
+                      }
+                    />
+                  }
+                  trigger={
+                    <button className="h-full w-full font-bold">
+                      💛 내 좋아요
+                    </button>
+                  }
+                >
+                  <div className="text-center text-18 font-bold">
+                    로그인이 필요한 기능입니다! <br />
+                    로그인 하시겠어요?
+                  </div>
+                </AlertModal>
+              )}
             </div>
             <div
               className={`${
@@ -452,15 +516,7 @@ const Home = () => {
             >
               <button
                 className="h-full w-full font-bold"
-                onClick={() => {
-                  if (recruit) {
-                    setRecruit(!recruit);
-                    setPost(data);
-                  } else {
-                    handleRecruit(page.toString());
-                    setRecruit(!recruit);
-                  }
-                }}
+                onClick={() => setRecruit(!recruit)}
               >
                 모집중
               </button>
@@ -468,21 +524,7 @@ const Home = () => {
           </div>
           <div className="flex items-center justify-center gap-20">
             <div
-              onClick={() => {
-                if (!deadline) {
-                  setDeadline(!deadline);
-                  handleSteadyDeadline(page.toString());
-                } else {
-                  setDeadline(!deadline);
-                  handleGetSteadies(
-                    keyword,
-                    false,
-                    recruit,
-                    type,
-                    page.toString(),
-                  );
-                }
-              }}
+              onClick={() => setDeadline(!deadline)}
               className={`${
                 deadline ? "" : "text-st-gray-100"
               } flex cursor-pointer items-center justify-center gap-10 font-bold`}
@@ -494,18 +536,54 @@ const Home = () => {
               ></div>
               마감 임박순
             </div>
-            <Link href={"/steady/create"}>
-              <Button
-                className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
+            {isAuth && (
+              <Link href={"/steady/create"}>
+                <Button
+                  className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
+                >
+                  <Icon
+                    name="pencil"
+                    size={25}
+                    color="text-st-white"
+                  />
+                  스테디 등록
+                </Button>
+              </Link>
+            )}
+            {!isAuth && (
+              <AlertModal
+                actionButton={
+                  <LoginModal
+                    trigger={
+                      <Button
+                        className={cn(
+                          `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
+                        )}
+                      >
+                        로그인
+                      </Button>
+                    }
+                  />
+                }
+                trigger={
+                  <Button
+                    className={`${buttonSize.xl} flex items-center justify-center gap-10 bg-st-primary text-st-white`}
+                  >
+                    <Icon
+                      name="pencil"
+                      size={25}
+                      color="text-st-white"
+                    />
+                    스테디 등록
+                  </Button>
+                }
               >
-                <Icon
-                  name="pencil"
-                  size={25}
-                  color="text-st-white"
-                />
-                스테디 등록
-              </Button>
-            </Link>
+                <div className="text-center text-18 font-bold">
+                  로그인이 필요한 기능입니다! <br />
+                  로그인 하시겠어요?
+                </div>
+              </AlertModal>
+            )}
           </div>
         </div>
         <div className="h-5 w-full bg-st-gray-400" />
@@ -514,6 +592,9 @@ const Home = () => {
       </section>
       <section className="flex h-100 w-full items-center justify-center">
         <Pagination
+          stack={stack}
+          position={position}
+          mode={mode}
           keyword={keyword}
           deadline={deadline}
           recruit={recruit}

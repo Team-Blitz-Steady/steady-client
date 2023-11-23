@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
+import Favicon from "@/images/favicon.ico";
 import QueryProvider from "@/lib/react-query/QueryProvider";
 import { cn } from "@/lib/utils";
 import { Theme } from "@radix-ui/themes";
@@ -17,6 +18,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Steady",
   description: "The New Study & Project Join Platform",
+  icons: [{ rel: "icon", url: Favicon.src }],
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
