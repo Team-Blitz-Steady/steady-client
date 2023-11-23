@@ -11,6 +11,7 @@ import useAuthStore from "@/stores/isAuth";
 import { Separator } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
+import deleteApplication from "@/services/application/deleteApplication";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyParticipants from "@/services/steady/getSteadyParticipants";
 import likeSteady from "@/services/steady/likeSteady";
@@ -55,6 +56,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
   const { toast } = useToast();
   const { isAuth } = useAuthStore();
   const [isClient, setIsClient] = useState(false);
+  const [isLiked, setIsLiked] = useState(steadyDetailsData.isLiked);
 
   useEffect(() => {
     setIsClient(true);
@@ -81,6 +83,23 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
     }
   };
 
+  const handleClickDeleteApplication = async () => {
+    try {
+      await deleteApplication(steadyDetailsData.applicationId.toString());
+      toast({
+        description: "스테디 신청 취소 성공!",
+        variant: "green",
+      });
+    } catch (error) {
+      toast({
+        description: "스테디 신청 취소 실패!",
+        variant: "red",
+      });
+      console.error(error);
+    }
+    steadyDetailsRefetch();
+  };
+
   const matchingData = (
     defineData: { value: string; label: string }[],
     serverData:
@@ -94,6 +113,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
 
   const handleClickLike = async () => {
     await likeSteady(steadyId);
+    setIsLiked((prev) => !prev);
   };
 
   return (
@@ -112,8 +132,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
             <div className="text-35 font-bold">{steadyDetailsData.name}</div>
           </div>
           <button onClick={handleClickLike}>
-            {/* TODO: 좋아요 API 연결 */}
-            {/* {steadyLikeData?.isLike ? (
+            {isLiked ? (
               <Icon
                 name="heart"
                 size={30}
@@ -125,7 +144,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                 size={30}
                 color="text-black"
               />
-            )} */}
+            )}
           </button>
         </div>
         <div className="flex flex-row items-center justify-between">
@@ -397,14 +416,15 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
             <>
               {steadyDetailsData.applicationId !== null ? (
                 <>
-                  <Link href={`/application/edit/${steadyDetailsData.id}`}>
+                  <Link
+                    href={`/application/edit/${steadyDetailsData.id}/${steadyDetailsData.applicationId}`}
+                  >
                     <Button
                       className={`${buttonSize.sm} bg-st-primary text-14 text-st-white`}
                     >
                       신청서 수정
                     </Button>
                   </Link>
-                  {/* TODO: 신청 취소 API*/}
                   <AlertModal
                     trigger={
                       <Button
@@ -416,12 +436,15 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                     actionButton={
                       <Button
                         className={`${buttonSize.sm} bg-st-primary text-st-white`}
+                        onClick={handleClickDeleteApplication}
                       >
                         예
                       </Button>
                     }
                   >
-                    정말 취소 하시겠습니까?
+                    <span className="text-center text-18 font-bold">
+                      정말 취소 하시겠습니까?
+                    </span>
                   </AlertModal>
                 </>
               ) : (
@@ -468,16 +491,6 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
             </>
           )}
         </div>
-        {/* 댓글 영역 */}
-        {/* <div className="flex flex-col gap-10">
-          <div className="font-bold text-15">댓글</div>
-          <TextArea className="w-full h-150 rounded-15" />
-          <Button
-            className={`${buttonSize.sm} ml-auto bg-st-primary text-st-white`}
-          >
-            등록
-          </Button>
-        </div> */}
       </div>
     </div>
   );
