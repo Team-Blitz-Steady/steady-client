@@ -88,14 +88,16 @@ export interface SteadyDetailsType {
   deadline: string;
   title: string;
   content: string;
+  viewCount: number;
   positions: PositionType[];
   stacks: StackType[];
   isLeader: boolean;
-  isSubmittedUser: boolean;
+  applicationId: number;
   promotionCount: number;
   createdAt: string;
   finishedAt: string;
   isReviewEnabled: boolean;
+  isLiked: boolean;
 }
 
 export interface TemplateType {
