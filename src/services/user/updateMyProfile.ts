@@ -1,4 +1,4 @@
-import { axiosInstance } from "..";
+import { axiosInstance, isAbnormalCode } from "..";
 import type { UpdateMyProfileType } from "../types";
 
 const updateMyProfile = async (payload: UpdateMyProfileType) => {
@@ -7,7 +7,7 @@ const updateMyProfile = async (payload: UpdateMyProfileType) => {
       "/api/v1/users/profile",
       payload,
     );
-    if (Math.floor(response.status / 10) !== 20) {
+    if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch update my profile api!");
     }
     return response.data;

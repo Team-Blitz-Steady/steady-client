@@ -10,14 +10,14 @@ const Logout = () => {
   const router = useRouter();
   const { setIsAuth } = useAuthStore();
   useEffect(() => {
-    axios.get("https://steady-client.vercel.app/api/logout").then(() => {
+    axios.get("https://steadies.kr/api/logout").then(() => {
       deleteCookie("access_token", {
         path: "/",
-        domain: "steady-client.vercel.app",
+        domain: ".steadies.kr",
       });
       deleteCookie("refresh_token", {
         path: "/",
-        domain: "steady-client.vercel.app",
+        domain: ".steadies.kr",
       });
       setIsAuth(false);
       router.replace("/");

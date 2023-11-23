@@ -1,3 +1,5 @@
+import { fontFamily } from "tailwindcss/defaultTheme";
+
 /** @type {import('tailwindcss').Config} */
 const px0_10 = { ...Array.from(Array(11)).map((_, i) => `${i}px`) };
 const px0_100 = { ...Array.from(Array(101)).map((_, i) => `${i}px`) };
@@ -14,7 +16,6 @@ module.exports = {
       "st-primary": "#5585ff",
       "st-red": "#ff5353",
       "st-green": "#35cc00",
-      "st-skyblue-50": "#ddf1ff",
       "st-gray-50": "#f5f5f5",
       "st-gray-75": "#dbdbdb",
       "st-gray-100": "#b4b4b4",
@@ -39,6 +40,9 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        pretendard: ["Pretendard", ...fontFamily.sans],
+      },
       width: px0_1300,
       height: px0_1300,
       borderWidth: px0_10,

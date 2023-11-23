@@ -1,5 +1,5 @@
 import type { AxiosResponse } from "axios";
-import { axiosInstance } from "..";
+import { axiosInstance, isAbnormalCode } from "..";
 import type { MyProfileType } from "../types";
 
 const getMyProfile = async () => {
@@ -7,7 +7,7 @@ const getMyProfile = async () => {
     const response: AxiosResponse<MyProfileType> = await axiosInstance.get(
       "/api/v1/user/profile",
     );
-    if (Math.floor(response.status / 10) !== 20) {
+    if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch my profile api!");
     }
     return response.data;

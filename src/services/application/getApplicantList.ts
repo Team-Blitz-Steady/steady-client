@@ -1,5 +1,5 @@
 import type { AxiosResponse } from "axios";
-import { axiosInstance } from "..";
+import { axiosInstance, isAbnormalCode } from "..";
 import type { ApplicantListType } from "../types";
 
 const getApplicantList = async (steadyId: string, pageParam: number) => {
@@ -10,7 +10,7 @@ const getApplicantList = async (steadyId: string, pageParam: number) => {
         params: { page: pageParam },
       },
     );
-    if (Math.floor(response.status / 10) !== 20) {
+    if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch steady detail api!");
     }
     return response.data;

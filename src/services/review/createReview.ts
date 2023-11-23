@@ -1,4 +1,4 @@
-import { axiosInstance } from "..";
+import { axiosInstance, isAbnormalCode } from "..";
 import type { CreateReviewType } from "../types";
 
 const createReview = async (steadyId: string, payload: CreateReviewType) => {
@@ -7,7 +7,7 @@ const createReview = async (steadyId: string, payload: CreateReviewType) => {
       `/api/v1/steadies/${steadyId}/review`,
       payload,
     );
-    if (Math.floor(response.status / 10) !== 20) {
+    if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch create review api!");
     }
     return response;

@@ -7,18 +7,19 @@ export function middleware(request: NextRequest) {
   if (isAuthenticated) {
     return NextResponse.next();
   } else {
-    return NextResponse.redirect("https://steady-client.vercel.app/");
+    return NextResponse.redirect("https://steadies.kr/");
   }
 }
 
 export const config = {
   matcher: [
     "/steady/edit/:path*",
+    "/steady/create",
     "/steady/create/:path*",
     "/steady/manage/:id*",
     "/steady/review/:id*",
     "/steady/applicant/:id*",
-    "/application",
+    "/application/:id*",
     "/mysteady",
     "/mypage/:path*",
     "/logout",

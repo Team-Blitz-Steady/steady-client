@@ -1,11 +1,11 @@
-import { axiosInstance } from "@/services";
+import { axiosInstance, isAbnormalCode } from "@/services";
 
 const deleteAllNotifications = async () => {
   try {
     const response = await axiosInstance.delete(
       "/api/v1/notifications/deleteAll",
     );
-    if (Math.floor(response.status / 10) !== 20) {
+    if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch delete all notifications api!");
     }
     return response;

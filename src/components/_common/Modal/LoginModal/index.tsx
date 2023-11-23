@@ -41,7 +41,7 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
             setOpen(true);
           } else {
             axios
-              .post("https://steady-client.vercel.app/api/login", {
+              .post("https://steadies.kr/api/login", {
                 token: {
                   access: token.accessToken,
                   refresh: token.refreshToken,

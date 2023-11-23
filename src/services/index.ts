@@ -5,6 +5,10 @@ import { cookieService } from "@/utils/cookieService";
 // TODO: 환경변수 처리
 const BASE_URL = "https://dev.steadies.kr";
 
+export const isAbnormalCode = (code: number) => {
+  return Math.floor(code / 10) !== 20;
+};
+
 const config: AxiosRequestConfig = { baseURL: BASE_URL };
 export const axiosInstance = axios.create(config);
 

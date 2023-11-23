@@ -1,4 +1,4 @@
-import { axiosInstance } from "..";
+import { axiosInstance, isAbnormalCode } from "..";
 import type { UserProfileType } from "../types";
 
 const createUserProfile = async ({
@@ -14,7 +14,7 @@ const createUserProfile = async ({
       positionId,
       stacksId,
     });
-    if (Math.floor(response.status / 10) !== 20) {
+    if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch create user profile api!");
     }
     return response;

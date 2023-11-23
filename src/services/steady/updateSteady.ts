@@ -1,10 +1,10 @@
-import { axiosInstance } from "@/services";
-import type { SteadyEditStateType } from "@/constants/schemas/steadyEditSchema";
+import type { SteadyEditStateType } from "@/schemas/steadyEditSchema";
+import { axiosInstance, isAbnormalCode } from "@/services";
 
 const updateSteady = async (steadyId: number, data: SteadyEditStateType) => {
   try {
     const res = await axiosInstance.patch(`/api/v1/steadies/${steadyId}`, data);
-    if (Math.floor(res.status / 10) !== 20) {
+    if (isAbnormalCode(res.status)) {
       throw new Error("Failed to fetch update steady api!");
     }
     return res;
