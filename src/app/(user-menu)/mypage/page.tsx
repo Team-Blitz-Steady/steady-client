@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Logo from "@/images/logo.svg";
 import { cn } from "@/lib/utils";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
@@ -30,7 +31,7 @@ const MyProfilePage = () => {
             className="group relative flex cursor-pointer items-center justify-center transition-transform"
           >
             <Image
-              src={"/images/steadyturtle.png"}
+              src={Logo}
               alt={"내 프로필 이미지"}
               width={150}
               height={150}
