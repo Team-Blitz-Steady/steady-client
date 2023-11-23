@@ -27,6 +27,12 @@ export const getSteadyParticipantsKey = (steadyId: string) => [
   steadyId,
 ];
 
+export const getMySteady = (status?: string, direction?: string) => [
+  "mysteady",
+  status,
+  direction,
+];
+
 // Position
 
 export const getPositionsKey = ["positions"];

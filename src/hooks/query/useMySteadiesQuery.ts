@@ -1,5 +1,6 @@
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import getMySteadies from "@/services/steady/getMySteadies";
+import { getMySteady } from "@/constants/queryKeys";
 
 interface MySteadyQueryProps {
   status?: string;
@@ -15,7 +16,7 @@ export const useMySteadiesQuery = ({
     hasNextPage,
     fetchNextPage,
   } = useSuspenseInfiniteQuery({
-    queryKey: ["mysteady", status, direction],
+    queryKey: getMySteady(status, direction),
     queryFn: ({ pageParam }) =>
       getMySteadies({ status, page: pageParam.toString(), direction }),
     initialPageParam: 0,
