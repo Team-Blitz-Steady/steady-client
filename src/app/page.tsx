@@ -441,12 +441,41 @@ const Home = () => {
                 like ? "border-5 border-st-yellow" : "border border-st-gray-100"
               } transition-border mx-10 mb-8 flex h-43 w-150 items-center justify-center rounded-5 duration-100`}
             >
-              <button
-                className="h-full w-full font-bold"
-                onClick={() => setLike(!like)}
-              >
-                💛 내 좋아요
-              </button>
+              {isAuth && (
+                <button
+                  className="h-full w-full font-bold"
+                  onClick={() => setLike(!like)}
+                >
+                  💛 내 좋아요
+                </button>
+              )}
+              {!isAuth && (
+                <AlertModal
+                  actionButton={
+                    <LoginModal
+                      trigger={
+                        <Button
+                          className={cn(
+                            `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
+                          )}
+                        >
+                          로그인
+                        </Button>
+                      }
+                    />
+                  }
+                  trigger={
+                    <button className="h-full w-full font-bold">
+                      💛 내 좋아요
+                    </button>
+                  }
+                >
+                  <div className="text-18 font-bold">
+                    로그인이 필요한 기능입니다! <br />
+                    로그인 하시겠어요?
+                  </div>
+                </AlertModal>
+              )}
             </div>
             <div
               className={`${
