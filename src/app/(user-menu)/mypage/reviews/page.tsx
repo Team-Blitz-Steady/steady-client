@@ -9,10 +9,11 @@ import getMyReviews from "@/services/review/getMyReviews";
 import Icon from "@/components/_common/Icon";
 import { SingleSelector } from "@/components/_common/Selector";
 import { subMyPageTextStyles } from "@/constants/commonStyle";
+import { getMyReviewKey } from "@/constants/queryKeys";
 
 const MyReviewsPage = () => {
   const { data: myReviewData } = useSuspenseQuery({
-    queryKey: ["myreview"],
+    queryKey: getMyReviewKey,
     queryFn: () => getMyReviews(),
     staleTime: 10000,
   });
@@ -25,7 +26,7 @@ const MyReviewsPage = () => {
 
   const handlePublicReview = async (reviewId: number) => {
     await changeReviewStatus(reviewId.toString());
-    queryClient.invalidateQueries({ queryKey: ["myreview"] });
+    queryClient.invalidateQueries({ queryKey: getMyReviewKey });
   };
 
   return (

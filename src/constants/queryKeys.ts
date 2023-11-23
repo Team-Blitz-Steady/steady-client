@@ -27,16 +27,17 @@ export const getSteadyParticipantsKey = (steadyId: string) => [
   steadyId,
 ];
 
-export const getMySteady = (status?: string, direction?: string) => [
+export const getMySteadyKey = (status?: string, direction?: string) => [
   "mysteady",
   status,
   direction,
 ];
 
 // Position
-
 export const getPositionsKey = ["positions"];
 
 // Stack
-
 export const getStacksKey = ["stacks"];
+
+// Review
+export const getMyReviewKey = ["myreview"];
