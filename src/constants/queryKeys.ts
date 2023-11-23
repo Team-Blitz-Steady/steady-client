@@ -9,3 +9,8 @@ export const getSteadyDetailsKey = (steadyId: string) => [
   "steadyDetails",
   steadyId,
 ];
+
+export const getSteadyQuestionsKey = (steadyId: string) => [
+  "steadyQuestionsSubmit",
+  steadyId,
+];

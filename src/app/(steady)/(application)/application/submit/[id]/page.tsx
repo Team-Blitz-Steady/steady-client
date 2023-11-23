@@ -13,6 +13,10 @@ import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyQuestions from "@/services/steady/getSteadyQuestions";
 import type { SteadyDetailsType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
+import {
+  getSteadyDetailsKey,
+  getSteadyQuestionsKey,
+} from "@/constants/queryKeys";
 
 interface pageParams {
   id: string;
@@ -25,7 +29,7 @@ const ApplicationSubmitPage = ({ params }: { params: pageParams }) => {
   const steadyId = params.id;
   const pageType = pathname.split("/")[2];
   const { data: steadyQuestionsData } = useSuspenseQuery({
-    queryKey: ["steadyQuestionsSubmit", steadyId],
+    queryKey: getSteadyQuestionsKey(steadyId),
     queryFn: () => getSteadyQuestions(steadyId),
     staleTime: 10000,
   });
@@ -38,7 +42,7 @@ const ApplicationSubmitPage = ({ params }: { params: pageParams }) => {
   const { toast } = useToast();
 
   const { data: steadyDetailsData } = useSuspenseQuery({
-    queryKey: ["steadyDetails", steadyId],
+    queryKey: getSteadyDetailsKey(steadyId),
     queryFn: () => getSteadyDetails(steadyId),
     staleTime: 10000,
   });
