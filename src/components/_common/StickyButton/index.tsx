@@ -1,5 +1,5 @@
 import Image from "next/image";
-import StickyButtonImage from "../../../../public/images/stickybutton.svg";
+import Logo from "@/images/logo.svg";
 
 interface StickyButtonProps {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
@@ -13,8 +13,10 @@ const StickyButton = ({ onClick }: StickyButtonProps) => {
     >
       <div className="text-lg font-bold">문의하기</div>
       <Image
-        src={StickyButtonImage}
-        alt="스테디 이미지"
+        src={Logo}
+        width={45}
+        height={45}
+        alt="스테디 로고"
       />
     </button>
   );

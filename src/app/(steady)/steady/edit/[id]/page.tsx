@@ -32,8 +32,8 @@ import {
 import { extractValue } from "@/utils/extractValue";
 import { CREATE_STEADY_PAGE_HEADING } from "@/constants/labelData";
 import {
-  getPositionsKey,
-  getStacksKey,
+  PositionsKey,
+  StacksKey,
   getSteadyDetailsKey,
 } from "@/constants/queryKeys";
 import {
@@ -59,13 +59,13 @@ const SteadyEditPage = ({
 
   const { data: positionItems, error: positionsError } =
     useSuspenseQuery<PositionResponse>({
-      queryKey: getPositionsKey,
+      queryKey: PositionsKey,
       queryFn: () => getPositions(),
     });
 
   const { data: stackItems, error: stacksError } =
     useSuspenseQuery<StackResponse>({
-      queryKey: getStacksKey,
+      queryKey: StacksKey,
       queryFn: () => getStacks(),
     });
 

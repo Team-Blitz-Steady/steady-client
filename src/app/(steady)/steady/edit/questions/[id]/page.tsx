@@ -14,7 +14,7 @@ import updateSteadyQuestions from "@/services/steady/updateSteadyQuestions";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import { SingleSelector } from "@/components/_common/Selector";
-import { getSteadyDetailsKey } from "@/constants/queryKeys";
+import { getSteadyEditQuestionsKey } from "@/constants/queryKeys";
 
 const EditQuestionsPage = ({ params }: { params: { id: string } }) => {
   const steadyId = params.id;
@@ -23,7 +23,7 @@ const EditQuestionsPage = ({ params }: { params: { id: string } }) => {
     error,
     refetch: refetchQuestions,
   } = useSuspenseQuery({
-    queryKey: getSteadyDetailsKey(steadyId),
+    queryKey: getSteadyEditQuestionsKey(steadyId),
     queryFn: () => getSteadyQuestions(steadyId),
   });
 
