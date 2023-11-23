@@ -29,12 +29,11 @@ export async function POST(req: NextRequest) {
     console.error(error);
   }
 
-  return NextResponse.json(
-    {
-      message: "login success!",
-    },
-    {
+  if (req.method === "OPTIONS") {
+    return NextResponse.json({
       status: 200,
-    },
-  );
+    });
+  }
+
+  return NextResponse.json({ result: "Ok" }, { status: 200 });
 }
