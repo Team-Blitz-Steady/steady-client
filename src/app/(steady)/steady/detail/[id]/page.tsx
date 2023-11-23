@@ -382,7 +382,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
         <div className="flex flex-row items-center justify-end gap-10">
           {!steadyDetailsData.isLeader && (
             <>
-              {steadyDetailsData.isSubmittedUser ? (
+              {steadyDetailsData.applicationId !== null ? (
                 <>
                   <Link href={`/application/edit/${steadyDetailsData.id}`}>
                     <Button
