@@ -11,6 +11,10 @@ import editApplication from "@/services/application/editApplication";
 import getApplicationDetails from "@/services/application/getApplicationDetails";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import Button, { buttonSize } from "@/components/_common/Button";
+import {
+  getApplicationDetailsKey,
+  getSteadyDetailsKey,
+} from "@/constants/queryKeys";
 
 const ApplicationEditPage = ({
   params,
@@ -25,12 +29,12 @@ const ApplicationEditPage = ({
   const { toast } = useToast();
   const { data: applicationData, refetch: applicationRefetch } =
     useSuspenseQuery({
-      queryKey: ["applicationDetails", applicationId],
+      queryKey: getApplicationDetailsKey(applicationId),
       queryFn: () => getApplicationDetails(applicationId),
     });
 
   const { data: steadyDetailsData } = useSuspenseQuery({
-    queryKey: ["steadyDetails", steadyId],
+    queryKey: getSteadyDetailsKey(steadyId),
     queryFn: () => getSteadyDetails(steadyId),
     staleTime: 10000,
   });
