@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Logo from "@/images/logo.svg";
 import { Avatar } from "@radix-ui/themes";
 import type { Steadies } from "@/services/types";
 import noResult from "../../../public/images/no_result.png";
-import DefaultImage from "../../../public/images/steadyturtle.png";
 import Icon from "../_common/Icon";
 import Tag from "../_common/Tag";
 
@@ -95,7 +95,7 @@ const Posts = ({ info }: { info: Steadies }) => {
                     />
                   ) : (
                     <Image
-                      src={DefaultImage}
+                      src={Logo}
                       alt="profile"
                       width={30}
                       height={30}
