@@ -17,7 +17,7 @@ const nextConfig = {
           { key: "Access-Control-Allow-Credentials", value: "true" },
           {
             key: "Access-Control-Allow-Origin",
-            value: "https://steady-client.vercel.app/",
+            value: "https://steadies.kr/",
           },
           {
             key: "Access-Control-Allow-Methods",

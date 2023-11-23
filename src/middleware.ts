@@ -8,7 +8,7 @@ export function middleware(request: NextRequest) {
   response.headers.append("Access-Control-Allow-Credentials", "true");
   response.headers.append(
     "Access-Control-Allow-Origin",
-    "https://steady-client.vercel.app/",
+    "https://steadies.kr/",
   );
   response.headers.append(
     "Access-Control-Allow-Methods",
