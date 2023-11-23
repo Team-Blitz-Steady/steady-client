@@ -28,7 +28,9 @@ interface Content {
   createdAt: string;
   participantLimit: number;
   numberOfParticipants: number;
+  viewCount: number;
   stacks: Stack[];
+  likeCount: number;
 }
 
 interface Stack {
@@ -292,4 +294,8 @@ export interface CreateReviewType {
 export interface LikeSteadyType {
   likeCount: number;
   isLike: boolean;
+}
+
+export interface EditApplicationType {
+  answers: string[];
 }
