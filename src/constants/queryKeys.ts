@@ -1,3 +1,5 @@
+// TODO: 상수 KEY 는 get 빼기
+
 // Application
 export const getApplicationDetailsKey = (applicationId: string) => [
   "applicationDetails",
@@ -51,3 +53,6 @@ export const getStacksKey = ["stacks"];
 
 // Review
 export const getMyReviewKey = ["myreview"];
+
+// User
+export const getUserProfileKey = (userId: number) => ["userProfile", userId];

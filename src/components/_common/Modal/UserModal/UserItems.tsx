@@ -3,11 +3,12 @@ import DeleteUserLogo from "@/images/DeleteUser.svg";
 import Logo from "@/images/logo.svg";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import getUserProfile from "@/services/user/getUserProfile";
+import { getUserProfileKey } from "@/constants/queryKeys";
 import UserCards from "./UserCards";
 
 const UserItems = ({ userId }: { userId: number }) => {
   const { data: userProfileData } = useSuspenseQuery({
-    queryKey: ["userProfile", userId],
+    queryKey: getUserProfileKey(userId),
     queryFn: () => getUserProfile(userId.toString()),
     staleTime: 10000,
   });
