@@ -33,6 +33,9 @@ export const getMySteadyKey = (status?: string, direction?: string) => [
   direction,
 ];
 
+// Template
+export const getTemplatesKey = ["templates"];
+
 // Position
 export const getPositionsKey = ["positions"];
 
