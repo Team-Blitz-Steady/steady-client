@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { Command } from "cmdk";
 import getSteadyQuestions from "@/services/steady/getSteadyQuestions";
 import updateSteadyQuestions from "@/services/steady/updateSteadyQuestions";
 import Button, { buttonSize } from "@/components/_common/Button";
@@ -38,6 +39,15 @@ const EditQuestionsPage = ({ params }: { params: { id: string } }) => {
       );
     }
   }, []);
+
+  useEffect(() => {
+    const curInput = question.find(
+      (item) =>
+        item.sequence === Math.max(...question.map((item) => item.sequence)),
+    );
+    document.getElementById(`question-${curInput?.sequence}`)?.focus();
+  }, [question.length]);
+
   const { toast } = useToast();
   const router = useRouter();
 
@@ -87,6 +97,12 @@ const EditQuestionsPage = ({ params }: { params: { id: string } }) => {
         });
       }
     });
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      handleAddQuestion();
+    }
   };
 
   const handleDeleteQuestion = (sequence: number) => {
@@ -140,17 +156,20 @@ const EditQuestionsPage = ({ params }: { params: { id: string } }) => {
                 <div
                   className={cn("h-60 w-10 rounded-full bg-st-skyblue-300")}
                 ></div>
-                <input
-                  type="text"
-                  placeholder="질문을 입력해 주세요."
-                  value={item.question}
-                  className={cn(
-                    `h-50 min-w-[300px] text-20 font-semibold text-st-black outline-none`,
-                  )}
-                  onChange={(event) => {
-                    handleInputQuestion(event, item.sequence);
-                  }}
-                />
+                <Command onKeyDown={handleKeyDown}>
+                  <input
+                    id={`question-${item.sequence}`}
+                    type="text"
+                    placeholder="질문을 입력해 주세요."
+                    value={item.question}
+                    className={cn(
+                      `h-50 min-w-[300px] text-20 font-semibold text-st-black outline-none`,
+                    )}
+                    onChange={(event) => {
+                      handleInputQuestion(event, item.sequence);
+                    }}
+                  />
+                </Command>
                 <div
                   className={cn("cursor-pointer")}
                   onClick={() => {

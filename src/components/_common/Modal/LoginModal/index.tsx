@@ -65,7 +65,6 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
         positionId,
         stacksId,
       });
-      console.log(userProfileCreated.headers.location);
       if (userProfileCreated) {
         toast({
           description: "프로필 생성 성공",

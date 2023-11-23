@@ -4,6 +4,9 @@ import type { Steadies } from "@/services/types";
 import Icon from "../_common/Icon";
 
 interface PaginationProps {
+  stack: string;
+  position: string;
+  mode: string;
   keyword: string;
   deadline: boolean;
   recruit: boolean;
@@ -15,6 +18,9 @@ interface PaginationProps {
 }
 
 const Pagination = ({
+  stack,
+  position,
+  mode,
   keyword,
   deadline,
   recruit,
@@ -51,6 +57,9 @@ const Pagination = ({
   }, [totalPage]);
 
   const handlePageSteadies = async (
+    stack: string,
+    position: string,
+    mode: string,
     keyword: string,
     deadline: boolean,
     recruit: boolean,
@@ -58,6 +67,9 @@ const Pagination = ({
     page: number,
   ) => {
     const data = await getSteadies(
+      stack,
+      position,
+      mode,
       keyword,
       deadline,
       recruit,
@@ -68,7 +80,16 @@ const Pagination = ({
   };
 
   useEffect(() => {
-    handlePageSteadies(keyword, deadline, recruit, type, page);
+    handlePageSteadies(
+      stack,
+      position,
+      mode,
+      keyword,
+      deadline,
+      recruit,
+      type,
+      page,
+    );
   }, [page]);
 
   return (

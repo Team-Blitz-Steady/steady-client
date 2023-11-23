@@ -7,6 +7,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import useCreateSteadyStore from "@/stores/createSteadyData";
 import { Separator } from "@radix-ui/themes";
+import { Command } from "cmdk";
 import createSteady from "@/services/steady/createSteady";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
@@ -28,7 +29,14 @@ const CreateQuestionsPage = () => {
     }
   }, [router, steadyState, toast]);
 
-  const handleCreateQuestion = () => {
+  useEffect(() => {
+    const curInput = question.reduce((prev, cur) => {
+      return cur.id > prev.id ? cur : prev;
+    });
+    document.getElementById(`question-${curInput.id}`)?.focus();
+  }, [question.length]);
+
+  const handleAddQuestion = () => {
     if (question.length === 10) {
       toast({
         description: "질문은 최대 10개까지만 추가할 수 있습니다.",
@@ -80,6 +88,12 @@ const CreateQuestionsPage = () => {
       });
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      handleAddQuestion();
+    }
+  };
+
   return (
     <div className={cn("mt-30")}>
       <div className={"flex w-1000 items-center justify-between"}>
@@ -95,7 +109,7 @@ const CreateQuestionsPage = () => {
               `h-40 w-130 items-center justify-center bg-st-primary text-st-white`,
             )}
             onClick={() => {
-              handleCreateQuestion();
+              handleAddQuestion();
             }}
           >
             질문 추가
@@ -124,26 +138,29 @@ const CreateQuestionsPage = () => {
                 <div
                   className={cn("h-60 w-10 rounded-full bg-st-skyblue-300")}
                 ></div>
-                <input
-                  type="text"
-                  placeholder="질문을 입력해 주세요."
-                  className={cn(
-                    "h-50 w-300 text-20 font-semibold text-st-black outline-none",
-                  )}
-                  onChange={(event) => {
-                    setQuestion((prev) =>
-                      prev.map((pItem) => {
-                        if (pItem.id === item.id) {
-                          return {
-                            ...pItem,
-                            question: event.target.value,
-                          };
-                        }
-                        return pItem;
-                      }),
-                    );
-                  }}
-                />
+                <Command onKeyDown={handleKeyDown}>
+                  <input
+                    id={`question-${item.id}`}
+                    type="text"
+                    placeholder="질문을 입력해 주세요."
+                    className={cn(
+                      "h-50 w-300 text-20 font-semibold text-st-black outline-none",
+                    )}
+                    onChange={(event) => {
+                      setQuestion((prev) =>
+                        prev.map((pItem) => {
+                          if (pItem.id === item.id) {
+                            return {
+                              ...pItem,
+                              question: event.target.value,
+                            };
+                          }
+                          return pItem;
+                        }),
+                      );
+                    }}
+                  />
+                </Command>
                 <div
                   className={cn("cursor-pointer")}
                   onClick={() => {

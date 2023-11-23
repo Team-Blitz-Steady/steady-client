@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import SteadyTurtle from "@/images/steadytext.png";
-import { Avatar, Separator } from "@radix-ui/themes";
+import Logo from "@/images/logo.svg";
+import { Separator } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
@@ -126,17 +126,16 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
             <UserModal
               trigger={
                 <div className="flex gap-10">
-                  <Avatar
+                  <Image
+                    className="cursor-pointer rounded-full border-1"
                     src={
-                      steadyDetailsData.leaderResponse.profileImage
-                        ? steadyDetailsData.leaderResponse.profileImage
-                        : `/${SteadyTurtle}`
+                      `/${steadyDetailsData.leaderResponse.profileImage}`
+                        ? `/${steadyDetailsData.leaderResponse.profileImage}`
+                        : Logo
                     }
                     alt="작성자 프로필"
-                    size={"4"}
-                    radius="full"
-                    className="cursor-pointer"
-                    fallback={""}
+                    width={60}
+                    height={60}
                   />
                   <button className="text-20 font-bold">
                     {steadyDetailsData.leaderResponse.nickname}
@@ -191,17 +190,16 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
               >
                 <div className="flex flex-col items-center justify-center gap-10">
                   <div className="flex flex-col items-center justify-center gap-10">
-                    <Avatar
+                    <Image
+                      className="cursor-pointer rounded-full border-1"
                       src={
-                        steadyDetailsData.leaderResponse.profileImage
-                          ? steadyDetailsData.leaderResponse.profileImage
-                          : `/${SteadyTurtle}`
+                        `/${steadyDetailsData.leaderResponse.profileImage}`
+                          ? `/${steadyDetailsData.leaderResponse.profileImage}`
+                          : Logo
                       }
                       alt="참여자 이미지"
-                      size={"6"}
-                      radius="full"
-                      className="cursor-pointer"
-                      fallback={""}
+                      width={80}
+                      height={80}
                     />
                     <button className="text-20 font-bold">
                       {steadyDetailsData.leaderResponse.nickname}
@@ -214,19 +212,18 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                           <UserModal
                             trigger={
                               <div className="flex flex-col items-center justify-center gap-10">
-                                <Avatar
+                                <Image
+                                  className="cursor-pointer rounded-full border-1"
                                   src={
-                                    participant.profileImage
-                                      ? participant.profileImage
-                                      : `/${SteadyTurtle}`
+                                    `/${participant.profileImage}`
+                                      ? `/${participant.profileImage}`
+                                      : Logo
                                   }
                                   alt="참여자 이미지"
-                                  size={"6"}
-                                  radius="full"
-                                  className="cursor-pointer"
-                                  fallback={""}
+                                  width={80}
+                                  height={80}
                                 />
-                                <button className="text-20 font-bold">
+                                <button className="text-18 font-bold">
                                   {participant.nickname}
                                 </button>
                               </div>

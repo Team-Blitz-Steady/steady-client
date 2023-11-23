@@ -2,6 +2,9 @@ import { axiosInstance, isAbnormalCode } from "@/services";
 import type { Steadies } from "@/services/types";
 
 const getSteadies = async (
+  stack: string,
+  position: string,
+  mode: string,
   keyword: string,
   deadline: boolean,
   recruit: boolean,
@@ -12,9 +15,13 @@ const getSteadies = async (
     const response = await axiosInstance.get(
       `/api/v1/steadies/search?page=${page}&like=false${
         type !== "all" ? `&steadyType=${type}` : ""
+      }${keyword !== "" ? `&keyword=${keyword}` : ""}${
+        stack !== "" ? `&stack=${stack}` : ""
+      }${position !== "" ? `&position=${position}` : ""}${
+        mode !== "" ? `&steadyMode=${mode}` : ""
       }${recruit ? `&status=RECRUITING` : ""}${
         deadline ? `&direction=asc&criteria=deadline` : ""
-      }${keyword !== "" ? `&keyword=${keyword}` : ""}`,
+      }`,
     );
     if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch search steadies api!");
