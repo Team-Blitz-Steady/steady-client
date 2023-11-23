@@ -26,6 +26,10 @@ import Spinner from "@/components/_common/Spinner";
 import Tag from "@/components/_common/Tag";
 import { steadyCategoriesWithEmoji } from "@/constants/labelData";
 import {
+  getSteadyDetailsKey,
+  getSteadyParticipantsKey,
+} from "@/constants/queryKeys";
+import {
   steadyExpectedPeriods,
   steadyRunningMethods,
 } from "@/constants/selectorItems";
@@ -38,12 +42,12 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
   const steadyId = params.id;
   const { data: steadyDetailsData, refetch: steadyDetailsRefetch } =
     useSuspenseQuery({
-      queryKey: ["steadyDetails", steadyId],
+      queryKey: getSteadyDetailsKey(steadyId),
       queryFn: () => getSteadyDetails(steadyId),
       staleTime: 10000,
     });
   const { data: steadyParticipantsData } = useSuspenseQuery({
-    queryKey: ["steadyParticipants", steadyId],
+    queryKey: getSteadyParticipantsKey(steadyId),
     queryFn: () => getSteadyParticipants(steadyId),
   });
 

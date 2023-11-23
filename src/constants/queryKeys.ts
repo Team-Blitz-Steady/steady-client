@@ -20,6 +20,11 @@ export const getSteadyQuestionsKey = (steadyId: string) => [
   steadyId,
 ];
 
+export const getSteadyParticipantsKey = (steadyId: string) => [
+  "steadyParticipants",
+  steadyId,
+];
+
 // Position
 
 export const getPositionsKey = ["positions"];
