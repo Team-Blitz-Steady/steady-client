@@ -252,13 +252,13 @@ const Home = () => {
   }, []);
 
   const bannerDefaultStyle =
-    "duration-1500 absolute left-0 top-0 flex h-350 w-full justify-center transition-opacity";
+    "duration-1500 absolute left-0 top-0 flex h-250 md:h-350 w-full justify-center transition-opacity";
   const bannerValidStyle = "opacity-100 transition-opacity ease-in";
   const bannerInvalidStyle = "opacity-0 transition-opacity ease-out";
 
   return (
     <main className="relative flex flex-col items-center">
-      <div className="relative flex h-350 w-screen transition">
+      <div className="relative flex h-250 w-screen transition md:h-350">
         <div
           className={`${
             activeIndex === 1 ? bannerValidStyle : bannerInvalidStyle
@@ -266,10 +266,10 @@ const Home = () => {
         >
           <div className="flex w-3/5 items-center justify-around">
             <div className="flex flex-col">
-              <div className="font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+              <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
                 스테디로
               </div>
-              <div className="mt-10 font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+              <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
                 동료를 찾아보세요!
               </div>
             </div>
@@ -288,10 +288,10 @@ const Home = () => {
         >
           <div className="flex w-3/5 items-center justify-around">
             <div className="flex flex-col">
-              <div className="font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+              <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
                 스테디는
               </div>
-              <div className="mt-10 font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+              <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
                 사랑입니다~!
               </div>
             </div>
@@ -310,10 +310,10 @@ const Home = () => {
         >
           <div className="flex w-3/5 items-center justify-around">
             <div className="flex flex-col">
-              <div className="font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+              <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
                 스테디에
               </div>
-              <div className="mt-10 font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+              <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
                 도전해 보세요!
               </div>
             </div>
@@ -373,13 +373,11 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-                <div className="w-3/4 text-18 font-bold">
+                <div className="w-3/4 overflow-ellipsis text-18 font-bold">
                   <div className="text-12 font-bold">
                     {item.type === "STUDY" ? "📖 스터디" : "🖥 프로젝트"}
                   </div>
-                  {item.title.length > 12
-                    ? `${item.title.slice(0, 12)}...`
-                    : item.title}
+                  {item.title}
                 </div>
                 <div className="flex justify-between gap-40">
                   <div className="font-bold text-st-gray-100">
@@ -432,8 +430,8 @@ const Home = () => {
             onChange={(e) => handleInputChange(e)}
           />
         </div>
-        <div className="m-10 flex w-full justify-between">
-          <div className="flex items-center justify-center gap-5">
+        <div className="m-10 flex w-full justify-center md:justify-between">
+          <div className="hidden md:flex md:flex-wrap xl:flex xl:items-center xl:justify-center xl:gap-5">
             <MultiSelector
               initialLabel={"기술 스택"}
               items={stacks.stacks.map((stack) => ({
@@ -459,13 +457,13 @@ const Home = () => {
             <SingleSelector
               initialLabel={"진행 방식"}
               items={steadyRunningMethods}
-              className="mb-8 h-43 w-150"
+              className="mb-8 h-43 w-220"
               onSelectedChange={(value) => setMode(value)}
             />
             <div
               className={`${
                 like ? "border-5 border-st-yellow" : "border border-st-gray-100"
-              } transition-border mx-10 mb-8 flex h-43 w-150 items-center justify-center rounded-5 duration-100`}
+              } transition-border mb-8 flex h-43 w-150 items-center justify-center rounded-5 duration-100`}
             >
               {isAuth && (
                 <button
@@ -508,7 +506,7 @@ const Home = () => {
                 recruit
                   ? "border-5 border-st-primary"
                   : "border border-st-gray-100"
-              } transition-border mx-10 mb-8 flex h-43 w-100 items-center justify-center rounded-5 duration-100`}
+              } transition-border mb-8 flex h-43 w-100 items-center justify-center rounded-5 duration-100`}
             >
               <button
                 className="h-full w-full font-bold"
@@ -518,17 +516,58 @@ const Home = () => {
               </button>
             </div>
           </div>
-          <div className="flex items-center justify-center gap-20">
+          <div className="md:hidden">
+            {isAuth && (
+              <Link href={"/steady/create"}>
+                <button className="flex h-40 w-500 items-center justify-center gap-10 rounded-10 bg-st-primary font-bold text-st-white">
+                  스테디 등록
+                </button>
+              </Link>
+            )}
+            {!isAuth && (
+              <AlertModal
+                actionButton={
+                  <LoginModal
+                    trigger={
+                      <Button
+                        className={cn(
+                          `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
+                        )}
+                      >
+                        로그인
+                      </Button>
+                    }
+                  />
+                }
+                trigger={
+                  <div className="flex gap-20">
+                    <button className="h-40 w-390 rounded-10 bg-st-primary font-bold text-st-white">
+                      스테디 등록
+                    </button>
+                    <button className="h-40 w-90 rounded-10 bg-st-primary font-bold text-st-white">
+                      필터
+                    </button>
+                  </div>
+                }
+              >
+                <div className="text-center text-18 font-bold">
+                  로그인이 필요한 기능입니다! <br />
+                  로그인 하시겠어요?
+                </div>
+              </AlertModal>
+            )}
+          </div>
+          <div className="hidden md:flex md:items-center md:justify-center md:gap-20">
             <div
               onClick={() => setDeadline(!deadline)}
               className={`${
                 deadline ? "" : "text-st-gray-100"
-              } flex cursor-pointer items-center justify-center gap-10 font-bold`}
+              } flex w-85 cursor-pointer items-center justify-center gap-5 text-15 font-bold xl:w-100 xl:gap-10 xl:text-18`}
             >
               <div
                 className={`${
                   deadline ? "bg-st-primary" : "bg-st-gray-100"
-                } h-10 w-10 rounded-full text-20`}
+                } h-7 w-7 rounded-full`}
               ></div>
               마감 임박순
             </div>
