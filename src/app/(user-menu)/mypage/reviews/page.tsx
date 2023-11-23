@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import changeReviewStatus from "@/services/review/changeReviewStatus";
@@ -45,15 +46,14 @@ const MyReviewsPage = () => {
                 "flex h-full flex-col items-center justify-center gap-5",
               )}
             >
-              {/* TODO: 카드 이미지 */}
-              {/* <Image
-                src={card.content}
+              <Image
+                src={`/${card.imageUrl}`}
                 alt="카드 이미지"
                 width={80}
                 height={80}
-              /> */}
+              />
               <div className={cn(subMyPageTextStyles.content)}>
-                {card.count}
+                {`( ${card.count} )`}
               </div>
             </div>
           ))}
