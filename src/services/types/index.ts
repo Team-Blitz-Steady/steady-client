@@ -296,6 +296,19 @@ export interface LikeSteadyType {
   isLike: boolean;
 }
 
+export interface ApplicationList {
+  content: Application[];
+  numberOfElements: number;
+  hasNext: boolean;
+}
+
+interface Application {
+  applicationId: number;
+  steadyName: string;
+  createdAt: string;
+  status: string;
+}
+
 export interface EditApplicationType {
   answers: string[];
 }
