@@ -33,6 +33,7 @@ import {
   CREATE_STEADY_PAGE_HEADING,
   STEADY_RECRUITMENT_EXAMPLE,
 } from "@/constants/labelData";
+import { getPositionsKey, getStacksKey } from "@/constants/queryKeys";
 import {
   steadyCategories,
   steadyExpectedPeriods,
@@ -48,7 +49,7 @@ const CreateSteadyPage = () => {
   });
   const { data: positions, error: positionsError } =
     useSuspenseQuery<PositionResponse>({
-      queryKey: ["positions"],
+      queryKey: getPositionsKey,
       queryFn: () => getPositions(),
     });
 
@@ -57,7 +58,7 @@ const CreateSteadyPage = () => {
   }
 
   const { data: stacks, error: stacksError } = useSuspenseQuery<StackResponse>({
-    queryKey: ["stacks"],
+    queryKey: getStacksKey,
     queryFn: () => getStacks(),
   });
 

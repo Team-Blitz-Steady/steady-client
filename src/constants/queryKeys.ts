@@ -19,3 +19,11 @@ export const getSteadyQuestionsKey = (steadyId: string) => [
   "steadyQuestionsSubmit",
   steadyId,
 ];
+
+// Position
+
+export const getPositionsKey = ["positions"];
+
+// Stack
+
+export const getStacksKey = ["stacks"];
