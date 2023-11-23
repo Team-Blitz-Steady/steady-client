@@ -227,7 +227,7 @@ export interface MyProfileType {
 
 export interface UserCardType {
   cardId: number;
-  content: string;
+  imageUrl: string;
   count: number;
 }
 export interface UsersProfileType {
