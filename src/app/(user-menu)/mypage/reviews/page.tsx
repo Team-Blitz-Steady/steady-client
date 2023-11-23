@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import changeReviewStatus from "@/services/review/changeReviewStatus";
@@ -8,10 +9,11 @@ import getMyReviews from "@/services/review/getMyReviews";
 import Icon from "@/components/_common/Icon";
 import { SingleSelector } from "@/components/_common/Selector";
 import { subMyPageTextStyles } from "@/constants/commonStyle";
+import { getMyReviewKey } from "@/constants/queryKeys";
 
 const MyReviewsPage = () => {
   const { data: myReviewData } = useSuspenseQuery({
-    queryKey: ["myreview"],
+    queryKey: getMyReviewKey,
     queryFn: () => getMyReviews(),
     staleTime: 10000,
   });
@@ -24,7 +26,7 @@ const MyReviewsPage = () => {
 
   const handlePublicReview = async (reviewId: number) => {
     await changeReviewStatus(reviewId.toString());
-    queryClient.invalidateQueries({ queryKey: ["myreview"] });
+    queryClient.invalidateQueries({ queryKey: getMyReviewKey });
   };
 
   return (
@@ -45,15 +47,14 @@ const MyReviewsPage = () => {
                 "flex h-full flex-col items-center justify-center gap-5",
               )}
             >
-              {/* TODO: 카드 이미지 */}
-              {/* <Image
-                src={card.content}
+              <Image
+                src={`/${card.imageUrl}`}
                 alt="카드 이미지"
                 width={80}
                 height={80}
-              /> */}
+              />
               <div className={cn(subMyPageTextStyles.content)}>
-                {card.count}
+                {`( ${card.count} )`}
               </div>
             </div>
           ))}

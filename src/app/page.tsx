@@ -27,6 +27,11 @@ import AlertModal from "@/components/_common/Modal/AlertModal";
 import LoginModal from "@/components/_common/Modal/LoginModal";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import StickyButton from "@/components/_common/StickyButton";
+import {
+  getPositionsKey,
+  getStacksKey,
+  getSteadiesKey,
+} from "@/constants/queryKeys";
 import { steadyRunningMethods } from "@/constants/selectorItems";
 import Dolphin from "../../public/images/dolphin.png";
 import First from "../../public/images/first.svg";
@@ -58,7 +63,7 @@ const Home = () => {
   const [isInitialRender, setIsInitialRender] = useState(true);
 
   const { data } = useSuspenseQuery<Steadies>({
-    queryKey: ["steadies"],
+    queryKey: getSteadiesKey,
     queryFn: () =>
       getSteadies(
         stack,
@@ -73,7 +78,7 @@ const Home = () => {
   });
 
   const { data: stacks, error: stacksError } = useSuspenseQuery<StackResponse>({
-    queryKey: ["stacks"],
+    queryKey: getStacksKey,
     queryFn: () => getStacks(),
   });
 
@@ -83,7 +88,7 @@ const Home = () => {
 
   const { data: positions, error: positionsError } =
     useSuspenseQuery<PositionResponse>({
-      queryKey: ["positions"],
+      queryKey: getPositionsKey,
       queryFn: () => getPositions(),
     });
 
