@@ -1,23 +1,42 @@
 "use client";
 
-import Link from "next/link";
+import InfiniteScroll from "react-infinite-scroller";
+import { useRouter } from "next/navigation";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import deleteApplication from "@/services/application/deleteApplication";
 import getApplicationList from "@/services/application/getApplicationList";
 import Icon from "@/components/_common/Icon";
 
 const MyApplicationPage = () => {
-  const { data } = useSuspenseInfiniteQuery({
-    queryKey: ["my-application"],
-    queryFn: ({ pageParam }) => getApplicationList(pageParam),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, pages) => {
-      if (lastPage.hasNext) {
-        return pages.length;
-      } else {
-        return undefined;
-      }
-    },
-  });
+  const router = useRouter();
+  const { data, hasNextPage, fetchNextPage, refetch } =
+    useSuspenseInfiniteQuery({
+      queryKey: ["my-application"],
+      queryFn: ({ pageParam }) => getApplicationList(pageParam),
+      initialPageParam: 0,
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.hasNext) {
+          return pages.length;
+        } else {
+          return undefined;
+        }
+      },
+    });
+
+  const handleApplicationDetail = (id: number) => {
+    router.push(`/application/edit/${id}`);
+  };
+
+  const handleDeleteApplication = async (
+    event: React.MouseEvent,
+    id: string,
+  ) => {
+    event.stopPropagation();
+    const data = await deleteApplication(id);
+    if (!data) {
+      refetch();
+    }
+  };
 
   return (
     <div className="flex gap-30">
@@ -40,14 +59,21 @@ const MyApplicationPage = () => {
           </div>
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>
-        <div className="h-750 w-750">
-          {data.pages.map((applications) =>
-            applications.content.map((application) => (
-              <Link
-                key={application.applicationId}
-                href={`/application/edit/${application.applicationId}`}
-              >
-                <div className="group flex items-center justify-between p-50 transition hover:scale-105 hover:bg-st-gray-50">
+        <div className="h-750 w-750 overflow-x-hidden overflow-y-scroll">
+          <InfiniteScroll
+            hasMore={hasNextPage}
+            loadMore={() => fetchNextPage()}
+            useWindow={false}
+          >
+            {data.pages.map((applications) =>
+              applications.content.map((application) => (
+                <div
+                  key={application.applicationId}
+                  onClick={() =>
+                    handleApplicationDetail(application.applicationId)
+                  }
+                  className="group flex cursor-pointer items-center justify-between p-50 transition hover:scale-105 hover:bg-st-gray-50"
+                >
                   <div className="text-25 font-bold">
                     {application.status === "APPROVED" ? (
                       <div className="flex items-center justify-center gap-10">
@@ -68,20 +94,28 @@ const MyApplicationPage = () => {
                   </div>
                   <div className="group flex">
                     <div className="transform text-15 font-bold text-st-gray-100 transition group-hover:-translate-x-[30px]">
-                      제출일 {application.createdAt}
+                      제출일 {application.createdAt.slice(0, 10)}
                     </div>
-                    <div className="hidden gap-20 transition duration-500 group-hover:flex">
+                    <div
+                      onClick={(event) =>
+                        handleDeleteApplication(
+                          event,
+                          application.applicationId.toString(),
+                        )
+                      }
+                      className="hidden gap-20 transition duration-500 group-hover:flex"
+                    >
                       <Icon
                         name="trash"
-                        size={20}
+                        size={25}
                         color="text-st-gray-100"
                       />
                     </div>
                   </div>
                 </div>
-              </Link>
-            )),
-          )}
+              )),
+            )}
+          </InfiniteScroll>
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>
       </div>
