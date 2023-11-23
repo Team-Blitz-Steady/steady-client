@@ -4,7 +4,7 @@ export const getApplicationDetailsKey = (applicationId: string) => [
   applicationId,
 ];
 
-export const getApplicationListKey = ["myApplication"];
+export const ApplicationListKey = ["myApplication"];
 
 export const getApplicantListKey = (steadyId: string) => [
   "applicantList",
@@ -12,7 +12,7 @@ export const getApplicantListKey = (steadyId: string) => [
 ];
 
 // Steady
-export const getSteadiesKey = ["steadies"];
+export const SteadiesKey = ["steadies"];
 
 export const getSteadyDetailsKey = (steadyId: string | number) => [
   "steadyDetails",
@@ -41,7 +41,7 @@ export const getMySteadyKey = (status?: string, direction?: string) => [
 ];
 
 // Template
-export const getTemplatesKey = ["templates"];
+export const TemplatesKey = ["templates"];
 
 export const getTemplateDetailsKey = (templateId: string) => [
   "templateDetails",
@@ -49,10 +49,10 @@ export const getTemplateDetailsKey = (templateId: string) => [
 ];
 
 // Position
-export const getPositionsKey = ["positions"];
+export const PositionsKey = ["positions"];
 
 // Stack
-export const getStacksKey = ["stacks"];
+export const StacksKey = ["stacks"];
 
 // Review
-export const getMyReviewKey = ["myreview"];
+export const MyReviewKey = ["myreview"];
