@@ -11,10 +11,12 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import type { SteadyEditStateType } from "@/schemas/steadyEditSchema";
+import { SteadyEditSchema } from "@/schemas/steadyEditSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator, TextArea } from "@radix-ui/themes";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { parse } from "date-fns";
+import { format, parse } from "date-fns";
 import getPositions from "@/services/steady/getPositions";
 import getStacks from "@/services/steady/getStacks";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
@@ -28,17 +30,14 @@ import {
   SingleSelector,
 } from "@/components/_common/Selector";
 import { extractValue } from "@/utils/extractValue";
-import { formatDate } from "@/utils/formatDate";
+import { CREATE_STEADY_PAGE_HEADING } from "@/constants/labelData";
 import {
-  CREATE_STEADY_PAGE_HEADING,
   steadyCategories,
   steadyExpectedPeriods,
   steadyParticipantsLimit,
   steadyRecruitmentStatus,
   steadyRunningMethods,
-} from "@/constants/create-steady";
-import type { SteadyEditStateType } from "@/constants/schemas/steadyEditSchema";
-import { SteadyEditSchema } from "@/constants/schemas/steadyEditSchema";
+} from "@/constants/selectorItems";
 
 const SteadyEditPage = ({
   params: { id: steadyId },
@@ -260,7 +259,7 @@ const SteadyEditPage = ({
                       initialDate={parse(deadline, "yyyy-MM-dd", new Date())}
                       className={cn("w-200")}
                       onDateChange={(date) => {
-                        field.onChange(formatDate(date));
+                        field.onChange(format(date, "yyyy-MM-dd"));
                       }}
                     />
                     <FormMessage />
@@ -391,7 +390,10 @@ const SteadyEditPage = ({
             <div className={"flex justify-end gap-20"}>
               <Button
                 className={cn(`${buttonSize.sm} items-center justify-center`)}
-                onClick={() => router.back()}
+                onClick={(event) => {
+                  event.preventDefault();
+                  router.back();
+                }}
               >
                 취소
               </Button>

@@ -1,6 +1,6 @@
+import type { SteadyStateType } from "@/schemas/steadySchema";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { SteadyStateType } from "@/constants/schemas/steadySchema";
 
 const CreateSteadyStorageKey = "steadyState";
 

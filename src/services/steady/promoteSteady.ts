@@ -1,11 +1,11 @@
-import { axiosInstance } from "..";
+import { axiosInstance, isAbnormalCode } from "..";
 
 const promoteSteady = async (steadyId: string) => {
   try {
     const response = await axiosInstance.patch(
       `/api/v1/steadies/${steadyId}/promote`,
     );
-    if (Math.floor(response.status / 10) !== 20) {
+    if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch promote steady api!");
     }
     return response;

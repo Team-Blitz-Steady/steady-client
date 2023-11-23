@@ -1,4 +1,4 @@
-import { axiosInstance } from "@/services";
+import { axiosInstance, isAbnormalCode } from "@/services";
 import type { AxiosResponse } from "axios";
 import type { KakaoTokenType } from "@/services/types";
 
@@ -8,7 +8,7 @@ const getKakaoToken = async (code: string): Promise<KakaoTokenType> => {
       `/api/v1/auth/kakao/callback?code=${code}`,
     );
 
-    if (Math.floor(response.status / 10) !== 20) {
+    if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch kakao token!");
     }
 

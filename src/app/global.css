@@ -67,8 +67,14 @@
 }
 
 @layer base {
+  @font-face {
+    font-family: "Pretendard";
+    src: url("/fonts/pretendard-regular.subset.woff2") format("woff2");
+    font-display: swap;
+  }
   * {
     @apply border-border;
+    font-family: "Pretendard";
     ::-webkit-scrollbar {
       width: 8px;
     }

@@ -1,5 +1,5 @@
 import type { AxiosResponse } from "axios";
-import { axiosInstance } from "..";
+import { axiosInstance, isAbnormalCode } from "..";
 import type { MySteadyType } from "../types";
 
 interface getMySteadiesProps {
@@ -18,7 +18,7 @@ const getMySteadies = async ({
       "/api/v1/steadies/my",
       { params: { status, page, direction } },
     );
-    if (Math.floor(response.status / 10) !== 20) {
+    if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch my steady api!");
     }
     return response.data;

@@ -1,4 +1,4 @@
-import { axiosInstance } from "@/services";
+import { axiosInstance, isAbnormalCode } from "@/services";
 
 const updateSteadyQuestions = async (steadyId: string, questions: string[]) => {
   try {
@@ -8,7 +8,7 @@ const updateSteadyQuestions = async (steadyId: string, questions: string[]) => {
         questions: questions,
       },
     );
-    if (Math.floor(response.status / 10) !== 20) {
+    if (isAbnormalCode(response.status)) {
       throw new Error("Failed to update steady questions!");
     }
     return response;

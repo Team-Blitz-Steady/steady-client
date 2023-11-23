@@ -10,10 +10,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
+import type { SteadyStateType } from "@/schemas/steadySchema";
+import { SteadySchema } from "@/schemas/steadySchema";
 import useCreateSteadyStore from "@/stores/createSteadyData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator, TextArea } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import getPositions from "@/services/steady/getPositions";
 import getStacks from "@/services/steady/getStacks";
 import type { PositionResponse, StackResponse } from "@/services/types";
@@ -26,17 +29,16 @@ import {
   SingleSelector,
 } from "@/components/_common/Selector";
 import { extractValue } from "@/utils/extractValue";
-import { formatDate } from "@/utils/formatDate";
 import {
   CREATE_STEADY_PAGE_HEADING,
   STEADY_RECRUITMENT_EXAMPLE,
+} from "@/constants/labelData";
+import {
   steadyCategories,
   steadyExpectedPeriods,
   steadyParticipantsLimit,
   steadyRunningMethods,
-} from "@/constants/create-steady";
-import type { SteadyStateType } from "@/constants/schemas/steadySchema";
-import { SteadySchema } from "@/constants/schemas/steadySchema";
+} from "@/constants/selectorItems";
 
 const CreateSteadyPage = () => {
   const router = useRouter();
@@ -194,7 +196,7 @@ const CreateSteadyPage = () => {
                       initialLabel={"마감일"}
                       className={cn("w-200")}
                       onDateChange={(date) => {
-                        field.onChange(formatDate(date));
+                        field.onChange(format(date, "yyyy-MM-dd"));
                       }}
                       pastSelectable={false}
                     />

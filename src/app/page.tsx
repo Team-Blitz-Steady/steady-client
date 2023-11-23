@@ -27,7 +27,7 @@ import AlertModal from "@/components/_common/Modal/AlertModal";
 import LoginModal from "@/components/_common/Modal/LoginModal";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import StickyButton from "@/components/_common/StickyButton";
-import { steadyRunningMethods } from "@/constants/create-steady";
+import { steadyRunningMethods } from "@/constants/selectorItems";
 import Dolphin from "../../public/images/dolphin.png";
 import First from "../../public/images/first.svg";
 import Second from "../../public/images/second.svg";
