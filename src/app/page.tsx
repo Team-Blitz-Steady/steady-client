@@ -11,6 +11,7 @@ import useAuthStore from "@/stores/isAuth";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import steadyFilter from "@/services/steady/filterSteadies";
+import getPopularSteadies from "@/services/steady/getPopularSteadies";
 import getPositions from "@/services/steady/getPositions";
 import getStacks from "@/services/steady/getStacks";
 import getSteadies from "@/services/steady/getSteadies";
@@ -56,6 +57,22 @@ const Home = () => {
   const [mode, setMode] = useState("");
   const { isAuth } = useAuthStore();
   const [isInitialRender, setIsInitialRender] = useState(true);
+  const rankImageArray = [
+    {
+      image: First,
+    },
+    {
+      image: Second,
+    },
+    {
+      image: Third,
+    },
+  ];
+
+  const { data: popularSteadies } = useSuspenseQuery<Steadies>({
+    queryKey: ["popular_steadies"],
+    queryFn: () => getPopularSteadies(),
+  });
 
   const { data } = useSuspenseQuery<Steadies>({
     queryKey: ["steadies"],
@@ -153,6 +170,18 @@ const Home = () => {
     setPost(data);
   };
 
+  const calcDateDifference = (deadline: string) => {
+    const currDate = new Date();
+    const deadlineDate = new Date(deadline);
+    return Math.floor(
+      (deadlineDate.valueOf() - currDate.valueOf()) / (1000 * 60 * 60 * 24),
+    ) < 0
+      ? 0
+      : Math.floor(
+          (deadlineDate.valueOf() - currDate.valueOf()) / (1000 * 60 * 60 * 24),
+        ) + 1;
+  };
+
   useEffect(() => {
     if (data) {
       setIsInitialRender(false);
@@ -226,45 +255,6 @@ const Home = () => {
     "duration-1500 absolute left-0 top-0 flex h-350 w-full justify-center transition-opacity";
   const bannerValidStyle = "opacity-100 transition-opacity ease-in";
   const bannerInvalidStyle = "opacity-0 transition-opacity ease-out";
-
-  const popularSteadyData = [
-    {
-      title: "Next JS 스터디 모집합니다~!",
-      deadline: "마감일 | 2023.11.13",
-      views: 1301,
-      category: "📖 스터디",
-      d_day: "D-15",
-      rank: 1,
-      image: First,
-    },
-    {
-      title: "JavaScript 스터디 모집합니다~!",
-      deadline: "마감일 | 2023.11.11",
-      views: 575,
-      category: "📖 스터디",
-      d_day: "D-7",
-      rank: 2,
-      image: Second,
-    },
-    {
-      title: "Java 프로젝트 모집합니다~!",
-      deadline: "마감일 | 2023.12.02",
-      views: 443,
-      category: "🖥 프로젝트",
-      d_day: "D-20",
-      rank: 3,
-      image: Third,
-    },
-    {
-      title: "Next JS 스터디 모집합니다~!",
-      deadline: "마감일 | 2023.12.25",
-      views: 189,
-      category: "📖 스터디",
-      d_day: "D-11",
-      rank: 4,
-      image: "",
-    },
-  ];
 
   return (
     <main className="relative flex flex-col items-center">
@@ -359,47 +349,53 @@ const Home = () => {
       <section className="mb-20 mt-50 flex flex-col flex-wrap items-center justify-center overflow-hidden">
         <div className="w-3/4 text-2xl font-bold xl:w-full">🔥 인기 스테디</div>
         <div className="mt-20 flex h-220 flex-wrap items-center justify-center overflow-hidden">
-          {popularSteadyData.map((item) => (
-            <div
-              key={item.rank}
-              className="relative m-20 flex h-170 w-300 cursor-pointer flex-col items-center justify-center gap-20 rounded-20 shadow-lg transition hover:scale-105"
+          {popularSteadies.content.slice(0, 4).map((item, index) => (
+            <Link
+              key={item.id}
+              href={`/steady/detail/${item.id}`}
             >
-              {item.rank <= 3 ? (
-                <Image
-                  src={item.image}
-                  alt="first-steady"
-                  width={45}
-                  height={45}
-                  className="absolute left-0 top-0"
-                />
-              ) : (
-                ""
-              )}
-              <div className="flex w-250 items-center justify-end">
-                <div className="flex h-28 w-60 items-center justify-center rounded-20 border border-st-red shadow-md">
-                  <div className="h-22 w-54 rounded-20 bg-st-red text-center font-bold text-st-white">
-                    {item.d_day}
+              <div className="relative m-20 flex h-170 w-300 cursor-pointer flex-col items-center justify-center gap-20 rounded-20 shadow-lg transition hover:scale-105">
+                {index <= 2 ? (
+                  <Image
+                    src={rankImageArray[index].image}
+                    alt="rank image"
+                    width={45}
+                    height={45}
+                    className="absolute left-0 top-0"
+                  />
+                ) : (
+                  ""
+                )}
+                <div className="flex w-250 items-center justify-end">
+                  <div className="flex h-28 w-60 items-center justify-center rounded-20 border border-st-red shadow-md">
+                    <div className="h-22 w-54 rounded-20 bg-st-red text-center font-bold text-st-white">
+                      D-{calcDateDifference(item.deadline)}
+                    </div>
+                  </div>
+                </div>
+                <div className="w-3/4 text-18 font-bold">
+                  <div className="text-12 font-bold">
+                    {item.type === "STUDY" ? "📖 스터디" : "🖥 프로젝트"}
+                  </div>
+                  {item.title.length > 12
+                    ? `${item.title.slice(0, 12)}...`
+                    : item.title}
+                </div>
+                <div className="flex justify-between gap-40">
+                  <div className="font-bold text-st-gray-100">
+                    마감일 | {item.deadline}
+                  </div>
+                  <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
+                    <Icon
+                      name="eye"
+                      size={20}
+                      color="text-st-gray-100"
+                    />
+                    {item.viewCount}
                   </div>
                 </div>
               </div>
-              <div className="text-18 font-bold">
-                <div className="text-12 font-bold">{item.category}</div>
-                {item.title}
-              </div>
-              <div className="flex justify-between gap-40">
-                <div className="font-bold text-st-gray-100">
-                  {item.deadline}
-                </div>
-                <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
-                  <Icon
-                    name="eye"
-                    size={20}
-                    color="text-st-gray-100"
-                  />
-                  {item.views}
-                </div>
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
