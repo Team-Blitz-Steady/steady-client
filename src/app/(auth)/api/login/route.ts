@@ -4,6 +4,20 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
+    req.headers.set("Content-Type", "application/json");
+    req.headers.append("Access-Control-Allow-Credentials", "true");
+    req.headers.append(
+      "Access-Control-Allow-Origin",
+      "https://www.steadies.kr",
+    );
+    req.headers.append(
+      "Access-Control-Allow-Methods",
+      "GET,DELETE,PATCH,POST,PUT",
+    );
+    req.headers.append(
+      "Access-Control-Allow-Headers",
+      "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+    );
     const { token } = await req.json();
     cookies().set("access_token", token.access, {
       maxAge: 60 * 60 * 23, // 23 hours
