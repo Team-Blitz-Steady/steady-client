@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import Logo from "@/images/logo.svg";
+import { cn } from "@/lib/utils";
+import useAuthStore from "@/stores/isAuth";
 import { Separator } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
@@ -18,6 +20,7 @@ import Button, { buttonSize } from "@/components/_common/Button";
 import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
 import { AlertModal, InfoModal, UserModal } from "@/components/_common/Modal";
+import LoginModal from "@/components/_common/Modal/LoginModal";
 import UserItems from "@/components/_common/Modal/UserModal/UserItems";
 import Spinner from "@/components/_common/Spinner";
 import Tag from "@/components/_common/Tag";
@@ -46,7 +49,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
 
   const router = useRouter();
   const { toast } = useToast();
-
+  const { isAuth } = useAuthStore();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -405,16 +408,45 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                   </AlertModal>
                 </>
               ) : (
-                <Link
-                  href={`/application/submit/${steadyDetailsData.id}`}
-                  replace={true}
-                >
-                  <Button
-                    className={`${buttonSize.sm} bg-st-primary text-st-white`}
-                  >
-                    신청
-                  </Button>
-                </Link>
+                <>
+                  {isAuth ? (
+                    <Link href={`/application/submit/${steadyDetailsData.id}`}>
+                      <Button
+                        className={`${buttonSize.sm} bg-st-primary text-14 text-st-white`}
+                      >
+                        신청하기
+                      </Button>
+                    </Link>
+                  ) : (
+                    <AlertModal
+                      actionButton={
+                        <LoginModal
+                          trigger={
+                            <Button
+                              className={cn(
+                                `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
+                              )}
+                            >
+                              로그인
+                            </Button>
+                          }
+                        />
+                      }
+                      trigger={
+                        <Button
+                          className={`${buttonSize.sm} bg-st-primary text-st-white`}
+                        >
+                          신청
+                        </Button>
+                      }
+                    >
+                      <div className="text-18 font-bold">
+                        로그인이 필요한 기능입니다! <br />
+                        로그인 하시겠어요?
+                      </div>
+                    </AlertModal>
+                  )}
+                </>
               )}
             </>
           )}
