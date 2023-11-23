@@ -24,6 +24,11 @@ export const getSteadyQuestionsKey = (steadyId: string) => [
   steadyId,
 ];
 
+export const getSteadyEditQuestionsKey = (steadyId: string) => [
+  "questions",
+  steadyId,
+];
+
 export const getSteadyParticipantsKey = (steadyId: string) => [
   "steadyParticipants",
   steadyId,
