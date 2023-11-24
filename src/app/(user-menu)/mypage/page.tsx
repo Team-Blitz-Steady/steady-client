@@ -178,7 +178,7 @@ const MyProfilePage = () => {
     setIsEditingBio(false);
   };
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteAccount = () => {
     deleteMyProfile().then((res) => {
       if (res.status === 204) {
         toast({ description: "회원 탈퇴에 성공했습니다.", variant: "green" });
