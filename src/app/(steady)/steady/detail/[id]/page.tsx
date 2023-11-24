@@ -125,10 +125,10 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
             color="text-black"
           />
         </button>
-        <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-row items-center justify-between ">
           <div className="flex flex-row items-center justify-center gap-20">
             <Tag status={steadyDetailsData.status} />
-            <div className="text-35 font-bold">{steadyDetailsData.name}</div>
+            <div className="text-35 font-bold">{steadyDetailsData.title}</div>
           </div>
           <button onClick={handleClickLike}>
             {isLiked ? (
@@ -159,10 +159,10 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                         : Logo
                     }
                     alt="작성자 프로필"
-                    width={60}
-                    height={60}
+                    width={40}
+                    height={40}
                   />
-                  <button className="text-20 font-bold">
+                  <button className="text-15 font-bold">
                     {steadyDetailsData.leaderResponse.nickname}
                   </button>
                 </div>
@@ -172,7 +172,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                 <UserItems userId={steadyDetailsData.leaderResponse.id} />
               </Suspense>
             </UserModal>
-            <div className="flex gap-10 text-16 font-bold text-st-gray-100">
+            <div className="flex gap-10 text-13 font-bold text-st-gray-100">
               <span>
                 {format(new Date(steadyDetailsData.createdAt), "yyyy.MM.dd p")}
               </span>
@@ -269,12 +269,9 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
         </div>
         <Separator className="h-2 w-auto bg-st-gray-75" />
       </div>
-      <div className="flex h-full w-full flex-col bg-st-white-100 p-20">
-        <div className="flex flex-col gap-10">
-          <div className="flex flex-row justify-between">
-            <div className="flex items-center text-18 font-bold text-st-gray-400">
-              {steadyCategoriesWithEmoji[steadyDetailsData.type]}
-            </div>
+      <div className="flex h-full w-full flex-col bg-st-white pb-20">
+        <div className="flex h-200 w-full flex-col px-20 text-18 font-bold shadow-md">
+          <div className="flex h-fit flex-row justify-end p-10">
             {steadyDetailsData.isLeader &&
               steadyDetailsData.status !== "FINISHED" && (
                 <div className="flex flex-row gap-10">
@@ -328,30 +325,47 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                 </div>
               )}
           </div>
-          <div className="text-35 font-bold">{steadyDetailsData.title}</div>
-          <div className="text-20 font-bold italic text-st-gray-400">
-            {steadyDetailsData.bio}
+          <div
+            className={`flex flex-col items-center justify-center ${
+              steadyDetailsData.isLeader ? "h-calc[200-50]" : "h-full"
+            }`}
+          >
+            <div className="text-35 font-bold">{steadyDetailsData.name}</div>
+            <div className="text-20 font-bold italic text-st-gray-100">
+              {steadyDetailsData.bio}
+            </div>
           </div>
         </div>
-        <div className="mb-200 mt-100 flex h-350 flex-col items-center justify-evenly px-50 text-18 font-bold shadow-md">
-          <div className="flex w-full gap-15">
-            <div className="flex flex-grow items-center gap-30">
-              <div className={steadyDetailTagItems}>모집 분야</div>
-              <div className="flex w-0 flex-grow flex-wrap gap-10">
-                {steadyDetailsData.positions.map((position, id) => (
-                  <div
-                    key={id}
-                    className="whitespace-nowrap"
-                  >
-                    {position.name}
-                  </div>
-                ))}
+
+        <div className="my-50 flex h-300 flex-col items-center justify-evenly px-50 text-18 font-bold">
+          <div className="flex w-full">
+            <div className="flex w-1/3">
+              <div className="flex items-center justify-center gap-10">
+                <div className={steadyDetailTagItems}>스테디 유형</div>
+                <div className="text-center">
+                  {steadyCategoriesWithEmoji[steadyDetailsData.type]}
+                </div>
+              </div>
+            </div>
+            <div className="flex w-2/3">
+              <div className="flex flex-grow items-center gap-10">
+                <div className={steadyDetailTagItems}>모집 분야</div>
+                <div className="flex w-0 flex-grow flex-wrap gap-10">
+                  {steadyDetailsData.positions.map((position, id) => (
+                    <div
+                      key={id}
+                      className="whitespace-nowrap"
+                    >
+                      {position.name}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-          <div className="flex w-full gap-15">
+          <div className="flex w-full">
             <div className="flex w-full">
-              <div className="flex w-225 items-center gap-30">
+              <div className="flex w-225 items-center gap-10">
                 <div className={steadyDetailTagItems}>진행 방식</div>
                 <div>
                   {matchingData(
@@ -362,7 +376,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
             <div className="flex w-full">
-              <div className="flex flex-grow items-center gap-30">
+              <div className="flex flex-grow items-center gap-10">
                 <div className={steadyDetailTagItems}>예상 기간</div>
                 {matchingData(
                   steadyExpectedPeriods,
@@ -371,7 +385,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
             <div className="flex w-full">
-              <div className="flex w-225 items-center gap-30">
+              <div className="flex w-225 items-center gap-10">
                 <div className={steadyDetailTagItems}>마감일</div>
                 <div>
                   {format(new Date(steadyDetailsData.deadline), "yyyy.MM.dd")}
@@ -380,7 +394,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
 
-          <div className="flex w-full gap-30">
+          <div className="flex w-full gap-10">
             <div className={steadyDetailTagItems}>기술 스택</div>
             <div className="flex w-full flex-wrap gap-10">
               {steadyDetailsData.stacks.map((stack) => (
@@ -396,13 +410,16 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
         </div>
-        <div className="flex min-h-200 w-full items-center p-20 text-18 font-bold shadow-md">
-          {steadyDetailsData.content}
+        <div>
+          <div className="px-20 text-23 font-bold">모집글 소개</div>
+          <div className="flex min-h-200 w-full items-center bg-st-white p-20 text-18 font-bold">
+            {steadyDetailsData.content}
+          </div>
         </div>
       </div>
       <Separator className="mb-20 h-2 w-auto bg-st-gray-75" />
       <div className="flex flex-col gap-20">
-        <div className="flex flex-row items-center justify-end gap-10">
+        <div className="flex flex-row items-center justify-end gap-10 ">
           {!steadyDetailsData.isLeader &&
             !steadyDetailsData.isReviewEnabled && (
               <>
