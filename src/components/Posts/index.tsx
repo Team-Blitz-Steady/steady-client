@@ -12,7 +12,7 @@ import Tag from "../_common/Tag";
 
 const Posts = ({ info }: { info: Steadies }) => {
   const [differences, setDifferences] = useState<
-    { days: number; hours: number }[]
+    { days: number; hours: number; minutes: number }[]
   >([]);
 
   useEffect(() => {
@@ -21,15 +21,24 @@ const Posts = ({ info }: { info: Steadies }) => {
       const calculatedDifferences = info?.content.map((serverDate) => {
         const serverDateObject = new Date(serverDate.createdAt);
         const timeDifference =
-          currentDate.valueOf() - serverDateObject.valueOf();
+          currentDate.valueOf() -
+          (serverDateObject.valueOf() + 1000 * 60 * 60 * 9);
         const daysDifference = Math.floor(
           timeDifference / (1000 * 60 * 60 * 24),
         );
         const hoursDifference = Math.floor(
           (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
         );
+        const minutesDifference = Math.floor(
+          ((timeDifference % (1000 * 60 * 60 * 24)) % (1000 * 60 * 60)) /
+            (1000 * 60),
+        );
 
-        return { days: daysDifference, hours: hoursDifference };
+        return {
+          days: daysDifference,
+          hours: hoursDifference,
+          minutes: minutesDifference,
+        };
       });
 
       setDifferences(calculatedDifferences);
@@ -64,7 +73,7 @@ const Posts = ({ info }: { info: Steadies }) => {
 
                 <div className="flex flex-col gap-5">
                   <div className="text-10 font-bold md:text-15">
-                    {item.type === "STUDY" ? "📖스터디" : "🖥프로젝트"}
+                    {item.type === "STUDY" ? "📖 스터디" : "🖥️ 프로젝트"}
                   </div>
                   <div className="text-17 font-bold md:text-25">
                     {item.title}
@@ -148,7 +157,9 @@ const Posts = ({ info }: { info: Steadies }) => {
                   </div>
                   <div className="text-10 md:text-15">
                     {differences && differences[index]?.days === 0
-                      ? `${differences && differences[index]?.hours}시간 전`
+                      ? differences && differences[index]?.hours === 0
+                        ? `${differences && differences[index]?.minutes}분 전`
+                        : `${differences && differences[index]?.hours}시간 전`
                       : `${differences && differences[index]?.days}일 전`}
                   </div>
                 </div>
