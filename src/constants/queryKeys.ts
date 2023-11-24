@@ -56,3 +56,6 @@ export const StacksKey = ["stacks"];
 
 // Review
 export const MyReviewKey = ["myreview"];
+
+// Notification
+export const NotificationKey = ["notifications"];
