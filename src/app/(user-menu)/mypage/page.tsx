@@ -179,13 +179,14 @@ const MyProfilePage = () => {
   };
 
   const handleDeleteAccount = async () => {
-    const res = await deleteMyProfile;
-    if (res.status === 204) {
-      toast({ description: "회원 탈퇴에 성공했습니다.", variant: "green" });
-      router.replace("/logout");
-    } else {
-      toast({ description: "회원 탈퇴에 실패했습니다.", variant: "red" });
-    }
+    deleteMyProfile().then((res) => {
+      if (res.status === 204) {
+        toast({ description: "회원 탈퇴에 성공했습니다.", variant: "green" });
+        router.replace("/logout");
+      } else {
+        toast({ description: "회원 탈퇴에 실패했습니다.", variant: "red" });
+      }
+    });
   };
 
   return (
@@ -480,7 +481,7 @@ const MyProfilePage = () => {
                   "justify-center text-2xl italic text-st-gray-250",
                 )}
               >
-                {bio}
+                {bio ?? "한 줄 소개를 입력해주세요."}
                 <button onClick={() => setIsEditingBio(true)}>
                   <Icon
                     name="pencil"
@@ -534,7 +535,10 @@ const MyProfilePage = () => {
             actionButton={
               <Button
                 className={`${cn(buttonSize.sm)} bg-st-red text-st-white`}
-                onClick={handleDeleteAccount}
+                onClick={(event) => {
+                  event.preventDefault();
+                  handleDeleteAccount();
+                }}
               >
                 탈퇴
               </Button>

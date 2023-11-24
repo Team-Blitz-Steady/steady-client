@@ -13,4 +13,4 @@ const deleteMyProfile = async () => {
   }
 };
 
-export default deleteMyProfile();
+export default deleteMyProfile;
