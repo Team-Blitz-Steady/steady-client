@@ -125,7 +125,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
             color="text-black"
           />
         </button>
-        <div className="flex flex-row items-center justify-between ">
+        <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center justify-center gap-20">
             <Tag status={steadyDetailsData.status} />
             <div className="text-35 font-bold">{steadyDetailsData.title}</div>
@@ -198,7 +198,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                 replace={true}
               >
                 <Button
-                  className={`${buttonSize.md} bg-st-primary text-st-white`}
+                  className={`${buttonSize.sm} bg-st-primary text-st-white`}
                 >
                   신청자 보기
                 </Button>
@@ -267,11 +267,11 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
             )}
           </div>
         </div>
-        <Separator className="h-2 w-auto bg-st-gray-75" />
       </div>
+      <Separator className="mt-10 h-2 w-auto bg-st-gray-75" />
       <div className="flex h-full w-full flex-col bg-st-white pb-20">
-        <div className="flex h-200 w-full flex-col px-20 text-18 font-bold shadow-md">
-          <div className="flex h-fit flex-row justify-end p-10">
+        <div className="flex h-200 w-full flex-col text-18 font-bold shadow-md">
+          <div className="flex h-fit flex-row justify-end p-20">
             {steadyDetailsData.isLeader &&
               steadyDetailsData.status !== "FINISHED" && (
                 <div className="flex flex-row gap-10">
@@ -327,7 +327,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
           </div>
           <div
             className={`flex flex-col items-center justify-center ${
-              steadyDetailsData.isLeader ? "h-calc[200-50]" : "h-full"
+              steadyDetailsData.isLeader ? "h-calc[200-70]" : "h-full"
             }`}
           >
             <div className="text-35 font-bold">{steadyDetailsData.name}</div>
