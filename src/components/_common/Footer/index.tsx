@@ -11,7 +11,7 @@ const Footer = () => {
   return (
     <footer
       className={`${cn(
-        "-bottom-30 flex h-250 w-screen items-center justify-evenly bg-st-gray-50",
+        "-bottom-30 flex h-250 w-screen items-center justify-evenly bg-st-gray-50 py-100",
         pathname === "/" ? "" : "hidden",
       )}`}
     >
