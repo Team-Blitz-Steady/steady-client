@@ -22,7 +22,7 @@ const UserModal = ({
               </button>
             </div>
           </Dialog.Close>
-          <div className="flex flex-grow flex-col items-center justify-between overflow-hidden">
+          <div className="flex h-full flex-grow flex-col items-center justify-center overflow-hidden">
             {children}
           </div>
         </div>

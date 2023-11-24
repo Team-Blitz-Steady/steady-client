@@ -150,7 +150,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                 </div>
               }
             >
-              <Suspense fallback={<Spinner size="medium" />}>
+              <Suspense fallback={<Spinner size="large" />}>
                 <UserItems userId={steadyDetailsData.leaderResponse.id} />
               </Suspense>
             </UserModal>
