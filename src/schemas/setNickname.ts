@@ -22,12 +22,12 @@ export const nicknameSchema = z.object({
 });
 
 export const positionAndStacksSchema = z.object({
-  position: z
+  positionId: z
     .number({
       required_error: "포지션을 선택해주세요.",
     })
     .positive("포지션을 선택해주세요."),
-  stacks: z
+  stacksId: z
     .number()
     .array()
     .refine((value) => value.length > 0, {
