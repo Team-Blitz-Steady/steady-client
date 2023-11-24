@@ -6,6 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
+import Dolphin from "@/images/dolphin.png";
+import First from "@/images/first.svg";
+import Second from "@/images/second.svg";
+import Third from "@/images/third.svg";
+import Turtle from "@/images/turtle.png";
+import Walrus from "@/images/walrus.png";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
@@ -28,13 +34,8 @@ import AlertModal from "@/components/_common/Modal/AlertModal";
 import LoginModal from "@/components/_common/Modal/LoginModal";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import StickyButton from "@/components/_common/StickyButton";
+import { PositionsKey, StacksKey, SteadiesKey } from "@/constants/queryKeys";
 import { steadyRunningMethods } from "@/constants/selectorItems";
-import Dolphin from "../../public/images/dolphin.png";
-import First from "../../public/images/first.svg";
-import Second from "../../public/images/second.svg";
-import Third from "../../public/images/third.svg";
-import Turtle from "../../public/images/turtle.png";
-import Walrus from "../../public/images/walrus.png";
 
 const Home = () => {
   const [page, setPage] = useState(() => {
@@ -75,7 +76,7 @@ const Home = () => {
   });
 
   const { data } = useSuspenseQuery<Steadies>({
-    queryKey: ["steadies"],
+    queryKey: SteadiesKey,
     queryFn: () =>
       getSteadies(
         stack,
@@ -91,7 +92,7 @@ const Home = () => {
   });
 
   const { data: stacks, error: stacksError } = useSuspenseQuery<StackResponse>({
-    queryKey: ["stacks"],
+    queryKey: StacksKey,
     queryFn: () => getStacks(),
   });
 
@@ -101,7 +102,7 @@ const Home = () => {
 
   const { data: positions, error: positionsError } =
     useSuspenseQuery<PositionResponse>({
-      queryKey: ["positions"],
+      queryKey: PositionsKey,
       queryFn: () => getPositions(),
     });
 

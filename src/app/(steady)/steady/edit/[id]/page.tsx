@@ -32,6 +32,11 @@ import {
 import { extractValue } from "@/utils/extractValue";
 import { CREATE_STEADY_PAGE_HEADING } from "@/constants/labelData";
 import {
+  PositionsKey,
+  StacksKey,
+  getSteadyDetailsKey,
+} from "@/constants/queryKeys";
+import {
   steadyCategories,
   steadyExpectedPeriods,
   steadyParticipantsLimit,
@@ -48,19 +53,19 @@ const SteadyEditPage = ({
   const router = useRouter();
   const queryClient = useQueryClient();
   const { data, error, refetch } = useSuspenseQuery({
-    queryKey: ["steadyDetails", steadyId],
+    queryKey: getSteadyDetailsKey(steadyId),
     queryFn: () => getSteadyDetails(steadyId),
   });
 
   const { data: positionItems, error: positionsError } =
     useSuspenseQuery<PositionResponse>({
-      queryKey: ["positions"],
+      queryKey: PositionsKey,
       queryFn: () => getPositions(),
     });
 
   const { data: stackItems, error: stacksError } =
     useSuspenseQuery<StackResponse>({
-      queryKey: ["stacks"],
+      queryKey: StacksKey,
       queryFn: () => getStacks(),
     });
 
@@ -120,7 +125,9 @@ const SteadyEditPage = ({
     const res = await updateSteady(id, data);
     if (res.status === 204) {
       toast({ variant: "green", description: "스테디가 수정되었습니다!" });
-      await queryClient.invalidateQueries({ queryKey: ["steadyDetails", id] });
+      await queryClient.invalidateQueries({
+        queryKey: getSteadyDetailsKey(id),
+      });
       await refetch();
       router.replace(`/steady/detail/${id}`);
     } else {

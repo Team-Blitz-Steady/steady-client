@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,7 +16,12 @@ export async function POST(req: NextRequest) {
     console.error(error);
   }
 
-  return NextResponse.json({
-    message: "login success!",
+  return new Response("Login success!", {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "https://www.steadies.kr",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    },
   });
 }
