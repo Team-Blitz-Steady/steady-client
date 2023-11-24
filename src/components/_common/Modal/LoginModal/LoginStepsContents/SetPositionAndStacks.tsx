@@ -20,7 +20,7 @@ const SetPositionAndStacks = () => {
   const { nickname, positionId, stacksId, setPositionId, setStackIds } =
     useNewUserInfoStore();
   const userInfos = useForm<PositionAndStacksSchemaType>({
-    values: { position: positionId, stacks: stacksId },
+    values: { positionId: positionId, stacksId: stacksId },
     resolver: zodResolver(positionAndStacksSchema),
   });
   const { data: stacksData } = useSuspenseQuery({
@@ -35,8 +35,8 @@ const SetPositionAndStacks = () => {
   });
 
   const savePositionAndStacks = (data: PositionAndStacksSchemaType) => {
-    setPositionId(data.position);
-    setStackIds(data.stacks);
+    setPositionId(data.positionId);
+    setStackIds(data.stacksId);
     setIncreaseSteps();
   };
 
@@ -61,7 +61,7 @@ const SetPositionAndStacks = () => {
           <div className="flex h-full w-full flex-col gap-20 text-center">
             <FormField
               control={userInfos.control}
-              name={"position"}
+              name={"positionId"}
               render={() => (
                 <FormItem className="flex flex-col gap-10">
                   <SingleSelector
@@ -85,7 +85,7 @@ const SetPositionAndStacks = () => {
             <div className="h-130 overflow-auto scrollbar-hide">
               <FormField
                 control={userInfos.control}
-                name={"stacks"}
+                name={"stacksId"}
                 render={() => (
                   <FormItem className="flex flex-col gap-10">
                     <MultiSelector
