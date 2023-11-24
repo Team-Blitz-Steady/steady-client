@@ -6,7 +6,7 @@ const deleteMyProfile = async () => {
     if (isAbnormalCode(response.status)) {
       throw new Error("Failed to fetch delete my profile api!");
     }
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error);
     throw error;
