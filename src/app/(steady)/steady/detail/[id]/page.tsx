@@ -14,7 +14,6 @@ import { format } from "date-fns";
 import deleteApplication from "@/services/application/deleteApplication";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyParticipants from "@/services/steady/getSteadyParticipants";
-import likeSteady from "@/services/steady/likeSteady";
 import promoteSteady from "@/services/steady/promoteSteady";
 import type { SteadyDetailsType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
@@ -25,6 +24,7 @@ import LoginModal from "@/components/_common/Modal/LoginModal";
 import UserItems from "@/components/_common/Modal/UserModal/UserItems";
 import Spinner from "@/components/_common/Spinner";
 import Tag from "@/components/_common/Tag";
+import { useLikeSteadyMutation } from "@/hooks/mutation/useLikeSteadyMutation";
 import { steadyCategoriesWithEmoji } from "@/constants/labelData";
 import {
   getSteadyDetailsKey,
@@ -50,12 +50,12 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
     queryKey: getSteadyParticipantsKey(steadyId),
     queryFn: () => getSteadyParticipants(steadyId),
   });
+  const { mutate } = useLikeSteadyMutation();
 
   const router = useRouter();
   const { toast } = useToast();
   const { isAuth } = useAuthStore();
   const [isClient, setIsClient] = useState(false);
-  const [isLiked, setIsLiked] = useState(steadyDetailsData.isLiked);
 
   useEffect(() => {
     setIsClient(true);
@@ -110,11 +110,6 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
     return match ? match.label : null;
   };
 
-  const handleClickLike = async () => {
-    await likeSteady(steadyId);
-    setIsLiked((prev) => !prev);
-  };
-
   return (
     <div className="w-1000">
       <div className="flex flex-col gap-20">
@@ -130,8 +125,8 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
             <Tag status={steadyDetailsData.status} />
             <div className="text-35 font-bold">{steadyDetailsData.title}</div>
           </div>
-          <button onClick={handleClickLike}>
-            {isLiked ? (
+          <button onClick={() => mutate(steadyId)}>
+            {steadyDetailsData.isLiked ? (
               <Icon
                 name="heart"
                 size={30}
