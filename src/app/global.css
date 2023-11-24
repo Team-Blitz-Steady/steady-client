@@ -68,13 +68,54 @@
 
 @layer base {
   @font-face {
-    font-family: "Pretendard";
-    src: url("/fonts/pretendard-regular.subset.woff2") format("woff2");
-    font-display: swap;
+    font-family: Pretendard;
+    font-weight: 100;
+    src: url("@/public/font/Pretendard-Thin.woff") format("woff");
   }
+  @font-face {
+    font-family: Pretendard;
+    font-weight: 200;
+    src: url("@/public/font/Pretendard-ExtraLight.woff") format("woff");
+  }
+  @font-face {
+    font-family: Pretendard;
+    font-weight: 300;
+    src: url("@/public/font/Pretendard-Light.woff") format("woff");
+  }
+  @font-face {
+    font-family: Pretendard;
+    font-weight: 400;
+    src: url("@/public/font/Pretendard-Regular.woff") format("woff");
+  }
+  @font-face {
+    font-family: Pretendard;
+    font-weight: 500;
+    src: url("@/public/font/Pretendard-Medium.woff") format("woff");
+  }
+  @font-face {
+    font-family: Pretendard;
+    font-weight: 600;
+    src: url("@/public/font/Pretendard-SemiBold.woff") format("woff");
+  }
+  @font-face {
+    font-family: Pretendard;
+    font-weight: 700;
+    src: url("@/public/font/Pretendard-Bold.woff") format("woff");
+  }
+  @font-face {
+    font-family: Pretendard;
+    font-weight: 800;
+    src: url("@/public/font/Pretendard-ExtraBold.woff") format("woff");
+  }
+  @font-face {
+    font-family: Pretendard;
+    font-weight: 900;
+    src: url("@/public/font/Pretendard-Black.woff") format("woff");
+  }
+
   * {
     @apply border-border;
-    font-family: "Pretendard";
+
     ::-webkit-scrollbar {
       width: 8px;
     }
@@ -90,5 +131,6 @@
   }
   body {
     @apply bg-background text-foreground;
+    @apply font-pretendard;
   }
 }
