@@ -1,5 +1,3 @@
-import { fontFamily } from "tailwindcss/defaultTheme";
-
 /** @type {import('tailwindcss').Config} */
 const px0_10 = { ...Array.from(Array(11)).map((_, i) => `${i}px`) };
 const px0_100 = { ...Array.from(Array(101)).map((_, i) => `${i}px`) };
@@ -41,7 +39,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        pretendard: ["Pretendard", ...fontFamily.sans],
+        pretendard: ["Pretendard"],
       },
       width: px0_1300,
       height: px0_1300,
