@@ -57,5 +57,9 @@ export const StacksKey = ["stacks"];
 // Review
 export const MyReviewKey = ["myreview"];
 
+
 // User
 export const getUserProfileKey = (userId: number) => ["userProfile", userId];
+
+// Notification
+export const NotificationKey = ["notifications"];
