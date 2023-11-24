@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import CopyRight from "@/images/copyright.svg";
+import CopyRightLogo from "@/images/CopyRightLogo.svg";
 import { cn } from "@/lib/utils";
 
 const Footer = () => {
@@ -16,10 +16,10 @@ const Footer = () => {
       )}`}
     >
       <Image
-        src={CopyRight}
-        alt="CopyRight"
-        width={300}
-        height={200}
+        src={CopyRightLogo}
+        alt="CopyRight 이미지"
+        width={200}
+        height={100}
       />
       <div className="flex items-center justify-center gap-50">
         <div className="font-bold">이용약관</div>

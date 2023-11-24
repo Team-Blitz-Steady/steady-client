@@ -6,6 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
+import Dolphin from "@/images/dolphin.png";
+import First from "@/images/first.svg";
+import Second from "@/images/second.svg";
+import Third from "@/images/third.svg";
+import Turtle from "@/images/turtle.png";
+import Walrus from "@/images/walrus.png";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
@@ -29,12 +35,6 @@ import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import StickyButton from "@/components/_common/StickyButton";
 import { PositionsKey, StacksKey, SteadiesKey } from "@/constants/queryKeys";
 import { steadyRunningMethods } from "@/constants/selectorItems";
-import Dolphin from "../../public/images/dolphin.png";
-import First from "../../public/images/first.svg";
-import Second from "../../public/images/second.svg";
-import Third from "../../public/images/third.svg";
-import Turtle from "../../public/images/turtle.png";
-import Walrus from "../../public/images/walrus.png";
 
 const Home = () => {
   const [page, setPage] = useState(() => {

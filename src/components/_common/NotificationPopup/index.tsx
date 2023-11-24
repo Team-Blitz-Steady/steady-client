@@ -26,6 +26,7 @@ import readAllNotifications from "@/services/notification/readAllNotifications";
 import readNotification from "@/services/notification/readNotification";
 import Button from "@/components/_common/Button";
 import Spinner from "@/components/_common/Spinner";
+import { NotificationKey } from "@/constants/queryKeys";
 
 const NotificationPopup = () => {
   const router = useRouter();
@@ -38,7 +39,7 @@ const NotificationPopup = () => {
     error: notificationsError,
     refetch: refetchNotifications,
   } = useQuery({
-    queryKey: ["notifications"],
+    queryKey: NotificationKey,
     queryFn: () => getAllNotifications(),
     enabled: isAuth,
   });
