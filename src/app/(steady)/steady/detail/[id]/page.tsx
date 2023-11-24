@@ -35,11 +35,10 @@ import {
   steadyRunningMethods,
 } from "@/constants/selectorItems";
 
-interface PageParams {
-  id: string;
-}
+const steadyDetailTagItems =
+  "flex h-40 min-w-100 items-center justify-center rounded-20 bg-st-primary text-center text-st-white shadow-md";
 
-const SteadyDetailPage = ({ params }: { params: PageParams }) => {
+const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
   const steadyId = params.id;
   const { data: steadyDetailsData, refetch: steadyDetailsRefetch } =
     useSuspenseQuery({
@@ -169,7 +168,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                 </div>
               }
             >
-              <Suspense fallback={<Spinner size="medium" />}>
+              <Suspense fallback={<Spinner size="large" />}>
                 <UserItems userId={steadyDetailsData.leaderResponse.id} />
               </Suspense>
             </UserModal>
@@ -334,12 +333,10 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
             {steadyDetailsData.bio}
           </div>
         </div>
-        <div className="my-50 flex h-220 flex-col items-center justify-center gap-20 px-50 text-18 font-bold shadow-md">
+        <div className="mb-200 mt-100 flex h-350 flex-col items-center justify-evenly px-50 text-18 font-bold shadow-md">
           <div className="flex w-full gap-15">
             <div className="flex flex-grow items-center gap-30">
-              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
-                모집 분야
-              </div>
+              <div className={steadyDetailTagItems}>모집 분야</div>
               <div className="flex w-0 flex-grow flex-wrap gap-10">
                 {steadyDetailsData.positions.map((position, id) => (
                   <div
@@ -355,9 +352,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
           <div className="flex w-full gap-15">
             <div className="flex w-full">
               <div className="flex w-225 items-center gap-30">
-                <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
-                  진행 방식
-                </div>
+                <div className={steadyDetailTagItems}>진행 방식</div>
                 <div>
                   {matchingData(
                     steadyRunningMethods,
@@ -368,9 +363,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
             </div>
             <div className="flex w-full">
               <div className="flex flex-grow items-center gap-30">
-                <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
-                  예상 기간
-                </div>
+                <div className={steadyDetailTagItems}>예상 기간</div>
                 {matchingData(
                   steadyExpectedPeriods,
                   steadyDetailsData.scheduledPeriod,
@@ -379,27 +372,25 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
             </div>
             <div className="flex w-full">
               <div className="flex w-225 items-center gap-30">
-                <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
-                  마감일
-                </div>
+                <div className={steadyDetailTagItems}>마감일</div>
                 <div>
                   {format(new Date(steadyDetailsData.deadline), "yyyy.MM.dd")}
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex w-full justify-between">
-            <div className="flex items-center justify-center gap-30">
-              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
-                기술 스택
-              </div>
+
+          <div className="flex w-full gap-30">
+            <div className={steadyDetailTagItems}>기술 스택</div>
+            <div className="flex w-full flex-wrap gap-10">
               {steadyDetailsData.stacks.map((stack) => (
                 <Image
                   key={stack.id}
-                  src={`/${stack.imageUrl}`}
+                  src={stack.imageUrl}
                   alt="기술 스택"
-                  width={50}
-                  height={50}
+                  width={40}
+                  height={40}
+                  className="rounded-full border-1"
                 />
               ))}
             </div>
@@ -412,84 +403,87 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
       <Separator className="mb-20 h-2 w-auto bg-st-gray-75" />
       <div className="flex flex-col gap-20">
         <div className="flex flex-row items-center justify-end gap-10">
-          {!steadyDetailsData.isLeader && (
-            <>
-              {steadyDetailsData.applicationId !== null ? (
-                <>
-                  <Link
-                    href={`/application/edit/${steadyDetailsData.id}/${steadyDetailsData.applicationId}`}
-                  >
-                    <Button
-                      className={`${buttonSize.sm} bg-st-primary text-14 text-st-white`}
+          {!steadyDetailsData.isLeader &&
+            !steadyDetailsData.isReviewEnabled && (
+              <>
+                {steadyDetailsData.applicationId !== null ? (
+                  <>
+                    <Link
+                      href={`/application/edit/${steadyDetailsData.id}/${steadyDetailsData.applicationId}`}
                     >
-                      신청서 수정
-                    </Button>
-                  </Link>
-                  <AlertModal
-                    trigger={
-                      <Button
-                        className={`${buttonSize.sm} bg-st-red text-st-white`}
-                      >
-                        신청 취소
-                      </Button>
-                    }
-                    actionButton={
-                      <Button
-                        className={`${buttonSize.sm} bg-st-primary text-st-white`}
-                        onClick={handleClickDeleteApplication}
-                      >
-                        예
-                      </Button>
-                    }
-                  >
-                    <span className="text-center text-18 font-bold">
-                      정말 취소 하시겠습니까?
-                    </span>
-                  </AlertModal>
-                </>
-              ) : (
-                <>
-                  {isAuth ? (
-                    <Link href={`/application/submit/${steadyDetailsData.id}`}>
                       <Button
                         className={`${buttonSize.sm} bg-st-primary text-14 text-st-white`}
                       >
-                        신청하기
+                        신청서 수정
                       </Button>
                     </Link>
-                  ) : (
                     <AlertModal
-                      actionButton={
-                        <LoginModal
-                          trigger={
-                            <Button
-                              className={cn(
-                                `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
-                              )}
-                            >
-                              로그인
-                            </Button>
-                          }
-                        />
-                      }
                       trigger={
                         <Button
-                          className={`${buttonSize.sm} bg-st-primary text-st-white`}
+                          className={`${buttonSize.sm} bg-st-red text-st-white`}
                         >
-                          신청
+                          신청 취소
+                        </Button>
+                      }
+                      actionButton={
+                        <Button
+                          className={`${buttonSize.sm} bg-st-primary text-st-white`}
+                          onClick={handleClickDeleteApplication}
+                        >
+                          예
                         </Button>
                       }
                     >
-                      <div className="text-center text-18 font-bold">
-                        로그인이 필요한 기능입니다! <br />
-                        로그인 하시겠어요?
-                      </div>
+                      <span className="text-center text-18 font-bold">
+                        정말 취소 하시겠습니까?
+                      </span>
                     </AlertModal>
-                  )}
-                </>
-              )}
-            </>
-          )}
+                  </>
+                ) : (
+                  <>
+                    {isAuth ? (
+                      <Link
+                        href={`/application/submit/${steadyDetailsData.id}`}
+                      >
+                        <Button
+                          className={`${buttonSize.sm} bg-st-primary text-14 text-st-white`}
+                        >
+                          신청하기
+                        </Button>
+                      </Link>
+                    ) : (
+                      <AlertModal
+                        actionButton={
+                          <LoginModal
+                            trigger={
+                              <Button
+                                className={cn(
+                                  `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
+                                )}
+                              >
+                                로그인
+                              </Button>
+                            }
+                          />
+                        }
+                        trigger={
+                          <Button
+                            className={`${buttonSize.sm} bg-st-primary text-st-white`}
+                          >
+                            신청
+                          </Button>
+                        }
+                      >
+                        <div className="text-center text-18 font-bold">
+                          로그인이 필요한 기능입니다! <br />
+                          로그인 하시겠어요?
+                        </div>
+                      </AlertModal>
+                    )}
+                  </>
+                )}
+              </>
+            )}
         </div>
       </div>
     </div>
