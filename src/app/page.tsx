@@ -86,6 +86,7 @@ const Home = () => {
         recruit,
         type,
         page.toString(),
+        like,
       ),
   });
 
@@ -119,6 +120,7 @@ const Home = () => {
     recruit: boolean,
     type: string,
     page: string,
+    like: boolean,
   ) => {
     const data = await getSteadies(
       stack,
@@ -129,6 +131,7 @@ const Home = () => {
       recruit,
       type,
       page.toString(),
+      like,
     );
     setTotalPost(data.totalElements);
     setPost(data);
@@ -156,6 +159,7 @@ const Home = () => {
     mode: string,
     status: boolean,
     deadline: boolean,
+    like: boolean,
   ) => {
     const data = await steadyFilter(
       type,
@@ -165,6 +169,7 @@ const Home = () => {
       mode,
       status,
       deadline,
+      like,
     );
     setTotalPost(data.totalElements);
     setPost(data);
@@ -221,6 +226,7 @@ const Home = () => {
           recruit,
           type,
           page.toString(),
+          like,
         );
       }
     }
@@ -237,9 +243,18 @@ const Home = () => {
   useEffect(() => {
     if (!isInitialRender) {
       setPage(0);
-      handleFilter(type, keyword, stack, position, mode, recruit, deadline);
+      handleFilter(
+        type,
+        keyword,
+        stack,
+        position,
+        mode,
+        recruit,
+        deadline,
+        like,
+      );
     }
-  }, [type, stack, position, mode, recruit, deadline, debouncedValue]);
+  }, [type, stack, position, mode, recruit, deadline, debouncedValue, like]);
 
   useEffect(() => {
     sessionStorage.setItem("page", page.toString());
@@ -252,7 +267,7 @@ const Home = () => {
   }, []);
 
   const bannerDefaultStyle =
-    "duration-1500 absolute left-0 top-0 flex h-250 md:h-350 w-full justify-center transition-opacity";
+    "duration-1500 absolute left-0 top-0 flex h-250 md:h-300 lg:h-350 w-full justify-center transition-opacity";
   const bannerValidStyle = "opacity-100 transition-opacity ease-in";
   const bannerInvalidStyle = "opacity-0 transition-opacity ease-out";
 
@@ -403,7 +418,7 @@ const Home = () => {
             <div
               className={`${
                 type === "all" ? "" : "text-st-gray-100"
-              } cursor-pointer text-3xl font-bold`}
+              } cursor-pointer text-2xl font-bold md:text-3xl`}
               onClick={() => setType("all")}
             >
               전체
@@ -411,7 +426,7 @@ const Home = () => {
             <div
               className={`${
                 type === "STUDY" ? "" : "text-st-gray-100"
-              } cursor-pointer text-3xl font-bold`}
+              } cursor-pointer text-2xl font-bold md:text-3xl`}
               onClick={() => setType("STUDY")}
             >
               스터디
@@ -419,7 +434,7 @@ const Home = () => {
             <div
               className={`${
                 type === "PROJECT" ? "" : "text-st-gray-100"
-              } cursor-pointer text-3xl font-bold`}
+              } cursor-pointer text-2xl font-bold md:text-3xl`}
               onClick={() => setType("PROJECT")}
             >
               프로젝트
@@ -636,6 +651,7 @@ const Home = () => {
           type={type}
           totalPost={totalPost as number}
           page={page}
+          like={like}
           setPage={setPage}
           setPost={setPost as Dispatch<SetStateAction<Steadies>>}
         />

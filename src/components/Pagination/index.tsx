@@ -13,6 +13,7 @@ interface PaginationProps {
   type: string;
   totalPost: number;
   page: number;
+  like: boolean;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   setPost: React.Dispatch<React.SetStateAction<Steadies>>;
 }
@@ -27,6 +28,7 @@ const Pagination = ({
   type,
   totalPost,
   page,
+  like,
   setPage,
   setPost,
 }: PaginationProps) => {
@@ -65,6 +67,7 @@ const Pagination = ({
     recruit: boolean,
     type: string,
     page: number,
+    like: boolean,
   ) => {
     const data = await getSteadies(
       stack,
@@ -75,6 +78,7 @@ const Pagination = ({
       recruit,
       type,
       page.toString(),
+      like,
     );
     setPost(data);
   };
@@ -89,6 +93,7 @@ const Pagination = ({
       recruit,
       type,
       page,
+      like,
     );
   }, [page]);
 
