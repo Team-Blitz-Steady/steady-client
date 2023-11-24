@@ -9,6 +9,8 @@ import AppBar from "@/components/_common/AppBar";
 import Footer from "@/components/_common/Footer";
 import "./global.css";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Steady",
   description: "The New Study & Project Join Platform",
