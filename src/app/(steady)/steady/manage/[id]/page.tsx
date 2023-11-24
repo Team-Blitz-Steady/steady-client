@@ -14,27 +14,27 @@ const members = [
   {
     id: "1",
     nickname: "엄청 긴 닉네임",
-    label: "설명",
+    label: "설명1",
   },
   {
     id: "2",
     nickname: "엄청 긴 닉네임",
-    label: "설명",
+    label: "설명2",
   },
   {
     id: "3",
     nickname: "엄청 긴 닉네임",
-    label: "설명",
+    label: "설명3",
   },
   {
     id: "4",
     nickname: "엄청 긴 닉네임",
-    label: "설명",
+    label: "설명4",
   },
   {
     id: "5",
     nickname: "엄청 긴 닉네임",
-    label: "설명",
+    label: "설명5",
   },
   {
     id: "6",
@@ -65,9 +65,9 @@ const members = [
 
 const SteadyManageMembersPage = () => {
   return (
-    <div className="flex overflow-x-auto">
+    <div className="flex overflow-x-hidden">
       <Tabs.Root defaultValue={`${members[0].id}`}>
-        <Tabs.List className="flex gap-10">
+        <Tabs.List className="flex w-1000 gap-10">
           {members.map((v, id) => (
             <Tabs.Trigger
               key={id}
@@ -78,7 +78,7 @@ const SteadyManageMembersPage = () => {
             </Tabs.Trigger>
           ))}
         </Tabs.List>
-        <div>
+        <div className={"flex justify-center"}>
           {members.map((v, id) => (
             <Tabs.Content
               key={id}
@@ -90,25 +90,25 @@ const SteadyManageMembersPage = () => {
                 <div className={cn(subContentStyles)}>
                   <div className={cn(subBoxStyles, "justify-between")}>
                     <div className={cn(subMyPageTextStyles.content)}>
-                      회원 탈퇴 시 전체 프로필 정보가 삭제 됩니다.
+                      스테디 참여자 추방 시 되돌릴 수 없습니다.
                     </div>
                     <AlertModal
                       trigger={
                         <Button
                           className={`${buttonSize.lg} bg-st-red text-st-white`}
                         >
-                          회원 탈퇴
+                          멤버 추방
                         </Button>
                       }
                       actionButton={
                         <Button
                           className={`${buttonSize.sm} bg-st-red text-st-white`}
                         >
-                          탈퇴
+                          추방
                         </Button>
                       }
                     >
-                      정말 스테디를 탈퇴하시겠습니까?
+                      정말 해당 멤버를 추방하시겠습니까?
                     </AlertModal>
                   </div>
                 </div>
