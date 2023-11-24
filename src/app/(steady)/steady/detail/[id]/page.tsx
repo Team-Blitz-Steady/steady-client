@@ -11,6 +11,7 @@ import useAuthStore from "@/stores/isAuth";
 import { Separator } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
+import deleteApplication from "@/services/application/deleteApplication";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyParticipants from "@/services/steady/getSteadyParticipants";
 import likeSteady from "@/services/steady/likeSteady";
@@ -34,11 +35,10 @@ import {
   steadyRunningMethods,
 } from "@/constants/selectorItems";
 
-interface PageParams {
-  id: string;
-}
+const steadyDetailTagItems =
+  "flex h-40 min-w-100 items-center justify-center rounded-20 bg-st-primary text-center text-st-white shadow-md";
 
-const SteadyDetailPage = ({ params }: { params: PageParams }) => {
+const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
   const steadyId = params.id;
   const { data: steadyDetailsData, refetch: steadyDetailsRefetch } =
     useSuspenseQuery({
@@ -55,6 +55,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
   const { toast } = useToast();
   const { isAuth } = useAuthStore();
   const [isClient, setIsClient] = useState(false);
+  const [isLiked, setIsLiked] = useState(steadyDetailsData.isLiked);
 
   useEffect(() => {
     setIsClient(true);
@@ -81,6 +82,23 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
     }
   };
 
+  const handleClickDeleteApplication = async () => {
+    try {
+      await deleteApplication(steadyDetailsData.applicationId.toString());
+      toast({
+        description: "스테디 신청 취소 성공!",
+        variant: "green",
+      });
+    } catch (error) {
+      toast({
+        description: "스테디 신청 취소 실패!",
+        variant: "red",
+      });
+      console.error(error);
+    }
+    steadyDetailsRefetch();
+  };
+
   const matchingData = (
     defineData: { value: string; label: string }[],
     serverData:
@@ -94,6 +112,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
 
   const handleClickLike = async () => {
     await likeSteady(steadyId);
+    setIsLiked((prev) => !prev);
   };
 
   return (
@@ -109,11 +128,10 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center justify-center gap-20">
             <Tag status={steadyDetailsData.status} />
-            <div className="text-35 font-bold">{steadyDetailsData.name}</div>
+            <div className="text-35 font-bold">{steadyDetailsData.title}</div>
           </div>
           <button onClick={handleClickLike}>
-            {/* TODO: 좋아요 API 연결 */}
-            {/* {steadyLikeData?.isLike ? (
+            {isLiked ? (
               <Icon
                 name="heart"
                 size={30}
@@ -125,7 +143,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                 size={30}
                 color="text-black"
               />
-            )} */}
+            )}
           </button>
         </div>
         <div className="flex flex-row items-center justify-between">
@@ -141,10 +159,10 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                         : Logo
                     }
                     alt="작성자 프로필"
-                    width={60}
-                    height={60}
+                    width={40}
+                    height={40}
                   />
-                  <button className="text-20 font-bold">
+                  <button className="text-15 font-bold">
                     {steadyDetailsData.leaderResponse.nickname}
                   </button>
                 </div>
@@ -154,7 +172,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                 <UserItems userId={steadyDetailsData.leaderResponse.id} />
               </Suspense>
             </UserModal>
-            <div className="flex gap-10 text-16 font-bold text-st-gray-100">
+            <div className="flex gap-10 text-13 font-bold text-st-gray-100">
               <span>
                 {format(new Date(steadyDetailsData.createdAt), "yyyy.MM.dd p")}
               </span>
@@ -180,7 +198,7 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                 replace={true}
               >
                 <Button
-                  className={`${buttonSize.md} bg-st-primary text-st-white`}
+                  className={`${buttonSize.sm} bg-st-primary text-st-white`}
                 >
                   신청자 보기
                 </Button>
@@ -249,14 +267,11 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
             )}
           </div>
         </div>
-        <Separator className="h-2 w-auto bg-st-gray-75" />
       </div>
-      <div className="flex h-full w-full flex-col bg-st-white-100 p-20">
-        <div className="flex flex-col gap-10">
-          <div className="flex flex-row justify-between">
-            <div className="flex items-center text-18 font-bold text-st-gray-400">
-              {steadyCategoriesWithEmoji[steadyDetailsData.type]}
-            </div>
+      <Separator className="mt-10 h-2 w-auto bg-st-gray-75" />
+      <div className="flex h-full w-full flex-col bg-st-white pb-20">
+        <div className="flex h-200 w-full flex-col text-18 font-bold shadow-md">
+          <div className="flex h-fit flex-row justify-end p-20">
             {steadyDetailsData.isLeader &&
               steadyDetailsData.status !== "FINISHED" && (
                 <div className="flex flex-row gap-10">
@@ -310,161 +325,183 @@ const SteadyDetailPage = ({ params }: { params: PageParams }) => {
                 </div>
               )}
           </div>
-          <div className="text-35 font-bold">{steadyDetailsData.title}</div>
-          <div className="text-20 font-bold italic text-st-gray-400">
-            {steadyDetailsData.bio}
+          <div
+            className={`flex flex-col items-center justify-center ${
+              steadyDetailsData.isLeader ? "h-calc[200-70]" : "h-full"
+            }`}
+          >
+            <div className="text-35 font-bold">{steadyDetailsData.name}</div>
+            <div className="text-20 font-bold italic text-st-gray-100">
+              {steadyDetailsData.bio}
+            </div>
           </div>
         </div>
-        <div className="my-50 flex h-220 flex-col items-center justify-center gap-20 px-150 text-18 font-bold shadow-md">
-          <div className="flex w-full justify-between">
-            <div className="flex flex-grow items-center gap-30">
-              {/* 가로 스크롤 */}
-              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
-                모집 분야
+
+        <div className="my-50 flex h-300 flex-col items-center justify-evenly px-50 text-18 font-bold">
+          <div className="flex w-full">
+            <div className="flex w-1/3">
+              <div className="flex items-center justify-center gap-10">
+                <div className={steadyDetailTagItems}>스테디 유형</div>
+                <div className="text-center">
+                  {steadyCategoriesWithEmoji[steadyDetailsData.type]}
+                </div>
               </div>
-              {steadyDetailsData.positions.map((position, id) => (
-                <div key={id}>{position.name}</div>
-              ))}
             </div>
-            <div className="flex w-225 items-center gap-30">
-              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
-                진행 방식
+            <div className="flex w-2/3">
+              <div className="flex flex-grow items-center gap-10">
+                <div className={steadyDetailTagItems}>모집 분야</div>
+                <div className="flex w-0 flex-grow flex-wrap gap-10">
+                  {steadyDetailsData.positions.map((position, id) => (
+                    <div
+                      key={id}
+                      className="whitespace-nowrap"
+                    >
+                      {position.name}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div>
+            </div>
+          </div>
+          <div className="flex w-full">
+            <div className="flex w-full">
+              <div className="flex w-225 items-center gap-10">
+                <div className={steadyDetailTagItems}>진행 방식</div>
+                <div>
+                  {matchingData(
+                    steadyRunningMethods,
+                    steadyDetailsData.steadyMode,
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="flex w-full">
+              <div className="flex flex-grow items-center gap-10">
+                <div className={steadyDetailTagItems}>예상 기간</div>
                 {matchingData(
-                  steadyRunningMethods,
-                  steadyDetailsData.steadyMode,
+                  steadyExpectedPeriods,
+                  steadyDetailsData.scheduledPeriod,
                 )}
               </div>
             </div>
-          </div>
-          <div className="flex w-full justify-between">
-            <div className="flex w-345 items-center gap-30">
-              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
-                예상 기간
+            <div className="flex w-full">
+              <div className="flex w-225 items-center gap-10">
+                <div className={steadyDetailTagItems}>마감일</div>
+                <div>
+                  {format(new Date(steadyDetailsData.deadline), "yyyy.MM.dd")}
+                </div>
               </div>
+            </div>
+          </div>
 
-              {matchingData(
-                steadyExpectedPeriods,
-                steadyDetailsData.scheduledPeriod,
-              )}
-            </div>
-            <div className="flex items-center justify-center gap-30">
-              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
-                마감일
-              </div>
-              {format(new Date(steadyDetailsData.deadline), "yyyy.MM.dd")}
-            </div>
-          </div>
-          <div className="flex w-full justify-between">
-            <div className="flex items-center justify-center gap-30">
-              <div className="flex h-40 w-100 items-center justify-center rounded-20 text-center shadow-md">
-                기술 스택
-              </div>
+          <div className="flex w-full gap-10">
+            <div className={steadyDetailTagItems}>기술 스택</div>
+            <div className="flex w-full flex-wrap gap-10">
               {steadyDetailsData.stacks.map((stack) => (
                 <Image
                   key={stack.id}
-                  src={`/${stack.imageUrl}`}
+                  src={stack.imageUrl}
                   alt="기술 스택"
-                  width={50}
-                  height={50}
+                  width={40}
+                  height={40}
+                  className="rounded-full border-1"
                 />
               ))}
             </div>
           </div>
         </div>
-        <div className="flex min-h-200 w-full items-center p-20 text-18 font-bold shadow-md">
-          {steadyDetailsData.content}
+        <div>
+          <div className="px-20 text-23 font-bold">모집글 소개</div>
+          <div className="flex min-h-200 w-full items-center bg-st-white p-20 text-18 font-bold">
+            {steadyDetailsData.content}
+          </div>
         </div>
       </div>
       <Separator className="mb-20 h-2 w-auto bg-st-gray-75" />
       <div className="flex flex-col gap-20">
-        <div className="flex flex-row items-center justify-end gap-10">
-          {!steadyDetailsData.isLeader && (
-            <>
-              {steadyDetailsData.applicationId !== null ? (
-                <>
-                  <Link href={`/application/edit/${steadyDetailsData.id}`}>
-                    <Button
-                      className={`${buttonSize.sm} bg-st-primary text-14 text-st-white`}
+        <div className="flex flex-row items-center justify-end gap-10 ">
+          {!steadyDetailsData.isLeader &&
+            !steadyDetailsData.isReviewEnabled && (
+              <>
+                {steadyDetailsData.applicationId !== null ? (
+                  <>
+                    <Link
+                      href={`/application/edit/${steadyDetailsData.id}/${steadyDetailsData.applicationId}`}
                     >
-                      신청서 수정
-                    </Button>
-                  </Link>
-                  {/* TODO: 신청 취소 API*/}
-                  <AlertModal
-                    trigger={
-                      <Button
-                        className={`${buttonSize.sm} bg-st-red text-st-white`}
-                      >
-                        신청 취소
-                      </Button>
-                    }
-                    actionButton={
-                      <Button
-                        className={`${buttonSize.sm} bg-st-primary text-st-white`}
-                      >
-                        예
-                      </Button>
-                    }
-                  >
-                    정말 취소 하시겠습니까?
-                  </AlertModal>
-                </>
-              ) : (
-                <>
-                  {isAuth ? (
-                    <Link href={`/application/submit/${steadyDetailsData.id}`}>
                       <Button
                         className={`${buttonSize.sm} bg-st-primary text-14 text-st-white`}
                       >
-                        신청하기
+                        신청서 수정
                       </Button>
                     </Link>
-                  ) : (
                     <AlertModal
-                      actionButton={
-                        <LoginModal
-                          trigger={
-                            <Button
-                              className={cn(
-                                `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
-                              )}
-                            >
-                              로그인
-                            </Button>
-                          }
-                        />
-                      }
                       trigger={
                         <Button
-                          className={`${buttonSize.sm} bg-st-primary text-st-white`}
+                          className={`${buttonSize.sm} bg-st-red text-st-white`}
                         >
-                          신청
+                          신청 취소
+                        </Button>
+                      }
+                      actionButton={
+                        <Button
+                          className={`${buttonSize.sm} bg-st-primary text-st-white`}
+                          onClick={handleClickDeleteApplication}
+                        >
+                          예
                         </Button>
                       }
                     >
-                      <div className="text-center text-18 font-bold">
-                        로그인이 필요한 기능입니다! <br />
-                        로그인 하시겠어요?
-                      </div>
+                      <span className="text-center text-18 font-bold">
+                        정말 취소 하시겠습니까?
+                      </span>
                     </AlertModal>
-                  )}
-                </>
-              )}
-            </>
-          )}
+                  </>
+                ) : (
+                  <>
+                    {isAuth ? (
+                      <Link
+                        href={`/application/submit/${steadyDetailsData.id}`}
+                      >
+                        <Button
+                          className={`${buttonSize.sm} bg-st-primary text-14 text-st-white`}
+                        >
+                          신청하기
+                        </Button>
+                      </Link>
+                    ) : (
+                      <AlertModal
+                        actionButton={
+                          <LoginModal
+                            trigger={
+                              <Button
+                                className={cn(
+                                  `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
+                                )}
+                              >
+                                로그인
+                              </Button>
+                            }
+                          />
+                        }
+                        trigger={
+                          <Button
+                            className={`${buttonSize.sm} bg-st-primary text-st-white`}
+                          >
+                            신청
+                          </Button>
+                        }
+                      >
+                        <div className="text-center text-18 font-bold">
+                          로그인이 필요한 기능입니다! <br />
+                          로그인 하시겠어요?
+                        </div>
+                      </AlertModal>
+                    )}
+                  </>
+                )}
+              </>
+            )}
         </div>
-        {/* 댓글 영역 */}
-        {/* <div className="flex flex-col gap-10">
-          <div className="font-bold text-15">댓글</div>
-          <TextArea className="w-full h-150 rounded-15" />
-          <Button
-            className={`${buttonSize.sm} ml-auto bg-st-primary text-st-white`}
-          >
-            등록
-          </Button>
-        </div> */}
       </div>
     </div>
   );
