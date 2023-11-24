@@ -186,7 +186,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                   replace={true}
                 >
                   <Button
-                    className={`${buttonSize.md} bg-st-primary text-st-white`}
+                    className={`${buttonSize.sm} bg-st-primary text-st-white`}
                   >
                     리뷰 남기기
                   </Button>
@@ -207,7 +207,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
               <InfoModal
                 trigger={
                   <Button
-                    className={`${buttonSize.md} bg-st-primary text-st-white`}
+                    className={`${buttonSize.sm} bg-st-primary text-st-white`}
                   >
                     참여자 보기
                   </Button>
