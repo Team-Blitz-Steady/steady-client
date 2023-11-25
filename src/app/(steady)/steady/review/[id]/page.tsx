@@ -11,6 +11,7 @@ import createReview from "@/services/review/createReview";
 import getReviewCards from "@/services/review/getReviewCards";
 import getReviewSteadyInfo from "@/services/review/getReviewSteadyInfo";
 import Button, { buttonSize } from "@/components/_common/Button";
+import { ReviewCardKey, ReviewSteadyKey } from "@/constants/queryKeys";
 
 const ReviewPage = () => {
   const [selectedUser, setSelectedUser] = useState(0);
@@ -18,15 +19,16 @@ const ReviewPage = () => {
   const steadyId = pathname.split("/")[2];
   const [review, setReview] = useState("");
   const [cardArray, setCardArray] = useState<number[]>([]);
+  const [completedUser, setCompletedUser] = useState<number[]>([]);
   const { toast } = useToast();
 
   const { data } = useSuspenseQuery({
-    queryKey: ["review_steady"],
+    queryKey: ReviewSteadyKey,
     queryFn: () => getReviewSteadyInfo(steadyId),
   });
 
   const { data: reviewCards } = useSuspenseQuery({
-    queryKey: ["review_card"],
+    queryKey: ReviewCardKey,
     queryFn: () => getReviewCards(),
   });
 
@@ -55,9 +57,10 @@ const ReviewPage = () => {
         description: "리뷰가 제출되었습니다.",
         variant: "green",
       });
+      setCompletedUser((prevArray) => [...prevArray, selectedUser]);
+      setReview("");
+      setCardArray([]);
     }
-    setReview("");
-    setCardArray([]);
   };
 
   const handleCardArray = (cardId: number) => {
@@ -66,6 +69,19 @@ const ReviewPage = () => {
     } else {
       setCardArray((prevArray) => prevArray.filter((item) => item !== cardId));
     }
+  };
+
+  const handleSelectedUser = (userId: number) => {
+    if (completedUser.indexOf(userId) !== -1) {
+      toast({
+        description: "리뷰가 완료된 사용자입니다.",
+        variant: "red",
+      });
+      return;
+    }
+    setSelectedUser(userId);
+    setReview("");
+    setCardArray([]);
   };
 
   return (
@@ -125,12 +141,11 @@ const ReviewPage = () => {
               key={participant.userId}
               className={`${
                 selectedUser !== participant.userId && "opacity-30"
+              } ${
+                completedUser.indexOf(participant.userId) !== -1 &&
+                "border border-5 border-st-green"
               } flex cursor-pointer flex-col items-center justify-center rounded-md text-20 font-bold`}
-              onClick={() => {
-                setSelectedUser(participant.userId);
-                setReview("");
-                setCardArray([]);
-              }}
+              onClick={() => handleSelectedUser(participant.userId)}
             >
               <Image
                 className="rounded-md"
