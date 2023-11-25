@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import Logo from "@/images/logo.svg";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
-import { Separator } from "@radix-ui/themes";
+import { Separator, Tooltip } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import deleteApplication from "@/services/application/deleteApplication";
@@ -87,8 +87,6 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
       steadyDetailsRefetch();
     }
   };
-
-  console.log(steadyDetailsData.stacks);
 
   const handleClickDeleteApplication = async () => {
     try {
@@ -412,14 +410,18 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
             <div className={steadyDetailTagItems}>기술 스택</div>
             <div className="flex w-full flex-wrap gap-10">
               {steadyDetailsData.stacks.map((stack) => (
-                <Image
+                <Tooltip
                   key={stack.id}
-                  src={stack.imageUrl}
-                  alt="기술 스택"
-                  width={40}
-                  height={40}
-                  className="rounded-full border-1"
-                />
+                  content={stack.name}
+                >
+                  <Image
+                    src={stack.imageUrl}
+                    alt="기술 스택"
+                    width={40}
+                    height={40}
+                    className="rounded-full border-1"
+                  />
+                </Tooltip>
               ))}
             </div>
           </div>
