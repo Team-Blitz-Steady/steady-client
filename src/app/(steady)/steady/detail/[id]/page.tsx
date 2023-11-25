@@ -28,6 +28,7 @@ import Tag from "@/components/_common/Tag";
 import { useLikeSteadyMutation } from "@/hooks/mutation/useLikeSteadyMutation";
 import { steadyCategoriesWithEmoji } from "@/constants/labelData";
 import {
+  MyProfileKey,
   getSteadyDetailsKey,
   getSteadyParticipantsKey,
 } from "@/constants/queryKeys";
@@ -53,7 +54,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
   });
   const { mutate } = useLikeSteadyMutation();
   const { data: myData } = useSuspenseQuery({
-    queryKey: ["myProfile"],
+    queryKey: MyProfileKey,
     queryFn: getMyProfile,
   });
 
@@ -86,6 +87,8 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
       steadyDetailsRefetch();
     }
   };
+
+  console.log(steadyDetailsData.stacks);
 
   const handleClickDeleteApplication = async () => {
     try {
