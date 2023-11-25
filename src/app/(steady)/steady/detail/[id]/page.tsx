@@ -16,6 +16,7 @@ import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyParticipants from "@/services/steady/getSteadyParticipants";
 import promoteSteady from "@/services/steady/promoteSteady";
 import type { SteadyDetailsType } from "@/services/types";
+import getMyProfile from "@/services/user/getMyProfile";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
@@ -51,6 +52,10 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
     queryFn: () => getSteadyParticipants(steadyId),
   });
   const { mutate } = useLikeSteadyMutation();
+  const { data: myData } = useSuspenseQuery({
+    queryKey: ["myProfile"],
+    queryFn: getMyProfile,
+  });
 
   const router = useRouter();
   const { toast } = useToast();
@@ -109,6 +114,10 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
     const match = defineData.find((item) => item.value === serverData);
     return match ? match.label : null;
   };
+
+  const isSubmittedUser = steadyParticipantsData.participants.find(
+    (user) => user.id === myData.userId,
+  );
 
   return (
     <div className="w-1000">
@@ -461,15 +470,17 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                 ) : (
                   <>
                     {isAuth ? (
-                      <Link
-                        href={`/application/submit/${steadyDetailsData.id}`}
-                      >
-                        <Button
-                          className={`${buttonSize.sm} bg-st-primary text-14 text-st-white`}
+                      !isSubmittedUser && (
+                        <Link
+                          href={`/application/submit/${steadyDetailsData.id}`}
                         >
-                          신청하기
-                        </Button>
-                      </Link>
+                          <Button
+                            className={`${buttonSize.sm} bg-st-primary text-14 text-st-white`}
+                          >
+                            신청하기
+                          </Button>
+                        </Link>
+                      )
                     ) : (
                       <AlertModal
                         actionButton={
@@ -489,7 +500,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                           <Button
                             className={`${buttonSize.sm} bg-st-primary text-st-white`}
                           >
-                            신청
+                            신청하기
                           </Button>
                         }
                       >
