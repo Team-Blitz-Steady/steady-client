@@ -12,11 +12,12 @@ import getReviewCards from "@/services/review/getReviewCards";
 import getReviewSteadyInfo from "@/services/review/getReviewSteadyInfo";
 import Button, { buttonSize } from "@/components/_common/Button";
 import { ReviewCardKey, ReviewSteadyKey } from "@/constants/queryKeys";
+import turtle from "../../../../../../public/images/logo.svg";
 
 const ReviewPage = () => {
   const [selectedUser, setSelectedUser] = useState(0);
   const pathname = usePathname();
-  const steadyId = pathname.split("/")[2];
+  const steadyId = pathname.split("/")[3];
   const [review, setReview] = useState("");
   const [cardArray, setCardArray] = useState<number[]>([]);
   const [completedUser, setCompletedUser] = useState<number[]>([]);
@@ -33,7 +34,7 @@ const ReviewPage = () => {
   });
 
   useEffect(() => {
-    if (data) {
+    if (data && data.reviewees[0]) {
       setSelectedUser(data.reviewees[0].userId);
     }
   }, []);
@@ -64,7 +65,7 @@ const ReviewPage = () => {
   };
 
   const handleCardArray = (cardId: number) => {
-    if (cardArray.indexOf(cardId) !== -1) {
+    if (cardArray.indexOf(cardId) === -1) {
       setCardArray((prevArray) => [...prevArray, cardId]);
     } else {
       setCardArray((prevArray) => prevArray.filter((item) => item !== cardId));
@@ -143,13 +144,13 @@ const ReviewPage = () => {
                 selectedUser !== participant.userId && "opacity-30"
               } ${
                 completedUser.indexOf(participant.userId) !== -1 &&
-                "border border-5 border-st-green"
+                "border border-2 border-st-green"
               } flex cursor-pointer flex-col items-center justify-center rounded-md text-20 font-bold`}
               onClick={() => handleSelectedUser(participant.userId)}
             >
               <Image
                 className="rounded-md"
-                src={participant.profileImage}
+                src={turtle}
                 alt="profile image"
                 width={70}
                 height={100}
@@ -173,7 +174,7 @@ const ReviewPage = () => {
                     cardArray.indexOf(card.cardId) !== -1
                       ? "bg-st-green"
                       : "bg-st-white"
-                  } rounded-5`}
+                  } rounded-5 border`}
                   onClick={() => handleCardArray(card.cardId)}
                 />
                 <Image
@@ -195,13 +196,14 @@ const ReviewPage = () => {
           className="h-100 w-1000 outline-none"
           size={"3"}
           placeholder="팀원들에게 한 줄 평을 남겨보세요."
+          value={review}
           color="gray"
           onChange={(event) => setReview(event.target.value)}
         />
         <div className="flex items-center justify-end">
           <Button
             // disabled={card.length === 0 || review === ""}
-            onClick={() => handleReviewSubmit}
+            onClick={() => handleReviewSubmit()}
             className={`${buttonSize.sm} items-center justify-center bg-st-primary text-st-white`}
           >
             제출
