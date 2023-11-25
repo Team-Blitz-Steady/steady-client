@@ -102,6 +102,9 @@ const EditQuestionsPage = ({ params }: { params: { id: string } }) => {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.nativeEvent.isComposing) {
+      return;
+    }
     if (event.key === "Enter") {
       handleAddQuestion();
     }
