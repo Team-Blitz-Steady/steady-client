@@ -7,11 +7,16 @@ import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import useCreateSteadyStore from "@/stores/createSteadyData";
 import { Separator } from "@radix-ui/themes";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Command } from "cmdk";
 import createSteady from "@/services/steady/createSteady";
+import getTemplateDetail from "@/services/template/getTemplateDetail";
+import getTemplates from "@/services/template/getTemplates";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import { SingleSelector } from "@/components/_common/Selector";
+import { TemplatesKey } from "@/constants/queryKeys";
+import { BASIC_QUESTION, BASIC_TEMPLATE } from "@/constants/selectorItems";
 
 const CreateQuestionsPage = () => {
   const [question, setQuestion] = useState([{ id: 1, question: "" }]);
@@ -35,6 +40,19 @@ const CreateQuestionsPage = () => {
     });
     document.getElementById(`question-${curInput.id}`)?.focus();
   }, [question.length]);
+
+  const { data: templatesData, error: templatesError } = useSuspenseQuery({
+    queryKey: [TemplatesKey],
+    queryFn: () => getTemplates(),
+  });
+
+  if (templatesError) {
+    return (
+      <div>
+        <h1>템플릿 목록을 불러오는 중에 에러가 발생했습니다. </h1>
+      </div>
+    );
+  }
 
   const handleAddQuestion = () => {
     if (question.length === 10) {
@@ -97,15 +115,38 @@ const CreateQuestionsPage = () => {
     }
   };
 
+  const handleSelectTemplate = (id: string) => {
+    if (id === "0") {
+      setQuestion(BASIC_QUESTION);
+      return;
+    }
+    getTemplateDetail(id).then((res) => {
+      setQuestion(
+        res.questions.map((content, index) => ({
+          id: index + 1,
+          question: content,
+        })),
+      );
+    });
+  };
+
   return (
     <div className={cn("mt-30")}>
       <div className={"flex w-1000 items-center justify-between"}>
-        <h1 className={"text-36 font-bold"}>스테디 신청서 질문</h1>
+        <h1 className={"text-36 font-bold"}>스테디 신청서 질문 등록</h1>
         <div className={"flex items-center gap-10"}>
           <SingleSelector
             className={cn("h-40 w-260")}
-            items={[]}
-            initialLabel={"신청서"}
+            items={BASIC_TEMPLATE.concat(templatesData.templates).map(
+              (item) => ({
+                value: item.id.toString(),
+                label: item.title,
+              }),
+            )}
+            initialLabel={"질문 템플릿"}
+            onSelectedChange={(selected) => {
+              handleSelectTemplate(selected);
+            }}
           />
           <Button
             className={cn(
@@ -146,6 +187,7 @@ const CreateQuestionsPage = () => {
                     id={`question-${item.id}`}
                     type="text"
                     placeholder="질문을 입력해 주세요."
+                    value={item.question}
                     className={cn(
                       "h-50 w-300 text-20 font-semibold text-st-black outline-none",
                     )}
