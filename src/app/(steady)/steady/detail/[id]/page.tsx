@@ -336,7 +336,14 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
           <div className="flex w-full">
             <div className="flex w-1/3">
               <div className="flex items-center justify-center gap-10">
-                <div className={steadyDetailTagItems}>스테디 유형</div>
+                <div
+                  className={cn(
+                    steadyDetailTagItems,
+                    "text-[16px] text-st-white",
+                  )}
+                >
+                  스테디 유형
+                </div>
                 <div className="text-center">
                   {steadyCategoriesWithEmoji[steadyDetailsData.type]}
                 </div>
