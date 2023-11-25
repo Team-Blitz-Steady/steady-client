@@ -1,8 +1,6 @@
 import { cookies } from "next/headers";
 import type { NextRequest } from "next/server";
 
-export const dynamic = "force-dynamic";
-
 export async function POST(req: NextRequest) {
   try {
     const { token } = await req.json();

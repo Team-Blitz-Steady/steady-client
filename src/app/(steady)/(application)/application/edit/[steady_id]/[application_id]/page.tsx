@@ -63,7 +63,7 @@ const ApplicationEditPage = ({
           variant: "green",
         });
         await applicationRefetch();
-        router.replace("/");
+        router.replace(`/steady/detail/${steadyId}`);
       } catch (error) {
         toast({
           description: "스테디 신청서 수정 실패!",

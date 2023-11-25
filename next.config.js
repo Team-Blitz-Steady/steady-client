@@ -5,6 +5,18 @@ const nextConfig = {
     dirs: ["src"],
   },
   reactStrictMode: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "noticon-static.tammolo.com",
+      },
+      {
+        protocol: "https",
+        hostname: "github-production-user-asset-6210df.s3.amazonaws.com",
+      },
+    ],
+  },
   experimental: {
     serverActions: true,
   },
