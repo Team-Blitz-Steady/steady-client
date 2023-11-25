@@ -49,7 +49,7 @@ const Posts = ({ info }: { info: Steadies }) => {
 
   return (
     <div
-      className={`h-[1110px] w-full md:h-[1355px] ${
+      className={`w-full ${
         info?.content.length === 0 && "flex items-center justify-center"
       }`}
     >
