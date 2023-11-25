@@ -4,6 +4,7 @@ import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
 import Dolphin from "@/images/dolphin.png";
@@ -17,6 +18,7 @@ import useAuthStore from "@/stores/isAuth";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import steadyFilter from "@/services/steady/filterSteadies";
+import getPopularSteadies from "@/services/steady/getPopularSteadies";
 import getPositions from "@/services/steady/getPositions";
 import getStacks from "@/services/steady/getStacks";
 import getSteadies from "@/services/steady/getSteadies";
@@ -31,6 +33,7 @@ import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
 import AlertModal from "@/components/_common/Modal/AlertModal";
 import LoginModal from "@/components/_common/Modal/LoginModal";
+import NavigationBar from "@/components/_common/NavigationBar";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import StickyButton from "@/components/_common/StickyButton";
 import { PositionsKey, StacksKey, SteadiesKey } from "@/constants/queryKeys";
@@ -57,6 +60,23 @@ const Home = () => {
   const [mode, setMode] = useState("");
   const { isAuth } = useAuthStore();
   const [isInitialRender, setIsInitialRender] = useState(true);
+  const pathname = usePathname();
+  const rankImageArray = [
+    {
+      image: First,
+    },
+    {
+      image: Second,
+    },
+    {
+      image: Third,
+    },
+  ];
+
+  const { data: popularSteadies } = useSuspenseQuery<Steadies>({
+    queryKey: ["popular_steadies"],
+    queryFn: () => getPopularSteadies(),
+  });
 
   const { data } = useSuspenseQuery<Steadies>({
     queryKey: SteadiesKey,
@@ -70,6 +90,7 @@ const Home = () => {
         recruit,
         type,
         page.toString(),
+        like,
       ),
   });
 
@@ -103,6 +124,7 @@ const Home = () => {
     recruit: boolean,
     type: string,
     page: string,
+    like: boolean,
   ) => {
     const data = await getSteadies(
       stack,
@@ -113,6 +135,7 @@ const Home = () => {
       recruit,
       type,
       page.toString(),
+      like,
     );
     setTotalPost(data.totalElements);
     setPost(data);
@@ -140,6 +163,7 @@ const Home = () => {
     mode: string,
     status: boolean,
     deadline: boolean,
+    like: boolean,
   ) => {
     const data = await steadyFilter(
       type,
@@ -149,9 +173,22 @@ const Home = () => {
       mode,
       status,
       deadline,
+      like,
     );
     setTotalPost(data.totalElements);
     setPost(data);
+  };
+
+  const calcDateDifference = (deadline: string) => {
+    const currDate = new Date();
+    const deadlineDate = new Date(deadline);
+    return Math.floor(
+      (deadlineDate.valueOf() - currDate.valueOf()) / (1000 * 60 * 60 * 24),
+    ) < 0
+      ? 0
+      : Math.floor(
+          (deadlineDate.valueOf() - currDate.valueOf()) / (1000 * 60 * 60 * 24),
+        ) + 1;
   };
 
   useEffect(() => {
@@ -193,6 +230,7 @@ const Home = () => {
           recruit,
           type,
           page.toString(),
+          like,
         );
       }
     }
@@ -209,9 +247,18 @@ const Home = () => {
   useEffect(() => {
     if (!isInitialRender) {
       setPage(0);
-      handleFilter(type, keyword, stack, position, mode, recruit, deadline);
+      handleFilter(
+        type,
+        keyword,
+        stack,
+        position,
+        mode,
+        recruit,
+        deadline,
+        like,
+      );
     }
-  }, [type, stack, position, mode, recruit, deadline, debouncedValue]);
+  }, [type, stack, position, mode, recruit, deadline, debouncedValue, like]);
 
   useEffect(() => {
     sessionStorage.setItem("page", page.toString());
@@ -224,52 +271,13 @@ const Home = () => {
   }, []);
 
   const bannerDefaultStyle =
-    "duration-1500 absolute left-0 top-0 flex h-350 w-full justify-center transition-opacity";
+    "duration-1500 absolute left-0 top-0 flex h-250 md:h-300 lg:h-350 w-full justify-center transition-opacity";
   const bannerValidStyle = "opacity-100 transition-opacity ease-in";
   const bannerInvalidStyle = "opacity-0 transition-opacity ease-out";
 
-  const popularSteadyData = [
-    {
-      title: "Next JS 스터디 모집합니다~!",
-      deadline: "마감일 | 2023.11.13",
-      views: 1301,
-      category: "📖 스터디",
-      d_day: "D-15",
-      rank: 1,
-      image: First,
-    },
-    {
-      title: "JavaScript 스터디 모집합니다~!",
-      deadline: "마감일 | 2023.11.11",
-      views: 575,
-      category: "📖 스터디",
-      d_day: "D-7",
-      rank: 2,
-      image: Second,
-    },
-    {
-      title: "Java 프로젝트 모집합니다~!",
-      deadline: "마감일 | 2023.12.02",
-      views: 443,
-      category: "🖥 프로젝트",
-      d_day: "D-20",
-      rank: 3,
-      image: Third,
-    },
-    {
-      title: "Next JS 스터디 모집합니다~!",
-      deadline: "마감일 | 2023.12.25",
-      views: 189,
-      category: "📖 스터디",
-      d_day: "D-11",
-      rank: 4,
-      image: "",
-    },
-  ];
-
   return (
     <main className="relative flex flex-col items-center">
-      <div className="relative flex h-350 w-screen transition">
+      <div className="relative flex h-250 w-screen transition md:h-350">
         <div
           className={`${
             activeIndex === 1 ? bannerValidStyle : bannerInvalidStyle
@@ -277,10 +285,10 @@ const Home = () => {
         >
           <div className="flex w-3/5 items-center justify-around">
             <div className="flex flex-col">
-              <div className="font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+              <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
                 스테디로
               </div>
-              <div className="mt-10 font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+              <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
                 동료를 찾아보세요!
               </div>
             </div>
@@ -299,10 +307,10 @@ const Home = () => {
         >
           <div className="flex w-3/5 items-center justify-around">
             <div className="flex flex-col">
-              <div className="font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+              <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
                 스테디는
               </div>
-              <div className="mt-10 font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+              <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
                 사랑입니다~!
               </div>
             </div>
@@ -321,10 +329,10 @@ const Home = () => {
         >
           <div className="flex w-3/5 items-center justify-around">
             <div className="flex flex-col">
-              <div className="font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+              <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
                 스테디에
               </div>
-              <div className="mt-10 font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+              <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
                 도전해 보세요!
               </div>
             </div>
@@ -360,47 +368,51 @@ const Home = () => {
       <section className="mb-20 mt-50 flex flex-col flex-wrap items-center justify-center overflow-hidden">
         <div className="w-3/4 text-2xl font-bold xl:w-full">🔥 인기 스테디</div>
         <div className="mt-20 flex h-220 flex-wrap items-center justify-center overflow-hidden">
-          {popularSteadyData.map((item) => (
-            <div
-              key={item.rank}
-              className="relative m-20 flex h-170 w-300 cursor-pointer flex-col items-center justify-center gap-20 rounded-20 shadow-lg transition hover:scale-105"
+          {popularSteadies.content.slice(0, 4).map((item, index) => (
+            <Link
+              key={item.id}
+              href={`/steady/detail/${item.id}`}
             >
-              {item.rank <= 3 ? (
-                <Image
-                  src={item.image}
-                  alt="first-steady"
-                  width={45}
-                  height={45}
-                  className="absolute left-0 top-0"
-                />
-              ) : (
-                ""
-              )}
-              <div className="flex w-250 items-center justify-end">
-                <div className="flex h-28 w-60 items-center justify-center rounded-20 border border-st-red shadow-md">
-                  <div className="h-22 w-54 rounded-20 bg-st-red text-center font-bold text-st-white">
-                    {item.d_day}
+              <div className="relative m-20 flex h-170 w-300 cursor-pointer flex-col items-center justify-center gap-20 rounded-20 shadow-lg transition hover:scale-105">
+                {index <= 2 ? (
+                  <Image
+                    src={rankImageArray[index].image}
+                    alt="rank image"
+                    width={45}
+                    height={45}
+                    className="absolute left-0 top-0"
+                  />
+                ) : (
+                  ""
+                )}
+                <div className="flex w-250 items-center justify-end">
+                  <div className="flex h-28 w-60 items-center justify-center rounded-20 border border-st-red shadow-md">
+                    <div className="h-22 w-54 rounded-20 bg-st-red text-center font-bold text-st-white">
+                      D-{calcDateDifference(item.deadline)}
+                    </div>
+                  </div>
+                </div>
+                <div className="w-3/4 overflow-ellipsis text-18 font-bold">
+                  <div className="text-12 font-bold">
+                    {item.type === "STUDY" ? "📖 스터디" : "🖥 프로젝트"}
+                  </div>
+                  {item.title}
+                </div>
+                <div className="flex justify-between gap-40">
+                  <div className="font-bold text-st-gray-100">
+                    마감일 | {item.deadline}
+                  </div>
+                  <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
+                    <Icon
+                      name="eye"
+                      size={20}
+                      color="text-st-gray-100"
+                    />
+                    {item.viewCount}
                   </div>
                 </div>
               </div>
-              <div className="text-18 font-bold">
-                <div className="text-12 font-bold">{item.category}</div>
-                {item.title}
-              </div>
-              <div className="flex justify-between gap-40">
-                <div className="font-bold text-st-gray-100">
-                  {item.deadline}
-                </div>
-                <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
-                  <Icon
-                    name="eye"
-                    size={20}
-                    color="text-st-gray-100"
-                  />
-                  {item.views}
-                </div>
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -410,7 +422,7 @@ const Home = () => {
             <div
               className={`${
                 type === "all" ? "" : "text-st-gray-100"
-              } cursor-pointer text-3xl font-bold`}
+              } cursor-pointer text-2xl font-bold md:text-3xl`}
               onClick={() => setType("all")}
             >
               전체
@@ -418,7 +430,7 @@ const Home = () => {
             <div
               className={`${
                 type === "STUDY" ? "" : "text-st-gray-100"
-              } cursor-pointer text-3xl font-bold`}
+              } cursor-pointer text-2xl font-bold md:text-3xl`}
               onClick={() => setType("STUDY")}
             >
               스터디
@@ -426,7 +438,7 @@ const Home = () => {
             <div
               className={`${
                 type === "PROJECT" ? "" : "text-st-gray-100"
-              } cursor-pointer text-3xl font-bold`}
+              } cursor-pointer text-2xl font-bold md:text-3xl`}
               onClick={() => setType("PROJECT")}
             >
               프로젝트
@@ -437,8 +449,8 @@ const Home = () => {
             onChange={(e) => handleInputChange(e)}
           />
         </div>
-        <div className="m-10 flex w-full justify-between">
-          <div className="flex items-center justify-center gap-5">
+        <div className="m-10 flex w-full justify-center md:justify-between">
+          <div className="hidden md:flex md:flex-wrap xl:flex xl:items-center xl:justify-center xl:gap-5">
             <MultiSelector
               initialLabel={"기술 스택"}
               items={stacks.stacks.map((stack) => ({
@@ -464,13 +476,13 @@ const Home = () => {
             <SingleSelector
               initialLabel={"진행 방식"}
               items={steadyRunningMethods}
-              className="mb-8 h-43 w-150"
+              className="mb-8 h-43 w-220"
               onSelectedChange={(value) => setMode(value)}
             />
             <div
               className={`${
                 like ? "border-5 border-st-yellow" : "border border-st-gray-100"
-              } transition-border mx-10 mb-8 flex h-43 w-150 items-center justify-center rounded-5 duration-100`}
+              } transition-border mb-8 flex h-43 w-150 items-center justify-center rounded-5 duration-100`}
             >
               {isAuth && (
                 <button
@@ -513,7 +525,7 @@ const Home = () => {
                 recruit
                   ? "border-5 border-st-primary"
                   : "border border-st-gray-100"
-              } transition-border mx-10 mb-8 flex h-43 w-100 items-center justify-center rounded-5 duration-100`}
+              } transition-border mb-8 flex h-43 w-100 items-center justify-center rounded-5 duration-100`}
             >
               <button
                 className="h-full w-full font-bold"
@@ -523,17 +535,58 @@ const Home = () => {
               </button>
             </div>
           </div>
-          <div className="flex items-center justify-center gap-20">
+          <div className="md:hidden">
+            {isAuth && (
+              <Link href={"/steady/create"}>
+                <button className="flex h-40 w-500 items-center justify-center gap-10 rounded-10 bg-st-primary font-bold text-st-white">
+                  스테디 등록
+                </button>
+              </Link>
+            )}
+            {!isAuth && (
+              <AlertModal
+                actionButton={
+                  <LoginModal
+                    trigger={
+                      <Button
+                        className={cn(
+                          `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
+                        )}
+                      >
+                        로그인
+                      </Button>
+                    }
+                  />
+                }
+                trigger={
+                  <div className="flex gap-20">
+                    <button className="h-40 w-390 rounded-10 bg-st-primary font-bold text-st-white">
+                      스테디 등록
+                    </button>
+                    <button className="h-40 w-90 rounded-10 bg-st-primary font-bold text-st-white">
+                      필터
+                    </button>
+                  </div>
+                }
+              >
+                <div className="text-center text-18 font-bold">
+                  로그인이 필요한 기능입니다! <br />
+                  로그인 하시겠어요?
+                </div>
+              </AlertModal>
+            )}
+          </div>
+          <div className="hidden md:flex md:items-center md:justify-center md:gap-20">
             <div
               onClick={() => setDeadline(!deadline)}
               className={`${
                 deadline ? "" : "text-st-gray-100"
-              } flex cursor-pointer items-center justify-center gap-10 font-bold`}
+              } flex w-85 cursor-pointer items-center justify-center gap-5 text-15 font-bold xl:w-100 xl:gap-10 xl:text-18`}
             >
               <div
                 className={`${
                   deadline ? "bg-st-primary" : "bg-st-gray-100"
-                } h-10 w-10 rounded-full text-20`}
+                } h-7 w-7 rounded-full`}
               ></div>
               마감 임박순
             </div>
@@ -602,11 +655,12 @@ const Home = () => {
           type={type}
           totalPost={totalPost as number}
           page={page}
+          like={like}
           setPage={setPage}
           setPost={setPost as Dispatch<SetStateAction<Steadies>>}
         />
       </section>
-      <div className="fixed bottom-40 right-10 z-10 flex gap-10">
+      <div className="fixed bottom-100 right-10 z-10 flex gap-10 md:bottom-40">
         <div
           className="flex h-65 w-65 cursor-pointer items-center justify-center rounded-full bg-st-primary"
           onClick={() => {
@@ -619,6 +673,7 @@ const Home = () => {
         </div>
         <StickyButton onClick={() => ChannelIO.showMessenger()} />
       </div>
+      <NavigationBar path={pathname} />
     </main>
   );
 };

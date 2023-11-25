@@ -22,7 +22,7 @@ const AppBar = ({ className }: AppBarProps) => {
   return (
     <div
       className={cn(
-        "flex items-center justify-between py-30 md:w-5/6 xl:w-1120",
+        "flex w-5/6 items-center justify-between py-30 xl:w-1120",
         className,
       )}
     >

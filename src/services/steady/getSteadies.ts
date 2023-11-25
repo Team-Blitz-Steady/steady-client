@@ -10,10 +10,11 @@ const getSteadies = async (
   recruit: boolean,
   type: string,
   page: string,
+  like: boolean,
 ): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=${page}&like=false${
+      `/api/v1/steadies/search?page=${page}&like=${like}${
         type !== "all" ? `&steadyType=${type}` : ""
       }${keyword !== "" ? `&keyword=${keyword}` : ""}${
         stack !== "" ? `&stack=${stack}` : ""
