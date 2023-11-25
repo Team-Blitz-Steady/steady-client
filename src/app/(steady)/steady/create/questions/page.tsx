@@ -10,16 +10,19 @@ import { Separator } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Command } from "cmdk";
 import createSteady from "@/services/steady/createSteady";
+import { createTemplate } from "@/services/template/createTemplate";
 import getTemplateDetail from "@/services/template/getTemplateDetail";
 import getTemplates from "@/services/template/getTemplates";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
+import InputModal from "@/components/_common/Modal/InputModal";
 import { SingleSelector } from "@/components/_common/Selector";
 import { TemplatesKey } from "@/constants/queryKeys";
 import { BASIC_QUESTION, BASIC_TEMPLATE } from "@/constants/selectorItems";
 
 const CreateQuestionsPage = () => {
   const [question, setQuestion] = useState([{ id: 1, question: "" }]);
+  const [isTemplateTitleSetting, setIsTemplateTitleSetting] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
   const { steadyState } = useCreateSteadyStore();
@@ -41,7 +44,11 @@ const CreateQuestionsPage = () => {
     document.getElementById(`question-${curInput.id}`)?.focus();
   }, [question.length]);
 
-  const { data: templatesData, error: templatesError } = useSuspenseQuery({
+  const {
+    data: templatesData,
+    error: templatesError,
+    refetch: refetchTemplates,
+  } = useSuspenseQuery({
     queryKey: [TemplatesKey],
     queryFn: () => getTemplates(),
   });
@@ -128,6 +135,27 @@ const CreateQuestionsPage = () => {
         })),
       );
     });
+  };
+
+  const handleSaveTemplate = (title: string) => {
+    const templateData = {
+      title: title,
+      questions: question.map((item) => item.question),
+    };
+    createTemplate(templateData)
+      .then(() => {
+        toast({
+          description: "질문 템플릿이 성공적으로 저장되었습니다.",
+          variant: "green",
+        });
+        refetchTemplates();
+      })
+      .catch(() => {
+        toast({
+          description: "질문 템플릿 저장에 실패하였습니다.",
+          variant: "red",
+        });
+      });
   };
 
   return (
@@ -228,6 +256,9 @@ const CreateQuestionsPage = () => {
             className={cn(
               `${buttonSize.sm} items-center justify-center bg-st-primary text-st-white`,
             )}
+            onClick={() => {
+              setIsTemplateTitleSetting(true);
+            }}
           >
             저장
           </Button>
@@ -256,6 +287,11 @@ const CreateQuestionsPage = () => {
           등록
         </Button>
       </div>
+      <InputModal
+        isOpen={isTemplateTitleSetting}
+        onClose={() => setIsTemplateTitleSetting(false)}
+        onSave={handleSaveTemplate}
+      />
     </div>
   );
 };
