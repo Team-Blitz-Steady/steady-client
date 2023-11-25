@@ -10,6 +10,7 @@ import updateTemplate from "@/services/template/updateTemplate";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import InputModal from "@/components/_common/Modal/InputModal";
+import { getTemplateDetailsKey } from "@/constants/queryKeys";
 
 interface QuestionType {
   id: number;
@@ -27,7 +28,7 @@ const EditTemplatePage = () => {
   const router = useRouter();
 
   const { data } = useQuery({
-    queryKey: ["template_detail"],
+    queryKey: getTemplateDetailsKey(templateId),
     queryFn: () => getTemplateDetail(templateId),
   });
 

@@ -12,7 +12,7 @@ import useAuthStore from "@/stores/isAuth";
 import useLoginStepsStore from "@/stores/loginSteps";
 import useNewUserInfoStore from "@/stores/newUserInfo";
 import { AlertDialog } from "@radix-ui/themes";
-import axios from "axios";
+import { setCookie } from "cookies-next";
 import getKakaoToken from "@/services/oauth/kakao/getKakaoToken";
 import createUserProfile from "@/services/user/createUserProfile";
 import Icon from "@/components/_common/Icon";
@@ -40,17 +40,27 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
             setSteps(1);
             setOpen(true);
           } else {
-            axios
-              .post("https://steady-client.vercel.app/api/login", {
-                token: {
-                  access: token.accessToken,
-                  refresh: token.refreshToken,
-                },
-              })
-              .then(() => {
-                setIsAuth(true);
-                router.replace("/");
-              });
+            // axios
+            //   .post("https://steady-client.vercel.app/api/login", {
+            //     token: {
+            //       access: token.accessToken,
+            //       refresh: token.refreshToken,
+            //     },
+            //   })
+            //   .then(() => {
+            //     setIsAuth(true);
+            //     router.replace("/");
+            //   });
+            setCookie("access_token", token.accessToken, {
+              path: "/",
+              domain: ".steadies.kr",
+            });
+            setCookie("refresh_token", token.refreshToken, {
+              path: "/",
+              domain: ".steadies.kr",
+            });
+            setIsAuth(true);
+            router.replace("/");
           }
         }
       });

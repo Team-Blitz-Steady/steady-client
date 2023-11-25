@@ -16,7 +16,7 @@ const Spinner = ({ size }: SpinnerProps) => {
   return (
     <div
       className={`inline-block ${sizeClassName} animate-spin rounded-full border-5 
-      ${clsx("border-b-st-primary", "border-st-gray-100")}`}
+    ${clsx("border-b-st-primary", "border-st-gray-50")}`}
     ></div>
   );
 };

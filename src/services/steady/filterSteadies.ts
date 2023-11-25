@@ -9,10 +9,11 @@ const steadyFilter = async (
   mode: string,
   status: boolean,
   deadline: boolean,
+  like: boolean,
 ): Promise<Steadies> => {
   try {
     const response = await axiosInstance.get(
-      `/api/v1/steadies/search?page=0&like=false${
+      `/api/v1/steadies/search?page=0&like=${like}${
         type !== "all" ? `&steadyType=${type}` : ""
       }${keyword !== "" ? `&keyword=${keyword}` : ""}${
         stack !== "" ? `&stack=${stack}` : ""

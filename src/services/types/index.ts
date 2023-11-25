@@ -88,14 +88,16 @@ export interface SteadyDetailsType {
   deadline: string;
   title: string;
   content: string;
+  viewCount: number;
   positions: PositionType[];
   stacks: StackType[];
   isLeader: boolean;
-  isSubmittedUser: boolean;
+  applicationId: number;
   promotionCount: number;
   createdAt: string;
   finishedAt: string;
   isReviewEnabled: boolean;
+  isLiked: boolean;
 }
 
 export interface TemplateType {
@@ -227,7 +229,7 @@ export interface MyProfileType {
 
 export interface UserCardType {
   cardId: number;
-  content: string;
+  imageUrl: string;
   count: number;
 }
 export interface UsersProfileType {
@@ -241,6 +243,7 @@ export interface UsersProfileType {
   };
   userCards: UserCardType[];
   reviews: string[];
+  isDeleted: boolean;
 }
 
 export interface UpdateMyProfileType {
@@ -294,6 +297,19 @@ export interface CreateReviewType {
 export interface LikeSteadyType {
   likeCount: number;
   isLike: boolean;
+}
+
+export interface ApplicationList {
+  content: Application[];
+  numberOfElements: number;
+  hasNext: boolean;
+}
+
+interface Application {
+  applicationId: number;
+  steadyName: string;
+  createdAt: string;
+  status: string;
 }
 
 export interface EditApplicationType {

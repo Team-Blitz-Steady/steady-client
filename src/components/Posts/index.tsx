@@ -12,7 +12,7 @@ import Tag from "../_common/Tag";
 
 const Posts = ({ info }: { info: Steadies }) => {
   const [differences, setDifferences] = useState<
-    { days: number; hours: number }[]
+    { days: number; hours: number; minutes: number }[]
   >([]);
 
   useEffect(() => {
@@ -21,15 +21,24 @@ const Posts = ({ info }: { info: Steadies }) => {
       const calculatedDifferences = info?.content.map((serverDate) => {
         const serverDateObject = new Date(serverDate.createdAt);
         const timeDifference =
-          currentDate.valueOf() - serverDateObject.valueOf();
+          currentDate.valueOf() -
+          (serverDateObject.valueOf() + 1000 * 60 * 60 * 9);
         const daysDifference = Math.floor(
           timeDifference / (1000 * 60 * 60 * 24),
         );
         const hoursDifference = Math.floor(
           (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
         );
+        const minutesDifference = Math.floor(
+          ((timeDifference % (1000 * 60 * 60 * 24)) % (1000 * 60 * 60)) /
+            (1000 * 60),
+        );
 
-        return { days: daysDifference, hours: hoursDifference };
+        return {
+          days: daysDifference,
+          hours: hoursDifference,
+          minutes: minutesDifference,
+        };
       });
 
       setDifferences(calculatedDifferences);
@@ -40,7 +49,7 @@ const Posts = ({ info }: { info: Steadies }) => {
 
   return (
     <div
-      className={`h-[1355px] w-full ${
+      className={`h-[1110px] w-full md:h-[1355px] ${
         info?.content.length === 0 && "flex items-center justify-center"
       }`}
     >
@@ -53,9 +62,9 @@ const Posts = ({ info }: { info: Steadies }) => {
             <div
               className={`${
                 item.status !== "RECRUITING" && "opacity-50"
-              } flex w-full items-center justify-between px-50 py-20 transition hover:scale-105 hover:bg-st-gray-50`}
+              } flex w-full items-center justify-between px-20 py-20 transition hover:scale-105 hover:bg-st-gray-50 md:px-50`}
             >
-              <div className="flex items-center gap-50">
+              <div className="flex items-center gap-20 md:gap-50">
                 {item.status === "RECRUITING" ? (
                   <Tag status="RECRUITING" />
                 ) : (
@@ -63,12 +72,14 @@ const Posts = ({ info }: { info: Steadies }) => {
                 )}
 
                 <div className="flex flex-col gap-5">
-                  <div className="font-bold">
-                    {item.type === "STUDY" ? "📖스터디" : "🖥프로젝트"}
+                  <div className="text-10 font-bold md:text-15">
+                    {item.type === "STUDY" ? "📖 스터디" : "🖥️ 프로젝트"}
                   </div>
-                  <div className="text-25 font-bold">{item.title}</div>
+                  <div className="text-17 font-bold md:text-25">
+                    {item.title}
+                  </div>
                   <div className="flex gap-20">
-                    <div className="flex items-center justify-center gap-10 font-bold">
+                    <div className="flex items-center justify-center gap-10 text-10 font-bold md:text-15">
                       <Icon
                         name="person"
                         size={15}
@@ -76,19 +87,19 @@ const Posts = ({ info }: { info: Steadies }) => {
                       />
                       {`${item.numberOfParticipants}/${item.participantLimit}`}
                     </div>
-                    <div className="font-bold text-st-gray-100">
+                    <div className="text-10 font-bold text-st-gray-100 md:text-15">
                       마감일 | {item.deadline}
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="flex w-170 flex-col gap-30">
-                <div className="flex items-center gap-10 font-bold">
+              <div className="flex w-110 flex-col gap-30 md:w-170">
+                <div className="flex items-center gap-10 text-10 font-bold md:text-17">
                   {item.profileImage !== "new_profile_image.jpg" ? (
                     <Avatar
                       src={item.profileImage}
                       alt="profile"
-                      size={"3"}
+                      size={"2"}
                       radius="full"
                       className="cursor-pointer"
                       fallback={""}
@@ -108,25 +119,47 @@ const Posts = ({ info }: { info: Steadies }) => {
                     : item.nickname}
                 </div>
                 <div className="flex items-center justify-start gap-10">
-                  <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
-                    <Icon
-                      name="eye"
-                      size={22}
-                      color="text-st-gray-100"
-                    />
-                    {item.viewCount}
+                  <div className="hidden md:flex md:gap-10">
+                    <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
+                      <Icon
+                        name="eye"
+                        size={22}
+                        color="text-st-gray-100"
+                      />
+                      {item.viewCount}
+                    </div>
+                    <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
+                      <Icon
+                        name="heart"
+                        size={20}
+                        color="text-st-gray-100"
+                      />
+                      {item.likeCount}
+                    </div>
                   </div>
-                  <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
-                    <Icon
-                      name="heart"
-                      size={20}
-                      color="text-st-gray-100"
-                    />
-                    {item.likeCount}
+                  <div className="flex gap-10 md:hidden">
+                    <div className="flex items-center justify-center gap-5 text-10 font-bold text-st-gray-100">
+                      <Icon
+                        name="eye"
+                        size={15}
+                        color="text-st-gray-100"
+                      />
+                      {item.viewCount}
+                    </div>
+                    <div className="flex items-center justify-center gap-5 text-10 font-bold text-st-gray-100">
+                      <Icon
+                        name="heart"
+                        size={15}
+                        color="text-st-gray-100"
+                      />
+                      {item.likeCount}
+                    </div>
                   </div>
-                  <div className="text-15">
+                  <div className="text-10 md:text-15">
                     {differences && differences[index]?.days === 0
-                      ? `${differences && differences[index]?.hours}시간 전`
+                      ? differences && differences[index]?.hours === 0
+                        ? `${differences && differences[index]?.minutes}분 전`
+                        : `${differences && differences[index]?.hours}시간 전`
                       : `${differences && differences[index]?.days}일 전`}
                   </div>
                 </div>
@@ -138,8 +171,8 @@ const Posts = ({ info }: { info: Steadies }) => {
         <Image
           src={noResult}
           alt="no_result"
-          width={400}
-          height={280}
+          width={350}
+          height={230}
         />
       )}
     </div>

@@ -6,26 +6,27 @@ import { usePathname, useRouter } from "next/navigation";
 import { Question, Title } from "@/components/application";
 import { useToast } from "@/components/ui/use-toast";
 import { TextArea } from "@radix-ui/themes";
-import type { QueryKey } from "@tanstack/react-query";
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import submitApplication from "@/services/application/submitApplication";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyQuestions from "@/services/steady/getSteadyQuestions";
-import type { SteadyDetailsType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
+import {
+  getSteadyDetailsKey,
+  getSteadyQuestionsKey,
+} from "@/constants/queryKeys";
 
 interface pageParams {
   id: string;
 }
 
 const ApplicationSubmitPage = ({ params }: { params: pageParams }) => {
-  const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
   const steadyId = params.id;
   const pageType = pathname.split("/")[2];
   const { data: steadyQuestionsData } = useSuspenseQuery({
-    queryKey: ["steadyQuestionsSubmit", steadyId],
+    queryKey: getSteadyQuestionsKey(steadyId),
     queryFn: () => getSteadyQuestions(steadyId),
     staleTime: 10000,
   });
@@ -37,17 +38,18 @@ const ApplicationSubmitPage = ({ params }: { params: pageParams }) => {
   );
   const { toast } = useToast();
 
-  const { data: steadyDetailsData } = useSuspenseQuery({
-    queryKey: ["steadyDetails", steadyId],
-    queryFn: () => getSteadyDetails(steadyId),
-    staleTime: 10000,
-  });
+  const { data: steadyDetailsData, refetch: steadyDetailsRefetch } =
+    useSuspenseQuery({
+      queryKey: getSteadyDetailsKey(steadyId),
+      queryFn: () => getSteadyDetails(steadyId),
+      staleTime: 10000,
+    });
 
   useEffect(() => {
-    if (steadyDetailsData.isSubmittedUser) {
+    if (steadyDetailsData.applicationId !== null) {
       router.replace(`/steady/detail/${steadyId}`);
     }
-  }, [steadyDetailsData.isSubmittedUser, router, steadyId]);
+  }, [steadyDetailsData.applicationId, router, steadyId]);
 
   const handleChangeAnswer = (
     event: ChangeEvent<HTMLTextAreaElement>,
@@ -77,21 +79,7 @@ const ApplicationSubmitPage = ({ params }: { params: pageParams }) => {
           description: "스테디 참여 신청서 제출 성공!",
           variant: "green",
         });
-        // 낙관적 업데이트
-        const previousSteady = queryClient.getQueryData<SteadyDetailsType>([
-          "steadyDetails",
-          steadyId,
-        ]);
-        if (previousSteady) {
-          queryClient.setQueryData<
-            SteadyDetailsType,
-            QueryKey,
-            SteadyDetailsType
-          >(["steadyDetails", steadyId], {
-            ...previousSteady,
-            isSubmittedUser: true,
-          });
-        }
+        steadyDetailsRefetch();
       } catch (error) {
         toast({
           description: "스테디 참여 신청서 제출 실패!",

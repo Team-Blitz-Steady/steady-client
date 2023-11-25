@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import CopyRight from "@/images/copyright.svg";
+import CopyRightLogo from "@/images/CopyRightLogo.svg";
 import { cn } from "@/lib/utils";
 
 const Footer = () => {
@@ -11,15 +11,15 @@ const Footer = () => {
   return (
     <footer
       className={`${cn(
-        "-bottom-30 flex h-250 w-screen items-center justify-evenly bg-st-gray-50",
+        "-bottom-30 flex h-250 w-screen items-center justify-evenly bg-st-gray-50 py-100",
         pathname === "/" ? "" : "hidden",
       )}`}
     >
       <Image
-        src={CopyRight}
-        alt="CopyRight"
-        width={300}
-        height={200}
+        src={CopyRightLogo}
+        alt="CopyRight 이미지"
+        width={200}
+        height={100}
       />
       <div className="flex items-center justify-center gap-50">
         <div className="font-bold">이용약관</div>

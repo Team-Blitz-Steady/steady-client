@@ -23,11 +23,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           <Theme>
             <div
               className={cn(
-                `max-mobile:w-9/10 mx-auto flex w-3/4 flex-col items-center`,
+                `max-mobile:w-9/10 mx-auto flex h-screen w-3/4 flex-col items-center`,
               )}
             >
               <AppBar />
-              <div className={cn("mb-30")}>{children}</div>
+              <div className="pb-30">{children}</div>
               <Footer />
             </div>
           </Theme>

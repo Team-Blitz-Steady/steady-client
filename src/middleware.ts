@@ -1,9 +1,12 @@
+import { cookies } from "next/headers";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { hasCookie } from "cookies-next";
 
 export function middleware(request: NextRequest) {
   const cookie = request.headers.get("Cookie");
-  const isAuthenticated = cookie?.includes("access_token"); // TODO: 토큰 이름 은닉?
+  const isAuthenticated =
+    cookie?.includes("access_token") || hasCookie("access_token", { cookies }); // TODO: 토큰 이름 은닉?
   const response = NextResponse.next();
   response.headers.append("Access-Control-Allow-Credentials", "true");
   response.headers.append(

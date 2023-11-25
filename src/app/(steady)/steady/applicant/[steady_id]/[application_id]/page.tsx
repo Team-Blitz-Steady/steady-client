@@ -7,6 +7,10 @@ import changeApplicationStatus from "@/services/application/changeApplicationSta
 import getApplicationDetails from "@/services/application/getApplicationDetails";
 import Button, { buttonSize } from "@/components/_common/Button";
 import { AlertModal } from "@/components/_common/Modal";
+import {
+  getApplicantListKey,
+  getApplicationDetailsKey,
+} from "@/constants/queryKeys";
 
 const UserApplicantPage = ({
   params,
@@ -17,7 +21,7 @@ const UserApplicantPage = ({
   const steadyId = params.steady_id;
   const queryClient = useQueryClient();
   const { data: applicationDetailsData } = useSuspenseQuery({
-    queryKey: ["applicationDetails", applicationId],
+    queryKey: getApplicationDetailsKey(applicationId),
     queryFn: () => getApplicationDetails(applicationId),
   });
   const router = useRouter();
@@ -27,7 +31,7 @@ const UserApplicantPage = ({
       status: "ACCEPTED",
     });
     await queryClient.invalidateQueries({
-      queryKey: ["applicantList", steadyId],
+      queryKey: getApplicantListKey(steadyId),
     });
     router.replace(`/steady/applicant/${steadyId}`);
   };
@@ -37,7 +41,7 @@ const UserApplicantPage = ({
       status: "REJECTED",
     });
     await queryClient.invalidateQueries({
-      queryKey: ["applicantList", steadyId],
+      queryKey: getApplicantListKey(steadyId),
     });
     router.replace(`/steady/applicant/${steadyId}`);
   };

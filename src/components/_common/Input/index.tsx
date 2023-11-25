@@ -1,6 +1,4 @@
 import type { ComponentProps } from "react";
-import { Pencil1Icon } from "@radix-ui/react-icons";
-import { IconButton } from "@radix-ui/themes";
 
 interface InputProps extends ComponentProps<"input"> {
   inputName:
@@ -28,7 +26,7 @@ const Input = ({
     case "search-input":
       input = (
         <input
-          className="bg-input-bg h-40 w-full rounded-12 border-3 border-st-gray-100 px-10 py-20 text-center text-20 font-bold outline-none transition-all duration-300 focus:border-st-primary md:w-700"
+          className="bg-input-bg xs:350 h-40 w-full rounded-12 border-3 border-st-gray-100 px-10 py-20 text-center text-20 font-bold outline-none transition-all duration-300 focus:border-st-primary sm:w-500 md:w-700"
           type="text"
           placeholder="검색어를 입력해주세요."
           {...props}
@@ -46,6 +44,7 @@ const Input = ({
             onChange={(event) => {
               onValueChange?.(event.target.value);
             }}
+            {...props}
           />
         </div>
       );
@@ -109,20 +108,17 @@ const Input = ({
       break;
     case "introduce-input":
       input = (
-        <div className="flex h-64 items-center justify-center rounded-12 border-2 border-solid border-st-gray-100 p-10 outline-none md:w-1/2 xl:w-716">
+        <div className="flex h-64 items-center justify-center rounded-12 border-2 border-solid border-st-gray-100 p-10 outline-none md:w-1/2 xl:w-620">
           <input
             className="h-60 w-full rounded-12 p-5 text-xl font-bold outline-none"
             type="text"
             defaultValue={initialValue}
             placeholder="한 줄 소개로 자신을 표현해 주세요!"
+            onChange={(event) => {
+              onValueChange?.(event.target.value);
+            }}
+            {...props}
           />
-          <IconButton variant="ghost">
-            <Pencil1Icon
-              width="30"
-              height="30"
-              color="#b4b4b4"
-            />
-          </IconButton>
         </div>
       );
       break;
