@@ -1,6 +1,12 @@
 import Link from "next/link";
+import useIsSearchBarFocusStore from "@/stores/isSearchBarFocus";
 
 const SelectedSteadyAction = () => {
+  const { setIsFocus } = useIsSearchBarFocusStore();
+  const handleClickSearchAction = () => {
+    setIsFocus(true);
+  };
+
   return (
     <div className="flex h-full w-full flex-col items-center justify-evenly">
       <div className="flex w-full flex-col items-center justify-center gap-10">
@@ -9,7 +15,10 @@ const SelectedSteadyAction = () => {
           href={"/"}
           className="h-200 w-full"
         >
-          <button className="text-black h-full w-full rounded-10 text-30 font-bold hover:bg-st-skyblue-50">
+          <button
+            onClick={handleClickSearchAction}
+            className="text-black h-full w-full rounded-10 text-30 font-bold hover:bg-st-skyblue-50"
+          >
             🔎 스테디 검색
           </button>
         </Link>
