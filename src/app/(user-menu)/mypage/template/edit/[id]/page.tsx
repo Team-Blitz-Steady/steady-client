@@ -104,6 +104,10 @@ const EditTemplatePage = () => {
     setIsModalOpen(false);
   };
 
+  const backToTemplate = () => {
+    router.push("/mypage/template");
+  };
+
   return (
     <div className="flex gap-30">
       <div>
@@ -176,14 +180,22 @@ const EditTemplatePage = () => {
           </div>
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>
-        <div className="mt-20 flex w-full justify-end">
+        <div className="mt-20 flex w-full justify-end gap-20">
           {isModify && (
-            <Button
-              onClick={() => openModal()}
-              className={`${buttonSize.lg} bg-st-primary text-st-white`}
-            >
-              수정완료
-            </Button>
+            <>
+              <Button
+                onClick={() => backToTemplate()}
+                className={`${buttonSize.lg} bg-st-red text-st-white`}
+              >
+                취소하기
+              </Button>
+              <Button
+                onClick={() => openModal()}
+                className={`${buttonSize.lg} bg-st-primary text-st-white`}
+              >
+                수정완료
+              </Button>
+            </>
           )}
           <InputModal
             isOpen={isModalOpen}
