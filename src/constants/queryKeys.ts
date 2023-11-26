@@ -40,6 +40,8 @@ export const getMySteadyKey = (status?: string, direction?: string) => [
   direction,
 ];
 
+export const PopularSteadiesKey = ["popularSteadies"];
+
 // Template
 export const TemplatesKey = ["templates"];
 
