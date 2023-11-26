@@ -66,7 +66,7 @@ const MyApplicationPage = () => {
                   className="group flex cursor-pointer items-center justify-between p-50 transition hover:scale-105 hover:bg-st-gray-50"
                 >
                   <div className="text-25 font-bold">
-                    {application.status === "APPROVED" ? (
+                    {application.status === "ACCEPTED" ? (
                       <div className="flex items-center justify-center gap-10">
                         {application.steadyName}
                         <div className="h-10 w-10 rounded-full bg-st-green"></div>
