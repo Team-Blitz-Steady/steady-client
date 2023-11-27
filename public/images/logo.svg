@@ -5,7 +5,7 @@
 <path d="M523.5 311.354C523.5 365.814 498.468 403.947 457.644 428.794C416.443 453.871 358.913 465.5 294.5 465.5C230.087 465.5 172.557 453.871 131.356 428.794C90.5318 403.947 65.5 365.814 65.5 311.354C65.5 202.471 166.554 125.5 294.5 125.5C422.446 125.5 523.5 202.471 523.5 311.354Z" fill="white" stroke="url(#paint4_linear_1611_1501)" stroke-width="13"/>
 <circle cx="259.5" cy="350.5" r="14.5" fill="url(#paint5_linear_1611_1501)"/>
 <circle cx="334.5" cy="350.5" r="14.5" fill="url(#paint6_linear_1611_1501)"/>
-<path d="M415 382.498C361.98 424.307 230.49 424.367 177.506 383.996" stroke="#4D79E0" stroke-width="13" stroke-linecap="round"/>
+<path d="M415 382.498C361.98 424.307 230.49 424.367 177.506 383.996" stroke="#4D79E0" stroke-width="13" strokeLinecap="round"/>
 <ellipse cx="493.5" cy="365" rx="37.5" ry="20" fill="#FFDCDC"/>
 <ellipse cx="102.5" cy="362" rx="37.5" ry="20" fill="#FFDCDC"/>
 <rect x="91.3397" y="344" width="7.12741" height="33.1235" rx="3.5637" transform="rotate(27.5877 91.3397 344)" fill="#FFB7B7"/>

@@ -5,9 +5,9 @@
 <path d="M198.758 118.078C198.758 138.906 189.181 153.513 173.59 163.013C157.883 172.584 135.996 177.001 111.553 177.001C87.1108 177.001 65.2236 172.584 49.5168 163.013C33.9258 153.513 24.3486 138.906 24.3486 118.078C24.3486 76.4326 62.9406 47.1299 111.553 47.1299C160.166 47.1299 198.758 76.4326 198.758 118.078Z" fill="white" stroke="url(#paint4_linear_1635_1513)" stroke-width="4"/>
 <ellipse cx="158.521" cy="137.286" rx="14.2045" ry="7.58475" fill="#FFDCDC"/>
 <ellipse cx="64.5854" cy="137.286" rx="14.2045" ry="7.58475" fill="#FFDCDC"/>
-<path d="M67.2715 157.031C87.4544 141.301 137.26 141.589 157.233 157.024" stroke="#4D79E0" stroke-width="4" stroke-linecap="round"/>
-<path d="M101 121L90 132M101 132L90 121" stroke="black" stroke-width="2" stroke-linecap="round"/>
-<path d="M133 121L122 132M133 132L122 121" stroke="black" stroke-width="2" stroke-linecap="round"/>
+<path d="M67.2715 157.031C87.4544 141.301 137.26 141.589 157.233 157.024" stroke="#4D79E0" stroke-width="4" strokeLinecap="round"/>
+<path d="M101 121L90 132M101 132L90 121" stroke="black" stroke-width="2" strokeLinecap="round"/>
+<path d="M133 121L122 132M133 132L122 121" stroke="black" stroke-width="2" strokeLinecap="round"/>
 <defs>
 <linearGradient id="paint0_linear_1635_1513" x1="192.235" y1="116.424" x2="192.235" y2="178.998" gradientUnits="userSpaceOnUse">
 <stop stop-color="#0F3493"/>
