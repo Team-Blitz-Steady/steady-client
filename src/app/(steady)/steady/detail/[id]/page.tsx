@@ -134,43 +134,61 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
             <Tag status={steadyDetailsData.status} />
             <div className="text-35 font-bold">{steadyDetailsData.title}</div>
           </div>
-          <AlertModal
-            actionButton={
-              <LoginModal
-                trigger={
-                  <Button
-                    className={cn(
-                      `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
-                    )}
-                  >
-                    로그인
-                  </Button>
-                }
-              />
-            }
-            trigger={
-              <button onClick={() => mutate(steadyId)}>
-                {steadyDetailsData.isLiked ? (
-                  <Icon
-                    name="heart"
-                    size={30}
-                    color="text-st-red"
-                  />
-                ) : (
-                  <Icon
-                    name="empty-heart"
-                    size={30}
-                    color="text-black"
-                  />
-                )}
-              </button>
-            }
-          >
-            <div className="text-center text-18 font-bold">
-              로그인이 필요한 기능입니다! <br />
-              로그인 하시겠어요?
-            </div>
-          </AlertModal>
+          {isAuth ? (
+            <button onClick={() => mutate(steadyId)}>
+              {steadyDetailsData.isLiked ? (
+                <Icon
+                  name="heart"
+                  size={30}
+                  color="text-st-red"
+                />
+              ) : (
+                <Icon
+                  name="empty-heart"
+                  size={30}
+                  color="text-black"
+                />
+              )}
+            </button>
+          ) : (
+            <AlertModal
+              actionButton={
+                <LoginModal
+                  trigger={
+                    <Button
+                      className={cn(
+                        `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
+                      )}
+                    >
+                      로그인
+                    </Button>
+                  }
+                />
+              }
+              trigger={
+                <button onClick={() => mutate(steadyId)}>
+                  {steadyDetailsData.isLiked ? (
+                    <Icon
+                      name="heart"
+                      size={30}
+                      color="text-st-red"
+                    />
+                  ) : (
+                    <Icon
+                      name="empty-heart"
+                      size={30}
+                      color="text-black"
+                    />
+                  )}
+                </button>
+              }
+            >
+              <div className="text-center text-18 font-bold">
+                로그인이 필요한 기능입니다! <br />
+                로그인 하시겠어요?
+              </div>
+            </AlertModal>
+          )}
         </div>
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center justify-center gap-20">
