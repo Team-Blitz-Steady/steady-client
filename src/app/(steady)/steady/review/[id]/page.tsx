@@ -13,7 +13,6 @@ import getReviewSteadyInfo from "@/services/review/getReviewSteadyInfo";
 import type { CreateReviewType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import { ReviewCardKey, ReviewSteadyKey } from "@/constants/queryKeys";
-import turtle from "../../../../../../public/images/logo.svg";
 
 const ReviewPage = () => {
   const [selectedUser, setSelectedUser] = useState(0);
@@ -160,7 +159,7 @@ const ReviewPage = () => {
             >
               <Image
                 className="rounded-md"
-                src={turtle}
+                src={participant.profileImage}
                 alt="profile image"
                 width={70}
                 height={100}
