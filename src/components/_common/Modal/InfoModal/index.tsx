@@ -11,9 +11,9 @@ const InfoModal = ({
   return (
     <Dialog.Root>
       <Dialog.Trigger>{trigger}</Dialog.Trigger>
-      <Dialog.Content className="max-mobile:h-1/2 max-mobile:w-5/6 max-mobile:p-10 flex h-650 w-400 items-center justify-center rounded-20 bg-st-primary">
+      <Dialog.Content className="max-mobile:h-1/2 max-mobile:w-5/6 max-mobile:p-10 flex h-650 w-400 items-center justify-center overflow-hidden rounded-20 bg-st-primary">
         <div className="max-mobile:h-full max-mobile:w-full flex h-600 w-350 flex-col rounded-20 bg-st-white p-20">
-          <div className="flex grow flex-col items-center justify-between">
+          <div className="flex grow flex-col items-center justify-between overflow-y-scroll">
             {children}
             <Dialog.Close>
               <Button

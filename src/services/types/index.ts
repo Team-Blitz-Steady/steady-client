@@ -306,6 +306,7 @@ export interface ApplicationList {
 }
 
 interface Application {
+  steadyId: number;
   applicationId: number;
   steadyName: string;
   createdAt: string;
@@ -314,4 +315,36 @@ interface Application {
 
 export interface EditApplicationType {
   answers: string[];
+}
+
+export interface ReviewSteadyInfoType {
+  steady: ReviewSteadyType;
+  reviewees: RevieweeType[];
+}
+
+interface ReviewSteadyType {
+  steadyId: number;
+  name: string;
+  steadyMode: string;
+  steadyType: string;
+  participants: number;
+  participatedAt: string;
+  finishedAt: string;
+  reviewDeadline: string;
+}
+
+interface RevieweeType {
+  userId: number;
+  nickname: string;
+  profileImage: string;
+}
+
+export interface ReviewCardsType {
+  cards: ReviewCard[];
+}
+
+interface ReviewCard {
+  cardId: number;
+  content: string;
+  imageUrl: string;
 }

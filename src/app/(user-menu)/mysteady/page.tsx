@@ -39,6 +39,7 @@ const MySteadyPage = () => {
   });
   const ref = useScrollTo<HTMLDivElement>({ top: 0 }, [search]);
 
+  console.log(mySteadyData);
   const renderIcon = (steady: MySteadyContentType) => {
     if (search === "finished") {
       return <div className="h-20 w-20" />;
@@ -148,13 +149,7 @@ const MySteadyPage = () => {
                       href={`/steady/detail/${steady.steadyId}`}
                       className="flex h-full w-fit flex-grow"
                     >
-                      <div
-                        className={`text-black flex items-center justify-center text-center text-25 font-bold ${
-                          search === "finished"
-                            ? "text-st-gray-100 line-through"
-                            : ""
-                        }`}
-                      >
+                      <div className="text-black flex items-center justify-center text-center text-25 font-bold ">
                         {steady.isLeader
                           ? `👑 ${steady.name}`
                           : `${steady.name}`}

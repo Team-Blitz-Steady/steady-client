@@ -31,11 +31,11 @@ import Input from "@/components/_common/Input";
 import { AlertModal } from "@/components/_common/Modal";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import { extractValue } from "@/utils/extractValue";
-import { subMyPageTextStyles } from "@/constants/commonStyle";
-
-const subContentStyles = "flex flex-col gap-30";
-const subBoxStyles =
-  "px-30 py-20 gap-30 flex h-116 w-718 items-center rounded-6 border-2 border-st-gray-100";
+import {
+  subBoxStyles,
+  subContentStyles,
+  subMyPageTextStyles,
+} from "@/constants/commonStyle";
 
 const MyProfilePage = () => {
   const [isEditingNickname, setIsEditingNickname] = useState(false);

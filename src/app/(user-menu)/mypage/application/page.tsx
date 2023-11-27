@@ -11,8 +11,8 @@ const MyApplicationPage = () => {
   const { applicationListData, hasNextPage, fetchNextPage, refetch } =
     useApplicationListQuery();
 
-  const handleApplicationDetail = (id: number) => {
-    router.push(`/application/edit/${id}`);
+  const handleApplicationDetail = (steadyId: number, applicationId: number) => {
+    router.push(`/application/edit/${steadyId}/${applicationId}`);
   };
 
   const handleDeleteApplication = async (
@@ -58,12 +58,15 @@ const MyApplicationPage = () => {
                 <div
                   key={application.applicationId}
                   onClick={() =>
-                    handleApplicationDetail(application.applicationId)
+                    handleApplicationDetail(
+                      application.steadyId,
+                      application.applicationId,
+                    )
                   }
                   className="group flex cursor-pointer items-center justify-between p-50 transition hover:scale-105 hover:bg-st-gray-50"
                 >
                   <div className="text-25 font-bold">
-                    {application.status === "APPROVED" ? (
+                    {application.status === "ACCEPTED" ? (
                       <div className="flex items-center justify-center gap-10">
                         {application.steadyName}
                         <div className="h-10 w-10 rounded-full bg-st-green"></div>

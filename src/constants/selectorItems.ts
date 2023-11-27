@@ -40,3 +40,10 @@ export const steadyRecruitmentStatus = [
   { value: "RECRUITING", label: "모집중" },
   { value: "CLOSED", label: "마감" },
 ];
+
+export const BASIC_TEMPLATE = [{ id: 0, title: "기본 템플릿", createdAt: "" }];
+
+export const BASIC_QUESTION = [
+  { id: 1, question: "기본 질문 1" },
+  { id: 2, question: "기본 질문 2" },
+];

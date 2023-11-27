@@ -40,6 +40,8 @@ export const getMySteadyKey = (status?: string, direction?: string) => [
   direction,
 ];
 
+export const PopularSteadiesKey = ["popularSteadies"];
+
 // Template
 export const TemplatesKey = ["templates"];
 
@@ -56,10 +58,13 @@ export const StacksKey = ["stacks"];
 
 // Review
 export const MyReviewKey = ["myreview"];
-
+export const ReviewSteadyKey = ["reviewSteady"];
+export const ReviewCardKey = ["reviewCard"];
 
 // User
 export const getUserProfileKey = (userId: number) => ["userProfile", userId];
+
+export const MyProfileKey = ["myProfile"];
 
 // Notification
 export const NotificationKey = ["notifications"];
