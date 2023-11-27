@@ -78,7 +78,7 @@ const Home = () => {
       image: Third,
     },
   ];
-  const { isFocus } = useIsSearchBarFocusStore();
+  const { isFocus, setIsFocus } = useIsSearchBarFocusStore();
   const { isOpen } = useLoginModalOpenStore();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -88,6 +88,12 @@ const Home = () => {
       inputRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [isFocus, isOpen]);
+
+  useEffect(() => {
+    return () => {
+      setIsFocus(false);
+    };
+  }, [setIsFocus]);
 
   const { data: popularSteadies } = useSuspenseQuery<Steadies>({
     queryKey: PopularSteadiesKey,
