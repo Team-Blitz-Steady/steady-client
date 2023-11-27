@@ -86,10 +86,10 @@ const Home = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    if (steps === 6) {
-      useLoginStepsStore.persist.clearStorage();
-      setIsOpen(true);
-    }
+    // if (steps === 6) {
+    //   useLoginStepsStore.persist.clearStorage();
+    //   setIsOpen(true);
+    // }
     if (!isOpen && isFocus) {
       inputRef.current?.focus();
       setIsFocus(false);

@@ -1,7 +1,7 @@
 "use client";
 
 import { type PropsWithChildren, type ReactNode, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import useAuthStore from "@/stores/isAuth";
 import useLoginModalOpenStore from "@/stores/loginModalOpen";
@@ -21,6 +21,7 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
     useNewUserInfoStore();
   const { isOpen, setIsOpen } = useLoginModalOpenStore();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const router = useRouter();
   const { setIsAuth } = useAuthStore();
   const { toast } = useToast();
@@ -57,6 +58,10 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
             });
             setIsAuth(true);
             router.replace("/");
+            if (pathname === "/" && steps === 6) {
+              useLoginStepsStore.persist.clearStorage();
+              setIsOpen(true);
+            }
           }
         }
       });
