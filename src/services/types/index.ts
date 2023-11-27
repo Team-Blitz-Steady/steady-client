@@ -348,3 +348,8 @@ interface ReviewCard {
   content: string;
   imageUrl: string;
 }
+
+export interface ImageUrlResponse {
+  presignedUrl: string;
+  objectUrl: string;
+}

@@ -49,7 +49,7 @@ const CreateQuestionsPage = () => {
     error: templatesError,
     refetch: refetchTemplates,
   } = useSuspenseQuery({
-    queryKey: [TemplatesKey],
+    queryKey: TemplatesKey,
     queryFn: () => getTemplates(),
   });
 
