@@ -1,10 +1,8 @@
 import Image from "next/image";
 import DeleteUserLogo from "@/images/DeleteUser.svg";
-import Logo from "@/images/logo.svg";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import getUserProfile from "@/services/user/getUserProfile";
 import { getUserProfileKey } from "@/constants/queryKeys";
-import UserCards from "./UserCards";
 
 const UserItems = ({ userId }: { userId: number }) => {
   const { data: userProfileData } = useSuspenseQuery({
@@ -20,11 +18,7 @@ const UserItems = ({ userId }: { userId: number }) => {
           <div className="flex w-full flex-col items-center justify-center gap-10">
             <Image
               className="cursor-pointer rounded-full border-1"
-              src={
-                `/${userProfileData.user.profileImage}`
-                  ? `/${userProfileData.user.profileImage}`
-                  : Logo
-              }
+              src={userProfileData.user.profileImage}
               alt="유저 프로필 이미지"
               width={100}
               height={100}
@@ -56,16 +50,21 @@ const UserItems = ({ userId }: { userId: number }) => {
           </div>
           <div className="flex w-full flex-col items-center justify-center gap-10">
             <div className="text-15 font-bold">받은카드</div>
-            <div className="flex h-70 w-400 flex-col items-center justify-evenly shadow-md">
-              <UserCards />
-              <div className="flex w-full items-center justify-evenly">
-                {userProfileData.userCards.map((card) => (
-                  <div
-                    key={card.cardId}
-                    className="text-18 font-bold"
-                  >{`(${card.count})`}</div>
-                ))}
-              </div>
+            <div className="flex h-70 w-400 items-center justify-evenly shadow-md">
+              {userProfileData.userCards.map((card) => (
+                <div
+                  key={card.cardId}
+                  className="flex flex-col items-center justify-center"
+                >
+                  <Image
+                    src={card.imageUrl}
+                    alt="카드 이미지"
+                    width={35}
+                    height={35}
+                  />
+                  <div className="text-18 font-bold">{`(${card.count})`}</div>
+                </div>
+              ))}
             </div>
           </div>
           <div className="flex w-full flex-grow flex-col items-center justify-center gap-10 overflow-y-auto">
