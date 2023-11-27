@@ -84,7 +84,7 @@ const Home = () => {
 
   useEffect(() => {
     if (!isOpen && isFocus) {
-      inputRef.current?.scrollIntoView({ behavior: "smooth" });
+      inputRef.current?.scrollIntoView();
       inputRef.current?.focus();
     }
   }, [isFocus, isOpen]);
