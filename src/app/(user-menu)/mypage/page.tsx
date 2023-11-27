@@ -36,6 +36,7 @@ import {
   subContentStyles,
   subMyPageTextStyles,
 } from "@/constants/commonStyle";
+import { MyProfileKey, PositionsKey, StacksKey } from "@/constants/queryKeys";
 
 const MyProfilePage = () => {
   const [isEditingNickname, setIsEditingNickname] = useState(false);
@@ -53,12 +54,12 @@ const MyProfilePage = () => {
     error: myProfileError,
     refetch: myProfileRefetch,
   } = useSuspenseQuery({
-    queryKey: ["profile"],
+    queryKey: MyProfileKey,
     queryFn: () => getMyProfile(),
   });
 
   const profileMutation = useMutation({
-    mutationKey: ["profile"],
+    mutationKey: MyProfileKey,
     mutationFn: (data: UpdateMyProfileType) => updateMyProfile(data),
     onSuccess: () => {
       toast({ description: "프로필 수정에 성공했습니다.", variant: "green" });
@@ -70,12 +71,12 @@ const MyProfilePage = () => {
   });
 
   const { data: stacksData } = useSuspenseQuery({
-    queryKey: ["stacks"],
+    queryKey: StacksKey,
     queryFn: () => getStacks(),
     staleTime: Infinity,
   });
   const { data: positionsData } = useSuspenseQuery({
-    queryKey: ["positions"],
+    queryKey: PositionsKey,
     queryFn: () => getPositions(),
     staleTime: Infinity,
   });
