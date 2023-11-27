@@ -59,7 +59,7 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
             setIsAuth(true);
             router.replace("/");
             if (pathname === "/" && steps === 6) {
-              useLoginStepsStore.persist.clearStorage();
+              useLoginStepsStore.getState().setSteps(0);
               setIsOpen(true);
             }
           }
