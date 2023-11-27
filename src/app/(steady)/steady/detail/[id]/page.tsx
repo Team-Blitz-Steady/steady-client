@@ -9,7 +9,7 @@ import Logo from "@/images/logo.svg";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
 import { Separator, Tooltip } from "@radix-ui/themes";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import deleteApplication from "@/services/application/deleteApplication";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
@@ -42,6 +42,10 @@ const steadyDetailTagItems =
 
 const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
   const steadyId = params.id;
+  const router = useRouter();
+  const { toast } = useToast();
+  const { isAuth } = useAuthStore();
+  const [isClient, setIsClient] = useState(false);
   const { data: steadyDetailsData, refetch: steadyDetailsRefetch } =
     useSuspenseQuery({
       queryKey: getSteadyDetailsKey(steadyId),
@@ -53,15 +57,11 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
     queryFn: () => getSteadyParticipants(steadyId),
   });
   const { mutate } = useLikeSteadyMutation();
-  const { data: myData } = useSuspenseQuery({
+  const { data: myData } = useQuery({
     queryKey: MyProfileKey,
     queryFn: getMyProfile,
+    enabled: isAuth,
   });
-
-  const router = useRouter();
-  const { toast } = useToast();
-  const { isAuth } = useAuthStore();
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -117,7 +117,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
   };
 
   const isParticipatedUser = steadyParticipantsData.participants.find(
-    (user) => user.id === myData.userId,
+    (user) => user.id === myData?.userId,
   );
 
   return (
