@@ -58,7 +58,7 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
 
   const { data: steadyParticipantsData, error: steadyParticipantsError } =
     useSuspenseQuery({
-      queryKey: [getSteadyParticipantsKey(steadyId)],
+      queryKey: getSteadyParticipantsKey(steadyId),
       queryFn: () => getSteadyParticipants(steadyId),
       staleTime: 1000 * 60,
     });
