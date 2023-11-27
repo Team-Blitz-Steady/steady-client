@@ -32,7 +32,6 @@ import type {
 } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
-import Input from "@/components/_common/Input";
 import AlertModal from "@/components/_common/Modal/AlertModal";
 import LoginModal from "@/components/_common/Modal/LoginModal";
 import NavigationBar from "@/components/_common/NavigationBar";
@@ -460,9 +459,11 @@ const Home = () => {
               프로젝트
             </div>
           </div>
-          <Input
+          <input
             ref={inputRef}
-            inputName="search-input"
+            className="bg-input-bg xs:350 h-40 w-full rounded-12 border-3 border-st-gray-100 px-10 py-20 text-center text-20 font-bold outline-none transition-all duration-300 focus:border-st-primary sm:w-500 md:w-700"
+            type="text"
+            placeholder="검색어를 입력해주세요."
             onChange={(e) => handleInputChange(e)}
           />
         </div>
