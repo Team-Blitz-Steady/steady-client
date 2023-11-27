@@ -1,4 +1,35 @@
+## 스테디: 스터디 / 프로젝트 모집 플랫폼
+
+<p align="center"><img src="https://github.com/Team-Blitz-Steady/steady-client/assets/69716992/fce399f8-bab9-4cf2-bcc1-d29ecfba7fd6" width="50%" height="30%"/>
+</p>
+
+> 🤔 <span style="font-size: 16px">“큰 노력을 들이지 않고도 좋은 팀원을 만날 수 있는 사이트 어디 없나?”<span><br> 😀 “내가 스터디 / 프로젝트에 진심으로 참여하는 사람이라는 것을 신청 단계에서 보여주고 싶어!”
+>
+> > <span style="font-size: 16px">좋은 팀장 또는 팀원들과 양질의 스터디 및 프로젝트를 경험하고 싶은 IT 개발 분야의 모든 사람들이 저희 서비스의 타겟 유저입니다.</span>
+
+## 실행 방법
+
+```bash
+# 개발 환경 실행
+pnpm i
+pnpm dev
+
+# 프로덕션 환경 실행
+pnpm i
+pnpm build
+pnpm start
+```
+
+## 팀원 소개
+
+|                                             FE                                             |                                             FE                                             |                                            FE                                             |
+| :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: |
+| <img src="https://avatars.githubusercontent.com/u/61570018?v=4" width=400px alt="이정욱"/> | <img src="https://avatars.githubusercontent.com/u/109654823?v=4" width=400px alt="이지윤"> | <img src="https://avatars.githubusercontent.com/u/69716992?v=4" width=400px alt="홍창기"> |
+|                           [이정욱](https://github.com/JeongWuk)                            |                            [이지윤](https://github.com/JIY00N2)                            |                          [홍창기](https://github.com/sscoderati)                          |
+|                                          UI / UX                                           |                                        Scurm Master                                        |                                        Team Leader                                        |
+
 ## 브랜치 네이밍
+
 ```bash
 // 브랜치 네이밍
 feat/#12/postDetail (x)
@@ -6,53 +37,62 @@ feat/#12/post-detail (o)
 ```
 
 ## Commit 컨벤션
+
 **커밋 메세지 형식**
+
 ```
 Emoji Type(#issue-num): subject
 // ex) 🚨 Fix(#41): commitlint 이슈 해결
 ```
-```bash
-🚨 Fix: [파일 명.tsx] - [수정 내용]
-✨ Feat:	새로운 기능 추가, 사용자 입장에서 변화가 있을 경우
-🎉 Init:	프로젝트 초기 생성
-📝 Chore:	그 외 자잘한 수정에 대한 커밋, 주석, 의존성 설치, 리드미 수정
-💄 Style:	CSS, styled-component 스타일 관련 변경
-🔨 Refactor:	코드 리팩토링에 대한 커밋, 사용자 입장에서 변화가 없는 코드, 
-							파일명 폴더명 변경 및 이동
-🗑️ Remove:	파일을 삭제하는 작업만 수행하는 경우
-```
-
-## Getting Started
-
-First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+🚨 Fix: [파일 명.tsx] - [수정 내용]
+✨ Feat: 새로운 기능 추가, 사용자 입장에서 변화가 있을 경우
+🎉 Init: 프로젝트 초기 생성
+📝 Chore: 그 외 자잘한 수정에 대한 커밋, 주석, 의존성 설치, 리드미 수정
+💄 Style: CSS, styled-component 스타일 관련 변경
+🔨 Refactor: 코드 리팩토링에 대한 커밋, 사용자 입장에서 변화가 없는 코드, 파일명 폴더명 변경 및 이동
+🗑️ Remove: 파일을 삭제하는 작업만 수행하는 경우
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 기술 스택
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+|       Language       |                                                                                                                                         ![a](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)                                                                                                                                         |
+| :------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|     **Library**      |                                                                                                                                            ![a](https://img.shields.io/badge/Next.js-white?style=flat-square&logo=Next.js&logoColor=black)                                                                                                                                             |
+|      **Build**       |                                                                                                                                                ![a](https://img.shields.io/badge/SWC-white?style=flat-square&logo=SWC&logoColor=black)                                                                                                                                                 |
+|     **Package**      |                                                                                                                                               ![a](https://img.shields.io/badge/pnpm-F69220?style=flat-square&logo=pnpm&logoColor=black)                                                                                                                                               |
+|       **Http**       |                                                                                                                                              ![a](https://img.shields.io/badge/axios-5A29E4?style=flat-square&logo=axios&logoColor=white)                                                                                                                                              |
+| **State Management** |                                                                                                                                            ![a](https://img.shields.io/badge/zustand-4A154B?style=flat-square&logo=zustand&logoColor=white)                                                                                                                                            |
+|  **Data Fetching**   |                                                                                                                                       ![a](https://img.shields.io/badge/TanstackQuery-FF4154?style=flat-square&logo=reactquery&logoColor=white)                                                                                                                                        |
+|      **Style**       |                                                                                                                                        ![a](https://img.shields.io/badge/TailwindCSS-06B6D4?style=flat-square&logo=TailwindCSS&logoColor=white)                                                                                                                                        |
+|   **Code Format**    |                                                                                           ![a](https://img.shields.io/badge/ESlint-4B32C3?style=flat-square&logo=eslint&logoColor=white) ![a](https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=Prettier&logoColor=black)                                                                                            |
+|      **Deploy**      |                                                                                                                                             ![a](https://img.shields.io/badge/vercel-000000?style=flat-square&logo=vercel&logoColor=white)                                                                                                                                             |
+|     **Co-work**      | ![a](https://img.shields.io/badge/Gather-5865F2?style=flat-square&logo=Gather&logoColor=white)![a](https://img.shields.io/badge/github-181717?style=flat-square&logo=github&logoColor=white)![a](https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white)![a](https://img.shields.io/badge/slack-4A154B?style=flat-square&logo=slack&logoColor=white) |
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 디렉토리 구조
 
-## Learn More
+```
+📦public
+┗ 📦assets -> 정적 파일들
+📦src
+┣ 📦app -> 라우팅 용도
+┣ ┣ 📦[dynamic] -> 동적 라우팅
+┣ 📦components -> 컴포넌트
+┣ ┣ 📦_common -> 공통 컴포넌트
+┣ ┗ 📦containers -> 지역적인 UI 컴포넌트
+┣ 📦constants -> 상수
+┣ 📦hooks -> 커스텀 훅
+┣ 📦services -> api 요청
+┣ ┣ 📦types ->
+┣ 📦stores -> Zustand Store
+┗ 📦utils -> 유틸함수
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 역할 분담
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+각자 구현한 페이지
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 기능 소개
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+페이지별 사진 및 기능 설명
