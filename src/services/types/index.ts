@@ -306,6 +306,7 @@ export interface ApplicationList {
 }
 
 interface Application {
+  steadyId: number;
   applicationId: number;
   steadyName: string;
   createdAt: string;
