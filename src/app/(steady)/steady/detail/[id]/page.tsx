@@ -116,7 +116,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
     return match ? match.label : null;
   };
 
-  const isSubmittedUser = steadyParticipantsData.participants.find(
+  const isParticipatedUser = steadyParticipantsData.participants.find(
     (user) => user.id === myData.userId,
   );
 
@@ -475,7 +475,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                 ) : (
                   <>
                     {isAuth ? (
-                      !isSubmittedUser && (
+                      !isParticipatedUser && (
                         <Link
                           href={`/application/submit/${steadyDetailsData.id}`}
                         >
