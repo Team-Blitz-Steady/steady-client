@@ -142,7 +142,7 @@ const MySteadyPage = () => {
                   <div
                     key={`${pageIndex}-${steadyIndex}`}
                     className={cn(
-                      "flex h-140 w-full cursor-pointer items-center justify-between border-b-1 border-st-gray-200 px-50",
+                      "flex h-140 w-full cursor-pointer items-center justify-between border-b-1 border-st-gray-200 px-50 hover:bg-st-gray-50",
                     )}
                   >
                     <Link
