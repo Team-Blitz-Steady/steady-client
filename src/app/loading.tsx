@@ -9,7 +9,7 @@ const Loading = () => {
     <>
       {pathname === "/" && (
         <main className="relative flex flex-col items-center">
-          <div className="relative flex h-250 w-screen bg-st-skyblue-300 md:h-350" />
+          <div className="relative flex h-250 w-screen bg-st-skyblue-50 md:h-350" />
           <section className="mb-20 mt-50 flex flex-col flex-wrap items-center justify-center overflow-hidden">
             <div className="w-3/4 text-2xl font-bold xl:w-full">
               🔥 인기 스테디
