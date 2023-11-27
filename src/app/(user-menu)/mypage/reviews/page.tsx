@@ -48,9 +48,9 @@ const MyReviewsPage = () => {
               )}
             >
               <Image
-                src={`/${card.imageUrl}`}
+                src={card.imageUrl}
                 alt="카드 이미지"
-                width={80}
+                width={40}
                 height={80}
               />
               <div className={cn(subMyPageTextStyles.content)}>

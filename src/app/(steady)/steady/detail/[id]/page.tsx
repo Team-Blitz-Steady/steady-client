@@ -8,15 +8,15 @@ import { useToast } from "@/components/ui/use-toast";
 import Logo from "@/images/logo.svg";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
-import { Separator } from "@radix-ui/themes";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { Separator, Tooltip } from "@radix-ui/themes";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import deleteApplication from "@/services/application/deleteApplication";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyParticipants from "@/services/steady/getSteadyParticipants";
-import likeSteady from "@/services/steady/likeSteady";
 import promoteSteady from "@/services/steady/promoteSteady";
 import type { SteadyDetailsType } from "@/services/types";
+import getMyProfile from "@/services/user/getMyProfile";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
@@ -25,8 +25,10 @@ import LoginModal from "@/components/_common/Modal/LoginModal";
 import UserItems from "@/components/_common/Modal/UserModal/UserItems";
 import Spinner from "@/components/_common/Spinner";
 import Tag from "@/components/_common/Tag";
+import { useLikeSteadyMutation } from "@/hooks/mutation/useLikeSteadyMutation";
 import { steadyCategoriesWithEmoji } from "@/constants/labelData";
 import {
+  MyProfileKey,
   getSteadyDetailsKey,
   getSteadyParticipantsKey,
 } from "@/constants/queryKeys";
@@ -40,6 +42,10 @@ const steadyDetailTagItems =
 
 const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
   const steadyId = params.id;
+  const router = useRouter();
+  const { toast } = useToast();
+  const { isAuth } = useAuthStore();
+  const [isClient, setIsClient] = useState(false);
   const { data: steadyDetailsData, refetch: steadyDetailsRefetch } =
     useSuspenseQuery({
       queryKey: getSteadyDetailsKey(steadyId),
@@ -50,12 +56,12 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
     queryKey: getSteadyParticipantsKey(steadyId),
     queryFn: () => getSteadyParticipants(steadyId),
   });
-
-  const router = useRouter();
-  const { toast } = useToast();
-  const { isAuth } = useAuthStore();
-  const [isClient, setIsClient] = useState(false);
-  const [isLiked, setIsLiked] = useState(steadyDetailsData.isLiked);
+  const { mutate } = useLikeSteadyMutation();
+  const { data: myData } = useQuery({
+    queryKey: MyProfileKey,
+    queryFn: getMyProfile,
+    enabled: isAuth,
+  });
 
   useEffect(() => {
     setIsClient(true);
@@ -110,10 +116,9 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
     return match ? match.label : null;
   };
 
-  const handleClickLike = async () => {
-    await likeSteady(steadyId);
-    setIsLiked((prev) => !prev);
-  };
+  const isParticipatedUser = steadyParticipantsData.participants.find(
+    (user) => user.id === myData?.userId,
+  );
 
   return (
     <div className="w-1000">
@@ -130,21 +135,43 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
             <Tag status={steadyDetailsData.status} />
             <div className="text-35 font-bold">{steadyDetailsData.title}</div>
           </div>
-          <button onClick={handleClickLike}>
-            {isLiked ? (
-              <Icon
-                name="heart"
-                size={30}
-                color="text-st-red"
+          <AlertModal
+            actionButton={
+              <LoginModal
+                trigger={
+                  <Button
+                    className={cn(
+                      `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
+                    )}
+                  >
+                    로그인
+                  </Button>
+                }
               />
-            ) : (
-              <Icon
-                name="empty-heart"
-                size={30}
-                color="text-black"
-              />
-            )}
-          </button>
+            }
+            trigger={
+              <button onClick={() => mutate(steadyId)}>
+                {steadyDetailsData.isLiked ? (
+                  <Icon
+                    name="heart"
+                    size={30}
+                    color="text-st-red"
+                  />
+                ) : (
+                  <Icon
+                    name="empty-heart"
+                    size={30}
+                    color="text-black"
+                  />
+                )}
+              </button>
+            }
+          >
+            <div className="text-center text-18 font-bold">
+              로그인이 필요한 기능입니다! <br />
+              로그인 하시겠어요?
+            </div>
+          </AlertModal>
         </div>
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center justify-center gap-20">
@@ -341,7 +368,14 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
           <div className="flex w-full">
             <div className="flex w-1/3">
               <div className="flex items-center justify-center gap-10">
-                <div className={steadyDetailTagItems}>스테디 유형</div>
+                <div
+                  className={cn(
+                    steadyDetailTagItems,
+                    "text-[16px] text-st-white",
+                  )}
+                >
+                  스테디 유형
+                </div>
                 <div className="text-center">
                   {steadyCategoriesWithEmoji[steadyDetailsData.type]}
                 </div>
@@ -398,14 +432,18 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
             <div className={steadyDetailTagItems}>기술 스택</div>
             <div className="flex w-full flex-wrap gap-10">
               {steadyDetailsData.stacks.map((stack) => (
-                <Image
+                <Tooltip
                   key={stack.id}
-                  src={stack.imageUrl}
-                  alt="기술 스택"
-                  width={40}
-                  height={40}
-                  className="rounded-full border-1"
-                />
+                  content={stack.name}
+                >
+                  <Image
+                    src={stack.imageUrl}
+                    alt="기술 스택"
+                    width={40}
+                    height={40}
+                    className="rounded-full border-1"
+                  />
+                </Tooltip>
               ))}
             </div>
           </div>
@@ -459,15 +497,17 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                 ) : (
                   <>
                     {isAuth ? (
-                      <Link
-                        href={`/application/submit/${steadyDetailsData.id}`}
-                      >
-                        <Button
-                          className={`${buttonSize.sm} bg-st-primary text-14 text-st-white`}
+                      !isParticipatedUser && (
+                        <Link
+                          href={`/application/submit/${steadyDetailsData.id}`}
                         >
-                          신청하기
-                        </Button>
-                      </Link>
+                          <Button
+                            className={`${buttonSize.sm} bg-st-primary text-14 text-st-white`}
+                          >
+                            신청하기
+                          </Button>
+                        </Link>
+                      )
                     ) : (
                       <AlertModal
                         actionButton={
@@ -487,7 +527,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                           <Button
                             className={`${buttonSize.sm} bg-st-primary text-st-white`}
                           >
-                            신청
+                            신청하기
                           </Button>
                         }
                       >

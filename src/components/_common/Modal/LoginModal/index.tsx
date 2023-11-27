@@ -1,14 +1,10 @@
 "use client";
 
-import {
-  type PropsWithChildren,
-  type ReactNode,
-  useEffect,
-  useState,
-} from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { type PropsWithChildren, type ReactNode, useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import useAuthStore from "@/stores/isAuth";
+import useLoginModalOpenStore from "@/stores/loginModalOpen";
 import useLoginStepsStore from "@/stores/loginSteps";
 import useNewUserInfoStore from "@/stores/newUserInfo";
 import { AlertDialog } from "@radix-ui/themes";
@@ -23,8 +19,9 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
   const { steps, setDecreaseSteps, setSteps } = useLoginStepsStore();
   const { accountId, nickname, positionId, stacksId, setAccountId } =
     useNewUserInfoStore();
-  const [open, setOpen] = useState(false);
+  const { isOpen, setIsOpen } = useLoginModalOpenStore();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const router = useRouter();
   const { setIsAuth } = useAuthStore();
   const { toast } = useToast();
@@ -38,7 +35,7 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
           if (isNew) {
             setAccountId(id);
             setSteps(1);
-            setOpen(true);
+            setIsOpen(true);
           } else {
             // axios
             //   .post("https://steady-client.vercel.app/api/login", {
@@ -61,6 +58,10 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
             });
             setIsAuth(true);
             router.replace("/");
+            if (pathname === "/" && steps === 6) {
+              useLoginStepsStore.persist.clearStorage();
+              setIsOpen(true);
+            }
           }
         }
       });
@@ -81,7 +82,8 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
           variant: "green",
         });
         useNewUserInfoStore.persist.clearStorage();
-        useLoginStepsStore.persist.clearStorage();
+        setSteps(6);
+        //useLoginStepsStore.persist.clearStorage();
         router.push(`${userProfileCreated.headers.location}`);
       }
     } catch (error) {
@@ -95,8 +97,8 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
 
   return (
     <AlertDialog.Root
-      open={open}
-      onOpenChange={setOpen}
+      open={isOpen}
+      onOpenChange={setIsOpen}
     >
       <AlertDialog.Trigger>{trigger}</AlertDialog.Trigger>
       <AlertDialog.Content className="max-mobile:h-3/4 max-mobile:w-screen max-mobile:p-10 flex h-700 w-650 items-center justify-center overflow-y-hidden rounded-20 bg-st-primary">

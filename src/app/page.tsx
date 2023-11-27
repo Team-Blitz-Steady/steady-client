@@ -1,7 +1,7 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,6 +15,9 @@ import Turtle from "@/images/turtle.png";
 import Walrus from "@/images/walrus.png";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
+import useIsSearchBarFocusStore from "@/stores/isSearchBarFocus";
+import useLoginModalOpenStore from "@/stores/loginModalOpen";
+import useLoginStepsStore from "@/stores/loginSteps";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import steadyFilter from "@/services/steady/filterSteadies";
@@ -36,7 +39,12 @@ import LoginModal from "@/components/_common/Modal/LoginModal";
 import NavigationBar from "@/components/_common/NavigationBar";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import StickyButton from "@/components/_common/StickyButton";
-import { PositionsKey, StacksKey, SteadiesKey } from "@/constants/queryKeys";
+import {
+  PopularSteadiesKey,
+  PositionsKey,
+  StacksKey,
+  SteadiesKey,
+} from "@/constants/queryKeys";
 import { steadyRunningMethods } from "@/constants/selectorItems";
 
 const Home = () => {
@@ -72,9 +80,24 @@ const Home = () => {
       image: Third,
     },
   ];
+  const { isFocus, setIsFocus } = useIsSearchBarFocusStore();
+  const { steps } = useLoginStepsStore();
+  const { isOpen, setIsOpen } = useLoginModalOpenStore();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    // if (steps === 6) {
+    //   useLoginStepsStore.persist.clearStorage();
+    //   setIsOpen(true);
+    // }
+    if (!isOpen && isFocus) {
+      inputRef.current?.focus();
+      setIsFocus(false);
+    }
+  }, [isOpen, isFocus, steps, setIsOpen, setIsFocus]);
 
   const { data: popularSteadies } = useSuspenseQuery<Steadies>({
-    queryKey: ["popular_steadies"],
+    queryKey: PopularSteadiesKey,
     queryFn: () => getPopularSteadies(),
   });
 
@@ -445,6 +468,7 @@ const Home = () => {
             </div>
           </div>
           <Input
+            ref={inputRef}
             inputName="search-input"
             onChange={(e) => handleInputChange(e)}
           />

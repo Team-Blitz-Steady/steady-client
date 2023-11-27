@@ -9,7 +9,7 @@ export const isAbnormalCode = (code: number) => {
   return Math.floor(code / 10) !== 20;
 };
 
-const config: AxiosRequestConfig = { baseURL: BASE_URL };
+const config: AxiosRequestConfig = { baseURL: BASE_URL, timeout: 5000 };
 export const axiosInstance = axios.create(config);
 
 axiosInstance.interceptors.request.use(async (config) => {

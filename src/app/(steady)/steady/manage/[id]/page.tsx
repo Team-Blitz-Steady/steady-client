@@ -264,7 +264,7 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
                                 )}
                               >
                                 <Image
-                                  src={`${card.imageUrl}`}
+                                  src={card.imageUrl}
                                   alt="카드 이미지"
                                   width={30}
                                   height={30}
