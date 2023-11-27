@@ -17,9 +17,9 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <QueryProvider>
-      <html lang="ko">
-        <body className="h-screen overflow-x-hidden">
+    <html lang="ko">
+      <body className="h-screen overflow-x-hidden">
+        <QueryProvider>
           <Theme>
             <div
               className={cn(
@@ -32,9 +32,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </Theme>
           <Toaster />
-        </body>
-      </html>
-    </QueryProvider>
+        </QueryProvider>
+      </body>
+    </html>
   );
 };
 
