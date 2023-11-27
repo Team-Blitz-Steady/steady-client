@@ -17,7 +17,6 @@ import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
 import useIsSearchBarFocusStore from "@/stores/isSearchBarFocus";
 import useLoginModalOpenStore from "@/stores/loginModalOpen";
-import useLoginStepsStore from "@/stores/loginSteps";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import steadyFilter from "@/services/steady/filterSteadies";
@@ -80,21 +79,15 @@ const Home = () => {
       image: Third,
     },
   ];
-  const { isFocus, setIsFocus } = useIsSearchBarFocusStore();
-  const { steps } = useLoginStepsStore();
-  const { isOpen, setIsOpen } = useLoginModalOpenStore();
+  const { isFocus } = useIsSearchBarFocusStore();
+  const { isOpen } = useLoginModalOpenStore();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    // if (steps === 6) {
-    //   useLoginStepsStore.persist.clearStorage();
-    //   setIsOpen(true);
-    // }
     if (!isOpen && isFocus) {
       inputRef.current?.focus();
-      setIsFocus(false);
     }
-  }, [isOpen, isFocus, steps, setIsOpen, setIsFocus]);
+  }, [isOpen, isFocus]);
 
   const { data: popularSteadies } = useSuspenseQuery<Steadies>({
     queryKey: PopularSteadiesKey,
