@@ -15,7 +15,7 @@ import Turtle from "@/images/turtle.png";
 import Walrus from "@/images/walrus.png";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
-import usePage from "@/stores/page";
+import usePageStore from "@/stores/page";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import steadyFilter from "@/services/steady/filterSteadies";
@@ -40,22 +40,8 @@ import StickyButton from "@/components/_common/StickyButton";
 import { PositionsKey, StacksKey, SteadiesKey } from "@/constants/queryKeys";
 import { steadyRunningMethods } from "@/constants/selectorItems";
 
-interface usePageType {
-  pageState: number;
-  increment: () => number;
-  decrement: () => number;
-}
-
 const Home = () => {
-  const { pageState } = usePage() as usePageType;
-  const [page, setPage] = useState(pageState);
-  // () => {
-  //   if (typeof window !== "undefined" && sessionStorage.getItem("page")) {
-  //     return parseInt(sessionStorage.getItem("page")!);
-  //   } else {
-  //     return 0;
-  //   }
-  // }
+  const { page, setPage } = usePageStore();
   const [like, setLike] = useState(false);
   const [recruit, setRecruit] = useState(false);
   const [post, setPost] = useState<Steadies>();
@@ -663,9 +649,7 @@ const Home = () => {
           recruit={recruit}
           type={type}
           totalPost={totalPost as number}
-          page={page}
           like={like}
-          setPage={setPage}
           setPost={setPost as Dispatch<SetStateAction<Steadies>>}
         />
       </section>

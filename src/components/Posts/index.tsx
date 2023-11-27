@@ -50,7 +50,8 @@ const Posts = ({ info }: { info: Steadies }) => {
   return (
     <div
       className={`w-full ${
-        info?.content.length === 0 && "flex items-center justify-center"
+        info?.content.length === 0 &&
+        "flex h-[1120px] items-center justify-center"
       }`}
     >
       {info?.content.length !== 0 ? (
