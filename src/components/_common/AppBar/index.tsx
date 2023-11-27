@@ -22,16 +22,24 @@ const AppBar = ({ className }: AppBarProps) => {
   return (
     <div
       className={cn(
-        "flex w-5/6 items-center justify-between py-30 xl:w-1120",
+        "flex w-5/6 items-center justify-between py-20 md:py-30 xl:w-1120",
         className,
       )}
     >
       <Link href={"/"}>
         <Image
+          className="hidden md:flex"
           src={HeaderLogo}
           alt="스테디 로고"
           width={150}
           height={70}
+        />
+        <Image
+          className="md:hidden"
+          src={HeaderLogo}
+          alt="스테디 로고"
+          width={100}
+          height={50}
         />
       </Link>
       {isAuth && (

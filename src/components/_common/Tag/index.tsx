@@ -11,10 +11,10 @@ const STATUS = {
 const Tag = ({ status, ...props }: TagProps) => {
   return (
     <div
-      className="flex h-30 w-50 items-center justify-center rounded-50 bg-st-primary p-5 md:h-40 md:w-80"
+      className="flex h-25 w-50 items-center justify-center rounded-50 bg-st-primary p-3 md:h-40 md:w-80 md:p-5"
       {...props}
     >
-      <div className="max-mobile:text-13 flex h-full w-full items-center justify-center rounded-50 bg-st-white text-10 font-bold md:text-16">
+      <div className="flex h-full w-full items-center justify-center rounded-50 bg-st-white text-10 font-bold md:text-16">
         {STATUS[status]}
       </div>
     </div>

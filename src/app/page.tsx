@@ -435,7 +435,7 @@ const Home = () => {
         </div>
       </section>
       <section className="flex w-3/4 flex-col items-center xl:w-1300">
-        <div className="flex w-full flex-col items-center justify-center gap-25 p-20">
+        <div className="flex w-full flex-col items-center justify-center gap-25 md:p-20">
           <div className="flex gap-30">
             <div
               className={`${
@@ -557,7 +557,7 @@ const Home = () => {
           <div className="md:hidden">
             {isAuth && (
               <Link href={"/steady/create"}>
-                <button className="flex h-40 w-500 items-center justify-center gap-10 rounded-10 bg-st-primary font-bold text-st-white">
+                <button className="flex h-40 w-500 items-center justify-center gap-10 rounded-10 bg-st-primary font-bold text-st-white hover:bg-st-skyblue-300">
                   스테디 등록
                 </button>
               </Link>
@@ -663,7 +663,7 @@ const Home = () => {
         <Posts info={post as Steadies} />
         <div className="h-5 w-full bg-st-gray-400" />
       </section>
-      <section className="flex h-100 w-full items-center justify-center">
+      <section className="mb-110 flex h-100 w-full items-center justify-center md:mb-0">
         <Pagination
           stack={stack}
           position={position}
@@ -677,7 +677,7 @@ const Home = () => {
           setPost={setPost as Dispatch<SetStateAction<Steadies>>}
         />
       </section>
-      <div className="fixed bottom-100 right-10 z-10 flex gap-10 md:bottom-40">
+      <div className="fixed bottom-100 z-10 flex w-full justify-between gap-10 px-20 md:bottom-40 md:right-10 md:w-auto md:justify-end">
         <div
           className="flex h-65 w-65 cursor-pointer items-center justify-center rounded-full bg-st-primary"
           onClick={() => {
