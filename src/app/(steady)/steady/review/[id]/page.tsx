@@ -10,6 +10,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import createReview from "@/services/review/createReview";
 import getReviewCards from "@/services/review/getReviewCards";
 import getReviewSteadyInfo from "@/services/review/getReviewSteadyInfo";
+import type { CreateReviewType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 import { ReviewCardKey, ReviewSteadyKey } from "@/constants/queryKeys";
 import turtle from "../../../../../../public/images/logo.svg";
@@ -20,7 +21,7 @@ const ReviewPage = () => {
   const steadyId = pathname.split("/")[3];
   const [review, setReview] = useState("");
   const [cardArray, setCardArray] = useState<number[]>([]);
-  const [completedUser, setCompletedUser] = useState<number[]>([]);
+  const [completedUser, setCompletedUser] = useState<CreateReviewType[]>([]);
   const { toast } = useToast();
 
   const { data } = useSuspenseQuery({
@@ -58,7 +59,7 @@ const ReviewPage = () => {
         description: "리뷰가 제출되었습니다.",
         variant: "green",
       });
-      setCompletedUser((prevArray) => [...prevArray, selectedUser]);
+      setCompletedUser((prevArray) => [...prevArray, json]);
       setReview("");
       setCardArray([]);
     }
@@ -73,7 +74,15 @@ const ReviewPage = () => {
   };
 
   const handleSelectedUser = (userId: number) => {
-    if (completedUser.indexOf(userId) !== -1) {
+    if (
+      completedUser.some((item) => {
+        if (item.revieweeId === userId) {
+          setCardArray(item.cardsId);
+          setReview(item.comment);
+          return true;
+        }
+      })
+    ) {
       toast({
         description: "리뷰가 완료된 사용자입니다.",
         variant: "red",
@@ -143,8 +152,9 @@ const ReviewPage = () => {
               className={`${
                 selectedUser !== participant.userId && "opacity-30"
               } ${
-                completedUser.indexOf(participant.userId) !== -1 &&
-                "border border-2 border-st-green"
+                completedUser.some(
+                  (item) => item.revieweeId === participant.userId,
+                ) && "border border-2 border-st-green"
               } flex cursor-pointer flex-col items-center justify-center rounded-md text-20 font-bold`}
               onClick={() => handleSelectedUser(participant.userId)}
             >
@@ -168,6 +178,9 @@ const ReviewPage = () => {
                 className="flex h-50 items-center justify-between"
               >
                 <Checkbox
+                  disabled={completedUser.some(
+                    (item) => item.revieweeId === selectedUser,
+                  )}
                   size={"3"}
                   color="green"
                   className={`${
@@ -193,6 +206,9 @@ const ReviewPage = () => {
       <div className="mt-20 flex flex-col justify-center gap-10">
         <div className="text-25 font-bold">한 줄 평 남기기</div>
         <TextArea
+          disabled={completedUser.some(
+            (item) => item.revieweeId === selectedUser,
+          )}
           className="h-100 w-1000 outline-none"
           size={"3"}
           placeholder="팀원들에게 한 줄 평을 남겨보세요."
@@ -202,7 +218,9 @@ const ReviewPage = () => {
         />
         <div className="flex items-center justify-end">
           <Button
-            // disabled={card.length === 0 || review === ""}
+            disabled={completedUser.some(
+              (item) => item.revieweeId === selectedUser,
+            )}
             onClick={() => handleReviewSubmit()}
             className={`${buttonSize.sm} items-center justify-center bg-st-primary text-st-white`}
           >
