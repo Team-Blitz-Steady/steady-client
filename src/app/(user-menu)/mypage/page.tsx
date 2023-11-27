@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
-import Logo from "@/images/logo.svg";
 import { cn } from "@/lib/utils";
 import type {
   NicknameSchemaType,
@@ -29,6 +28,7 @@ import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import Input from "@/components/_common/Input";
 import { AlertModal } from "@/components/_common/Modal";
+import ProfileImageUpload from "@/components/_common/ProfileImageUpload";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import { extractValue } from "@/utils/extractValue";
 import {
@@ -195,35 +195,14 @@ const MyProfilePage = () => {
       <div className="flex flex-col gap-20">
         <div className="text-30 font-bold">내 프로필</div>
         <div className="flex flex-col items-center justify-center gap-20">
-          <label
-            htmlFor="profile"
-            className="group relative flex cursor-pointer items-center justify-center transition-transform"
-          >
-            <Image
-              src={Logo}
-              alt={"내 프로필 이미지"}
-              width={150}
-              height={150}
-              className="border-black rounded-full border-2 transition-opacity group-hover:opacity-50"
-            />
-            <div className="absolute top-1/2 flex -translate-y-1/2 transform flex-col items-center justify-center text-center text-lg font-semibold opacity-0 transition-opacity group-hover:opacity-100">
-              클릭하여
-              <div className="flex flex-row items-center justify-center">
-                수정
-                <Icon
-                  name="pencil"
-                  size={20}
-                  color="text-st-black"
-                />
-              </div>
-            </div>
-          </label>
-          <input
-            type="file"
-            id="profile"
-            accept="image/*"
-            className="hidden"
+          <Image
+            src={myProfileData.profileImage}
+            alt={"내 프로필 이미지"}
+            width={150}
+            height={150}
+            className="border-black rounded-full border-2 transition-opacity group-hover:opacity-50"
           />
+          <ProfileImageUpload userData={myProfileData} />
           <div className="flex flex-row items-center justify-center gap-10">
             {isEditingNickname ? (
               <Form {...nicknameForm}>
