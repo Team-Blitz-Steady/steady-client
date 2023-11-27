@@ -2,7 +2,6 @@ import type { ComponentProps } from "react";
 
 interface InputProps extends ComponentProps<"input"> {
   inputName:
-    | "search-input"
     | "name-input"
     | "steady-title-input"
     | "title-input"
@@ -23,16 +22,6 @@ const Input = ({
   let input;
 
   switch (inputName) {
-    case "search-input":
-      input = (
-        <input
-          className="bg-input-bg xs:350 h-40 w-full rounded-12 border-3 border-st-gray-100 px-10 py-20 text-center text-20 font-bold outline-none transition-all duration-300 focus:border-st-primary sm:w-500 md:w-700"
-          type="text"
-          placeholder="검색어를 입력해주세요."
-          {...props}
-        />
-      );
-      break;
     case "name-input":
       input = (
         <div>

@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import Logo from "@/images/logo.svg";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
 import { Separator, Tooltip } from "@radix-ui/themes";
@@ -135,43 +134,61 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
             <Tag status={steadyDetailsData.status} />
             <div className="text-35 font-bold">{steadyDetailsData.title}</div>
           </div>
-          <AlertModal
-            actionButton={
-              <LoginModal
-                trigger={
-                  <Button
-                    className={cn(
-                      `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
-                    )}
-                  >
-                    로그인
-                  </Button>
-                }
-              />
-            }
-            trigger={
-              <button onClick={() => mutate(steadyId)}>
-                {steadyDetailsData.isLiked ? (
-                  <Icon
-                    name="heart"
-                    size={30}
-                    color="text-st-red"
-                  />
-                ) : (
-                  <Icon
-                    name="empty-heart"
-                    size={30}
-                    color="text-black"
-                  />
-                )}
-              </button>
-            }
-          >
-            <div className="text-center text-18 font-bold">
-              로그인이 필요한 기능입니다! <br />
-              로그인 하시겠어요?
-            </div>
-          </AlertModal>
+          {isAuth ? (
+            <button onClick={() => mutate(steadyId)}>
+              {steadyDetailsData.isLiked ? (
+                <Icon
+                  name="heart"
+                  size={30}
+                  color="text-st-red"
+                />
+              ) : (
+                <Icon
+                  name="empty-heart"
+                  size={30}
+                  color="text-black"
+                />
+              )}
+            </button>
+          ) : (
+            <AlertModal
+              actionButton={
+                <LoginModal
+                  trigger={
+                    <Button
+                      className={cn(
+                        `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
+                      )}
+                    >
+                      로그인
+                    </Button>
+                  }
+                />
+              }
+              trigger={
+                <button onClick={() => mutate(steadyId)}>
+                  {steadyDetailsData.isLiked ? (
+                    <Icon
+                      name="heart"
+                      size={30}
+                      color="text-st-red"
+                    />
+                  ) : (
+                    <Icon
+                      name="empty-heart"
+                      size={30}
+                      color="text-black"
+                    />
+                  )}
+                </button>
+              }
+            >
+              <div className="text-center text-18 font-bold">
+                로그인이 필요한 기능입니다! <br />
+                로그인 하시겠어요?
+              </div>
+            </AlertModal>
+          )}
         </div>
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center justify-center gap-20">
@@ -180,11 +197,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                 <div className="flex gap-10">
                   <Image
                     className="cursor-pointer rounded-full border-1"
-                    src={
-                      `/${steadyDetailsData.leaderResponse.profileImage}`
-                        ? `/${steadyDetailsData.leaderResponse.profileImage}`
-                        : Logo
-                    }
+                    src={steadyDetailsData.leaderResponse.profileImage}
                     alt="작성자 프로필"
                     width={40}
                     height={40}
@@ -244,11 +257,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                   <div className="flex flex-col items-center justify-center gap-10">
                     <Image
                       className="cursor-pointer rounded-full border-1"
-                      src={
-                        `/${steadyDetailsData.leaderResponse.profileImage}`
-                          ? `/${steadyDetailsData.leaderResponse.profileImage}`
-                          : Logo
-                      }
+                      src={steadyDetailsData.leaderResponse.profileImage}
                       alt="참여자 이미지"
                       width={80}
                       height={80}
@@ -266,11 +275,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                               <div className="flex flex-col items-center justify-center gap-10">
                                 <Image
                                   className="cursor-pointer rounded-full border-1"
-                                  src={
-                                    `/${participant.profileImage}`
-                                      ? `/${participant.profileImage}`
-                                      : Logo
-                                  }
+                                  src={participant.profileImage}
                                   alt="참여자 이미지"
                                   width={80}
                                   height={80}
