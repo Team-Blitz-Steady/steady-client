@@ -40,7 +40,7 @@ const EditQuestionsPage = ({ params }: { params: { id: string } }) => {
     error: templatesError,
     refetch: refetchTemplates,
   } = useSuspenseQuery({
-    queryKey: [TemplatesKey],
+    queryKey: TemplatesKey,
     queryFn: () => getTemplates(),
   });
 

@@ -38,7 +38,7 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
   const [currentUserIndex, setCurrentUserIndex] = useState(0);
 
   const { data: steadyDetailsData, error } = useSuspenseQuery({
-    queryKey: [getSteadyDetailsKey(steadyId)],
+    queryKey: getSteadyDetailsKey(steadyId),
     queryFn: () => getSteadyDetails(steadyId),
     staleTime: 1000 * 60,
   });
