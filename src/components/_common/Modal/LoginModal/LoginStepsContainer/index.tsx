@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import useLoginStepsStore from "@/stores/loginSteps";
 import {
+  SelectedSteadyAction,
   SetNickname,
   SetPositionAndStacks,
   SocialLoginEnd,
@@ -11,7 +12,6 @@ import {
   SteadyDescriptionStart,
 } from "../LoginStepsContents";
 
-// TODO: 1~5에서 로그인 했는지 검사 필요 안했으면 0으로 보내기 -> 훅으로 만들어서 각각 쓰기~
 const LoginStepsContainer = () => {
   const { steps } = useLoginStepsStore();
   const renderByLoginStep = (steps: number) => {
@@ -28,11 +28,13 @@ const LoginStepsContainer = () => {
         return <SteadyDescriptionEnd />;
       case 5:
         return <SocialLoginEnd />;
+      case 6:
+        return <SelectedSteadyAction />;
       default:
         return <Fragment />;
     }
   };
-  // <LoginValidaton></LoginValidaton>
+
   return <>{renderByLoginStep(steps)}</>;
 };
 
