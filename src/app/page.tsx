@@ -84,9 +84,9 @@ const Home = () => {
 
   useEffect(() => {
     if (!isOpen && isFocus) {
-      inputRef.current?.focus();
+      inputRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [isOpen, isFocus]);
+  }, [isFocus, isOpen]);
 
   const { data: popularSteadies } = useSuspenseQuery<Steadies>({
     queryKey: PopularSteadiesKey,
