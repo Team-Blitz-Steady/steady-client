@@ -58,6 +58,8 @@ export const StacksKey = ["stacks"];
 
 // Review
 export const MyReviewKey = ["myreview"];
+export const ReviewSteadyKey = ["reviewSteady"];
+export const ReviewCardKey = ["reviewCard"];
 
 // User
 export const getUserProfileKey = (userId: number) => ["userProfile", userId];
