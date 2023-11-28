@@ -191,7 +191,7 @@ const MyProfilePage = () => {
   };
 
   return (
-    <div className="flex h-full flex-col gap-50 max-sm:w-400 sm:w-500 md:w-400 lg:w-600 xl:w-700">
+    <div className="flex h-full flex-col gap-50 max-sm:w-400 sm:w-500 md:w-400 lg:w-600 xl:w-750">
       <div className="flex flex-col gap-20">
         <div className={subMyPageTextStyles.title}>내 프로필</div>
         <div className="flex flex-col items-center justify-center gap-20">
