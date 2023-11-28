@@ -50,7 +50,7 @@ const MyTemplatePage = () => {
               <div className="text-25 font-bold">{template.title}</div>
               <div className="group flex">
                 <div className="transform text-15 font-bold text-st-gray-100 transition group-hover:-translate-x-[30px]">
-                  생성일 {template.createdAt}
+                  생성일 {template.createdAt.slice(0, 10)}
                 </div>
                 <div
                   onClick={(event) =>
