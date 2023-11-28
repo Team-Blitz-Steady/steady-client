@@ -34,7 +34,6 @@ import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import AlertModal from "@/components/_common/Modal/AlertModal";
 import LoginModal from "@/components/_common/Modal/LoginModal";
-import NavigationBar from "@/components/_common/NavigationBar";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import StickyButton from "@/components/_common/StickyButton";
 import {
@@ -689,7 +688,6 @@ const Home = () => {
         </div>
         <StickyButton onClick={() => ChannelIO.showMessenger()} />
       </div>
-      <NavigationBar />
     </main>
   );
 };

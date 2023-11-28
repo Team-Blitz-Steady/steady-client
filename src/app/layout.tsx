@@ -7,6 +7,7 @@ import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import AppBar from "@/components/_common/AppBar";
 import Footer from "@/components/_common/Footer";
+import NavigationBar from "@/components/_common/NavigationBar";
 import "./global.css";
 
 export const metadata: Metadata = {
@@ -27,8 +28,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
               )}
             >
               <AppBar />
-              <div className="pb-30">{children}</div>
+              <div className="pb-100 md:pb-30">{children}</div>
               <Footer />
+              <NavigationBar />
             </div>
           </Theme>
           <Toaster />
