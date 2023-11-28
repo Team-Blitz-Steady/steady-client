@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
-import { Separator, Tooltip } from "@radix-ui/themes";
+import { Badge, Separator, Tooltip } from "@radix-ui/themes";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import deleteApplication from "@/services/application/deleteApplication";
@@ -120,7 +120,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
   );
 
   return (
-    <div className="w-1000">
+    <div className="max-sm:w-400 sm:w-450 md:w-600 lg:w-800 xl:w-1000">
       <div className="flex flex-col gap-20">
         <button onClick={() => router.back()}>
           <Icon
@@ -132,7 +132,9 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center justify-center gap-20">
             <Tag status={steadyDetailsData.status} />
-            <div className="text-35 font-bold">{steadyDetailsData.title}</div>
+            <div className="font-bold max-sm:text-20 sm:text-20 md:text-25 lg:text-30 xl:text-35 ">
+              {steadyDetailsData.title}
+            </div>
           </div>
           {isAuth ? (
             <button onClick={() => mutate(steadyId)}>
@@ -362,16 +364,17 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
               steadyDetailsData.isLeader ? "h-calc[200-70]" : "h-full"
             }`}
           >
-            <div className="text-35 font-bold">{steadyDetailsData.name}</div>
-            <div className="text-20 font-bold italic text-st-gray-100">
+            <div className="text-35 font-bold max-sm:text-25">
+              {steadyDetailsData.name}
+            </div>
+            <div className="text-20 font-bold italic text-st-gray-100 max-sm:text-15">
               {steadyDetailsData.bio}
             </div>
           </div>
         </div>
-
-        <div className="my-50 flex h-300 flex-col items-center justify-evenly px-50 text-18 font-bold">
-          <div className="flex w-full">
-            <div className="flex w-1/3">
+        <div className="lg-h-400 md-h-500 sm-h-600 max-sm-h-700 my-50 flex flex-col items-center justify-evenly gap-25 px-50 text-18 font-bold max-lg:gap-10">
+          <div className="flex w-full max-lg:flex-col max-lg:gap-10 lg:justify-between xl:flex-row">
+            <div className="flex max-lg:w-full xl:w-1/3">
               <div className="flex items-center justify-center gap-10">
                 <div
                   className={cn(
@@ -386,7 +389,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                 </div>
               </div>
             </div>
-            <div className="flex w-2/3">
+            <div className="flex max-lg:w-full lg:w-2/3 xl:w-2/3">
               <div className="flex flex-grow items-center gap-10">
                 <div className={steadyDetailTagItems}>모집 분야</div>
                 <div className="flex w-0 flex-grow flex-wrap gap-10">
@@ -395,14 +398,19 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                       key={id}
                       className="whitespace-nowrap"
                     >
-                      {position.name}
+                      <Badge
+                        color={"gray"}
+                        size={"2"}
+                      >
+                        {position.name}
+                      </Badge>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex w-full">
+          <div className="flex w-full max-lg:flex-col max-lg:gap-10 xl:flex-row">
             <div className="flex w-full">
               <div className="flex w-225 items-center gap-10">
                 <div className={steadyDetailTagItems}>진행 방식</div>
@@ -432,8 +440,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
           </div>
-
-          <div className="flex w-full gap-10">
+          <div className="flex w-full gap-10 max-lg:mt-10">
             <div className={steadyDetailTagItems}>기술 스택</div>
             <div className="flex w-full flex-wrap gap-10">
               {steadyDetailsData.stacks.map((stack) => (
