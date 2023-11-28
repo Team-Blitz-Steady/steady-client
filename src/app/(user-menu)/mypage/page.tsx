@@ -191,9 +191,9 @@ const MyProfilePage = () => {
   };
 
   return (
-    <div className="flex h-full flex-col gap-50">
+    <div className="flex h-full flex-col gap-50 max-sm:w-400 sm:w-500 md:w-400 lg:w-600 xl:w-700">
       <div className="flex flex-col gap-20">
-        <div className="text-30 font-bold">내 프로필</div>
+        <div className={subMyPageTextStyles.title}>내 프로필</div>
         <div className="flex flex-col items-center justify-center gap-20">
           <Image
             src={myProfileData.profileImage}

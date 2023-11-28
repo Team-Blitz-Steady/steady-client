@@ -32,8 +32,10 @@ const SideBar = ({
     <Box
       className={cn(
         `${
-          listType === "mypage" ? "h-814 w-300" : "h-900 w-250"
-        } flex flex-col items-center gap-15 overflow-y-auto overflow-x-hidden rounded-20 border-1 border-solid border-st-gray-100 p-20`,
+          listType === "mypage"
+            ? "h-814 min-w-200 lg:w-250 xl:w-300"
+            : "h-900 w-250"
+        } flex flex-col items-center gap-15 overflow-y-auto overflow-x-hidden rounded-20 border-1 border-solid border-st-gray-100 p-20 max-md:hidden`,
         className,
       )}
     >
@@ -44,7 +46,7 @@ const SideBar = ({
         >
           <div
             className={`${
-              listType === "mypage" ? "w-250" : "w-200"
+              listType === "mypage" ? "min-w-150 lg:w-150 xl:w-200" : "w-200"
             } h-full rounded-5 p-20 text-18 font-bold transition duration-100 ${
               item.href.split("/")[2] === page
                 ? "bg-st-skyblue-50 text-st-primary"
