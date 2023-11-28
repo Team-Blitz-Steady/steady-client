@@ -4,7 +4,7 @@ import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import BottomModal from "@/components/BottomModal";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
 import Dolphin from "@/images/dolphin.png";
@@ -35,7 +35,6 @@ import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import AlertModal from "@/components/_common/Modal/AlertModal";
 import LoginModal from "@/components/_common/Modal/LoginModal";
-import NavigationBar from "@/components/_common/NavigationBar";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import StickyButton from "@/components/_common/StickyButton";
 import {
@@ -49,7 +48,7 @@ import { steadyRunningMethods } from "@/constants/selectorItems";
 const Home = () => {
   const { page, setPage } = usePageStore();
   const [like, setLike] = useState(false);
-  const [recruit, setRecruit] = useState(false);
+  const [recruit, setRecruit] = useState(true);
   const [post, setPost] = useState<Steadies>();
   const [type, setType] = useState("all");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -61,7 +60,6 @@ const Home = () => {
   const [mode, setMode] = useState("");
   const { isAuth } = useAuthStore();
   const [isInitialRender, setIsInitialRender] = useState(true);
-  const pathname = usePathname();
   const rankImageArray = [
     {
       image: First,
@@ -76,6 +74,7 @@ const Home = () => {
   const { isFocus, setIsFocus } = useIsSearchBarFocusStore();
   const { isOpen } = useLoginModalOpenStore();
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (!isOpen && isFocus) {
@@ -557,11 +556,19 @@ const Home = () => {
           </div>
           <div className="md:hidden">
             {isAuth && (
-              <Link href={"/steady/create"}>
-                <button className="flex h-40 w-500 items-center justify-center gap-10 rounded-10 bg-st-primary font-bold text-st-white hover:bg-st-skyblue-300">
-                  스테디 등록
+              <div className="flex gap-20">
+                <Link href={"/steady/create"}>
+                  <button className="h-40 w-390 rounded-10 bg-st-primary font-bold text-st-white hover:bg-st-skyblue-300">
+                    스테디 등록
+                  </button>
+                </Link>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="h-40 w-90 rounded-10 bg-st-primary font-bold text-st-white hover:bg-st-skyblue-300"
+                >
+                  필터
                 </button>
-              </Link>
+              </div>
             )}
             {!isAuth && (
               <AlertModal
@@ -580,10 +587,13 @@ const Home = () => {
                 }
                 trigger={
                   <div className="flex gap-20">
-                    <button className="h-40 w-390 rounded-10 bg-st-primary font-bold text-st-white">
+                    <button className="h-40 w-390 rounded-10 bg-st-primary font-bold text-st-white hover:bg-st-skyblue-300">
                       스테디 등록
                     </button>
-                    <button className="h-40 w-90 rounded-10 bg-st-primary font-bold text-st-white">
+                    <button
+                      onClick={() => setIsModalOpen(true)}
+                      className="h-40 w-90 rounded-10 bg-st-primary font-bold text-st-white hover:bg-st-skyblue-300"
+                    >
                       필터
                     </button>
                   </div>
@@ -664,7 +674,7 @@ const Home = () => {
         <Posts info={post as Steadies} />
         <div className="h-5 w-full bg-st-gray-400" />
       </section>
-      <section className="mb-110 flex h-100 w-full items-center justify-center md:mb-0">
+      <section className="flex h-100 w-full items-center justify-center">
         <Pagination
           stack={stack}
           position={position}
@@ -690,8 +700,8 @@ const Home = () => {
           </div>
         </div>
         <StickyButton onClick={() => ChannelIO.showMessenger()} />
+        {isModalOpen && <BottomModal onClose={() => setIsModalOpen(false)} />}
       </div>
-      <NavigationBar path={pathname} />
     </main>
   );
 };

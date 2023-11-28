@@ -27,20 +27,13 @@ const AppBar = ({ className }: AppBarProps) => {
       )}
     >
       <Link href={"/"}>
-        <Image
-          className="hidden md:flex"
-          src={HeaderLogo}
-          alt="스테디 로고"
-          width={150}
-          height={70}
-        />
-        <Image
-          className="md:hidden"
-          src={HeaderLogo}
-          alt="스테디 로고"
-          width={100}
-          height={50}
-        />
+        <div className="w-100 md:w-150">
+          <Image
+            src={HeaderLogo}
+            alt="스테디 로고"
+            layout="full"
+          />
+        </div>
       </Link>
       {isAuth && (
         <div className="flex w-250 items-center justify-between">
