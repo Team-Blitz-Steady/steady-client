@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
 import useIsSearchBarFocusStore from "@/stores/isSearchBarFocus";
 import useLoginModalOpenStore from "@/stores/loginModalOpen";
+import usePageStore from "@/stores/page";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import steadyFilter from "@/services/steady/filterSteadies";
@@ -46,13 +47,7 @@ import {
 import { steadyRunningMethods } from "@/constants/selectorItems";
 
 const Home = () => {
-  const [page, setPage] = useState(() => {
-    if (typeof window !== "undefined" && sessionStorage.getItem("page")) {
-      return parseInt(sessionStorage.getItem("page")!);
-    } else {
-      return 0;
-    }
-  });
+  const { page, setPage } = usePageStore();
   const [like, setLike] = useState(false);
   const [recruit, setRecruit] = useState(false);
   const [post, setPost] = useState<Steadies>();
@@ -78,15 +73,22 @@ const Home = () => {
       image: Third,
     },
   ];
-  const { isFocus } = useIsSearchBarFocusStore();
+  const { isFocus, setIsFocus } = useIsSearchBarFocusStore();
   const { isOpen } = useLoginModalOpenStore();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (!isOpen && isFocus) {
       inputRef.current?.focus();
+      inputRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [isOpen, isFocus]);
+  }, [isFocus, isOpen]);
+
+  useEffect(() => {
+    return () => {
+      setIsFocus(false);
+    };
+  }, [setIsFocus]);
 
   const { data: popularSteadies } = useSuspenseQuery<Steadies>({
     queryKey: PopularSteadiesKey,
@@ -432,7 +434,7 @@ const Home = () => {
         </div>
       </section>
       <section className="flex w-3/4 flex-col items-center xl:w-1300">
-        <div className="flex w-full flex-col items-center justify-center gap-25 p-20">
+        <div className="flex w-full flex-col items-center justify-center gap-25 md:p-20">
           <div className="flex gap-30">
             <div
               className={`${
@@ -556,7 +558,7 @@ const Home = () => {
           <div className="md:hidden">
             {isAuth && (
               <Link href={"/steady/create"}>
-                <button className="flex h-40 w-500 items-center justify-center gap-10 rounded-10 bg-st-primary font-bold text-st-white">
+                <button className="flex h-40 w-500 items-center justify-center gap-10 rounded-10 bg-st-primary font-bold text-st-white hover:bg-st-skyblue-300">
                   스테디 등록
                 </button>
               </Link>
@@ -662,7 +664,7 @@ const Home = () => {
         <Posts info={post as Steadies} />
         <div className="h-5 w-full bg-st-gray-400" />
       </section>
-      <section className="flex h-100 w-full items-center justify-center">
+      <section className="mb-110 flex h-100 w-full items-center justify-center md:mb-0">
         <Pagination
           stack={stack}
           position={position}
@@ -672,13 +674,11 @@ const Home = () => {
           recruit={recruit}
           type={type}
           totalPost={totalPost as number}
-          page={page}
           like={like}
-          setPage={setPage}
           setPost={setPost as Dispatch<SetStateAction<Steadies>>}
         />
       </section>
-      <div className="fixed bottom-100 right-10 z-10 flex gap-10 md:bottom-40">
+      <div className="fixed bottom-100 z-10 flex w-full justify-between gap-10 px-20 md:bottom-40 md:right-10 md:w-auto md:justify-end">
         <div
           className="flex h-65 w-65 cursor-pointer items-center justify-center rounded-full bg-st-primary"
           onClick={() => {

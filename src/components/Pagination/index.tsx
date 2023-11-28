@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import usePageStore from "@/stores/page";
 import getSteadies from "@/services/steady/getSteadies";
 import type { Steadies } from "@/services/types";
 import Icon from "../_common/Icon";
@@ -12,9 +13,7 @@ interface PaginationProps {
   recruit: boolean;
   type: string;
   totalPost: number;
-  page: number;
   like: boolean;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
   setPost: React.Dispatch<React.SetStateAction<Steadies>>;
 }
 
@@ -27,15 +26,14 @@ const Pagination = ({
   recruit,
   type,
   totalPost,
-  page,
   like,
-  setPage,
   setPost,
 }: PaginationProps) => {
   const [currentPageArray, setCurrentPageArray] = useState<number[]>([]);
   const [totalPageArray, setTotalPageArray] = useState<number[][]>([]);
   const totalPage = Math.ceil(totalPost / 10);
   const [index, setIndex] = useState(0);
+  const { page, setPage } = usePageStore();
 
   useEffect(() => {
     setIndex(Math.floor(page / 5));
