@@ -49,8 +49,9 @@ const Posts = ({ info }: { info: Steadies }) => {
 
   return (
     <div
-      className={`h-[1110px] w-full md:h-[1355px] ${
-        info?.content.length === 0 && "flex items-center justify-center"
+      className={`w-full ${
+        info?.content.length === 0 &&
+        "flex h-[1120px] items-center justify-center"
       }`}
     >
       {info?.content.length !== 0 ? (
@@ -64,14 +65,14 @@ const Posts = ({ info }: { info: Steadies }) => {
                 item.status !== "RECRUITING" && "opacity-50"
               } flex w-full items-center justify-between px-20 py-20 transition hover:scale-105 hover:bg-st-gray-50 md:px-50`}
             >
-              <div className="flex items-center gap-20 md:gap-50">
+              <div className="flex w-2/3 items-center gap-20 md:gap-50">
                 {item.status === "RECRUITING" ? (
                   <Tag status="RECRUITING" />
                 ) : (
                   <Tag status="CLOSED" />
                 )}
 
-                <div className="flex flex-col gap-5">
+                <div className="flex w-2/3 flex-col gap-5">
                   <div className="text-10 font-bold md:text-15">
                     {item.type === "STUDY" ? "📖 스터디" : "🖥️ 프로젝트"}
                   </div>
@@ -96,22 +97,41 @@ const Posts = ({ info }: { info: Steadies }) => {
               <div className="flex w-110 flex-col gap-30 md:w-170">
                 <div className="flex items-center gap-10 text-10 font-bold md:text-17">
                   {item.profileImage !== "new_profile_image.jpg" ? (
-                    <Avatar
-                      src={item.profileImage}
-                      alt="profile"
-                      size={"2"}
-                      radius="full"
-                      className="cursor-pointer"
-                      fallback={""}
-                    />
+                    <>
+                      <Avatar
+                        src={item.profileImage}
+                        alt="profile"
+                        size={"2"}
+                        radius="full"
+                        className="hidden cursor-pointer md:flex"
+                        fallback={""}
+                      />
+                      <Avatar
+                        src={item.profileImage}
+                        alt="profile"
+                        size={"1"}
+                        radius="full"
+                        className="cursor-pointer md:hidden"
+                        fallback={""}
+                      />
+                    </>
                   ) : (
-                    <Image
-                      src={Logo}
-                      alt="profile"
-                      width={30}
-                      height={30}
-                      className="rounded-full"
-                    />
+                    <>
+                      <Image
+                        src={Logo}
+                        alt="profile"
+                        width={30}
+                        height={30}
+                        className="hidden rounded-full md:flex"
+                      />
+                      <Image
+                        src={Logo}
+                        alt="profile"
+                        width={20}
+                        height={20}
+                        className="rounded-full md:hidden"
+                      />
+                    </>
                   )}
                   |{" "}
                   {item.nickname.length > 6
