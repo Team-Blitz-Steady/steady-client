@@ -191,7 +191,7 @@ const MyProfilePage = () => {
   };
 
   return (
-    <div className="flex h-full flex-col gap-100">
+    <div className="flex h-full flex-col gap-50">
       <div className="flex flex-col gap-20">
         <div className="text-30 font-bold">내 프로필</div>
         <div className="flex flex-col items-center justify-center gap-20">
