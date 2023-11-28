@@ -97,7 +97,7 @@ const Input = ({
       break;
     case "introduce-input":
       input = (
-        <div className="flex h-64 items-center justify-center rounded-12 border-2 border-solid border-st-gray-100 p-10 outline-none md:w-1/2 xl:w-620">
+        <div className="flex h-64 items-center justify-center rounded-12 border-2 border-solid border-st-gray-100 p-10 outline-none md:w-400 xl:w-620">
           <input
             className="h-60 w-full rounded-12 p-5 text-xl font-bold outline-none"
             type="text"
