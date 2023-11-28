@@ -1,14 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-interface NavigationBarProps {
-  path: string;
-}
+const NavigationBar = () => {
+  const path = usePathname();
 
-const NavigationBar = ({ path }: NavigationBarProps) => {
   return (
-    <div className="fixed bottom-0 flex h-80 w-full items-center justify-around bg-st-white px-20 py-10 shadow-md shadow-md md:hidden">
+    <div className="fixed bottom-0 flex h-80 w-full items-center justify-around bg-st-white px-20 py-10 shadow-md md:hidden">
       <Link href={"/mysteady"}>
         <div
           className={`${
