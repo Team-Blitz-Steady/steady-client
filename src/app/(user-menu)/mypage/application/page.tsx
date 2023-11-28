@@ -1,12 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useRouter } from "next/navigation";
 import deleteApplication from "@/services/application/deleteApplication";
 import Icon from "@/components/_common/Icon";
+import DeleteModal from "@/components/_common/Modal/DeleteModal";
 import useApplicationListQuery from "@/hooks/query/useApplicationListQuery";
 
 const MyApplicationPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [applicationId, setApplicationId] = useState("0");
   const router = useRouter();
   const { applicationListData, hasNextPage, fetchNextPage, refetch } =
     useApplicationListQuery();
@@ -15,15 +19,20 @@ const MyApplicationPage = () => {
     router.push(`/application/edit/${steadyId}/${applicationId}`);
   };
 
-  const handleDeleteApplication = async (
-    event: React.MouseEvent,
-    id: string,
-  ) => {
-    event.stopPropagation();
+  const handleDeleteApplication = async (id: string) => {
     const data = await deleteApplication(id);
     if (!data) {
       refetch();
     }
+  };
+
+  const openModal = (id: string) => {
+    setApplicationId(id);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -88,12 +97,10 @@ const MyApplicationPage = () => {
                       제출일 {application.createdAt.slice(0, 10)}
                     </div>
                     <div
-                      onClick={(event) =>
-                        handleDeleteApplication(
-                          event,
-                          application.applicationId.toString(),
-                        )
-                      }
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        openModal(application.applicationId.toString());
+                      }}
                       className="hidden gap-20 transition duration-500 group-hover:flex"
                     >
                       <Icon
@@ -110,6 +117,12 @@ const MyApplicationPage = () => {
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>
       </div>
+      <DeleteModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onDelete={handleDeleteApplication}
+        id={applicationId}
+      />
     </div>
   );
 };
