@@ -108,9 +108,9 @@ const MySteadyPage = () => {
   };
 
   return (
-    <div className="flex w-1000 flex-col">
+    <div className="flex flex-col max-sm:w-400 sm:w-500 md:w-600 lg:w-800 xl:w-1000">
       <div className="flex items-center justify-between">
-        <div className="min-w-fit px-40 py-20 text-30 font-bold">
+        <div className="min-w-fit px-40 py-20 font-bold sm:text-20 md:text-25 lg:text-30">
           내 스테디 목록
         </div>
         <Dropdown options={filterOptions}>
@@ -127,7 +127,7 @@ const MySteadyPage = () => {
       <Separator className="h-5 w-full bg-st-gray-400" />
       <div
         ref={ref}
-        className="max-h-[1000px] overflow-y-auto"
+        className="h-700 overflow-y-auto overflow-x-hidden"
       >
         <InfiniteScroll
           className="flex h-full w-full flex-col"
@@ -142,21 +142,21 @@ const MySteadyPage = () => {
                   <div
                     key={`${pageIndex}-${steadyIndex}`}
                     className={cn(
-                      "flex h-140 w-full cursor-pointer items-center justify-between border-b-1 border-st-gray-200 px-50 hover:bg-st-gray-50",
+                      "flex min-h-140 w-full cursor-pointer items-center justify-between border-b-1 border-st-gray-200 hover:bg-st-gray-50 max-sm:px-20 sm:px-20 md:px-30 lg:px-50 xl:px-50",
                     )}
                   >
                     <Link
                       href={`/steady/detail/${steady.steadyId}`}
                       className="flex h-full w-fit flex-grow"
                     >
-                      <div className="text-black flex items-center justify-center text-center text-25 font-bold ">
+                      <div className="text-black flex items-center justify-center text-center font-bold sm:text-15 md:text-20 lg:text-25">
                         {steady.isLeader
                           ? `👑 ${steady.name}`
                           : `${steady.name}`}
                       </div>
                     </Link>
                     <div className="flex items-center justify-center gap-20">
-                      <div className="text-bold max-w-fit text-15 text-st-gray-100">
+                      <div className="text-bold max-w-fit text-15 text-st-gray-100 max-sm:hidden">
                         {steady.isLeader ? "생성일: " : "참여일: "}
                         {format(new Date(steady.joinedAt), "yyyy.MM.dd")}
                       </div>
