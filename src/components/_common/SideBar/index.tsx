@@ -33,7 +33,7 @@ const SideBar = ({
       className={cn(
         `${
           listType === "mypage"
-            ? "h-814 min-w-200 lg:w-250 xl:w-300"
+            ? "h-700 min-w-200 lg:w-250 xl:w-250"
             : "h-900 w-250"
         } flex flex-col items-center gap-15 overflow-y-auto overflow-x-hidden rounded-20 border-1 border-solid border-st-gray-100 p-20 max-md:hidden`,
         className,
