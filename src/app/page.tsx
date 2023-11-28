@@ -4,7 +4,6 @@ import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
 import Dolphin from "@/images/dolphin.png";
@@ -61,7 +60,6 @@ const Home = () => {
   const [mode, setMode] = useState("");
   const { isAuth } = useAuthStore();
   const [isInitialRender, setIsInitialRender] = useState(true);
-  const pathname = usePathname();
   const rankImageArray = [
     {
       image: First,
@@ -691,7 +689,7 @@ const Home = () => {
         </div>
         <StickyButton onClick={() => ChannelIO.showMessenger()} />
       </div>
-      <NavigationBar path={pathname} />
+      <NavigationBar />
     </main>
   );
 };
