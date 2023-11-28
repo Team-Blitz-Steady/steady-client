@@ -276,6 +276,55 @@ const MyProfilePage = () => {
               </>
             )}
           </div>
+          <Form {...userBioForm}>
+            <form onSubmit={userBioForm.handleSubmit(handleUpdateBio)}>
+              {isEditingBio ? (
+                <FormField
+                  control={userBioForm.control}
+                  name={"bio"}
+                  render={({ field }) => (
+                    <div className="flex items-center justify-center gap-10">
+                      <Input
+                        inputName="introduce-input"
+                        defaultValue={bio}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                        }}
+                      />
+                      <button type={"submit"}>
+                        <Icon
+                          name="check"
+                          size={30}
+                          color="text-st-green"
+                        />
+                      </button>
+                      <ResetIcon
+                        width="25"
+                        height="25"
+                        className={"cursor-pointer"}
+                        onClick={() => setIsEditingBio(false)}
+                      />
+                    </div>
+                  )}
+                />
+              ) : (
+                <div
+                  className={cn(
+                    "flex h-30 w-718 items-center justify-center gap-15 text-2xl italic text-st-gray-250",
+                  )}
+                >
+                  {`"${bio}"` ?? "한 줄 소개를 입력해주세요."}
+                  <button onClick={() => setIsEditingBio(true)}>
+                    <Icon
+                      name="pencil"
+                      size={25}
+                      color="text-st-black"
+                    />
+                  </button>
+                </div>
+              )}
+            </form>
+          </Form>
         </div>
       </div>
       <div className={cn(subContentStyles)}>
@@ -417,60 +466,6 @@ const MyProfilePage = () => {
                 )}
               </div>
             </div>
-          </form>
-        </Form>
-      </div>
-
-      <div className={cn(subContentStyles)}>
-        <div className={cn(subMyPageTextStyles.title)}>한 줄 소개</div>
-        <Form {...userBioForm}>
-          <form onSubmit={userBioForm.handleSubmit(handleUpdateBio)}>
-            {isEditingBio ? (
-              <FormField
-                control={userBioForm.control}
-                name={"bio"}
-                render={({ field }) => (
-                  <div className="flex items-center justify-center gap-10">
-                    <Input
-                      inputName="introduce-input"
-                      defaultValue={bio}
-                      onValueChange={(value) => {
-                        field.onChange(value);
-                      }}
-                    />
-                    <button type={"submit"}>
-                      <Icon
-                        name="check"
-                        size={30}
-                        color="text-st-green"
-                      />
-                    </button>
-                    <ResetIcon
-                      width="25"
-                      height="25"
-                      className={"cursor-pointer"}
-                      onClick={() => setIsEditingBio(false)}
-                    />
-                  </div>
-                )}
-              />
-            ) : (
-              <div
-                className={cn(
-                  subBoxStyles,
-                  "justify-center text-2xl italic text-st-gray-250",
-                )}
-              >
-                {bio ?? "한 줄 소개를 입력해주세요."}
-                <button onClick={() => setIsEditingBio(true)}>
-                  <Icon
-                    name="pencil"
-                    size={25}
-                    color="text-st-black"
-                  />
-                </button>
-              </div>
-            )}
           </form>
         </Form>
       </div>
