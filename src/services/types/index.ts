@@ -353,3 +353,8 @@ export interface ImageUrlResponse {
   presignedUrl: string;
   objectUrl: string;
 }
+
+export interface ErrorResponse {
+  message: string;
+  code: string;
+}
