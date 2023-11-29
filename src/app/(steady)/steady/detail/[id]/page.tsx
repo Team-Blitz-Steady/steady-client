@@ -25,6 +25,7 @@ import UserItems from "@/components/_common/Modal/UserModal/UserItems";
 import Spinner from "@/components/_common/Spinner";
 import Tag from "@/components/_common/Tag";
 import { useLikeSteadyMutation } from "@/hooks/mutation/useLikeSteadyMutation";
+import escapeHTML from "@/utils/escapeHTML";
 import { steadyCategoriesWithEmoji } from "@/constants/labelData";
 import {
   MyProfileKey,
@@ -456,7 +457,9 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
         <div>
           <div className="px-20 text-23 font-bold">모집글 소개</div>
           <div className="flex min-h-200 w-full items-center bg-st-white p-20 text-18 font-bold">
-            {steadyDetailsData.content}
+            <div className="prose w-full">
+              {escapeHTML(steadyDetailsData.content)}
+            </div>
           </div>
         </div>
       </div>
