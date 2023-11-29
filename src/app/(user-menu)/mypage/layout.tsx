@@ -1,4 +1,5 @@
 import SideBar from "@/components/_common/SideBar";
+import TabBar from "@/components/_common/TabBar";
 
 const myPageList = [
   {
@@ -21,11 +22,12 @@ const myPageList = [
 
 const MyPageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex flex-grow gap-50 py-20 max-sm:w-400 sm:w-500 md:w-600 lg:w-800 xl:w-1200">
+    <div className="flex flex-grow flex-col gap-50 py-20 max-sm:w-400 sm:w-500 md:w-600 md:flex-row lg:w-800 xl:w-1200">
       <SideBar
         sidebarItems={myPageList}
         listType="mypage"
       />
+      <TabBar />
       {children}
     </div>
   );
