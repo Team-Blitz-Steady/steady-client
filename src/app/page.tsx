@@ -2,9 +2,9 @@
 
 import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useRef, useState } from "react";
+import Sheet from "react-modal-sheet";
 import Image from "next/image";
 import Link from "next/link";
-import BottomModal from "@/components/BottomModal";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
 import Dolphin from "@/images/dolphin.png";
@@ -74,7 +74,7 @@ const Home = () => {
   const { isFocus, setIsFocus } = useIsSearchBarFocusStore();
   const { isOpen } = useLoginModalOpenStore();
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     if (!isOpen && isFocus) {
@@ -207,6 +207,14 @@ const Home = () => {
         ) + 1;
   };
 
+  const setToInitialState = () => {
+    setStack("");
+    setPosition("");
+    setMode("");
+    setLike(false);
+    setRecruit(true);
+  };
+
   useEffect(() => {
     if (data) {
       setIsInitialRender(false);
@@ -293,7 +301,7 @@ const Home = () => {
 
   return (
     <main className="relative flex flex-col items-center">
-      <div className="relative flex h-250 w-screen transition md:h-350">
+      <div className="lg:350 relative flex h-250 w-screen transition md:h-300">
         <div
           className={`${
             activeIndex === 1 ? bannerValidStyle : bannerInvalidStyle
@@ -363,62 +371,62 @@ const Home = () => {
       </div>
       <div className="m-10 flex items-center justify-center gap-20">
         <div
-          className={`h-10 w-10 rounded-full ${
+          className={`h-7 w-7 rounded-full md:h-10 md:w-10 ${
             activeIndex === 0 ? "bg-st-gray-400" : "bg-st-gray-100"
           } cursor-pointer`}
           onClick={() => setActiveIndex(0)}
         ></div>
         <div
-          className={`h-10 w-10 rounded-full ${
+          className={`h-7 w-7 rounded-full md:h-10 md:w-10 ${
             activeIndex === 1 ? "bg-st-gray-400" : "bg-st-gray-100"
           } cursor-pointer`}
           onClick={() => setActiveIndex(1)}
         ></div>
         <div
-          className={`h-10 w-10 rounded-full ${
+          className={`h-7 w-7 rounded-full md:h-10 md:w-10 ${
             activeIndex === 2 ? "bg-st-gray-400" : "bg-st-gray-100"
           } cursor-pointer`}
           onClick={() => setActiveIndex(2)}
         ></div>
       </div>
       <section className="mb-20 mt-50 flex flex-col flex-wrap items-center justify-center overflow-hidden">
-        <div className="w-3/4 text-2xl font-bold xl:w-full">🔥 인기 스테디</div>
-        <div className="mt-20 flex h-220 flex-wrap items-center justify-center overflow-hidden">
+        <div className="w-3/4 text-xl font-bold md:text-2xl xl:w-full">
+          🔥 인기 스테디
+        </div>
+        <div className="mt-20 flex h-160 flex-wrap items-center justify-center overflow-hidden md:h-220">
           {popularSteadies.content.slice(0, 4).map((item, index) => (
             <Link
               key={item.id}
               href={`/steady/detail/${item.id}`}
             >
-              <div className="relative m-20 flex h-170 w-300 cursor-pointer flex-col items-center justify-center gap-20 rounded-20 shadow-lg transition hover:scale-105">
+              <div className="relative m-20 flex h-120 w-210 cursor-pointer flex-col items-center justify-center gap-12 rounded-20 shadow-lg transition hover:scale-105 md:h-170 md:w-300 md:gap-20">
                 {index <= 2 ? (
                   <Image
                     src={rankImageArray[index].image}
                     alt="rank image"
-                    width={45}
-                    height={45}
-                    className="absolute left-0 top-0"
+                    className="absolute left-0 top-0 h-30 w-30 md:h-45 md:w-45"
                   />
                 ) : (
                   ""
                 )}
-                <div className="flex w-250 items-center justify-end">
-                  <div className="flex h-28 w-60 items-center justify-center rounded-20 border border-st-red shadow-md">
-                    <div className="h-22 w-54 rounded-20 bg-st-red text-center font-bold text-st-white">
+                <div className="flex w-170 items-center justify-end md:w-210 md:w-250">
+                  <div className="flex h-20 w-40 items-center justify-center rounded-20 border border-st-red shadow-md md:h-28 md:w-60">
+                    <div className="h-16 w-36 rounded-20 bg-st-red text-center text-12 font-bold text-st-white md:h-22 md:w-54 md:text-16">
                       D-{calcDateDifference(item.deadline)}
                     </div>
                   </div>
                 </div>
-                <div className="w-3/4 overflow-ellipsis text-18 font-bold">
-                  <div className="text-12 font-bold">
+                <div className="w-3/4 overflow-ellipsis text-15 font-bold md:text-18">
+                  <div className="text-9 font-bold md:text-12">
                     {item.type === "STUDY" ? "📖 스터디" : "🖥 프로젝트"}
                   </div>
                   {item.title}
                 </div>
-                <div className="flex justify-between gap-40">
-                  <div className="font-bold text-st-gray-100">
+                <div className="flex justify-between gap-30 md:gap-40">
+                  <div className="text-12 font-bold text-st-gray-100 md:text-16">
                     마감일 | {item.deadline}
                   </div>
-                  <div className="flex items-center justify-center gap-5 font-bold text-st-gray-100">
+                  <div className="flex items-center justify-center gap-5 text-12 font-bold text-st-gray-100 md:text-16">
                     <Icon
                       name="eye"
                       size={20}
@@ -462,7 +470,7 @@ const Home = () => {
           </div>
           <input
             ref={inputRef}
-            className="bg-input-bg xs:350 h-40 w-full rounded-12 border-3 border-st-gray-100 px-10 py-20 text-center text-20 font-bold outline-none transition-all duration-300 focus:border-st-primary sm:w-500 md:w-700"
+            className="bg-input-bg h-40 w-full rounded-12 border-3 border-st-gray-100 px-10 py-20 text-center text-20 font-bold outline-none transition-all duration-300 focus:border-st-primary sm:w-500 md:w-700"
             type="text"
             placeholder="검색어를 입력해주세요."
             onChange={(e) => handleInputChange(e)}
@@ -554,21 +562,16 @@ const Home = () => {
               </button>
             </div>
           </div>
-          <div className="md:hidden">
+          <div className="flex w-full justify-center gap-20 md:hidden">
             {isAuth && (
-              <div className="flex gap-20">
-                <Link href={"/steady/create"}>
-                  <button className="h-40 w-390 rounded-10 bg-st-primary font-bold text-st-white hover:bg-st-skyblue-300">
-                    스테디 등록
-                  </button>
-                </Link>
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="h-40 w-90 rounded-10 bg-st-primary font-bold text-st-white hover:bg-st-skyblue-300"
-                >
-                  필터
+              <Link
+                href={"/steady/create"}
+                className="w-3/4 sm:w-390"
+              >
+                <button className="h-40 w-full rounded-10 bg-st-primary font-bold text-st-white hover:bg-st-skyblue-300 ">
+                  스테디 등록
                 </button>
-              </div>
+              </Link>
             )}
             {!isAuth && (
               <AlertModal
@@ -586,17 +589,9 @@ const Home = () => {
                   />
                 }
                 trigger={
-                  <div className="flex gap-20">
-                    <button className="h-40 w-390 rounded-10 bg-st-primary font-bold text-st-white hover:bg-st-skyblue-300">
-                      스테디 등록
-                    </button>
-                    <button
-                      onClick={() => setIsModalOpen(true)}
-                      className="h-40 w-90 rounded-10 bg-st-primary font-bold text-st-white hover:bg-st-skyblue-300"
-                    >
-                      필터
-                    </button>
-                  </div>
+                  <button className="h-40 w-3/4 rounded-10 bg-st-primary font-bold text-st-white hover:bg-st-skyblue-300 sm:w-390">
+                    스테디 등록
+                  </button>
                 }
               >
                 <div className="text-center text-18 font-bold">
@@ -605,6 +600,12 @@ const Home = () => {
                 </div>
               </AlertModal>
             )}
+            <button
+              onClick={() => setModalOpen(true)}
+              className="h-40 w-1/4 rounded-10 bg-st-primary font-bold text-st-white hover:bg-st-skyblue-300 sm:w-90"
+            >
+              필터
+            </button>
           </div>
           <div className="hidden md:flex md:items-center md:justify-center md:gap-20">
             <div
@@ -700,7 +701,115 @@ const Home = () => {
           </div>
         </div>
         <StickyButton onClick={() => ChannelIO.showMessenger()} />
-        {isModalOpen && <BottomModal onClose={() => setIsModalOpen(false)} />}
+        <Sheet
+          isOpen={isModalOpen}
+          onClose={() => setModalOpen(false)}
+        >
+          <Sheet.Container>
+            <Sheet.Header />
+            <Sheet.Content>
+              <div className="flex flex-wrap items-center justify-center gap-5">
+                <MultiSelector
+                  initialLabel={"기술 스택"}
+                  items={stacks.stacks.map((stack) => ({
+                    value: stack.id.toString(),
+                    label: stack.name,
+                  }))}
+                  onSelectedChange={(value) =>
+                    setStack(value.map((item) => item.label).join(","))
+                  }
+                  className="w-220"
+                />
+                <MultiSelector
+                  initialLabel={"모집 분야"}
+                  items={positions.positions.map((position) => ({
+                    value: position.name,
+                    label: position.name,
+                  }))}
+                  onSelectedChange={(value) =>
+                    setPosition(value.map((item) => item.label).join(","))
+                  }
+                  className="w-220"
+                />
+                <SingleSelector
+                  initialLabel={"진행 방식"}
+                  items={steadyRunningMethods}
+                  className="mb-8 h-43 w-220"
+                  onSelectedChange={(value) => setMode(value)}
+                />
+                <div
+                  className={`${
+                    like
+                      ? "border-5 border-st-yellow"
+                      : "border border-st-gray-100"
+                  } transition-border mb-8 flex h-43 w-150 items-center justify-center rounded-5 duration-100`}
+                >
+                  {isAuth && (
+                    <button
+                      className="h-full w-full font-bold"
+                      onClick={() => setLike(!like)}
+                    >
+                      💛 내 좋아요
+                    </button>
+                  )}
+                  {!isAuth && (
+                    <AlertModal
+                      actionButton={
+                        <LoginModal
+                          trigger={
+                            <Button
+                              className={cn(
+                                `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
+                              )}
+                            >
+                              로그인
+                            </Button>
+                          }
+                        />
+                      }
+                      trigger={
+                        <button
+                          onClick={() => setModalOpen(false)}
+                          className="h-full w-full font-bold"
+                        >
+                          💛 내 좋아요
+                        </button>
+                      }
+                    >
+                      <div className="text-center text-18 font-bold">
+                        로그인이 필요한 기능입니다! <br />
+                        로그인 하시겠어요?
+                      </div>
+                    </AlertModal>
+                  )}
+                </div>
+                <div
+                  className={`${
+                    recruit
+                      ? "border-5 border-st-primary"
+                      : "border border-st-gray-100"
+                  } transition-border mb-8 flex h-43 w-100 items-center justify-center rounded-5 duration-100`}
+                >
+                  <button
+                    className="h-full w-full font-bold"
+                    onClick={() => setRecruit(!recruit)}
+                  >
+                    모집중
+                  </button>
+                </div>
+                <div className="mb-8 flex h-43 w-100 items-center justify-center rounded-5 border border-st-gray-100">
+                  <button
+                    className="h-full w-full font-bold"
+                    onClick={() => setToInitialState()}
+                  >
+                    초기화
+                  </button>
+                </div>
+              </div>
+            </Sheet.Content>
+          </Sheet.Container>
+          <Sheet.Backdrop />
+        </Sheet>
       </div>
     </main>
   );
