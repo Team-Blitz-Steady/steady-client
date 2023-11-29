@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import { CopyIcon } from "@radix-ui/react-icons";
 import { Badge, Separator } from "@radix-ui/themes";
 import { format } from "date-fns";
 import type { MySteadyContentType } from "@/services/types";
@@ -173,11 +174,16 @@ const MySteadyPage = () => {
                       </div>
                     </Link>
                     <div className="flex items-center justify-center gap-20">
-                      <Badge color={"indigo"}>
+                      <Badge
+                        color={"indigo"}
+                        size={"2"}
+                      >
                         <button
+                          className="flex items-center gap-10"
                           onClick={() => handleCopyClipBoard(steady.contact)}
                         >
-                          연락 수단
+                          <div>연락 수단</div>
+                          <CopyIcon />
                         </button>
                       </Badge>
                       <div className="text-bold max-w-fit text-15 text-st-gray-100 max-sm:hidden">
