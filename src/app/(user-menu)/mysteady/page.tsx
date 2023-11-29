@@ -127,7 +127,7 @@ const MySteadyPage = () => {
       <Separator className="h-5 w-full bg-st-gray-400" />
       <div
         ref={ref}
-        className="h-700 overflow-y-auto overflow-x-hidden"
+        className="h-650 overflow-y-auto overflow-x-hidden"
       >
         <InfiniteScroll
           className="flex h-full w-full flex-col"

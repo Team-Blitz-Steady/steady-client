@@ -79,20 +79,20 @@ const CreateTemplatePage = () => {
   };
 
   return (
-    <div className="flex gap-30">
-      <div>
-        <div className="flex justify-between p-20 text-30 font-bold">
+    <div className="flex gap-30 max-sm:w-400 sm:w-500 md:w-400 lg:w-600 xl:w-750">
+      <div className="w-full">
+        <div className="flex justify-between px-20 pb-10 text-25 font-bold lg:text-28 xl:text-30">
           템플릿 생성
           <Button
-            className={`${buttonSize.lg} bg-st-primary text-st-white`}
+            className={`${buttonSize.sm} bg-st-primary text-st-white`}
             onClick={() => handleAddQuestion(content)}
           >
             질문 추가
           </Button>
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>
-        <div className="h-750 w-750 overflow-y-scroll">
-          <div className="flex flex-col gap-20 p-20">
+        <div className="h-650 w-full overflow-y-scroll">
+          <div className="flex w-full flex-col gap-20 p-20">
             {question.map((item, index) => (
               <div
                 key={index}
@@ -103,7 +103,7 @@ const CreateTemplatePage = () => {
                   type="text"
                   placeholder="질문을 입력해 주세요."
                   value={item.value}
-                  className="h-50 w-5/6 text-20 text-st-black outline-none"
+                  className="h-50 w-full text-20 text-st-black outline-none"
                   onChange={(event) => handleInputChange(event, item.id)}
                 />
                 <div
@@ -133,13 +133,13 @@ const CreateTemplatePage = () => {
         <div className="mt-20 flex w-full justify-end gap-20">
           <Button
             onClick={() => backToTemplate()}
-            className={`${buttonSize.lg} bg-st-red text-st-white`}
+            className={`${buttonSize.sm} bg-st-red text-st-white`}
           >
             취소하기
           </Button>
           <Button
             onClick={() => openModal()}
-            className={`${buttonSize.lg} bg-st-primary text-st-white`}
+            className={`${buttonSize.sm} bg-st-primary text-st-white`}
           >
             생성하기
           </Button>

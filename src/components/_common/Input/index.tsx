@@ -7,7 +7,8 @@ interface InputProps extends ComponentProps<"input"> {
     | "title-input"
     | "tag-input"
     | "introduce-input"
-    | "steady-bio-input";
+    | "steady-bio-input"
+    | "steady-contact-input";
   initialValue?: string;
   // eslint-disable-next-line no-unused-vars
   onValueChange?: (value: string) => void;
@@ -61,6 +62,21 @@ const Input = ({
             type="text"
             defaultValue={initialValue}
             placeholder="스테디 한 줄 소개"
+            onChange={(event) => {
+              onValueChange?.(event.target.value);
+            }}
+          />
+        </div>
+      );
+      break;
+    case "steady-contact-input":
+      input = (
+        <div>
+          <input
+            className="h-25 w-1000 pl-5 pr-5 text-xl font-semibold outline-none"
+            type="text"
+            defaultValue={initialValue}
+            placeholder="스테디 연락 수단(이메일 주소 또는 오픈카톡방 링크)"
             onChange={(event) => {
               onValueChange?.(event.target.value);
             }}

@@ -97,6 +97,7 @@ export interface SteadyDetailsType {
   createdAt: string;
   finishedAt: string;
   isReviewEnabled: boolean;
+  contact: string;
   isLiked: boolean;
 }
 

@@ -13,18 +13,22 @@ const SteadyApplicantPage = ({ params }: { params: { steady_id: string } }) => {
 
   return (
     <div className="flex w-full items-center justify-center">
-      <span className="text-25 font-bold">
+      <div className="font-bold max-sm:text-15 sm:text-18 md:text-20 lg:text-22 xl:text-25">
         {numberOfApplicant === 0 ? (
           "아직 스테디에 신청한 사람이 없어요!"
         ) : (
           <>
-            <span className="text-28 text-st-primary">{numberOfApplicant}</span>
-            {hasNextPage
-              ? "명 이상의 신청자가 스테디 참여를 기다리고 있어요!"
-              : "명의 신청자가 스테디 참여를 기다리고 있어요!"}
+            <span className="text-st-primary max-sm:text-18 sm:text-21 md:text-23 lg:text-25 xl:text-28">
+              {numberOfApplicant}
+            </span>
+            <span className="text-center">
+              {hasNextPage
+                ? "명 이상의 신청자가 스테디 참여를 기다리고 있어요!"
+                : "명의 신청자가 스테디 참여를 기다리고 있어요!"}
+            </span>
           </>
         )}
-      </span>
+      </div>
     </div>
   );
 };
