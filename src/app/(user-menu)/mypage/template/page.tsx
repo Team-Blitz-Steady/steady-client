@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -7,17 +8,19 @@ import deleteTemplate from "@/services/template/deleteTemplate";
 import getTemplates from "@/services/template/getTemplates";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
+import DeleteModal from "@/components/_common/Modal/DeleteModal";
 import { TemplatesKey } from "@/constants/queryKeys";
 
 const MyTemplatePage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [templateId, setTemplateId] = useState("0");
   const { data, refetch } = useQuery({
     queryKey: TemplatesKey,
     queryFn: getTemplates,
   });
   const router = useRouter();
 
-  const handleDeleteTemplate = async (event: React.MouseEvent, id: string) => {
-    event.stopPropagation();
+  const handleDeleteTemplate = async (id: string) => {
     const data = await deleteTemplate(id);
     if (!data) {
       refetch();
@@ -26,6 +29,15 @@ const MyTemplatePage = () => {
 
   const handleTemplateDetail = (id: number) => {
     router.push(`/mypage/template/edit/${id}`);
+  };
+
+  const openModal = (id: string) => {
+    setTemplateId(id);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -55,9 +67,10 @@ const MyTemplatePage = () => {
                   생성일 {template.createdAt.slice(0, 10)}
                 </div>
                 <div
-                  onClick={(event) =>
-                    handleDeleteTemplate(event, template.id.toString())
-                  }
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    openModal(template.id.toString());
+                  }}
                   className="hidden cursor-pointer gap-20 transition duration-500 group-hover:flex"
                 >
                   <Icon
@@ -72,6 +85,12 @@ const MyTemplatePage = () => {
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>
       </div>
+      <DeleteModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onDelete={handleDeleteTemplate}
+        id={templateId}
+      />
     </div>
   );
 };
