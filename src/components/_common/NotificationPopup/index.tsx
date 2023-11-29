@@ -58,7 +58,6 @@ const NotificationPopup = () => {
           variant: "red",
         });
         setIsAuth(false);
-        router.refresh();
       }
     }
     return (
