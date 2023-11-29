@@ -32,7 +32,7 @@ import { NotificationKey } from "@/constants/queryKeys";
 const NotificationPopup = () => {
   const router = useRouter();
   const pathName = usePathname();
-  const { isAuth } = useAuthStore();
+  const { isAuth, setIsAuth } = useAuthStore();
   const [notificationMenuOpen, setNotificationMenuOpen] = useState(false);
   const { toast } = useToast();
   const {
@@ -57,7 +57,8 @@ const NotificationPopup = () => {
           description: "토큰이 존재하지 않습니다. 다시 로그인해주세요.",
           variant: "red",
         });
-        router.push("/logout");
+        setIsAuth(false);
+        router.refresh();
       }
     }
     return (
