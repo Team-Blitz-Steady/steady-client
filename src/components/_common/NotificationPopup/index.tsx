@@ -57,11 +57,7 @@ const NotificationPopup = () => {
   }
 
   if (notificationsError) {
-    return (
-      <div className={"flex h-112 w-full items-center justify-center"}>
-        <div>에러가 발생했습니다.</div>
-      </div>
-    );
+    throw notificationsError;
   }
 
   const { notifications, freshCount } = notificationsData;
