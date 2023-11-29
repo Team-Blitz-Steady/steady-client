@@ -8,6 +8,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
 import {
@@ -33,6 +34,7 @@ const NotificationPopup = () => {
   const pathName = usePathname();
   const { isAuth } = useAuthStore();
   const [notificationMenuOpen, setNotificationMenuOpen] = useState(false);
+  const { toast } = useToast();
   const {
     data: notificationsData,
     isSuccess: notificationsSuccess,
@@ -49,15 +51,20 @@ const NotificationPopup = () => {
   }, [pathName]);
 
   if (!notificationsSuccess) {
+    if (notificationsError) {
+      if (notificationsError.response?.data.code === "A002") {
+        toast({
+          description: "토큰이 존재하지 않습니다. 다시 로그인해주세요.",
+          variant: "red",
+        });
+        router.push("/logout");
+      }
+    }
     return (
       <div className={"flex h-112 w-full items-center justify-center"}>
         <Spinner size={"medium"} />
       </div>
     );
-  }
-
-  if (notificationsError) {
-    throw notificationsError;
   }
 
   const { notifications, freshCount } = notificationsData;
