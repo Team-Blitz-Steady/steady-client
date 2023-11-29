@@ -47,7 +47,7 @@ const UserApplicantPage = ({
   };
 
   return (
-    <div className="flex w-full flex-col gap-10">
+    <div className="flex w-full flex-col gap-10 overflow-y-scroll pr-30">
       {applicationDetailsData.surveys.map((survey, id) => (
         <Question
           key={id}
