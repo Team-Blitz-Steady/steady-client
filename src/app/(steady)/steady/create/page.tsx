@@ -16,7 +16,7 @@ import useCreateSteadyStore from "@/stores/createSteadyData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator, TextArea } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { format, parse } from "date-fns";
+import { format } from "date-fns";
 import getPositions from "@/services/steady/getPositions";
 import getStacks from "@/services/steady/getStacks";
 import type { PositionResponse, StackResponse } from "@/services/types";
@@ -46,7 +46,6 @@ const CreateSteadyPage = () => {
   const { steadyState, setSteadyState } = useCreateSteadyStore();
   const steadyForm = useForm<SteadyStateType>({
     resolver: zodResolver(SteadySchema),
-    defaultValues: steadyState,
   });
   const { data: positions, error: positionsError } =
     useSuspenseQuery<PositionResponse>({
@@ -99,7 +98,6 @@ const CreateSteadyPage = () => {
                 <FormControl>
                   <Input
                     inputName={"steady-title-input"}
-                    initialValue={steadyState?.name}
                     onValueChange={(value) => {
                       field.onChange(value);
                     }}
@@ -118,7 +116,6 @@ const CreateSteadyPage = () => {
                 <FormControl>
                   <Input
                     inputName={"steady-bio-input"}
-                    initialValue={steadyState?.bio}
                     onValueChange={(value) => {
                       field.onChange(value);
                     }}
@@ -144,7 +141,6 @@ const CreateSteadyPage = () => {
                   <FormItem>
                     <SingleSelector
                       initialLabel={"프로젝트 / 스터디"}
-                      initialData={steadyState?.type}
                       items={steadyCategories}
                       className={cn("w-200")}
                       onSelectedChange={(selected) => {
@@ -163,7 +159,6 @@ const CreateSteadyPage = () => {
                   <FormItem>
                     <SingleSelector
                       initialLabel={"진행 방식"}
-                      initialData={steadyState?.steadyMode}
                       items={steadyRunningMethods}
                       className={cn("w-200")}
                       onSelectedChange={(selected) => {
@@ -182,7 +177,6 @@ const CreateSteadyPage = () => {
                   <FormItem>
                     <SingleSelector
                       initialLabel={"스테디 정원"}
-                      initialData={steadyState?.participantLimit}
                       items={steadyParticipantsLimit}
                       className={cn("w-200")}
                       onSelectedChange={(selected) => {
@@ -201,11 +195,6 @@ const CreateSteadyPage = () => {
                   <FormItem>
                     <DateSelector
                       initialLabel={"마감일"}
-                      initialDate={parse(
-                        steadyState?.deadline,
-                        "yyyy-MM-dd",
-                        new Date(),
-                      )}
                       className={cn("w-200")}
                       onDateChange={(date) => {
                         field.onChange(format(date, "yyyy-MM-dd"));
@@ -249,7 +238,6 @@ const CreateSteadyPage = () => {
                   <FormItem>
                     <SingleSelector
                       initialLabel={"예상 기간"}
-                      initialData={steadyState?.scheduledPeriod}
                       items={steadyExpectedPeriods}
                       className={cn("w-200")}
                       onSelectedChange={(selected) => {
@@ -314,7 +302,6 @@ const CreateSteadyPage = () => {
                 <FormItem>
                   <Input
                     inputName={"title-input"}
-                    initialValue={steadyState?.title}
                     onValueChange={(value) => {
                       field.onChange(value);
                     }}
@@ -331,9 +318,7 @@ const CreateSteadyPage = () => {
                   <TextArea
                     className={cn("h-720 w-full")}
                     my={"3"}
-                    defaultValue={
-                      steadyState?.content ?? STEADY_RECRUITMENT_EXAMPLE
-                    }
+                    defaultValue={STEADY_RECRUITMENT_EXAMPLE}
                     onChange={(event) => {
                       field.onChange(event.target.value);
                     }}
