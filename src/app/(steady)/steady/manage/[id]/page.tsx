@@ -7,11 +7,11 @@ import { useRouter } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
 import DeleteUserLogo from "@/images/DeleteUser.svg";
-import Logo from "@/images/logo.svg";
 import { cn } from "@/lib/utils";
 import { Badge, Separator, Tabs } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import deleteSteady from "@/services/steady/deleteSteady";
+import deleteSteadyMember from "@/services/steady/deleteSteadyMember";
 import finishSteady from "@/services/steady/finishSteady";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyParticipants from "@/services/steady/getSteadyParticipants";
@@ -56,12 +56,15 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
     });
   }, []);
 
-  const { data: steadyParticipantsData, error: steadyParticipantsError } =
-    useSuspenseQuery({
-      queryKey: getSteadyParticipantsKey(steadyId),
-      queryFn: () => getSteadyParticipants(steadyId),
-      staleTime: 1000 * 60,
-    });
+  const {
+    data: steadyParticipantsData,
+    error: steadyParticipantsError,
+    refetch: refetchSteadyParticipant,
+  } = useSuspenseQuery({
+    queryKey: getSteadyParticipantsKey(steadyId),
+    queryFn: () => getSteadyParticipants(steadyId),
+    staleTime: 1000 * 60,
+  });
 
   const { data: participantDetailsData, error: participantDetailsError } =
     useSuspenseQuery({
@@ -99,6 +102,21 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
       });
   };
 
+  const handleBanMember = () => {
+    deleteSteadyMember(
+      steadyId,
+      steadyParticipantsData.participants[currentUserIndex].id.toString(),
+    )
+      .then(() => {
+        toast({ description: "멤버를 추방했습니다.", variant: "green" });
+        setCurrentUserIndex(0);
+        refetchSteadyParticipant();
+      })
+      .catch(() => {
+        toast({ description: "멤버 추방에 실패했습니다.", variant: "red" });
+      });
+  };
+
   if (error || steadyParticipantsError || participantDetailsError) {
     return <div>에러가 발생했습니다.</div>;
   }
@@ -107,7 +125,7 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
     <div className="flex w-1000 flex-col">
       <div className="mb-20 flex items-center justify-between">
         <div className="text-30 font-bold">
-          {`${steadyDetailsData.name} 운영 페이지`}{" "}
+          {`${steadyDetailsData.name} 운영 페이지`}
         </div>
         <div className="flex gap-20">
           <Link href={`/steady/applicant/${steadyId}`}>
@@ -212,7 +230,7 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
                           멤버 정보
                         </div>
                         <Image
-                          src={Logo}
+                          src={participantDetailsData.user.profileImage}
                           alt={"내 프로필 이미지"}
                           width={150}
                           height={150}
@@ -327,6 +345,7 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
                             actionButton={
                               <Button
                                 className={`${buttonSize.sm} bg-st-red text-st-white`}
+                                onClick={handleBanMember}
                               >
                                 추방
                               </Button>
@@ -349,6 +368,33 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
                       />
                       <div className="text-25 font-bold">
                         탈퇴한 유저 입니다.
+                      </div>
+                    </div>
+                    <div className={cn(subContentStyles, "pt-30")}>
+                      <div className={cn(subBoxStyles, "justify-between")}>
+                        <div className={cn(subMyPageTextStyles.content)}>
+                          스테디 참여자 추방 시 되돌릴 수 없습니다.
+                        </div>
+                        {/* TODO: 유저 추방 기능 구현 */}
+                        <AlertModal
+                          trigger={
+                            <Button
+                              className={`${buttonSize.lg} bg-st-red text-st-white`}
+                            >
+                              멤버 추방
+                            </Button>
+                          }
+                          actionButton={
+                            <Button
+                              className={`${buttonSize.sm} bg-st-red text-st-white`}
+                              onClick={handleBanMember}
+                            >
+                              추방
+                            </Button>
+                          }
+                        >
+                          정말 해당 멤버를 추방하시겠습니까?
+                        </AlertModal>
                       </div>
                     </div>
                   </div>
