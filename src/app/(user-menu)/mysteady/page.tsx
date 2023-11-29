@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
-import { Separator } from "@radix-ui/themes";
+import { Badge, Separator } from "@radix-ui/themes";
 import { format } from "date-fns";
 import type { MySteadyContentType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
@@ -173,11 +173,13 @@ const MySteadyPage = () => {
                       </div>
                     </Link>
                     <div className="flex items-center justify-center gap-20">
-                      <button
-                        onClick={() => handleCopyClipBoard(steady.contact)}
-                      >
-                        연락 수단
-                      </button>
+                      <Badge color={"indigo"}>
+                        <button
+                          onClick={() => handleCopyClipBoard(steady.contact)}
+                        >
+                          연락 수단
+                        </button>
+                      </Badge>
                       <div className="text-bold max-w-fit text-15 text-st-gray-100 max-sm:hidden">
                         {steady.isLeader ? "생성일: " : "참여일: "}
                         {format(new Date(steady.joinedAt), "yyyy.MM.dd")}
