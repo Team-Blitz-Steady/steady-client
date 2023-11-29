@@ -97,6 +97,7 @@ export interface SteadyDetailsType {
   createdAt: string;
   finishedAt: string;
   isReviewEnabled: boolean;
+  contact: string;
   isLiked: boolean;
 }
 
@@ -352,4 +353,9 @@ interface ReviewCard {
 export interface ImageUrlResponse {
   presignedUrl: string;
   objectUrl: string;
+}
+
+export interface ErrorResponse {
+  message: string;
+  code: string;
 }

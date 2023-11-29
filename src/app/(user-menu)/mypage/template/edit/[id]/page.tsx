@@ -109,9 +109,9 @@ const EditTemplatePage = () => {
   };
 
   return (
-    <div className="flex gap-30">
-      <div>
-        <div className="flex justify-between p-20 text-30 font-bold">
+    <div className="flex gap-30 max-sm:w-400 sm:w-500 md:w-400 lg:w-600 xl:w-750">
+      <div className="w-full">
+        <div className="flex justify-between px-20 pb-10 text-25 font-bold lg:text-28 xl:text-30">
           {data?.title} 템플릿
           {isModify ? (
             <div className="flex justify-center gap-20">
@@ -130,7 +130,7 @@ const EditTemplatePage = () => {
             </div>
           ) : (
             <Button
-              className={`${buttonSize.lg} bg-st-primary text-st-white`}
+              className={`${buttonSize.sm} bg-st-primary text-st-white`}
               onClick={() => setIsModify(!isModify)}
             >
               수정하기
@@ -138,7 +138,7 @@ const EditTemplatePage = () => {
           )}
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>
-        <div className="h-750 w-750 overflow-y-scroll">
+        <div className="h-650 w-full overflow-x-hidden overflow-y-scroll">
           <div className="flex flex-col gap-20 p-20">
             {question.map((item, index) => (
               <div

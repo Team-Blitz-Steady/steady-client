@@ -36,27 +36,27 @@ const MyApplicationPage = () => {
   };
 
   return (
-    <div className="flex gap-30">
-      <div>
-        <div className="flex justify-between p-20 text-30 font-bold">
+    <div className="flex gap-30 max-sm:w-400 sm:w-500 md:w-400 lg:w-600 xl:w-750">
+      <div className="w-full">
+        <div className="flex justify-between px-20 pb-10 text-25 font-bold lg:text-28 xl:text-30">
           내 신청서 관리
           <div className="flex items-center justify-center gap-20">
-            <div className="flex items-center justify-center gap-10 text-20 font-bold">
+            <div className="flex flex-col items-center justify-center gap-10 text-15 font-bold lg:flex-row lg:text-20 xl:text-25">
               <div className="h-10 w-10 rounded-full bg-st-green"></div>
-              승인
+              <span>승인</span>
             </div>
-            <div className="flex items-center justify-center gap-10 text-20 font-bold">
+            <div className="flex flex-col items-center justify-center gap-10 text-15 font-bold lg:flex-row lg:text-20 xl:text-25">
               <div className="h-10 w-10 rounded-full bg-st-red"></div>
-              거절
+              <span>거절</span>
             </div>
-            <div className="flex items-center justify-center gap-10 text-20 font-bold">
+            <div className="flex flex-col items-center justify-center gap-10 text-15 font-bold lg:flex-row lg:text-20 xl:text-25">
               <div className="h-10 w-10 rounded-full bg-st-primary"></div>
-              대기
+              <span>대기</span>
             </div>
           </div>
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>
-        <div className="h-750 w-750 overflow-x-hidden overflow-y-scroll">
+        <div className="h-650 w-full overflow-x-hidden overflow-y-scroll">
           <InfiniteScroll
             hasMore={hasNextPage}
             loadMore={() => fetchNextPage()}
@@ -72,9 +72,9 @@ const MyApplicationPage = () => {
                       application.applicationId,
                     )
                   }
-                  className="group flex cursor-pointer items-center justify-between p-50 transition hover:scale-105 hover:bg-st-gray-50"
+                  className="group flex cursor-pointer items-center justify-between p-40 transition hover:scale-105 hover:bg-st-gray-50"
                 >
-                  <div className="text-25 font-bold">
+                  <div className="text-20 font-bold lg:text-23 xl:text-25">
                     {application.status === "ACCEPTED" ? (
                       <div className="flex items-center justify-center gap-10">
                         {application.steadyName}

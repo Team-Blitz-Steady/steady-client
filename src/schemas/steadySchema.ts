@@ -36,6 +36,13 @@ export const SteadySchema = z.object({
   stacks: z.array(number(), {
     required_error: "스테디의 기술 스택을 선택해주세요.",
   }),
+  contact: z.union([
+    z
+      .string({ required_error: "스테디의 연락 수단 정보를 입력해주세요." })
+      .url({ message: "링크 주소 또는 이메일 타입이어야 합니다!" })
+      .startsWith("https://", { message: "https로 제공되어야 합니다!" }),
+    z.string().email(),
+  ]),
 });
 
 export type SteadyStateType = z.infer<typeof SteadySchema>;
