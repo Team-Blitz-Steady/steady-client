@@ -2,6 +2,7 @@
 
 // InitializedMDXEditor.tsx
 import type { ForwardedRef } from "react";
+import { useEffect } from "react";
 import {
   BlockTypeSelect,
   BoldItalicUnderlineToggles,
@@ -29,7 +30,14 @@ import {
 export default function InitializedMDXEditor({
   editorRef,
   ...props
-}: { editorRef: ForwardedRef<MDXEditorMethods> | null } & MDXEditorProps) {
+}: { editorRef: ForwardedRef<MDXEditorMethods> | null } & MDXEditorProps & {
+    setIsLoaded?: (isLoaded: boolean) => void;
+  }) {
+  useEffect(() => {
+    if (editorRef) {
+      props.setIsLoaded?.(true);
+    }
+  }, [editorRef]);
   return (
     <MDXEditor
       plugins={[
