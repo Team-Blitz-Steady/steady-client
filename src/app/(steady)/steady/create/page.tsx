@@ -216,6 +216,7 @@ const CreateSteadyPage = () => {
                   <FormItem>
                     <MultiSelector
                       initialLabel={"모집 분야"}
+                      // TODO: steadyState?.positions에 있는 id값을 가진 position을 뽑아서 initialData로 넣어줘야 함
                       items={positions.positions.map((position) => ({
                         value: position.id.toString(),
                         label: position.name,
@@ -269,6 +270,25 @@ const CreateSteadyPage = () => {
                 )}
               />
             </div>
+
+            <FormField
+              control={steadyForm.control}
+              name={"contact"}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      inputName={"steady-contact-input"}
+                      initialValue={steadyState?.contact}
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <Separator
               size={"4"}
