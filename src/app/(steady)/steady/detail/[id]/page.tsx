@@ -399,8 +399,9 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                       className="whitespace-nowrap"
                     >
                       <Badge
-                        color={"gray"}
+                        color={"indigo"}
                         size={"2"}
+                        radius={"full"}
                       >
                         {position.name}
                       </Badge>
