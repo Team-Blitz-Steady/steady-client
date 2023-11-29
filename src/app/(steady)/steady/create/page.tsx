@@ -318,7 +318,7 @@ const CreateSteadyPage = () => {
               render={({ field }) => (
                 <FormItem>
                   <RichEditor
-                    className={"h-720 w-full"}
+                    className={"min-h-720 w-full"}
                     contentEditableClassName={"prose"}
                     onChange={(markdown) => {
                       unified()
