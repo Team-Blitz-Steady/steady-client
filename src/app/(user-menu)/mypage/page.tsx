@@ -521,7 +521,9 @@ const MyProfilePage = () => {
               </Button>
             }
           >
-            정말 스테디를 탈퇴하시겠습니까?
+            <span className="text-18 font-bold">
+              정말 스테디를 탈퇴하시겠습니까?
+            </span>
           </AlertModal>
         </div>
       </div>

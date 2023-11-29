@@ -158,7 +158,7 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
               </Button>
             }
           >
-            <div className={cn("text-center text-18 font-light")}>
+            <div className={cn("text-center text-18 font-bold")}>
               정말 스테디를 종료하겠습니까? <br /> 종료 시 되돌릴 수 없습니다.
             </div>
           </AlertModal>
@@ -182,7 +182,7 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
               </Button>
             }
           >
-            <div className={cn("text-center text-18 font-light")}>
+            <div className={cn("text-center text-18 font-bold")}>
               정말 스테디를 삭제하겠습니까? <br /> 삭제 시 되돌릴 수 없습니다.
             </div>
           </AlertModal>
@@ -351,7 +351,9 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
                               </Button>
                             }
                           >
-                            정말 해당 멤버를 추방하시겠습니까?
+                            <span className="text-18 font-bold">
+                              정말 해당 멤버를 추방하시겠습니까?
+                            </span>
                           </AlertModal>
                         </div>
                       </div>
@@ -393,7 +395,9 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
                             </Button>
                           }
                         >
-                          정말 해당 멤버를 추방하시겠습니까?
+                          <span className="text-18 font-bold">
+                            정말 해당 멤버를 추방하시겠습니까?
+                          </span>
                         </AlertModal>
                       </div>
                     </div>

@@ -89,7 +89,7 @@ const MySteadyPage = () => {
           }
         >
           <div className="flex items-center justify-center">
-            <div className="text-20 font-bold">정말 탈퇴하시겠습니까?</div>
+            <div className="text-18 font-bold">정말 탈퇴하시겠습니까?</div>
           </div>
         </AlertModal>
       );
