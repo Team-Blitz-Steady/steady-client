@@ -122,7 +122,10 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
   return (
     <div className="max-sm:w-400 sm:w-450 md:w-600 lg:w-800 xl:w-1000">
       <div className="flex flex-col gap-20">
-        <button onClick={() => router.back()}>
+        <button
+          onClick={() => router.back()}
+          className="w-fit"
+        >
           <Icon
             name="arrow-left"
             size={30}
