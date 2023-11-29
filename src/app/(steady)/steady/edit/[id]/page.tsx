@@ -95,6 +95,7 @@ const SteadyEditPage = ({
     steadyMode,
     scheduledPeriod,
     deadline,
+    contact,
     title,
     content,
     positions,
@@ -353,7 +354,24 @@ const SteadyEditPage = ({
                 )}
               />
             </div>
-
+            <FormField
+              control={steadyEditForm.control}
+              name={"contact"}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      inputName={"steady-contact-input"}
+                      initialValue={contact}
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Separator
               size={"4"}
               my={"3"}
