@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import {
@@ -14,15 +15,24 @@ import { cn } from "@/lib/utils";
 import type { SteadyEditStateType } from "@/schemas/steadyEditSchema";
 import { SteadyEditSchema } from "@/schemas/steadyEditSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Separator, TextArea } from "@radix-ui/themes";
+import type { MDXEditorMethods } from "@mdxeditor/editor";
+import { Separator } from "@radix-ui/themes";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { format, parse } from "date-fns";
+import rehypeParse from "rehype-parse";
+import rehypeRemark from "rehype-remark";
+import rehypeStringify from "rehype-stringify";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import remarkStringify from "remark-stringify";
+import { unified } from "unified";
 import getPositions from "@/services/steady/getPositions";
 import getStacks from "@/services/steady/getStacks";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import updateSteady from "@/services/steady/updateSteady";
 import type { PositionResponse, StackResponse } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
+import { ForwardRefEditor as RichEditor } from "@/components/_common/Editor/ForwardedRefEditor";
 import Input from "@/components/_common/Input";
 import {
   DateSelector,
@@ -52,10 +62,26 @@ const SteadyEditPage = ({
   const { toast } = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const editorRef = useRef<MDXEditorMethods>(null);
+  const [editorLoaded, setEditorLoaded] = useState(false);
   const { data, error, refetch } = useSuspenseQuery({
     queryKey: getSteadyDetailsKey(steadyId),
     queryFn: () => getSteadyDetails(steadyId),
   });
+
+  useEffect(() => {
+    if (editorRef.current) {
+      unified()
+        .use(rehypeParse)
+        .use(rehypeRemark)
+        .use(remarkStringify)
+        .process(data.content)
+        .then((file) => editorRef.current?.setMarkdown(String(file.value)))
+        .catch((error) => {
+          throw error;
+        });
+    }
+  }, [editorLoaded]);
 
   const { data: positionItems, error: positionsError } =
     useSuspenseQuery<PositionResponse>({
@@ -73,16 +99,12 @@ const SteadyEditPage = ({
     resolver: zodResolver(SteadyEditSchema),
   });
 
-  if (error) {
-    return <div>에러가 발생했습니다.</div>;
-  }
-
-  if (positionsError) {
-    console.error(positionsError);
-  }
-
-  if (stacksError) {
-    console.error(stacksError);
+  if (error || positionsError || stacksError) {
+    return (
+      <div className={"flex h-112 w-full items-center justify-center"}>
+        <div>에러가 발생했습니다.</div>
+      </div>
+    );
   }
 
   const {
@@ -357,6 +379,7 @@ const SteadyEditPage = ({
             <FormField
               control={steadyEditForm.control}
               name={"contact"}
+              defaultValue={contact}
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
@@ -398,19 +421,30 @@ const SteadyEditPage = ({
               control={steadyEditForm.control}
               defaultValue={content}
               name={"content"}
-              render={({ field }) => (
-                <FormItem>
-                  <TextArea
-                    className={cn("h-720 w-full")}
-                    my={"3"}
-                    defaultValue={content}
-                    onChange={(event) => {
-                      field.onChange(event.target.value);
-                    }}
-                  />
-                  <FormMessage />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <RichEditor
+                      className={"min-h-720 w-full"}
+                      contentEditableClassName={"prose"}
+                      ref={editorRef}
+                      onChange={(markdown) => {
+                        unified()
+                          .use(remarkParse)
+                          .use(remarkRehype)
+                          .use(rehypeStringify)
+                          .process(markdown)
+                          .then((file) => {
+                            field.onChange(String(file.value));
+                          });
+                      }}
+                      markdown={""}
+                      setIsLoaded={setEditorLoaded}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
             />
             <div className={"flex justify-end gap-20"}>
               <Button

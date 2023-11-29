@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Favicon from "@/images/favicon.ico";
 import QueryProvider from "@/lib/react-query/QueryProvider";
 import { cn } from "@/lib/utils";
+import "@mdxeditor/editor/style.css";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import AppBar from "@/components/_common/AppBar";

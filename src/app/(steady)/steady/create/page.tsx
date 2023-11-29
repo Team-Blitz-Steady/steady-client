@@ -14,13 +14,18 @@ import type { SteadyStateType } from "@/schemas/steadySchema";
 import { SteadySchema } from "@/schemas/steadySchema";
 import useCreateSteadyStore from "@/stores/createSteadyData";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Separator, TextArea } from "@radix-ui/themes";
+import { Separator } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
+import rehypeStringify from "rehype-stringify";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import { unified } from "unified";
 import getPositions from "@/services/steady/getPositions";
 import getStacks from "@/services/steady/getStacks";
 import type { PositionResponse, StackResponse } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
+import { ForwardRefEditor as RichEditor } from "@/components/_common/Editor/ForwardedRefEditor";
 import Input from "@/components/_common/Input";
 import AlertModal from "@/components/_common/Modal/AlertModal";
 import {
@@ -29,10 +34,7 @@ import {
   SingleSelector,
 } from "@/components/_common/Selector";
 import { extractValue } from "@/utils/extractValue";
-import {
-  CREATE_STEADY_PAGE_HEADING,
-  STEADY_RECRUITMENT_EXAMPLE,
-} from "@/constants/labelData";
+import { CREATE_STEADY_PAGE_HEADING } from "@/constants/labelData";
 import { PositionsKey, StacksKey } from "@/constants/queryKeys";
 import {
   steadyCategories,
@@ -315,13 +317,20 @@ const CreateSteadyPage = () => {
               name={"content"}
               render={({ field }) => (
                 <FormItem>
-                  <TextArea
-                    className={cn("h-720 w-full")}
-                    my={"3"}
-                    defaultValue={STEADY_RECRUITMENT_EXAMPLE}
-                    onChange={(event) => {
-                      field.onChange(event.target.value);
+                  <RichEditor
+                    className={"min-h-720 w-full"}
+                    contentEditableClassName={"prose"}
+                    onChange={(markdown) => {
+                      unified()
+                        .use(remarkParse)
+                        .use(remarkRehype)
+                        .use(rehypeStringify)
+                        .process(markdown)
+                        .then((file) => {
+                          field.onChange(String(file.value));
+                        });
                     }}
+                    markdown={""}
                   />
                   <FormMessage />
                 </FormItem>
