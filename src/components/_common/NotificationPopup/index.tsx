@@ -103,25 +103,18 @@ const NotificationPopup = () => {
 
   return (
     <Popover open={notificationMenuOpen}>
-      <PopoverTrigger>
-        <div
-          className={"relative h-25 w-25"}
-          onClick={() => setNotificationMenuOpen((prev) => !prev)}
-        >
+      <PopoverTrigger onClick={() => setNotificationMenuOpen((prev) => !prev)}>
+        <div className={"relative h-15 w-15 md:h-25 md:w-25"}>
           {freshCount > 0 && (
             <div
               className={
-                "absolute right-0 top-0 z-20 flex h-15 w-15 items-center justify-center rounded-full bg-st-red text-12 font-semibold text-st-white"
+                "absolute right-0 top-0 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-st-red text-10 font-semibold text-st-white md:h-15 md:w-15 md:text-12"
               }
             >
               {freshCount}
             </div>
           )}
-          <BellIcon
-            className={"absolute z-10"}
-            width={25}
-            height={25}
-          />
+          <BellIcon className={"absolute z-10 h-15 w-15 md:h-25 md:w-25"} />
         </div>
       </PopoverTrigger>
 

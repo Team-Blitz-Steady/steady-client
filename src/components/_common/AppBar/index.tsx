@@ -16,7 +16,7 @@ interface AppBarProps {
   className?: string;
 }
 
-export const appBarTextStyles = "text-lg font-bold";
+export const appBarTextStyles = "text-12 md:text-lg font-bold";
 
 const AppBar = ({ className }: AppBarProps) => {
   const { isAuth } = useAuthStore();
@@ -38,25 +38,20 @@ const AppBar = ({ className }: AppBarProps) => {
       )}
     >
       <Link href={"/"}>
-        <Image
-          className="hidden md:flex"
-          src={HeaderLogo}
-          alt="스테디 로고"
-          width={150}
-          height={70}
-        />
-        <Image
-          className="md:hidden"
-          src={HeaderLogo}
-          alt="스테디 로고"
-          width={100}
-          height={50}
-        />
+        <div className="w-100 md:w-150">
+          <Image
+            src={HeaderLogo}
+            alt="스테디 로고"
+            layout="full"
+          />
+        </div>
       </Link>
       {isAuth && (
-        <div className="flex w-250 items-center justify-between">
+        <div className="flex w-150 items-center justify-between sm:w-170 md:w-250">
           <Link href={"/mysteady"}>
-            <div className={cn(appBarTextStyles, "w-80")}>내 스테디</div>
+            <div className={cn(appBarTextStyles, "w-50 md:w-80")}>
+              내 스테디
+            </div>
           </Link>
           <NotificationPopup />
           <Dropdown
@@ -65,13 +60,15 @@ const AppBar = ({ className }: AppBarProps) => {
               { label: "로그아웃", linkTo: "/logout" },
             ]}
           >
-            <Image
-              className="rounded-full border-1"
-              src={userProfileImageSrc}
-              alt="스테디 로고"
-              width={45}
-              height={45}
-            />
+            <div className="flex h-30 w-30 items-center justify-center md:h-45 md:w-45">
+              <Image
+                className="rounded-full border-1"
+                src={userProfileImageSrc}
+                alt="스테디 로고"
+                width={45}
+                height={45}
+              />
+            </div>
           </Dropdown>
         </div>
       )}

@@ -97,41 +97,21 @@ const Posts = ({ info }: { info: Steadies }) => {
               <div className="flex w-110 flex-col gap-30 md:w-170">
                 <div className="flex items-center gap-10 text-10 font-bold md:text-17">
                   {item.profileImage !== "new_profile_image.jpg" ? (
-                    <>
-                      <Avatar
-                        src={item.profileImage}
-                        alt="profile"
-                        size={"2"}
-                        radius="full"
-                        className="hidden cursor-pointer md:flex"
-                        fallback={""}
-                      />
-                      <Avatar
-                        src={item.profileImage}
-                        alt="profile"
-                        size={"1"}
-                        radius="full"
-                        className="cursor-pointer md:hidden"
-                        fallback={""}
-                      />
-                    </>
+                    <Avatar
+                      src={item.profileImage}
+                      alt="profile"
+                      radius="full"
+                      className="aspect-square h-20 w-20 cursor-pointer md:flex md:h-25 md:w-25"
+                      fallback={""}
+                    />
                   ) : (
-                    <>
+                    <div className="h-20 w-20 rounded-full md:h-25 md:w-25">
                       <Image
                         src={Logo}
+                        layout="full"
                         alt="profile"
-                        width={30}
-                        height={30}
-                        className="hidden rounded-full md:flex"
                       />
-                      <Image
-                        src={Logo}
-                        alt="profile"
-                        width={20}
-                        height={20}
-                        className="rounded-full md:hidden"
-                      />
-                    </>
+                    </div>
                   )}
                   |{" "}
                   {item.nickname.length > 6
