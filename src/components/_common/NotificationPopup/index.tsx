@@ -103,10 +103,11 @@ const NotificationPopup = () => {
 
   return (
     <Popover open={notificationMenuOpen}>
-      <PopoverTrigger
-        onClick={() => setNotificationMenuOpen(!notificationMenuOpen)}
-      >
-        <div className={"relative h-25 w-25"}>
+      <PopoverTrigger>
+        <div
+          className={"relative h-25 w-25"}
+          onClick={() => setNotificationMenuOpen((prev) => !prev)}
+        >
           {freshCount > 0 && (
             <div
               className={
@@ -126,7 +127,16 @@ const NotificationPopup = () => {
 
       <PopoverContent
         className={"h-300 w-350 p-16 pb-40"}
-        onInteractOutside={() => setNotificationMenuOpen(false)}
+        onPointerDownOutside={(event) => {
+          const target = event.target as HTMLElement;
+          if (
+            target?.tagName.toLowerCase() === "path" ||
+            target?.tagName.toLowerCase() === "svg"
+          ) {
+            return;
+          }
+          setNotificationMenuOpen(false);
+        }}
       >
         <ScrollArea
           className={"h-full w-full rounded-md"}
