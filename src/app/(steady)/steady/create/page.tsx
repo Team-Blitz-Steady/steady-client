@@ -79,7 +79,9 @@ const CreateSteadyPage = () => {
   };
 
   return (
-    <div className={cn("mt-30")}>
+    <div
+      className={cn("mt-10 max-sm:w-400 sm:w-450 md:w-600 lg:w-800 xl:w-1000")}
+    >
       <Form {...steadyForm}>
         <form onSubmit={steadyForm.handleSubmit(onSubmit)}>
           <h1 className={cn("mx-8 font-semibold")}>
@@ -90,49 +92,52 @@ const CreateSteadyPage = () => {
             my={"3"}
             className={cn("h-3 bg-st-gray-400")}
           />
-          <FormField
-            control={steadyForm.control}
-            name={"name"}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    inputName={"steady-title-input"}
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className={cn("my-10")}></div>
-          <FormField
-            control={steadyForm.control}
-            name={"bio"}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    inputName={"steady-bio-input"}
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className={cn("mt-30")}>
+          <div className="flex flex-col gap-10">
+            <FormField
+              control={steadyForm.control}
+              name={"name"}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      inputName={"steady-title-input"}
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={steadyForm.control}
+              name={"bio"}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      inputName={"steady-bio-input"}
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className={cn("mt-10")}>
             <Separator
               size={"4"}
               my={"3"}
               className={cn("h-3 bg-st-gray-400")}
             />
             <div
-              className={cn("mx-20 my-10 flex flex-row justify-between gap-15")}
+              className={cn(
+                "mb-15 grid items-center justify-center gap-15 px-20 max-sm:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4",
+              )}
             >
               <FormField
                 control={steadyForm.control}
@@ -142,7 +147,7 @@ const CreateSteadyPage = () => {
                     <SingleSelector
                       initialLabel={"프로젝트 / 스터디"}
                       items={steadyCategories}
-                      className={cn("w-200")}
+                      className={cn("w-full")}
                       onSelectedChange={(selected) => {
                         field.onChange(selected);
                       }}
@@ -160,7 +165,7 @@ const CreateSteadyPage = () => {
                     <SingleSelector
                       initialLabel={"진행 방식"}
                       items={steadyRunningMethods}
-                      className={cn("w-200")}
+                      className={cn("w-full")}
                       onSelectedChange={(selected) => {
                         field.onChange(selected);
                       }}
@@ -178,7 +183,7 @@ const CreateSteadyPage = () => {
                     <SingleSelector
                       initialLabel={"스테디 정원"}
                       items={steadyParticipantsLimit}
-                      className={cn("w-200")}
+                      className={cn("w-full")}
                       onSelectedChange={(selected) => {
                         field.onChange(Number(selected));
                       }}
@@ -195,7 +200,7 @@ const CreateSteadyPage = () => {
                   <FormItem>
                     <DateSelector
                       initialLabel={"마감일"}
-                      className={cn("w-200")}
+                      className={cn("w-full")}
                       onDateChange={(date) => {
                         field.onChange(format(date, "yyyy-MM-dd"));
                       }}
@@ -205,15 +210,12 @@ const CreateSteadyPage = () => {
                   </FormItem>
                 )}
               />
-            </div>
-            <div
-              className={cn("mx-20 my-10 flex flex-row justify-between gap-15")}
-            >
+
               <FormField
                 control={steadyForm.control}
                 name={"positions"}
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="h-40">
                     <MultiSelector
                       initialLabel={"모집 분야"}
                       // TODO: steadyState?.positions에 있는 id값을 가진 position을 뽑아서 initialData로 넣어줘야 함
@@ -221,7 +223,7 @@ const CreateSteadyPage = () => {
                         value: position.id.toString(),
                         label: position.name,
                       }))}
-                      className={cn("w-200")}
+                      className={cn("w-full")}
                       onSelectedChange={(selected) => {
                         field.onChange(extractValue(selected).map(Number));
                       }}
@@ -239,7 +241,7 @@ const CreateSteadyPage = () => {
                     <SingleSelector
                       initialLabel={"예상 기간"}
                       items={steadyExpectedPeriods}
-                      className={cn("w-200")}
+                      className={cn("w-full")}
                       onSelectedChange={(selected) => {
                         field.onChange(selected);
                       }}
@@ -253,14 +255,14 @@ const CreateSteadyPage = () => {
                 control={steadyForm.control}
                 name={"stacks"}
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="h-40 w-450 max-sm:w-360 sm:w-410">
                     <MultiSelector
                       initialLabel={"기술 스택"}
                       items={stacks.stacks.map((stack) => ({
                         value: stack.id.toString(),
                         label: stack.name,
                       }))}
-                      className={cn("w-455")}
+                      className={cn("w-full")}
                       onSelectedChange={(selected) => {
                         field.onChange(extractValue(selected).map(Number));
                       }}
