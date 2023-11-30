@@ -5,7 +5,7 @@ export const buttonSize = {
   xl: "w-165 h-50 rounded-6 text-18",
   lg: "w-140 h-50 text-18",
   md: "w-115 h-50 text-18",
-  sm: "w-90 min-h-35 text-15 max-sm:text-12",
+  sm: "w-90 min-h-35 text-15",
 };
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
