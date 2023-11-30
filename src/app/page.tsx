@@ -301,7 +301,7 @@ const Home = () => {
 
   return (
     <main className="relative flex flex-col items-center">
-      <div className="lg:350 relative flex h-250 w-screen transition md:h-300">
+      <div className="relative flex h-250 w-screen transition md:h-300 lg:h-350">
         <div
           className={`${
             activeIndex === 1 ? bannerValidStyle : bannerInvalidStyle
