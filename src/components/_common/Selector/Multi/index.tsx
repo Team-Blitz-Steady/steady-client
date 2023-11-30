@@ -43,7 +43,7 @@ const MultiSelector = ({
     (event: KeyboardEvent<HTMLInputElement>) => {
       const input = inputRef.current;
       if (input !== null) {
-        if (event.key === "Delete" || event.key === "Backspace") {
+        if (event.key === "Backspace") {
           if (input.value === "") {
             setSelected((prev) => {
               const newSelected = [...prev];
@@ -88,11 +88,6 @@ const MultiSelector = ({
                 {item.label}
                 <button
                   className="ml-4 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handleUnselect(item);
-                    }
-                  }}
                   onMouseDown={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
