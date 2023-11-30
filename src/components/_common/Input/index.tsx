@@ -73,7 +73,7 @@ const Input = ({
       input = (
         <div>
           <input
-            className="h-35 w-full rounded-10 border-2 border-st-gray-75 px-10 text-xl font-semibold outline-none"
+            className="h-35 w-full rounded-10 border-2 border-st-gray-75 px-10 text-xl font-semibold outline-none placeholder-shown:text-ellipsis"
             type="text"
             defaultValue={initialValue}
             placeholder="스테디 연락 수단(이메일 주소 또는 오픈카톡방 링크)"
