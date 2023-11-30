@@ -15,7 +15,8 @@ const Error = ({ error }: { error: AxiosError<ErrorResponse> }) => {
   useEffect(() => {
     if (
       error.response?.status === 401 &&
-      (error.response.data.code === "A003" ||
+      (error.response.data.code === "A002" ||
+        error.response.data.code === "A003" ||
         error.response.data.code === "A004")
     ) {
       toast({
