@@ -160,138 +160,153 @@ const CreateQuestionsPage = () => {
 
   return (
     <div className={cn("mt-30")}>
-      <div className={"flex w-1000 items-center justify-between"}>
-        <h1 className={"text-36 font-bold"}>스테디 신청서 질문 등록</h1>
-        <div className={"flex items-center gap-10"}>
-          <SingleSelector
-            className={cn("h-40 w-260")}
-            items={BASIC_TEMPLATE.concat(templatesData.templates).map(
-              (item) => ({
-                value: item.id.toString(),
-                label: item.title,
-              }),
-            )}
-            initialLabel={"질문 템플릿"}
-            onSelectedChange={(selected) => {
-              handleSelectTemplate(selected);
-            }}
-          />
-          <Button
-            className={cn(
-              `h-40 w-130 items-center justify-center bg-st-primary text-st-white`,
-            )}
-            onClick={() => {
-              handleAddQuestion();
-            }}
+      <div className={"max-sm:w-400 sm:w-450 md:w-600 lg:w-800 xl:w-1000"}>
+        <div className="flex w-full items-center justify-between">
+          <h1
+            className={
+              "font-bold max-sm:text-20 sm:text-20 md:text-25 lg:text-30 xl:text-35"
+            }
           >
-            질문 추가
-          </Button>
-        </div>
-      </div>
-      <Separator
-        my={"3"}
-        size={"4"}
-        className={cn("h-5 bg-st-gray-400")}
-      />
-      <div
-        className={cn(
-          "flex w-1000 items-end justify-end gap-10 scrollbar-hide",
-        )}
-      >
-        <ScrollArea className={cn("h-600 whitespace-nowrap")}>
-          <div className={cn("flex flex-col gap-20 p-20")}>
-            {question.map((item) => (
-              <div
-                key={item.id}
-                className={cn(
-                  "flex h-70 items-center justify-center gap-30 rounded-10 p-10 shadow-lg",
-                )}
-              >
-                <div
-                  className={cn("h-60 w-10 rounded-full bg-st-skyblue-300")}
-                ></div>
-                <Command onKeyDown={handleKeyDown}>
-                  <input
-                    id={`question-${item.id}`}
-                    type="text"
-                    placeholder="질문을 입력해 주세요."
-                    value={item.question}
-                    className={cn(
-                      "h-50 w-300 text-20 font-semibold text-st-black outline-none",
-                    )}
-                    onChange={(event) => {
-                      setQuestion((prev) =>
-                        prev.map((pItem) => {
-                          if (pItem.id === item.id) {
-                            return {
-                              ...pItem,
-                              question: event.target.value,
-                            };
-                          }
-                          return pItem;
-                        }),
-                      );
-                    }}
-                  />
-                </Command>
-                <div
-                  className={cn("cursor-pointer")}
-                  onClick={() => {
-                    handleDeleteQuestion(item.id);
-                  }}
-                >
-                  <Icon
-                    name={"cross"}
-                    size={20}
-                    color={""}
-                  />
-                </div>
-              </div>
-            ))}
+            스테디 신청서 질문 등록
+          </h1>
+          <div className={"flex items-center gap-10"}>
+            <SingleSelector
+              className={cn("h-40 w-260 max-sm:w-120 sm:w-150 md:w-200")}
+              items={BASIC_TEMPLATE.concat(templatesData.templates).map(
+                (item) => ({
+                  value: item.id.toString(),
+                  label: item.title,
+                }),
+              )}
+              initialLabel={"질문 템플릿"}
+              onSelectedChange={(selected) => {
+                handleSelectTemplate(selected);
+              }}
+            />
+            <Button
+              className={cn(
+                `h-40 w-120 items-center justify-center bg-st-primary text-st-white max-sm:w-70 sm:w-80 md:w-100`,
+              )}
+              onClick={() => {
+                handleAddQuestion();
+              }}
+            >
+              질문 추가
+            </Button>
           </div>
-          <ScrollBar />
-        </ScrollArea>
-        <div className={cn("flex w-1/4 justify-end")}>
+        </div>
+
+        <Separator
+          my={"3"}
+          size={"4"}
+          className={cn("h-5 bg-st-gray-400")}
+        />
+        <div className={cn("flex w-full flex-col gap-10 scrollbar-hide")}>
+          <ScrollArea
+            className={cn(
+              "h-600 flex-col items-center justify-center whitespace-nowrap",
+            )}
+          >
+            <div
+              className={cn(
+                "flex flex-col gap-20 py-20 max-sm:px-20 sm:px-40 md:px-50 lg:px-60 xl:px-70",
+              )}
+            >
+              {question.map((item) => (
+                <div
+                  key={item.id}
+                  className={cn(
+                    "flex h-70 items-center justify-between gap-30 rounded-10 p-10 shadow-lg",
+                  )}
+                >
+                  <div className="flex gap-20">
+                    <div
+                      className={cn("h-60 w-10 rounded-full bg-st-skyblue-300")}
+                    />
+                    <Command onKeyDown={handleKeyDown}>
+                      <input
+                        id={`question-${item.id}`}
+                        type="text"
+                        placeholder="질문을 입력해 주세요."
+                        value={item.question}
+                        className={cn(
+                          "h-50 text-20 font-semibold text-st-black outline-none",
+                        )}
+                        onChange={(event) => {
+                          setQuestion((prev) =>
+                            prev.map((pItem) => {
+                              if (pItem.id === item.id) {
+                                return {
+                                  ...pItem,
+                                  question: event.target.value,
+                                };
+                              }
+                              return pItem;
+                            }),
+                          );
+                        }}
+                      />
+                    </Command>
+                  </div>
+                  <div
+                    className={cn("cursor-pointer")}
+                    onClick={() => {
+                      handleDeleteQuestion(item.id);
+                    }}
+                  >
+                    <Icon
+                      name={"cross"}
+                      size={20}
+                      color={""}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <ScrollBar />
+          </ScrollArea>
+          <div className={cn("flex justify-end")}>
+            <Button
+              className={cn(
+                `${buttonSize.sm} items-center justify-center bg-st-primary text-st-white`,
+              )}
+              onClick={() => {
+                setIsTemplateTitleSetting(true);
+              }}
+            >
+              저장
+            </Button>
+          </div>
+        </div>
+        <Separator
+          size={"4"}
+          my={"3"}
+          className={cn("h-5 bg-st-gray-400")}
+        />
+        <div className={"flex justify-end gap-20"}>
+          <Button
+            className={cn(`${buttonSize.sm} items-center justify-center`)}
+            onClick={() => router.back()}
+          >
+            취소
+          </Button>
           <Button
             className={cn(
-              `${buttonSize.sm} items-center justify-center bg-st-primary text-st-white`,
+              `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
             )}
             onClick={() => {
-              setIsTemplateTitleSetting(true);
+              handleSubmitTotalData();
             }}
           >
-            저장
+            등록
           </Button>
         </div>
+        <InputModal
+          isOpen={isTemplateTitleSetting}
+          onClose={() => setIsTemplateTitleSetting(false)}
+          onSave={handleSaveTemplate}
+        />
       </div>
-      <Separator
-        size={"4"}
-        my={"3"}
-        className={cn("h-5 bg-st-gray-400")}
-      />
-      <div className={"flex justify-end gap-20"}>
-        <Button
-          className={cn(`${buttonSize.sm} items-center justify-center`)}
-          onClick={() => router.back()}
-        >
-          취소
-        </Button>
-        <Button
-          className={cn(
-            `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
-          )}
-          onClick={() => {
-            handleSubmitTotalData();
-          }}
-        >
-          등록
-        </Button>
-      </div>
-      <InputModal
-        isOpen={isTemplateTitleSetting}
-        onClose={() => setIsTemplateTitleSetting(false)}
-        onSave={handleSaveTemplate}
-      />
     </div>
   );
 };
