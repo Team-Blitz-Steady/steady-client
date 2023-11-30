@@ -322,10 +322,6 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
                               ),
                             )}
                           </ScrollArea>
-                            <span className="text-18 font-bold">
-                              정말 해당 멤버를 추방하시겠습니까?
-                            </span>
-                          </AlertModal>
                         </div>
                       </div>
                     </div>
