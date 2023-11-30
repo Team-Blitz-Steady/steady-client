@@ -50,7 +50,7 @@ const UserItems = ({ userId }: { userId: number }) => {
           </div>
           <div className="flex w-full flex-col items-center justify-center gap-10">
             <div className="text-15 font-bold">받은카드</div>
-            <div className="flex h-70 w-400 items-center justify-evenly shadow-md">
+            <div className="flex h-70 w-400 items-center justify-evenly shadow-md max-sm:h-50 max-sm:w-300">
               {userProfileData.userCards.map((card) => (
                 <div
                   key={card.cardId}
@@ -59,10 +59,11 @@ const UserItems = ({ userId }: { userId: number }) => {
                   <Image
                     src={card.imageUrl}
                     alt="카드 이미지"
-                    width={35}
-                    height={35}
+                    width={0}
+                    height={0}
+                    className="h-45 w-45 max-sm:h-25 max-sm:w-25"
                   />
-                  <div className="text-18 font-bold">{`(${card.count})`}</div>
+                  <div className="text-18 font-bold max-sm:text-15">{`(${card.count})`}</div>
                 </div>
               ))}
             </div>
