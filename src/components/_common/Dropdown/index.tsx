@@ -20,7 +20,7 @@ const Dropdown = ({ children, options }: DropdownProps) => {
   return (
     <DropdownMenu.Root
       open={open}
-      modal={false}
+      onOpenChange={setOpen}
     >
       <DropdownMenu.Trigger>
         <Button
