@@ -172,20 +172,12 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                 />
               }
               trigger={
-                <button onClick={() => mutate(steadyId)}>
-                  {steadyDetailsData.isLiked ? (
-                    <Icon
-                      name="heart"
-                      size={30}
-                      color="text-st-red"
-                    />
-                  ) : (
-                    <Icon
-                      name="empty-heart"
-                      size={30}
-                      color="text-black"
-                    />
-                  )}
+                <button>
+                  <Icon
+                    name="empty-heart"
+                    size={30}
+                    color="text-black"
+                  />
                 </button>
               }
             >
