@@ -4,8 +4,10 @@ import { Fragment } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
-import { Separator } from "@radix-ui/themes";
+import { CopyIcon } from "@radix-ui/react-icons";
+import { Badge, Separator } from "@radix-ui/themes";
 import { format } from "date-fns";
 import type { MySteadyContentType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
@@ -38,8 +40,8 @@ const MySteadyPage = () => {
     direction: "desc",
   });
   const ref = useScrollTo<HTMLDivElement>({ top: 0 }, [search]);
+  const { toast } = useToast();
 
-  console.log(mySteadyData);
   const renderIcon = (steady: MySteadyContentType) => {
     if (search === "finished") {
       return <div className="h-20 w-20" />;
@@ -107,6 +109,22 @@ const MySteadyPage = () => {
     }
   };
 
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast({
+        description: "연락 수단 복사 성공!",
+        variant: "green",
+      });
+    } catch (error) {
+      toast({
+        description: "연락 수단 복사 실패!",
+        variant: "red",
+      });
+      console.error("복사에 실패했습니다.");
+    }
+  };
+
   return (
     <div className="flex flex-col max-sm:w-400 sm:w-500 md:w-600 lg:w-800 xl:w-1000">
       <div className="flex items-center justify-between">
@@ -149,13 +167,25 @@ const MySteadyPage = () => {
                       href={`/steady/detail/${steady.steadyId}`}
                       className="flex h-full w-fit flex-grow"
                     >
-                      <div className="text-black flex items-center justify-center text-center font-bold sm:text-15 md:text-20 lg:text-25">
+                      <div className="text-black flex w-full items-center text-center font-bold sm:text-15 md:text-20 lg:text-25">
                         {steady.isLeader
                           ? `👑 ${steady.name}`
                           : `${steady.name}`}
                       </div>
                     </Link>
                     <div className="flex items-center justify-center gap-20">
+                      <Badge
+                        color={"indigo"}
+                        size={"2"}
+                      >
+                        <button
+                          className="flex items-center gap-10"
+                          onClick={() => handleCopyClipBoard(steady.contact)}
+                        >
+                          <div>연락 수단</div>
+                          <CopyIcon />
+                        </button>
+                      </Badge>
                       <div className="text-bold max-w-fit text-15 text-st-gray-100 max-sm:hidden">
                         {steady.isLeader ? "생성일: " : "참여일: "}
                         {format(new Date(steady.joinedAt), "yyyy.MM.dd")}

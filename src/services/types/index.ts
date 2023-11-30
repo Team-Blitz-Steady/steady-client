@@ -197,6 +197,7 @@ export interface PositionResponse {
 export interface MySteadyContentType {
   steadyId: number;
   name: string;
+  contact: string;
   isLeader: boolean;
   joinedAt: string;
 }
