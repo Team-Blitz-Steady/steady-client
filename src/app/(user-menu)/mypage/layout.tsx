@@ -1,5 +1,5 @@
+import TabBar from "@/components/TabBar";
 import SideBar from "@/components/_common/SideBar";
-import TabBar from "@/components/_common/TabBar";
 
 const myPageList = [
   {
