@@ -38,19 +38,19 @@ const MyApplicationPage = () => {
   return (
     <div className="flex gap-30 max-sm:w-400 sm:w-500 md:w-400 lg:w-600 xl:w-750">
       <div className="w-full">
-        <div className="flex justify-between px-20 pb-10 text-25 font-bold lg:text-28 xl:text-30">
+        <div className="flex justify-between px-20 pb-10 text-20 font-bold lg:text-28 xl:text-30">
           내 신청서 관리
-          <div className="flex items-center justify-center gap-20">
-            <div className="flex flex-col items-center justify-center gap-10 text-15 font-bold lg:flex-row lg:text-20 xl:text-25">
-              <div className="h-10 w-10 rounded-full bg-st-green"></div>
+          <div className="flex items-center justify-center gap-10 lg:gap-20">
+            <div className="flex items-center justify-center gap-5 text-12 font-bold lg:flex-row lg:gap-10 lg:text-15 xl:text-25">
+              <div className="h-7 w-7 rounded-full bg-st-green lg:h-10 lg:w-10"></div>
               <span>승인</span>
             </div>
-            <div className="flex flex-col items-center justify-center gap-10 text-15 font-bold lg:flex-row lg:text-20 xl:text-25">
-              <div className="h-10 w-10 rounded-full bg-st-red"></div>
+            <div className="flex items-center justify-center gap-5 text-12 font-bold lg:flex-row lg:gap-10 lg:text-15 xl:text-25">
+              <div className="h-7 w-7 rounded-full bg-st-red lg:h-10 lg:w-10"></div>
               <span>거절</span>
             </div>
-            <div className="flex flex-col items-center justify-center gap-10 text-15 font-bold lg:flex-row lg:text-20 xl:text-25">
-              <div className="h-10 w-10 rounded-full bg-st-primary"></div>
+            <div className="flex items-center justify-center gap-5 text-12 font-bold lg:flex-row lg:gap-10 lg:text-15 xl:text-25">
+              <div className="h-7 w-7 rounded-full bg-st-primary lg:h-10 lg:w-10"></div>
               <span>대기</span>
             </div>
           </div>
@@ -76,24 +76,24 @@ const MyApplicationPage = () => {
                 >
                   <div className="text-20 font-bold lg:text-23 xl:text-25">
                     {application.status === "ACCEPTED" ? (
-                      <div className="flex items-center justify-center gap-10">
+                      <div className="flex items-center justify-center gap-10 text-10 sm:text-16">
                         {application.steadyName}
-                        <div className="h-10 w-10 rounded-full bg-st-green"></div>
+                        <div className="h-5 w-5 rounded-full bg-st-green lg:h-8 lg:w-8"></div>
                       </div>
                     ) : application.status === "REJECTED" ? (
-                      <div className="flex items-center justify-center gap-10">
+                      <div className="flex items-center justify-center gap-10 sm:text-16">
                         {application.steadyName}
-                        <div className="h-10 w-10 rounded-full bg-st-red"></div>
+                        <div className="h-5 w-5 rounded-full bg-st-red lg:h-8 lg:w-8"></div>
                       </div>
                     ) : (
-                      <div className="flex items-center justify-center gap-10">
+                      <div className="flex items-center justify-center gap-10 text-10 sm:text-16">
                         {application.steadyName}
-                        <div className="h-10 w-10 rounded-full bg-st-primary"></div>
+                        <div className="h-5 w-5 rounded-full bg-st-primary lg:h-8 lg:w-8"></div>
                       </div>
                     )}
                   </div>
                   <div className="group flex">
-                    <div className="transform text-15 font-bold text-st-gray-100 transition group-hover:-translate-x-[30px]">
+                    <div className="transform text-10 font-bold text-st-gray-100 transition group-hover:-translate-x-[15px] lg:text-15 lg:group-hover:-translate-x-[30px]">
                       제출일 {application.createdAt.slice(0, 10)}
                     </div>
                     <div
@@ -105,8 +105,8 @@ const MyApplicationPage = () => {
                     >
                       <Icon
                         name="trash"
-                        size={25}
-                        color="text-st-gray-100"
+                        size={20}
+                        color="text-st-gray-100 w-15 h-15 lg:w-20 lg:h-20"
                       />
                     </div>
                   </div>
