@@ -10,6 +10,7 @@ import useAuthStore from "@/stores/isAuth";
 import { Badge, Separator, Tooltip } from "@radix-ui/themes";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
+import sanitizeHtml from "sanitize-html";
 import deleteApplication from "@/services/application/deleteApplication";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyParticipants from "@/services/steady/getSteadyParticipants";
@@ -463,7 +464,12 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
         <div>
           <div className="px-20 text-23 font-bold">모집글 소개</div>
           <div className="flex min-h-200 w-full items-center bg-st-white p-20 text-18 font-bold">
-            {steadyDetailsData.content}
+            <div
+              dangerouslySetInnerHTML={{
+                __html: sanitizeHtml(steadyDetailsData.content),
+              }}
+              className="prose w-full"
+            ></div>
           </div>
         </div>
       </div>

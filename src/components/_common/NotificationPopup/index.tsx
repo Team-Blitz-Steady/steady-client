@@ -8,6 +8,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
 import {
@@ -31,8 +32,9 @@ import { NotificationKey } from "@/constants/queryKeys";
 const NotificationPopup = () => {
   const router = useRouter();
   const pathName = usePathname();
-  const { isAuth } = useAuthStore();
+  const { isAuth, setIsAuth } = useAuthStore();
   const [notificationMenuOpen, setNotificationMenuOpen] = useState(false);
+  const { toast } = useToast();
   const {
     data: notificationsData,
     isSuccess: notificationsSuccess,
@@ -49,17 +51,18 @@ const NotificationPopup = () => {
   }, [pathName]);
 
   if (!notificationsSuccess) {
+    if (notificationsError) {
+      if (notificationsError.response?.data.code === "A002") {
+        toast({
+          description: "토큰이 존재하지 않습니다. 다시 로그인해주세요.",
+          variant: "red",
+        });
+        setIsAuth(false);
+      }
+    }
     return (
       <div className={"flex h-112 w-full items-center justify-center"}>
         <Spinner size={"medium"} />
-      </div>
-    );
-  }
-
-  if (notificationsError) {
-    return (
-      <div className={"flex h-112 w-full items-center justify-center"}>
-        <div>에러가 발생했습니다.</div>
       </div>
     );
   }
@@ -103,21 +106,17 @@ const NotificationPopup = () => {
       <PopoverTrigger
         onClick={() => setNotificationMenuOpen(!notificationMenuOpen)}
       >
-        <div className={"relative h-25 w-25"}>
+        <div className={"relative h-15 w-15 md:h-25 md:w-25"}>
           {freshCount > 0 && (
             <div
               className={
-                "absolute right-0 top-0 z-20 flex h-15 w-15 items-center justify-center rounded-full bg-st-red text-12 font-semibold text-st-white"
+                "absolute right-0 top-0 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-st-red text-10 font-semibold text-st-white md:h-15 md:w-15 md:text-12"
               }
             >
               {freshCount}
             </div>
           )}
-          <BellIcon
-            className={"absolute z-10"}
-            width={25}
-            height={25}
-          />
+          <BellIcon className={"absolute z-10 h-15 w-15 md:h-25 md:w-25"} />
         </div>
       </PopoverTrigger>
 
