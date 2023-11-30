@@ -39,7 +39,6 @@ const MySteadyPage = () => {
   });
   const ref = useScrollTo<HTMLDivElement>({ top: 0 }, [search]);
 
-  console.log(mySteadyData);
   const renderIcon = (steady: MySteadyContentType) => {
     if (search === "finished") {
       return <div className="h-20 w-20" />;
