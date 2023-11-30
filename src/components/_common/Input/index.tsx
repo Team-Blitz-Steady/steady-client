@@ -27,7 +27,7 @@ const Input = ({
       input = (
         <div>
           <input
-            className="max-mobile:w-full h-55 w-400 items-center rounded-12 border-2 border-solid border-st-gray-100 pl-5 pr-5 text-center text-lg outline-none"
+            className="max-mobile:w-full h-55 w-400 items-center rounded-12 border-2 border-solid border-st-gray-75 pl-5 pr-5 text-center text-lg outline-none"
             type="text"
             defaultValue={initialValue}
             placeholder="닉네임을 입력해주세요."
@@ -43,7 +43,7 @@ const Input = ({
       input = (
         <div>
           <input
-            className="h-60 w-1000 pl-5 pr-5 text-3xl font-bold outline-none"
+            className="h-60 w-full rounded-10 border-2 border-st-gray-75 px-10 text-3xl font-bold outline-none"
             type="text"
             defaultValue={initialValue}
             placeholder="스테디명"
@@ -58,7 +58,7 @@ const Input = ({
       input = (
         <div>
           <input
-            className="h-30 w-1000 pl-5 pr-5 text-2xl font-bold outline-none"
+            className="h-40 w-full rounded-10 border-2 border-st-gray-75 px-10 text-2xl font-bold outline-none"
             type="text"
             defaultValue={initialValue}
             placeholder="스테디 한 줄 소개"
@@ -73,7 +73,7 @@ const Input = ({
       input = (
         <div>
           <input
-            className="h-25 w-1000 pl-5 pr-5 text-xl font-semibold outline-none"
+            className="h-35 w-full rounded-10 border-2 border-st-gray-75 px-10 text-xl font-semibold outline-none"
             type="text"
             defaultValue={initialValue}
             placeholder="스테디 연락 수단(이메일 주소 또는 오픈카톡방 링크)"
@@ -88,7 +88,7 @@ const Input = ({
       input = (
         <div>
           <input
-            className="h-60 w-1000 pl-5 pr-5 text-3xl font-bold outline-none"
+            className="h-60 w-full rounded-10 border-2 border-st-gray-75 px-10 text-3xl font-bold outline-none"
             type="text"
             defaultValue={initialValue}
             placeholder="제목을 입력해주세요."
@@ -113,7 +113,7 @@ const Input = ({
       break;
     case "introduce-input":
       input = (
-        <div className="flex h-64 items-center justify-center rounded-12 border-2 border-solid border-st-gray-100 p-10 outline-none md:w-400 xl:w-620">
+        <div className="flex h-64 items-center justify-center rounded-12 border-2 border-solid border-st-gray-75 p-10 outline-none md:w-400 xl:w-620">
           <input
             className="h-60 w-full rounded-12 p-5 text-xl font-bold outline-none"
             type="text"
