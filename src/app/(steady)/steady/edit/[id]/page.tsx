@@ -428,9 +428,12 @@ const SteadyEditPage = ({
               name={"content"}
               render={({ field }) => {
                 return (
-                  <FormItem>
+                  <FormItem
+                    className={
+                      "my-10 h-720 w-full rounded-10 border-2 border-st-gray-75"
+                    }
+                  >
                     <RichEditor
-                      className={"min-h-720 w-full"}
                       contentEditableClassName={"prose"}
                       ref={editorRef}
                       onChange={(markdown) => {

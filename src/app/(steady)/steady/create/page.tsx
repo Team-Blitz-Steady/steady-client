@@ -318,9 +318,12 @@ const CreateSteadyPage = () => {
               control={steadyForm.control}
               name={"content"}
               render={({ field }) => (
-                <FormItem>
+                <FormItem
+                  className={
+                    "my-10 h-720 w-full rounded-10 border-2 border-st-gray-75"
+                  }
+                >
                   <RichEditor
-                    className={"min-h-720 w-full"}
                     contentEditableClassName={"prose"}
                     onChange={(markdown) => {
                       unified()
