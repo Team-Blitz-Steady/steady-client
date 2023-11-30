@@ -81,7 +81,7 @@ const CreateTemplatePage = () => {
   return (
     <div className="flex gap-30 max-sm:w-400 sm:w-500 md:w-400 lg:w-600 xl:w-750">
       <div className="w-full">
-        <div className="flex justify-between px-20 pb-10 text-25 font-bold lg:text-28 xl:text-30">
+        <div className="flex justify-between px-20 pb-10 text-20 font-bold lg:text-28 xl:text-30">
           템플릿 생성
           <Button
             className={`${buttonSize.sm} bg-st-primary text-st-white`}
@@ -96,14 +96,14 @@ const CreateTemplatePage = () => {
             {question.map((item, index) => (
               <div
                 key={index}
-                className="flex h-70 w-full items-center gap-30 rounded-10 p-10 shadow-lg"
+                className="flex h-50 w-full items-center gap-20 rounded-10 p-10 shadow-lg lg:h-70 lg:gap-30"
               >
-                <div className="h-60 w-10 rounded-full bg-st-skyblue-50"></div>
+                <div className="h-40 w-7 rounded-full bg-st-skyblue-50 lg:h-60 lg:w-10"></div>
                 <input
                   type="text"
                   placeholder="질문을 입력해 주세요."
                   value={item.value}
-                  className="h-50 w-full text-20 text-st-black outline-none"
+                  className="h-50 w-full text-15 text-st-black outline-none lg:text-20"
                   onChange={(event) => handleInputChange(event, item.id)}
                 />
                 <div
@@ -122,7 +122,7 @@ const CreateTemplatePage = () => {
                   <Icon
                     name="cross"
                     size={20}
-                    color=""
+                    color="w-15 h-15 lg:w-20 lg:h-20"
                   />
                 </div>
               </div>
@@ -130,7 +130,7 @@ const CreateTemplatePage = () => {
           </div>
         </div>
         <div className="h-5 w-full bg-st-gray-400"></div>
-        <div className="mt-20 flex w-full justify-end gap-20">
+        <div className="mt-20 flex w-full justify-end gap-10 lg:gap-20">
           <Button
             onClick={() => backToTemplate()}
             className={`${buttonSize.sm} bg-st-red text-st-white`}
