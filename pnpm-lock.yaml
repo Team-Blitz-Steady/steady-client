@@ -83,6 +83,30 @@ dependencies:
   react-infinite-scroller:
     specifier: ^1.2.6
     version: 1.2.6(react@18.0.0)
+  react-modal-sheet:
+    specifier: ^2.2.0
+    version: 2.2.0(framer-motion@10.16.5)(react@18.0.0)
+  rehype-parse:
+    specifier: ^9.0.0
+    version: 9.0.0
+  rehype-remark:
+    specifier: ^10.0.0
+    version: 10.0.0
+  rehype-stringify:
+    specifier: ^10.0.0
+    version: 10.0.0
+  remark-parse:
+    specifier: ^11.0.0
+    version: 11.0.0
+  remark-rehype:
+    specifier: ^11.0.0
+    version: 11.0.0
+  remark-stringify:
+    specifier: ^11.0.0
+    version: 11.0.0
+  sanitize-html:
+    specifier: ^2.11.0
+    version: 2.11.0
   sharp:
     specifier: ^0.32.6
     version: 0.32.6
@@ -3525,12 +3549,114 @@ packages:
       react-dom: 18.0.0(react@18.0.0)
     dev: false
 
+  /@react-aria/ssr@3.9.0(react@18.0.0):
+    resolution:
+      {
+        integrity: sha512-Bz6BqP6ZorCme9tSWHZVmmY+s7AU8l6Vl2NUYmBzezD//fVHHfFo4lFBn5tBuAaJEm3AuCLaJQ6H2qhxNSb7zg==,
+      }
+    engines: { node: ">= 12" }
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+    dependencies:
+      "@swc/helpers": 0.5.2
+      react: 18.0.0
+    dev: false
+
+  /@react-aria/utils@3.17.0(react@18.0.0):
+    resolution:
+      {
+        integrity: sha512-NEul0cQ6tQPdNSHYzNYD+EfFabeYNvDwEiHB82kK/Tsfhfm84SM+baben/at2N51K7iRrJPr5hC5fi4+P88lNg==,
+      }
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+    dependencies:
+      "@react-aria/ssr": 3.9.0(react@18.0.0)
+      "@react-stately/utils": 3.9.0(react@18.0.0)
+      "@react-types/shared": 3.22.0(react@18.0.0)
+      "@swc/helpers": 0.4.36
+      clsx: 1.2.1
+      react: 18.0.0
+    dev: false
+
+  /@react-hook/intersection-observer@3.1.1(react@18.0.0):
+    resolution:
+      {
+        integrity: sha512-OTDx8/wFaRvzFtKl1dEUEXSOqK2zVJHporiTTdC2xO++0e9FEx9wIrPis5q3lqtXeZH9zYGLbk+aB75qNFbbuw==,
+      }
+    peerDependencies:
+      react: ">=16.8"
+    dependencies:
+      "@react-hook/passive-layout-effect": 1.2.1(react@18.0.0)
+      intersection-observer: 0.10.0
+      react: 18.0.0
+    dev: false
+
+  /@react-hook/passive-layout-effect@1.2.1(react@18.0.0):
+    resolution:
+      {
+        integrity: sha512-IwEphTD75liO8g+6taS+4oqz+nnroocNfWVHWz7j+N+ZO2vYrc6PV1q7GQhuahL0IOR7JccFTsFKQ/mb6iZWAg==,
+      }
+    peerDependencies:
+      react: ">=16.8"
+    dependencies:
+      react: 18.0.0
+    dev: false
+
+  /@react-stately/utils@3.9.0(react@18.0.0):
+    resolution:
+      {
+        integrity: sha512-yPKFY1F88HxuZ15BG2qwAYxtpE4HnIU0Ofi4CuBE0xC6I8mwo4OQjDzi+DZjxQngM9D6AeTTD6F1V8gkozA0Gw==,
+      }
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+    dependencies:
+      "@swc/helpers": 0.5.2
+      react: 18.0.0
+    dev: false
+
+  /@react-types/shared@3.22.0(react@18.0.0):
+    resolution:
+      {
+        integrity: sha512-yVOekZWbtSmmiThGEIARbBpnmUIuePFlLyctjvCbgJgGhz8JnEJOipLQ/a4anaWfzAgzSceQP8j/K+VOOePleA==,
+      }
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+    dependencies:
+      react: 18.0.0
+    dev: false
+
   /@rushstack/eslint-patch@1.5.1:
     resolution:
       {
         integrity: sha512-6i/8UoL0P5y4leBIGzvkZdS85RDMG9y1ihZzmTZQ5LdHUYmZ7pKFoj8X0236s3lusPs1Fa5HTQUpwI+UfTcmeA==,
       }
     dev: true
+
+  /@stitches/core@1.2.8:
+    resolution:
+      {
+        integrity: sha512-Gfkvwk9o9kE9r9XNBmJRfV8zONvXThnm1tcuojL04Uy5uRyqg93DC83lDebl0rocZCfKSjUv+fWYtMQmEDJldg==,
+      }
+    dev: false
+
+  /@swc/helpers@0.4.14:
+    resolution:
+      {
+        integrity: sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==,
+      }
+    dependencies:
+      tslib: 2.6.2
+    dev: false
+
+  /@swc/helpers@0.4.36:
+    resolution:
+      {
+        integrity: sha512-5lxnyLEYFskErRPenYItLRSge5DjrJngYKdVjRSrWfza9G6KkgHEXi0vUZiyUeMU5JfXH1YnvXZzSp8ul88o2Q==,
+      }
+    dependencies:
+      legacy-swc-helpers: /@swc/helpers@0.4.14
+      tslib: 2.6.2
+    dev: false
 
   /@swc/helpers@0.5.2:
     resolution:
@@ -10023,6 +10149,28 @@ packages:
       {
         integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==,
       }
+
+  /react-is@17.0.2:
+    resolution:
+      {
+        integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==,
+      }
+    dev: false
+
+  /react-modal-sheet@2.2.0(framer-motion@10.16.5)(react@18.0.0):
+    resolution:
+      {
+        integrity: sha512-OAIWuVWxMx3zQqrMLbYWnczadplg0WLd+AaBWmN5+ysNF5/pneqjkOV3AWaIZOCIF4TcrejiCsTduutbzCRP2Q==,
+      }
+    engines: { node: ">=16" }
+    peerDependencies:
+      framer-motion: ">=6"
+      react: ">=16"
+    dependencies:
+      "@react-aria/utils": 3.17.0(react@18.0.0)
+      framer-motion: 10.16.5(react-dom@18.0.0)(react@18.0.0)
+      react: 18.0.0
+    dev: false
 
   /react-remove-scroll-bar@2.3.4(@types/react@18.0.0)(react@18.0.0):
     resolution:

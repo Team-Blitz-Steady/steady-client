@@ -101,7 +101,7 @@ const Posts = ({ info }: { info: Steadies }) => {
                       src={item.profileImage}
                       alt="profile"
                       radius="full"
-                      className="h-20 w-20 cursor-pointer md:flex md:h-25 md:w-25"
+                      className="aspect-square h-20 w-20 cursor-pointer md:flex md:h-25 md:w-25"
                       fallback={""}
                     />
                   ) : (
