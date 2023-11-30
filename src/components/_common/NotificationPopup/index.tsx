@@ -124,7 +124,10 @@ const NotificationPopup = () => {
         </div>
       </PopoverTrigger>
 
-      <PopoverContent className={"h-300 w-350 p-16 pb-40"}>
+      <PopoverContent
+        className={"h-300 w-350 p-16 pb-40"}
+        onInteractOutside={() => setNotificationMenuOpen(false)}
+      >
         <ScrollArea
           className={"h-full w-full rounded-md"}
           scrollBarClassName={"hidden"}
