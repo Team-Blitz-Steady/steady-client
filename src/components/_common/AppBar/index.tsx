@@ -1,11 +1,13 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import HeaderLogo from "@/images/headerLogo.svg";
 import Logo from "@/images/logo.svg";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
+import getMyProfile from "@/services/user/getMyProfile";
 import Dropdown from "@/components/_common/Dropdown";
 import NotificationPopup from "@/components/_common/NotificationPopup";
 import LoginModal from "../Modal/LoginModal";
@@ -18,6 +20,15 @@ export const appBarTextStyles = "text-lg font-bold";
 
 const AppBar = ({ className }: AppBarProps) => {
   const { isAuth } = useAuthStore();
+  const [userProfileImageSrc, setUserProfileImageSrc] = useState(Logo);
+
+  useEffect(() => {
+    if (isAuth) {
+      getMyProfile().then((res) => {
+        setUserProfileImageSrc(res.profileImage);
+      });
+    }
+  }, []);
 
   return (
     <div
@@ -56,7 +67,7 @@ const AppBar = ({ className }: AppBarProps) => {
           >
             <Image
               className="rounded-full border-1"
-              src={Logo}
+              src={userProfileImageSrc}
               alt="스테디 로고"
               width={45}
               height={45}
