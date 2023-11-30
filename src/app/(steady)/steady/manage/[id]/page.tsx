@@ -133,7 +133,7 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
             <Button
               className={`${cn(
                 buttonSize.sm,
-                "bg-st-primary text-st-white max-sm:w-70 sm:w-80 md:w-90 lg:w-100 xl:w-130",
+                "bg-st-primary text-st-white max-sm:w-70 max-sm:text-12 sm:w-80 md:w-90 lg:w-100 xl:w-130",
               )}`}
             >
               신청자 보기
@@ -144,7 +144,7 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
               <Button
                 className={`${cn(
                   buttonSize.sm,
-                  " bg-st-red  text-st-white max-sm:w-70 sm:w-80 md:w-90 lg:w-100 xl:w-130",
+                  " bg-st-red  text-st-white max-sm:w-70 max-sm:text-12 sm:w-80 md:w-90 lg:w-100 xl:w-130",
                 )}`}
               >
                 스테디 종료
@@ -168,7 +168,7 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
               <Button
                 className={`${cn(
                   buttonSize.sm,
-                  "bg-st-red text-st-white max-sm:w-70 sm:w-80 md:w-90 lg:w-100 xl:w-130 ",
+                  "bg-st-red text-st-white max-sm:w-70 max-sm:text-12 sm:w-80 md:w-90 lg:w-100 xl:w-130",
                 )}`}
               >
                 스테디 삭제
@@ -305,7 +305,7 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
                           </div>
                           <ScrollArea
                             className={cn(
-                              "flex h-230 w-450 flex-col gap-20 border-1",
+                              "flex h-230 flex-col gap-20 border-1 max-sm:w-350 sm:w-380 md:w-400 lg:w-420 xl:w-450",
                             )}
                           >
                             {participantDetailsData.reviews.map(
@@ -328,8 +328,18 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
                   </div>
                   {steadyDetailsData.leaderResponse.id !==
                     participantDetailsData.user.userId && (
-                    <div className={cn(subContentStyles)}>
-                      <div className={cn(subBoxStyles, "justify-between")}>
+                    <div
+                      className={cn(
+                        subContentStyles,
+                        "items-center justify-center",
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          subBoxStyles,
+                          "justify-between max-sm:w-350 sm:w-400",
+                        )}
+                      >
                         <div className={cn(subMyPageTextStyles.content)}>
                           스테디 참여자 추방 시 되돌릴 수 없습니다.
                         </div>
@@ -351,7 +361,9 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
                             </Button>
                           }
                         >
-                          정말 해당 멤버를 추방하시겠습니까?
+                          <span className="font-bold">
+                            정말 해당 멤버를 추방하시겠습니까?
+                          </span>
                         </AlertModal>
                       </div>
                     </div>
