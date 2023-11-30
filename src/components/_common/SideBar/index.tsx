@@ -46,8 +46,8 @@ const SideBar = ({
         >
           <div
             className={`${
-              listType === "mypage" ? "min-w-150 lg:w-150 xl:w-200" : "w-200"
-            } h-full rounded-5 p-20 text-18 font-bold transition duration-100 ${
+              listType === "mypage" ? "w-150 lg:w-170 xl:w-200" : "w-200"
+            } h-full rounded-5 p-20 text-10 text-18 font-bold transition duration-100 md:text-12 lg:text-14 xl:text-16 ${
               item.href.split("/")[2] === page
                 ? "bg-st-skyblue-50 text-st-primary"
                 : " hover:bg-st-gray-50"
