@@ -9,7 +9,13 @@ import type { AxiosError } from "axios";
 import type { ErrorResponse } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
 
-const Error = ({ error }: { error: AxiosError<ErrorResponse> }) => {
+const Error = ({
+  error,
+  reset,
+}: {
+  error: AxiosError<ErrorResponse>;
+  reset: VoidFunction;
+}) => {
   const router = useRouter();
   const { toast } = useToast();
   useEffect(() => {
@@ -35,13 +41,23 @@ const Error = ({ error }: { error: AxiosError<ErrorResponse> }) => {
         width={200}
         height={100}
       />
-      <div className="text-30 font-bold">알 수 없는 에러가 발생했습니다.</div>
-      <Button
-        className={`${buttonSize.md} bg-st-primary text-st-white`}
-        onClick={() => router.replace("/")}
-      >
-        홈으로
-      </Button>
+      <div className="font-bold max-sm:text-26 sm:text-26 md:text-26 lg:text-28 xl:text-30">
+        알 수 없는 에러가 발생했습니다.
+      </div>
+      <div className="flex gap-20">
+        <Button
+          className={`${buttonSize.md} bg-st-primary text-st-white`}
+          onClick={() => reset()}
+        >
+          새로고침
+        </Button>
+        <Button
+          className={`${buttonSize.md} bg-st-primary text-st-white`}
+          onClick={() => router.replace("/")}
+        >
+          홈으로
+        </Button>
+      </div>
     </div>
   );
 };
