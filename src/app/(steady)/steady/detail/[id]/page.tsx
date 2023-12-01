@@ -18,6 +18,7 @@ import promoteSteady from "@/services/steady/promoteSteady";
 import type { SteadyDetailsType } from "@/services/types";
 import getMyProfile from "@/services/user/getMyProfile";
 import Button, { buttonSize } from "@/components/_common/Button";
+import ContactTag from "@/components/_common/ContactTag";
 import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
 import { AlertModal, InfoModal, UserModal } from "@/components/_common/Modal";
@@ -407,7 +408,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
           </div>
-          <div className="flex w-full max-lg:flex-col max-lg:gap-10 xl:flex-row">
+          <div className="grid w-full items-center max-sm:grid-cols-1 max-sm:gap-10 sm:grid-cols-1 sm:gap-10 md:grid-cols-2 md:gap-10 lg:grid-cols-2 lg:gap-25 xl:grid-cols-4">
             <div className="flex w-full">
               <div className="flex w-225 items-center gap-10">
                 <div className={steadyDetailTagItems}>진행 방식</div>
@@ -434,6 +435,12 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                 <div>
                   {format(new Date(steadyDetailsData.deadline), "yyyy.MM.dd")}
                 </div>
+              </div>
+            </div>
+            <div className="flex w-full">
+              <div className="flex w-225 items-center gap-10">
+                <div className={steadyDetailTagItems}>연락 수단</div>
+                <ContactTag contactUrl={steadyDetailsData.contact} />
               </div>
             </div>
           </div>
