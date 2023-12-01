@@ -10,11 +10,17 @@ import AppBar from "@/components/_common/AppBar";
 import Footer from "@/components/_common/Footer";
 import NavigationBar from "@/components/_common/NavigationBar";
 import "./global.css";
+import { openGraphImage } from "./shared-metadata";
 
 export const metadata: Metadata = {
   title: "Steady",
   description: "The New Study & Project Join Platform",
   icons: [{ rel: "icon", url: Favicon.src }],
+  openGraph: {
+    ...openGraphImage,
+    title: "Steady",
+    description: "스터디/프로젝트 모집 플랫폼",
+  },
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
