@@ -18,7 +18,6 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Steady",
     description: "스터디/프로젝트 모집 플랫폼",
-    images: ["www.steadies.kr/public/opengraph.png"],
   },
 };
 
