@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   title: "Steady",
   description: "The New Study & Project Join Platform",
   icons: [{ rel: "icon", url: Favicon.src }],
+  metadataBase: new URL("https://www.steadies.kr"),
   openGraph: {
     title: "Steady",
     description: "스터디/프로젝트 모집 플랫폼",
