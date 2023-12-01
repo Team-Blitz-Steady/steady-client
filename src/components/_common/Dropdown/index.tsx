@@ -20,7 +20,7 @@ const Dropdown = ({ children, options }: DropdownProps) => {
   return (
     <DropdownMenu.Root
       open={open}
-      modal={false}
+      onOpenChange={setOpen}
     >
       <DropdownMenu.Trigger>
         <Button
@@ -31,7 +31,7 @@ const Dropdown = ({ children, options }: DropdownProps) => {
           {children}
         </Button>
       </DropdownMenu.Trigger>
-      <DropdownMenu.Content>
+      <DropdownMenu.Content onInteractOutside={() => setOpen(false)}>
         {options.map((option, idx) => (
           <DropdownMenu.Item
             key={idx}

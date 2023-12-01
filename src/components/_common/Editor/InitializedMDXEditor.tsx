@@ -6,6 +6,10 @@ import { useEffect } from "react";
 import {
   BlockTypeSelect,
   BoldItalicUnderlineToggles,
+  ChangeCodeMirrorLanguage,
+  ConditionalContents,
+  DiffSourceToggleWrapper,
+  InsertCodeBlock,
   ListsToggle,
   MDXEditor,
   type MDXEditorMethods,
@@ -14,6 +18,7 @@ import {
   UndoRedo,
   codeBlockPlugin,
   codeMirrorPlugin,
+  diffSourcePlugin,
   headingsPlugin,
   imagePlugin,
   linkDialogPlugin,
@@ -54,20 +59,44 @@ export default function InitializedMDXEditor({
         codeBlockPlugin({ defaultCodeBlockLanguage: "txt" }),
         codeMirrorPlugin({
           codeBlockLanguages: {
+            java: "Java",
             js: "JavaScript",
+            python: "Python",
+            c: "C",
             css: "CSS",
             txt: "text",
           },
         }),
+        diffSourcePlugin({
+          diffMarkdown: "An older version",
+          viewMode: "rich-text",
+        }),
         toolbarPlugin({
           toolbarContents: () => (
             <>
-              <UndoRedo />
-              <BoldItalicUnderlineToggles />
-              <ListsToggle />
-              <Separator />
-              <BlockTypeSelect />
-              <Separator />
+              <DiffSourceToggleWrapper>
+                <UndoRedo />
+                <BoldItalicUnderlineToggles />
+                <ListsToggle />
+                <Separator />
+                <BlockTypeSelect />
+                <Separator />
+                <ConditionalContents
+                  options={[
+                    {
+                      when: (editor) => editor?.editorType === "codeblock",
+                      contents: () => <ChangeCodeMirrorLanguage />,
+                    },
+                    {
+                      fallback: () => (
+                        <>
+                          <InsertCodeBlock />
+                        </>
+                      ),
+                    },
+                  ]}
+                />
+              </DiffSourceToggleWrapper>
             </>
           ),
         }),
