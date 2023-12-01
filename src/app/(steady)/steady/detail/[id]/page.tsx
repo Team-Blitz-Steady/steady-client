@@ -26,6 +26,7 @@ import UserItems from "@/components/_common/Modal/UserModal/UserItems";
 import Spinner from "@/components/_common/Spinner";
 import Tag from "@/components/_common/Tag";
 import { useLikeSteadyMutation } from "@/hooks/mutation/useLikeSteadyMutation";
+import formattedCreatedAt from "@/utils/formattedCreatedAt";
 import { steadyCategoriesWithEmoji } from "@/constants/labelData";
 import {
   MyProfileKey,
@@ -120,13 +121,6 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
     (user) => user.id === myData?.userId,
   );
 
-  const formattedCreatedAt = format(
-    new Date(
-      new Date(steadyDetailsData.createdAt).getTime() + 1000 * 60 * 60 * 9,
-    ),
-    "yyyy.MM.dd p",
-  );
-
   return (
     <div className="max-sm:w-400 sm:w-450 md:w-600 lg:w-800 xl:w-1000">
       <div className="flex flex-col gap-20">
@@ -218,7 +212,12 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
               </Suspense>
             </UserModal>
             <div className="flex gap-10 text-13 font-bold text-st-gray-100">
-              <span>{formattedCreatedAt}</span>
+              <span>
+                {formattedCreatedAt(
+                  steadyDetailsData.createdAt,
+                  "yyyy.MM.dd p",
+                )}
+              </span>
             </div>
           </div>
           <div className="flex gap-20">
