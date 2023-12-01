@@ -1,3 +1,3 @@
-import Logo from "@/images/logo.svg";
+import Logo from "@/images/opengraph.png";
 
-export const openGraphImage = { images: [Logo] };
+export const openGraphImage = { images: [`${Logo}`] };
