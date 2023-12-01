@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Steady",
     description: "스터디/프로젝트 모집 플랫폼",
+    url: "https://www.steadies.kr",
+    type: "website",
   },
 };
 
