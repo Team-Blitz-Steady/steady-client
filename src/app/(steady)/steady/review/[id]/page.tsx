@@ -94,9 +94,11 @@ const ReviewPage = () => {
   };
 
   return (
-    <div className="my-30 flex flex-col gap-20">
+    <div className="my-30 flex w-500 flex-col justify-center gap-20 md:w-700 xl:w-full">
       <div className="flex items-center justify-between">
-        <div className="text-30 font-bold">{data?.steady.name} 리뷰</div>
+        <div className="text-20 font-bold md:text-30">
+          {data?.steady.name} 리뷰
+        </div>
         <Link href={`/steady/detail/${steadyId}`}>
           <Button
             className={`${buttonSize.sm} items-center justify-center bg-st-primary text-st-white`}
@@ -107,21 +109,21 @@ const ReviewPage = () => {
       </div>
 
       <div className="flex flex-col items-center gap-30">
-        <div className="h-5 w-1000 bg-st-gray-400"></div>
-        <div className="flex h-200 w-800 flex-wrap items-center justify-center rounded-10 px-30 py-20 text-center text-30 font-bold shadow-md">
+        <div className="h-5 w-full bg-st-gray-400"></div>
+        <div className="flex h-100 w-400 flex-wrap items-center justify-center rounded-10 px-30 py-20 text-center text-30 font-bold shadow-md md:h-150 md:w-600 xl:h-200 xl:w-800">
           <div className="flex w-1/2 items-center text-20">
-            <div className="flex h-40 w-100 items-center justify-center rounded-20 bg-st-skyblue-50 text-15 font-bold shadow-md">
+            <div className="flex h-20 w-50 items-center justify-center rounded-20 bg-st-skyblue-50 text-8 font-bold shadow-md md:h-30 md:w-80 md:text-12 xl:h-40 xl:w-100 xl:text-15">
               스테디 구분
             </div>
-            <div className="flex-1 text-17">
+            <div className="flex-1 text-8 md:text-12 xl:text-17">
               {data?.steady.steadyType === "STUDY" ? "스터디" : "프로젝트"}
             </div>
           </div>
           <div className="flex w-1/2 items-center text-20">
-            <div className="flex h-40 w-100 items-center justify-center rounded-20 bg-st-skyblue-50 text-15 font-bold shadow-md">
+            <div className="flex h-20 w-50 items-center justify-center rounded-20 bg-st-skyblue-50 text-8 font-bold shadow-md md:h-30 md:w-80 md:text-12 xl:h-40 xl:w-100 xl:text-15">
               진행 방식
             </div>
-            <div className="flex-1 text-17">
+            <div className="flex-1 text-8 md:text-12 xl:text-17">
               {data?.steady.steadyMode === "ONLINE"
                 ? "온라인"
                 : data?.steady.steadyMode === "OFFLINE"
@@ -130,21 +132,23 @@ const ReviewPage = () => {
             </div>
           </div>
           <div className="flex w-1/2 items-center text-20">
-            <div className="flex h-40 w-100 items-center justify-center rounded-20 bg-st-skyblue-50 text-15 font-bold shadow-md">
-              진행 기간
+            <div className="flex h-20 w-50 items-center justify-center rounded-20 bg-st-skyblue-50 text-8 font-bold shadow-md md:h-30 md:w-80 md:text-12 xl:h-40 xl:w-100 xl:text-15">
+              참여 기간
             </div>
-            <div className="flex-1 text-17">
+            <div className="flex-1 text-8 md:text-12 xl:text-17">
               {data?.steady.participatedAt} ~ {data?.steady.finishedAt}
             </div>
           </div>
           <div className="flex w-1/2 items-center text-20">
-            <div className="flex h-40 w-100 items-center justify-center rounded-20 bg-st-skyblue-50 text-15 font-bold shadow-md">
+            <div className="flex h-20 w-50 items-center justify-center rounded-20 bg-st-skyblue-50 text-8 font-bold shadow-md md:h-30 md:w-80 md:text-12 xl:h-40 xl:w-100 xl:text-15">
               진행 인원
             </div>
-            <div className="flex-1 text-17">{data?.steady.participants}명</div>
+            <div className="flex-1 text-8 md:text-12 xl:text-17">
+              {data?.steady.participants}명
+            </div>
           </div>
         </div>
-        <div className="flex items-center justify-center gap-50">
+        <div className="flex w-full items-center justify-center gap-50 overflow-x-scroll scrollbar-hide">
           {data?.reviewees.map((participant) => (
             <div
               key={participant.userId}
@@ -154,27 +158,30 @@ const ReviewPage = () => {
                 completedUser.some(
                   (item) => item.revieweeId === participant.userId,
                 ) && "border border-2 border-st-green"
-              } flex cursor-pointer flex-col items-center justify-center rounded-md text-20 font-bold`}
+              } flex cursor-pointer flex-col items-center justify-center gap-10 rounded-md text-15 font-bold md:text-20`}
               onClick={() => handleSelectedUser(participant.userId)}
             >
-              <Image
-                className="rounded-md"
-                src={participant.profileImage}
-                alt="profile image"
-                width={70}
-                height={100}
-              />
+              <div className="w-40 md:w-70">
+                <Image
+                  className="rounded-md"
+                  src={participant.profileImage}
+                  alt="profile image"
+                  layout="full"
+                  width={70}
+                  height={100}
+                />
+              </div>
               {participant.nickname}
             </div>
           ))}
         </div>
-        <div className="h-3 w-1000 bg-st-gray-200"></div>
+        <div className="h-3 w-full bg-st-gray-200"></div>
         <div className="flex w-full items-center justify-center">
-          <div className="flex h-290 w-600 flex-col justify-center gap-15">
+          <div className="flex h-220 w-350 flex-col justify-center gap-10 md:h-250 md:w-450 md:gap-15 xl:h-280 xl:w-550">
             {reviewCards.cards.map((card) => (
               <div
                 key={card.cardId}
-                className="flex h-50 items-center justify-between"
+                className="flex h-35 items-center justify-between md:h-50"
               >
                 <Checkbox
                   disabled={completedUser.some(
@@ -186,29 +193,34 @@ const ReviewPage = () => {
                     cardArray.indexOf(card.cardId) !== -1
                       ? "bg-st-green"
                       : "bg-st-white"
-                  } rounded-5 border`}
+                  } rounded-5`}
                   onClick={() => handleCardArray(card.cardId)}
                 />
-                <Image
-                  src={card.imageUrl}
-                  width={35}
-                  height={35}
-                  alt="card_image"
-                />
-                <div className="w-430 text-20 font-bold">{card.content}</div>
+                <div className="h-20 w-20 md:h-30 md:w-30 xl:h-35 xl:w-35">
+                  <Image
+                    src={card.imageUrl}
+                    layout="full"
+                    width={35}
+                    height={35}
+                    alt="card_image"
+                  />
+                </div>
+                <div className="w-230 text-12 font-bold md:w-280 md:text-15 xl:w-380 xl:text-20">
+                  {card.content}
+                </div>
               </div>
             ))}
           </div>
         </div>
-        <div className="h-5 w-1000 bg-st-gray-400"></div>
+        <div className="h-5 w-full bg-st-gray-400"></div>
       </div>
       <div className="mt-20 flex flex-col justify-center gap-10">
-        <div className="text-25 font-bold">한 줄 평 남기기</div>
+        <div className="text-20 font-bold md:text-25">한 줄 평 남기기</div>
         <TextArea
           disabled={completedUser.some(
             (item) => item.revieweeId === selectedUser,
           )}
-          className="h-100 w-1000 outline-none"
+          className="h-100 w-full outline-none"
           size={"3"}
           placeholder="팀원들에게 한 줄 평을 남겨보세요."
           value={review}
