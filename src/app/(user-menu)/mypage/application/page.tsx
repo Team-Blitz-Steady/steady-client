@@ -16,7 +16,7 @@ const MyApplicationPage = () => {
     useApplicationListQuery();
 
   const handleApplicationDetail = (steadyId: number, applicationId: number) => {
-    router.push(`/application/edit/${steadyId}/${applicationId}`);
+    router.push(`/application/${steadyId}/${applicationId}`);
   };
 
   const handleDeleteApplication = async (id: string) => {
