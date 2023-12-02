@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import HeaderLogo from "@/images/headerLogo.svg";
-import Logo from "@/images/logo.svg";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import getMyProfile from "@/services/user/getMyProfile";
 import Dropdown from "@/components/_common/Dropdown";
 import NotificationPopup from "@/components/_common/NotificationPopup";
+import { MyProfileKey } from "@/constants/queryKeys";
 import LoginModal from "../Modal/LoginModal";
 
 interface AppBarProps {
@@ -20,15 +20,20 @@ export const appBarTextStyles = "text-12 md:text-lg font-bold";
 
 const AppBar = ({ className }: AppBarProps) => {
   const { isAuth } = useAuthStore();
-  const [userProfileImageSrc, setUserProfileImageSrc] = useState(Logo);
+  const { data: myProfileData } = useSuspenseQuery({
+    queryKey: MyProfileKey,
+    queryFn: () => getMyProfile(),
+  });
 
-  useEffect(() => {
-    if (isAuth) {
-      getMyProfile().then((res) => {
-        setUserProfileImageSrc(res.profileImage);
-      });
-    }
-  }, []);
+  // const [userProfileImageSrc, setUserProfileImageSrc] = useState(Logo);
+
+  // useEffect(() => {
+  //   if (isAuth) {
+  //     getMyProfile().then((res) => {
+  //       setUserProfileImageSrc(res.profileImage);
+  //     });
+  //   }
+  // }, []);
 
   return (
     <div
@@ -62,9 +67,9 @@ const AppBar = ({ className }: AppBarProps) => {
           >
             <div className="flex h-30 w-30 items-center justify-center md:h-45 md:w-45">
               <Image
-                className="rounded-full border-1"
-                src={userProfileImageSrc}
-                alt="스테디 로고"
+                className="aspect-square rounded-full border-1"
+                src={myProfileData.profileImage}
+                alt="유저 로고"
                 width={45}
                 height={45}
               />
