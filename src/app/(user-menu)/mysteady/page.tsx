@@ -103,7 +103,7 @@ const MySteadyPage = () => {
       case "recruiting" || "closed":
         return "참여중인 ";
       default:
-        return "참여중이거나 종료된";
+        return "참여중이거나 종료된 ";
     }
   };
 
@@ -171,7 +171,7 @@ const MySteadyPage = () => {
                 className="flex h-1000 flex-col items-center justify-center gap-20 text-30 font-bold"
                 key={`${pageIndex}`}
               >
-                <div>
+                <div className="max-sm:text-22 sm:text-22 md:text-25 lg:text-28 xl:text-30">
                   {emptySteadiesMessage()}
                   스테디가 없습니다.
                 </div>
