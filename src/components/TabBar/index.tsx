@@ -6,8 +6,6 @@ import { usePathname } from "next/navigation";
 const TabBar = () => {
   const path = usePathname();
 
-  console.log(path);
-
   return (
     <div className="flex h-41 justify-between gap-20 border-b-3 border-st-gray-100 sm:h-47 md:hidden">
       <Link href={"/mypage"}>
