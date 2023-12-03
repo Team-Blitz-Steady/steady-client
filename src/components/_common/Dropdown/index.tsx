@@ -35,13 +35,14 @@ const Dropdown = ({ children, options }: DropdownProps) => {
         {options.map((option, idx) => (
           <DropdownMenu.Item
             key={idx}
-            className={"hover:bg-st-primary"}
+            className={"p-0 hover:bg-st-primary"}
           >
             <Link
               href={option.linkTo}
               onClick={() => setOpen(false)}
+              className="flex h-full w-full items-center justify-center"
             >
-              {option.label}
+              <div className="p-10">{option.label}</div>
             </Link>
           </DropdownMenu.Item>
         ))}

@@ -4,15 +4,15 @@ import { Fragment } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/themes";
 import { format } from "date-fns";
 import type { MySteadyContentType } from "@/services/types";
-import Button, { buttonSize } from "@/components/_common/Button";
+import Button from "@/components/_common/Button";
 import ContactTag from "@/components/_common/ContactTag";
 import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
-import { AlertModal } from "@/components/_common/Modal";
 import { useMySteadiesQuery } from "@/hooks/query/useMySteadiesQuery";
 import { useScrollTo } from "@/hooks/useScrollTo";
 
@@ -39,6 +39,7 @@ const MySteadyPage = () => {
     direction: "desc",
   });
   const ref = useScrollTo<HTMLDivElement>({ top: 0 }, [search]);
+  const { toast } = useToast();
 
   const renderIcon = (steady: MySteadyContentType) => {
     if (search === "finished") {
@@ -74,24 +75,17 @@ const MySteadyPage = () => {
     }
     if (!steady.isLeader && (search === "recruiting" || search === "closed")) {
       return (
-        <AlertModal
-          trigger={
-            <Icon
-              name="exit"
-              size={20}
-              color="text-st-black"
-            />
-          }
-          actionButton={
-            <Button className={`${buttonSize.sm} bg-st-red text-st-white`}>
-              탈퇴
-            </Button>
+        <div
+          onClick={() =>
+            toast({ description: "준비중인 기능입니다!", variant: "blue" })
           }
         >
-          <div className="flex items-center justify-center">
-            <div className="text-18 font-bold">정말 탈퇴하시겠습니까?</div>
-          </div>
-        </AlertModal>
+          <Icon
+            name="exit"
+            size={20}
+            color="text-st-black"
+          />
+        </div>
       );
     }
   };
@@ -103,7 +97,7 @@ const MySteadyPage = () => {
       case "recruiting" || "closed":
         return "참여중인 ";
       default:
-        return "참여중이거나 종료된";
+        return "참여중이거나 종료된 ";
     }
   };
 
@@ -171,7 +165,7 @@ const MySteadyPage = () => {
                 className="flex h-1000 flex-col items-center justify-center gap-20 text-30 font-bold"
                 key={`${pageIndex}`}
               >
-                <div>
+                <div className="max-sm:text-22 sm:text-22 md:text-25 lg:text-28 xl:text-30">
                   {emptySteadiesMessage()}
                   스테디가 없습니다.
                 </div>

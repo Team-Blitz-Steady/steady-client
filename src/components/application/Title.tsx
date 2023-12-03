@@ -18,7 +18,7 @@ const Title = ({
           {title}
         </div>
         <span className="text-25 lg:text-28 xl:text-30">
-          {pageType === "submit" ? "신청서" : "신청서 수정"}
+          {pageType === "edit" ? "신청서 수정" : "신청서"}
         </span>
       </div>
       <Separator className="mb-10 h-5 w-auto bg-st-gray-400" />
