@@ -33,18 +33,16 @@ const Dropdown = ({ children, options }: DropdownProps) => {
       </DropdownMenu.Trigger>
       <DropdownMenu.Content onInteractOutside={() => setOpen(false)}>
         {options.map((option, idx) => (
-          <DropdownMenu.Item
+          <Link
+            href={option.linkTo}
+            onClick={() => setOpen(false)}
             key={idx}
             className={"p-0 hover:bg-st-primary"}
           >
-            <Link
-              href={option.linkTo}
-              onClick={() => setOpen(false)}
-              className="flex h-full w-full items-center justify-center"
-            >
-              <div className="p-10">{option.label}</div>
-            </Link>
-          </DropdownMenu.Item>
+            <DropdownMenu.Item className={"cursor-pointer hover:bg-st-primary"}>
+              {option.label}
+            </DropdownMenu.Item>
+          </Link>
         ))}
       </DropdownMenu.Content>
     </DropdownMenu.Root>

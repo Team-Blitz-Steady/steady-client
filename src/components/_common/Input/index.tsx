@@ -118,7 +118,7 @@ const Input = ({
             className="h-60 w-full rounded-12 p-5 text-xl font-bold outline-none"
             type="text"
             defaultValue={initialValue}
-            placeholder="한 줄 소개로 자신을 표현해 주세요!"
+            placeholder="한 줄 소개로 자신을 표현해보세요!"
             onChange={(event) => {
               onValueChange?.(event.target.value);
             }}
