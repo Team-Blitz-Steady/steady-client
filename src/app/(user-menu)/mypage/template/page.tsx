@@ -9,6 +9,7 @@ import getTemplates from "@/services/template/getTemplates";
 import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import DeleteModal from "@/components/_common/Modal/DeleteModal";
+import formattedCreatedAt from "@/utils/formattedCreatedAt";
 import { TemplatesKey } from "@/constants/queryKeys";
 
 const MyTemplatePage = () => {
@@ -64,7 +65,7 @@ const MyTemplatePage = () => {
               </div>
               <div className="group flex">
                 <div className="transform text-10 font-bold text-st-gray-100 transition group-hover:-translate-x-[15px] lg:text-15 lg:group-hover:-translate-x-[30px]">
-                  생성일 {template.createdAt.slice(0, 10)}
+                  생성일 {formattedCreatedAt(template.createdAt, "yyyy-MM-dd")}
                 </div>
                 <div
                   onClick={(event) => {

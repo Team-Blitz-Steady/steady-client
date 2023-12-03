@@ -7,6 +7,7 @@ import deleteApplication from "@/services/application/deleteApplication";
 import Icon from "@/components/_common/Icon";
 import DeleteModal from "@/components/_common/Modal/DeleteModal";
 import useApplicationListQuery from "@/hooks/query/useApplicationListQuery";
+import formattedCreatedAt from "@/utils/formattedCreatedAt";
 
 const MyApplicationPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -94,7 +95,8 @@ const MyApplicationPage = () => {
                   </div>
                   <div className="group flex">
                     <div className="transform text-10 font-bold text-st-gray-100 transition group-hover:-translate-x-[15px] lg:text-15 lg:group-hover:-translate-x-[30px]">
-                      제출일 {application.createdAt.slice(0, 10)}
+                      제출일{" "}
+                      {formattedCreatedAt(application.createdAt, "yyyy-MM-dd")}
                     </div>
                     <div
                       onClick={(event) => {
