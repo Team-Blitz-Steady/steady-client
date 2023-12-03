@@ -294,6 +294,18 @@ const Home = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setModalOpen(false);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const bannerDefaultStyle =
     "duration-1500 absolute left-0 top-0 flex h-250 md:h-300 lg:h-350 w-full justify-center transition-opacity";
   const bannerValidStyle = "opacity-100 transition-opacity ease-in";
@@ -708,102 +720,61 @@ const Home = () => {
           <Sheet.Container>
             <Sheet.Header />
             <Sheet.Content>
-              <div className="flex flex-wrap items-center justify-center gap-5">
-                <MultiSelector
-                  initialLabel={"기술 스택"}
-                  items={stacks.stacks.map((stack) => ({
-                    value: stack.id.toString(),
-                    label: stack.name,
-                  }))}
-                  onSelectedChange={(value) =>
-                    setStack(value.map((item) => item.label).join(","))
-                  }
-                  className="w-220"
-                />
-                <MultiSelector
-                  initialLabel={"모집 분야"}
-                  items={positions.positions.map((position) => ({
-                    value: position.name,
-                    label: position.name,
-                  }))}
-                  onSelectedChange={(value) =>
-                    setPosition(value.map((item) => item.label).join(","))
-                  }
-                  className="w-220"
-                />
-                <SingleSelector
-                  initialLabel={"진행 방식"}
-                  items={steadyRunningMethods}
-                  className="mb-8 h-43 w-220"
-                  onSelectedChange={(value) => setMode(value)}
-                />
-                <div
-                  className={`${
-                    like
-                      ? "border-5 border-st-yellow"
-                      : "border border-st-gray-100"
-                  } transition-border mb-8 flex h-43 w-150 items-center justify-center rounded-5 duration-100`}
-                >
-                  {isAuth && (
+              <div className="flex h-full flex-col justify-between">
+                <div className="flex flex-col items-center gap-5">
+                  <div className="flex flex-wrap justify-center gap-10">
+                    <MultiSelector
+                      initialLabel={"기술 스택"}
+                      items={stacks.stacks.map((stack) => ({
+                        value: stack.id.toString(),
+                        label: stack.name,
+                      }))}
+                      onSelectedChange={(value) =>
+                        setStack(value.map((item) => item.label).join(","))
+                      }
+                      className="w-220"
+                    />
+                    <MultiSelector
+                      initialLabel={"모집 분야"}
+                      items={positions.positions.map((position) => ({
+                        value: position.name,
+                        label: position.name,
+                      }))}
+                      onSelectedChange={(value) =>
+                        setPosition(value.map((item) => item.label).join(","))
+                      }
+                      className="w-220"
+                    />
+                    {/* <SingleSelector
+                      initialLabel={"진행 방식"}
+                      items={steadyRunningMethods}
+                      className="z-99999999 mb-8 h-43 w-220"
+                      onSelectedChange={(value) => setMode(value)}
+                    /> */}
+                  </div>
+                </div>
+                <div className="flex items-end justify-center gap-20 p-20">
+                  <div className="mb-8 flex h-43 w-200 items-center justify-center rounded-10 shadow-md">
                     <button
-                      className="h-full w-full font-bold"
-                      onClick={() => setLike(!like)}
+                      className="h-full w-full rounded-10 font-bold hover:bg-st-green hover:text-st-white"
+                      onClick={() => {
+                        setModalOpen(false);
+                      }}
                     >
-                      💛 내 좋아요
+                      필터 적용
                     </button>
-                  )}
-                  {!isAuth && (
-                    <AlertModal
-                      actionButton={
-                        <LoginModal
-                          trigger={
-                            <Button
-                              className={cn(
-                                `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
-                              )}
-                            >
-                              로그인
-                            </Button>
-                          }
-                        />
-                      }
-                      trigger={
-                        <button
-                          onClick={() => setModalOpen(false)}
-                          className="h-full w-full font-bold"
-                        >
-                          💛 내 좋아요
-                        </button>
-                      }
+                  </div>
+                  <div className="mb-8 flex h-43 w-200 items-center justify-center rounded-10 shadow-md">
+                    <button
+                      className="h-full w-full rounded-10 font-bold hover:bg-st-red hover:text-st-white"
+                      onClick={() => {
+                        setToInitialState();
+                        setModalOpen(false);
+                      }}
                     >
-                      <div className="text-center text-18 font-bold">
-                        로그인이 필요한 기능입니다! <br />
-                        로그인 하시겠어요?
-                      </div>
-                    </AlertModal>
-                  )}
-                </div>
-                <div
-                  className={`${
-                    recruit
-                      ? "border-5 border-st-primary"
-                      : "border border-st-gray-100"
-                  } transition-border mb-8 flex h-43 w-100 items-center justify-center rounded-5 duration-100`}
-                >
-                  <button
-                    className="h-full w-full font-bold"
-                    onClick={() => setRecruit(!recruit)}
-                  >
-                    모집중
-                  </button>
-                </div>
-                <div className="mb-8 flex h-43 w-100 items-center justify-center rounded-5 border border-st-gray-100">
-                  <button
-                    className="h-full w-full font-bold"
-                    onClick={() => setToInitialState()}
-                  >
-                    초기화
-                  </button>
+                      초기화
+                    </button>
+                  </div>
                 </div>
               </div>
             </Sheet.Content>
