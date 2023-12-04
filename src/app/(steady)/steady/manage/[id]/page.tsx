@@ -8,7 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
 import DeleteUserLogo from "@/images/DeleteUser.svg";
 import { cn } from "@/lib/utils";
-import { Badge, Separator, Tabs } from "@radix-ui/themes";
+import { Badge, Separator, Tabs, Tooltip } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import deleteSteady from "@/services/steady/deleteSteady";
 import deleteSteadyMember from "@/services/steady/deleteSteadyMember";
@@ -19,6 +19,7 @@ import getMyProfile from "@/services/user/getMyProfile";
 import getUserProfile from "@/services/user/getUserProfile";
 import Button, { buttonSize } from "@/components/_common/Button";
 import { AlertModal } from "@/components/_common/Modal";
+import { CardTooltip } from "@/constants/cardTooltip";
 import {
   subBoxStyles,
   subContentStyles,
@@ -275,25 +276,32 @@ const SteadyManagePage = ({ params }: { params: { id: string } }) => {
                             "flex items-center justify-center gap-30",
                           )}
                         >
-                          {participantDetailsData.userCards.map((card) => (
-                            <div
-                              key={card.cardId}
-                              className={cn(
-                                subMyPageTextStyles.content,
-                                "flex h-65 flex-col justify-between",
-                              )}
-                            >
-                              <Image
-                                src={card.imageUrl}
-                                alt="카드 이미지"
-                                width={30}
-                                height={30}
-                              />
-                              <div className={cn(subMyPageTextStyles.content)}>
-                                {`( ${card.count} )`}
+                          {participantDetailsData.userCards.map(
+                            (card, index) => (
+                              <div
+                                key={card.cardId}
+                                className={cn(
+                                  subMyPageTextStyles.content,
+                                  "flex h-65 flex-col justify-between",
+                                )}
+                              >
+                                <Tooltip content={CardTooltip[index]}>
+                                  <Image
+                                    src={card.imageUrl}
+                                    alt="카드 이미지"
+                                    width={30}
+                                    height={30}
+                                  />
+                                </Tooltip>
+
+                                <div
+                                  className={cn(subMyPageTextStyles.content)}
+                                >
+                                  {`( ${card.count} )`}
+                                </div>
                               </div>
-                            </div>
-                          ))}
+                            ),
+                          )}
                         </div>
                         <div
                           className={cn(subMyPageTextStyles.content, "my-20")}

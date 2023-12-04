@@ -5,13 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import { Checkbox, TextArea } from "@radix-ui/themes";
+import { Checkbox, TextArea, Tooltip } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import createReview from "@/services/review/createReview";
 import getReviewCards from "@/services/review/getReviewCards";
 import getReviewSteadyInfo from "@/services/review/getReviewSteadyInfo";
 import type { CreateReviewType } from "@/services/types";
 import Button, { buttonSize } from "@/components/_common/Button";
+import { CardTooltip } from "@/constants/cardTooltip";
 import { ReviewCardKey, ReviewSteadyKey } from "@/constants/queryKeys";
 
 const ReviewPage = () => {
@@ -178,7 +179,7 @@ const ReviewPage = () => {
         <div className="h-3 w-full bg-st-gray-200"></div>
         <div className="flex w-full items-center justify-center">
           <div className="flex h-220 w-350 flex-col justify-center gap-10 md:h-250 md:w-450 md:gap-15 xl:h-280 xl:w-550">
-            {reviewCards.cards.map((card) => (
+            {reviewCards.cards.map((card, index) => (
               <div
                 key={card.cardId}
                 className="flex h-35 items-center justify-between md:h-50"
@@ -197,13 +198,15 @@ const ReviewPage = () => {
                   onClick={() => handleCardArray(card.cardId)}
                 />
                 <div className="h-20 w-20 md:h-30 md:w-30 xl:h-35 xl:w-35">
-                  <Image
-                    src={card.imageUrl}
-                    layout="full"
-                    width={35}
-                    height={35}
-                    alt="card_image"
-                  />
+                  <Tooltip content={CardTooltip[index]}>
+                    <Image
+                      src={card.imageUrl}
+                      layout="full"
+                      width={35}
+                      height={35}
+                      alt="card_image"
+                    />
+                  </Tooltip>
                 </div>
                 <div className="w-230 text-12 font-bold md:w-280 md:text-15 xl:w-380 xl:text-20">
                   {card.content}

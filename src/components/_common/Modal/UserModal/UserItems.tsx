@@ -1,7 +1,9 @@
 import Image from "next/image";
 import DeleteUserLogo from "@/images/DeleteUser.svg";
+import { Tooltip } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import getUserProfile from "@/services/user/getUserProfile";
+import { CardTooltip } from "@/constants/cardTooltip";
 import { getUserProfileKey } from "@/constants/queryKeys";
 
 const UserItems = ({ userId }: { userId: number }) => {
@@ -51,18 +53,20 @@ const UserItems = ({ userId }: { userId: number }) => {
           <div className="flex w-full flex-col items-center justify-center gap-10">
             <div className="text-15 font-bold">받은카드</div>
             <div className="flex h-70 w-400 items-center justify-evenly shadow-md max-sm:h-50 max-sm:w-300">
-              {userProfileData.userCards.map((card) => (
+              {userProfileData.userCards.map((card, index) => (
                 <div
                   key={card.cardId}
                   className="flex flex-col items-center justify-center"
                 >
-                  <Image
-                    src={card.imageUrl}
-                    alt="카드 이미지"
-                    width={0}
-                    height={0}
-                    className="h-45 w-45 max-sm:h-25 max-sm:w-25"
-                  />
+                  <Tooltip content={CardTooltip[index]}>
+                    <Image
+                      src={card.imageUrl}
+                      alt="카드 이미지"
+                      width={0}
+                      height={0}
+                      className="h-45 w-45 max-sm:h-25 max-sm:w-25"
+                    />
+                  </Tooltip>
                   <div className="text-18 font-bold max-sm:text-15">{`(${card.count})`}</div>
                 </div>
               ))}
