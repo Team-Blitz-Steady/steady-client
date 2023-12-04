@@ -35,6 +35,7 @@ import Button, { buttonSize } from "@/components/_common/Button";
 import Icon from "@/components/_common/Icon";
 import AlertModal from "@/components/_common/Modal/AlertModal";
 import LoginModal from "@/components/_common/Modal/LoginModal";
+import WelcomeModal from "@/components/_common/Modal/WelcomeModal";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
 import StickyButton from "@/components/_common/StickyButton";
 import {
@@ -852,6 +853,7 @@ const Home = () => {
           </Sheet.Container>
           <Sheet.Backdrop />
         </Sheet>
+        <WelcomeModal />
       </div>
     </main>
   );
