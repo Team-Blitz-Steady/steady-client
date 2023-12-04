@@ -105,6 +105,13 @@ module.exports = {
       transitionDuration: {
         1500: "1500ms",
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: "100ch",
+          },
+        },
+      },
     },
   },
   plugins: [
