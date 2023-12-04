@@ -57,7 +57,7 @@ const Home = () => {
   const [deadline, setDeadline] = useState(false);
   const [stack, setStack] = useState("");
   const [position, setPosition] = useState("");
-  const [mode, setMode] = useState("");
+  const [mode, setMode] = useState("0");
   const { isAuth } = useAuthStore();
   const [isInitialRender, setIsInitialRender] = useState(true);
   const rankImageArray = [
@@ -210,7 +210,7 @@ const Home = () => {
   const setToInitialState = () => {
     setStack("");
     setPosition("");
-    setMode("");
+    setMode("0");
     setLike(false);
     setRecruit(true);
   };
@@ -292,6 +292,18 @@ const Home = () => {
     if (sessionStorage.getItem("page")) {
       setPage(parseInt(sessionStorage.getItem("page")!));
     }
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setModalOpen(false);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const bannerDefaultStyle =
@@ -708,102 +720,132 @@ const Home = () => {
           <Sheet.Container>
             <Sheet.Header />
             <Sheet.Content>
-              <div className="flex flex-wrap items-center justify-center gap-5">
-                <MultiSelector
-                  initialLabel={"기술 스택"}
-                  items={stacks.stacks.map((stack) => ({
-                    value: stack.id.toString(),
-                    label: stack.name,
-                  }))}
-                  onSelectedChange={(value) =>
-                    setStack(value.map((item) => item.label).join(","))
-                  }
-                  className="w-220"
-                />
-                <MultiSelector
-                  initialLabel={"모집 분야"}
-                  items={positions.positions.map((position) => ({
-                    value: position.name,
-                    label: position.name,
-                  }))}
-                  onSelectedChange={(value) =>
-                    setPosition(value.map((item) => item.label).join(","))
-                  }
-                  className="w-220"
-                />
-                <SingleSelector
-                  initialLabel={"진행 방식"}
-                  items={steadyRunningMethods}
-                  className="mb-8 h-43 w-220"
-                  onSelectedChange={(value) => setMode(value)}
-                />
-                <div
-                  className={`${
-                    like
-                      ? "border-5 border-st-yellow"
-                      : "border border-st-gray-100"
-                  } transition-border mb-8 flex h-43 w-150 items-center justify-center rounded-5 duration-100`}
-                >
-                  {isAuth && (
-                    <button
-                      className="h-full w-full font-bold"
-                      onClick={() => setLike(!like)}
-                    >
-                      💛 내 좋아요
-                    </button>
-                  )}
-                  {!isAuth && (
-                    <AlertModal
-                      actionButton={
-                        <LoginModal
-                          trigger={
-                            <Button
-                              className={cn(
-                                `bg-st-primary ${buttonSize.sm} items-center justify-center text-st-white`,
-                              )}
-                            >
-                              로그인
-                            </Button>
-                          }
-                        />
-                      }
-                      trigger={
-                        <button
-                          onClick={() => setModalOpen(false)}
-                          className="h-full w-full font-bold"
+              <div className="flex h-full flex-col justify-between">
+                <div className="flex flex-col items-center gap-5">
+                  <div className="flex flex-col justify-center gap-20">
+                    <div className="flex flex-col items-center justify-center gap-20 text-25 font-bold">
+                      기술 스택
+                      <MultiSelector
+                        initialLabel={"기술 스택"}
+                        items={stacks.stacks.map((stack) => ({
+                          value: stack.id.toString(),
+                          label: stack.name,
+                        }))}
+                        onSelectedChange={(value) =>
+                          setStack(value.map((item) => item.label).join(","))
+                        }
+                        className="w-300"
+                      />
+                    </div>
+                    <div className="flex flex-col items-center justify-center gap-20 text-25 font-bold">
+                      모집 분야
+                      <MultiSelector
+                        initialLabel={"모집 분야"}
+                        items={positions.positions.map((position) => ({
+                          value: position.name,
+                          label: position.name,
+                        }))}
+                        onSelectedChange={(value) =>
+                          setPosition(value.map((item) => item.label).join(","))
+                        }
+                        className="w-300"
+                      />
+                    </div>
+
+                    <div className="flex flex-col items-center justify-center gap-20 text-25 font-bold">
+                      진행 방식
+                      <div className="flex items-center justify-center gap-20 text-17">
+                        <div
+                          className={`${
+                            mode === "0" ? "" : "text-st-gray-100"
+                          } cursor-pointer`}
+                          onClick={() => setMode("0")}
                         >
-                          💛 내 좋아요
-                        </button>
-                      }
-                    >
-                      <div className="text-center text-18 font-bold">
-                        로그인이 필요한 기능입니다! <br />
-                        로그인 하시겠어요?
+                          전체
+                        </div>
+                        <div
+                          className={`${
+                            mode === "offline" ? "" : "text-st-gray-100"
+                          } cursor-pointer`}
+                          onClick={() => setMode("offline")}
+                        >
+                          오프라인
+                        </div>
+                        <div
+                          className={`${
+                            mode === "online" ? "" : "text-st-gray-100"
+                          } cursor-pointer`}
+                          onClick={() => setMode("online")}
+                        >
+                          온라인
+                        </div>
+                        <div
+                          className={`${
+                            mode === "both" ? "" : "text-st-gray-100"
+                          } cursor-pointer`}
+                          onClick={() => setMode("both")}
+                        >
+                          혼합
+                        </div>
                       </div>
-                    </AlertModal>
-                  )}
+                    </div>
+                    <div className="flex flex-col items-center justify-center gap-20 text-25 font-bold">
+                      모집 현황
+                      <div className="flex items-center justify-center gap-20">
+                        <div
+                          className={`${
+                            recruit
+                              ? "border-5 border-st-primary"
+                              : "border border-st-gray-100"
+                          } transition-border mb-8 flex h-43 w-100 items-center justify-center rounded-5 duration-100`}
+                        >
+                          <button
+                            className="h-full w-full text-15 font-bold"
+                            onClick={() => setRecruit(true)}
+                          >
+                            모집중
+                          </button>
+                        </div>
+                        <div
+                          className={`${
+                            !recruit
+                              ? "border-5 border-st-red"
+                              : "border border-st-gray-100"
+                          } transition-border mb-8 flex h-43 w-100 items-center justify-center rounded-5 duration-100`}
+                        >
+                          <button
+                            className="h-full w-full text-15 font-bold"
+                            onClick={() => setRecruit(false)}
+                          >
+                            전체
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div
-                  className={`${
-                    recruit
-                      ? "border-5 border-st-primary"
-                      : "border border-st-gray-100"
-                  } transition-border mb-8 flex h-43 w-100 items-center justify-center rounded-5 duration-100`}
-                >
-                  <button
-                    className="h-full w-full font-bold"
-                    onClick={() => setRecruit(!recruit)}
-                  >
-                    모집중
-                  </button>
-                </div>
-                <div className="mb-8 flex h-43 w-100 items-center justify-center rounded-5 border border-st-gray-100">
-                  <button
-                    className="h-full w-full font-bold"
-                    onClick={() => setToInitialState()}
-                  >
-                    초기화
-                  </button>
+                <div className="flex items-end justify-center gap-20 p-20">
+                  <div className="mb-8 flex h-43 w-200 items-center justify-center rounded-10 shadow-md">
+                    <button
+                      className="h-full w-full rounded-10 font-bold hover:bg-st-green hover:text-st-white"
+                      onClick={() => {
+                        setModalOpen(false);
+                      }}
+                    >
+                      필터 적용
+                    </button>
+                  </div>
+                  <div className="mb-8 flex h-43 w-200 items-center justify-center rounded-10 shadow-md">
+                    <button
+                      className="h-full w-full rounded-10 font-bold hover:bg-st-red hover:text-st-white"
+                      onClick={() => {
+                        setToInitialState();
+                        setModalOpen(false);
+                      }}
+                    >
+                      초기화
+                    </button>
+                  </div>
                 </div>
               </div>
             </Sheet.Content>

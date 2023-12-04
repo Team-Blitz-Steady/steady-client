@@ -19,7 +19,7 @@ const getSteadies = async (
       }${keyword !== "" ? `&keyword=${keyword}` : ""}${
         stack !== "" ? `&stack=${stack}` : ""
       }${position !== "" ? `&position=${position}` : ""}${
-        mode !== "" ? `&steadyMode=${mode}` : ""
+        mode !== "0" ? `&steadyMode=${mode}` : ""
       }${recruit ? `&status=RECRUITING` : ""}${
         deadline ? `&direction=asc&criteria=deadline` : ""
       }`,
