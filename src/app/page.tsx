@@ -57,7 +57,7 @@ const Home = () => {
   const [deadline, setDeadline] = useState(false);
   const [stack, setStack] = useState("");
   const [position, setPosition] = useState("");
-  const [mode, setMode] = useState("");
+  const [mode, setMode] = useState("0");
   const { isAuth } = useAuthStore();
   const [isInitialRender, setIsInitialRender] = useState(true);
   const rankImageArray = [
@@ -210,7 +210,7 @@ const Home = () => {
   const setToInitialState = () => {
     setStack("");
     setPosition("");
-    setMode("");
+    setMode("0");
     setLike(false);
     setRecruit(true);
   };
@@ -722,35 +722,106 @@ const Home = () => {
             <Sheet.Content>
               <div className="flex h-full flex-col justify-between">
                 <div className="flex flex-col items-center gap-5">
-                  <div className="flex flex-wrap justify-center gap-10">
-                    <MultiSelector
-                      initialLabel={"기술 스택"}
-                      items={stacks.stacks.map((stack) => ({
-                        value: stack.id.toString(),
-                        label: stack.name,
-                      }))}
-                      onSelectedChange={(value) =>
-                        setStack(value.map((item) => item.label).join(","))
-                      }
-                      className="w-220"
-                    />
-                    <MultiSelector
-                      initialLabel={"모집 분야"}
-                      items={positions.positions.map((position) => ({
-                        value: position.name,
-                        label: position.name,
-                      }))}
-                      onSelectedChange={(value) =>
-                        setPosition(value.map((item) => item.label).join(","))
-                      }
-                      className="w-220"
-                    />
-                    {/* <SingleSelector
-                      initialLabel={"진행 방식"}
-                      items={steadyRunningMethods}
-                      className="z-99999999 mb-8 h-43 w-220"
-                      onSelectedChange={(value) => setMode(value)}
-                    /> */}
+                  <div className="flex flex-col justify-center gap-20">
+                    <div className="flex flex-col items-center justify-center gap-20 text-25 font-bold">
+                      기술 스택
+                      <MultiSelector
+                        initialLabel={"기술 스택"}
+                        items={stacks.stacks.map((stack) => ({
+                          value: stack.id.toString(),
+                          label: stack.name,
+                        }))}
+                        onSelectedChange={(value) =>
+                          setStack(value.map((item) => item.label).join(","))
+                        }
+                        className="w-300"
+                      />
+                    </div>
+                    <div className="flex flex-col items-center justify-center gap-20 text-25 font-bold">
+                      모집 분야
+                      <MultiSelector
+                        initialLabel={"모집 분야"}
+                        items={positions.positions.map((position) => ({
+                          value: position.name,
+                          label: position.name,
+                        }))}
+                        onSelectedChange={(value) =>
+                          setPosition(value.map((item) => item.label).join(","))
+                        }
+                        className="w-300"
+                      />
+                    </div>
+
+                    <div className="flex flex-col items-center justify-center gap-20 text-25 font-bold">
+                      진행 방식
+                      <div className="flex items-center justify-center gap-20 text-17">
+                        <div
+                          className={`${
+                            mode === "0" ? "" : "text-st-gray-100"
+                          } cursor-pointer`}
+                          onClick={() => setMode("0")}
+                        >
+                          전체
+                        </div>
+                        <div
+                          className={`${
+                            mode === "offline" ? "" : "text-st-gray-100"
+                          } cursor-pointer`}
+                          onClick={() => setMode("offline")}
+                        >
+                          오프라인
+                        </div>
+                        <div
+                          className={`${
+                            mode === "online" ? "" : "text-st-gray-100"
+                          } cursor-pointer`}
+                          onClick={() => setMode("online")}
+                        >
+                          온라인
+                        </div>
+                        <div
+                          className={`${
+                            mode === "both" ? "" : "text-st-gray-100"
+                          } cursor-pointer`}
+                          onClick={() => setMode("both")}
+                        >
+                          혼합
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-center justify-center gap-20 text-25 font-bold">
+                      모집 현황
+                      <div className="flex items-center justify-center gap-20">
+                        <div
+                          className={`${
+                            recruit
+                              ? "border-5 border-st-primary"
+                              : "border border-st-gray-100"
+                          } transition-border mb-8 flex h-43 w-100 items-center justify-center rounded-5 duration-100`}
+                        >
+                          <button
+                            className="h-full w-full text-15 font-bold"
+                            onClick={() => setRecruit(true)}
+                          >
+                            모집중
+                          </button>
+                        </div>
+                        <div
+                          className={`${
+                            !recruit
+                              ? "border-5 border-st-red"
+                              : "border border-st-gray-100"
+                          } transition-border mb-8 flex h-43 w-100 items-center justify-center rounded-5 duration-100`}
+                        >
+                          <button
+                            className="h-full w-full text-15 font-bold"
+                            onClick={() => setRecruit(false)}
+                          >
+                            전체
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-end justify-center gap-20 p-20">
