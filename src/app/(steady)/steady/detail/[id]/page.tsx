@@ -258,16 +258,28 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
               >
                 <div className="flex flex-col items-center justify-center gap-10">
                   <div className="flex flex-col items-center justify-center gap-10">
-                    <Image
-                      className="cursor-pointer rounded-full border-1"
-                      src={steadyDetailsData.leaderResponse.profileImage}
-                      alt="참여자 이미지"
-                      width={80}
-                      height={80}
-                    />
-                    <button className="text-20 font-bold">
-                      {steadyDetailsData.leaderResponse.nickname}
-                    </button>
+                    <UserModal
+                      trigger={
+                        <div className="flex flex-col items-center justify-center gap-10">
+                          <Image
+                            className="cursor-pointer rounded-full border-1"
+                            src={steadyDetailsData.leaderResponse.profileImage}
+                            alt="참여자 이미지"
+                            width={80}
+                            height={80}
+                          />
+                          <button className="text-18 font-bold">
+                            {steadyDetailsData.leaderResponse.nickname}
+                          </button>
+                        </div>
+                      }
+                    >
+                      <Suspense fallback={<Spinner size="medium" />}>
+                        <UserItems
+                          userId={steadyDetailsData.leaderResponse.id}
+                        />
+                      </Suspense>
+                    </UserModal>
                   </div>
                   {steadyParticipantsData.participants.map((participant) => (
                     <div key={participant.id}>
