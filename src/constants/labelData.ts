@@ -12,7 +12,7 @@ export const STEADY_RECRUITMENT_EXAMPLE =
 export const CREATE_STEADY_PAGE_HEADING =
   "📖 스테디 / ✍️ 모집글 정보를 입력해주세요.";
 
-export const steadyCategoriesWithEmoji = {
-  STUDY: "📖 스터디",
-  PROJECT: "🖥️ 프로젝트",
+export const steadyCategoryLabel = {
+  STUDY: "스터디",
+  PROJECT: "프로젝트",
 };
