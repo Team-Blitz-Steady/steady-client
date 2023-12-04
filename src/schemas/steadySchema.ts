@@ -26,7 +26,10 @@ export const SteadySchema = z.object({
   deadline: z.string({
     required_error: "스테디의 모집 마감일을 선택해주세요.",
   }),
-  title: z.string({ required_error: "스테디의 모집글 제목을 입력해주세요." }),
+  title: z
+    .string({ required_error: "스테디의 모집글 제목을 입력해주세요." })
+    .min(2, { message: "스테디의 모집글 제목은 2글자 이상이어야 합니다." })
+    .max(25, { message: "스테디의 모집글 제목은 25글자 이하여야 합니다." }),
   content: z.string({
     required_error: "스테디의 모집글 내용을 입력해주세요.",
   }),
