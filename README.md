@@ -53,8 +53,15 @@ pnpm start
 
 ## 기능 소개
 
-페이지별 사진 및 기능 설명
+<img width="1142" alt="image" src="https://github.com/Team-Blitz-Steady/steady-client/assets/109654823/f6c3f93c-662e-4675-af4e-8360274bef69">
 
+<img width="1145" alt="image" src="https://github.com/Team-Blitz-Steady/steady-client/assets/109654823/2c3bc330-b023-42b9-bfe6-cfdcfc7ed05b">
+
+<img width="1149" alt="image" src="https://github.com/Team-Blitz-Steady/steady-client/assets/109654823/681823fa-9ae4-442b-8e72-c84d3961e02e">
+
+<img width="1145" alt="image" src="https://github.com/Team-Blitz-Steady/steady-client/assets/109654823/e69baf74-477c-48f6-933b-96f803912ce6">
+
+<img width="1145" alt="image" src="https://github.com/Team-Blitz-Steady/steady-client/assets/109654823/b15680a6-dc60-4331-aabd-accd5f41e8f5">
 
 
 
