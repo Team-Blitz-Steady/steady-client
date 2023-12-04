@@ -21,6 +21,7 @@ import Button, { buttonSize } from "@/components/_common/Button";
 import { MyProfileKey } from "@/constants/queryKeys";
 
 const ProfileImageUpload = ({ userData }: { userData: MyProfileType }) => {
+  const [open, setOpen] = useState("item-hidden");
   const [imageSrc, setImageSrc] = useState("");
   const [imageFile, setImageFile] = useState<File>();
   const { toast } = useToast();
@@ -64,6 +65,7 @@ const ProfileImageUpload = ({ userData }: { userData: MyProfileType }) => {
             description: "프로필 이미지가 수정되었습니다.",
             variant: "green",
           });
+          setOpen("item-hidden");
         });
         setImageSrc("");
         setImageFile(undefined);
@@ -76,6 +78,8 @@ const ProfileImageUpload = ({ userData }: { userData: MyProfileType }) => {
       type="single"
       collapsible
       className="h-30"
+      value={open}
+      onValueChange={(value) => setOpen(value)}
     >
       <AccordionItem value="item-1">
         <AccordionTrigger
@@ -141,6 +145,10 @@ const ProfileImageUpload = ({ userData }: { userData: MyProfileType }) => {
           </div>
         </AccordionContent>
       </AccordionItem>
+      <AccordionItem
+        value={"item-hidden"}
+        className={"hidden"}
+      ></AccordionItem>
     </Accordion>
   );
 };

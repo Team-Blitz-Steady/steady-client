@@ -315,7 +315,7 @@ const MyProfilePage = () => {
                     "flex h-30 w-718 items-center justify-center gap-15 text-2xl italic text-st-gray-250",
                   )}
                 >
-                  {`"${bio}"` ?? "한 줄 소개를 입력해주세요."}
+                  {`"${bio ?? "한 줄 소개로 자신을 표현해보세요!"}"`}
                   <button onClick={() => setIsEditingBio(true)}>
                     <Icon
                       name="pencil"

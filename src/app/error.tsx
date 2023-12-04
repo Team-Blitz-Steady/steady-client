@@ -27,7 +27,7 @@ const Error = ({
     ) {
       toast({
         description:
-          "토큰이 만료되거나 유효하지 않습니다. 다시 로그인해주세요.",
+          "로그인 정보가 만료되거나 유효하지 않습니다. 다시 로그인해주세요.",
         variant: "red",
       });
       router.push("/logout");

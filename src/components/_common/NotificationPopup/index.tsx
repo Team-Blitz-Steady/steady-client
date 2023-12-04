@@ -54,7 +54,7 @@ const NotificationPopup = () => {
     if (notificationsError) {
       if (notificationsError.response?.data.code === "A002") {
         toast({
-          description: "토큰이 존재하지 않습니다. 다시 로그인해주세요.",
+          description: "로그인 정보가 존재하지 않습니다. 다시 로그인해주세요.",
           variant: "red",
         });
         setIsAuth(false);
