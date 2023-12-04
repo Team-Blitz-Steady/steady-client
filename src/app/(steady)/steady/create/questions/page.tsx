@@ -230,7 +230,7 @@ const CreateQuestionsPage = () => {
                         placeholder="질문을 입력해 주세요."
                         value={item.question}
                         className={cn(
-                          "h-50 text-20 font-semibold text-st-black outline-none",
+                          "h-50 text-20 font-semibold text-st-black outline-none max-sm:w-250 sm:w-300 md:w-400 lg:w-600 xl:w-750",
                         )}
                         onChange={(event) => {
                           setQuestion((prev) =>
