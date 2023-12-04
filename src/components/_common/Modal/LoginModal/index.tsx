@@ -1,12 +1,13 @@
 "use client";
 
 import { type PropsWithChildren, type ReactNode, useEffect } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import useAuthStore from "@/stores/isAuth";
 import useLoginModalOpenStore from "@/stores/loginModalOpen";
 import useLoginStepsStore from "@/stores/loginSteps";
 import useNewUserInfoStore from "@/stores/newUserInfo";
+import useWelcomeModalOpenStore from "@/stores/welcomeModalOpen";
 import { AlertDialog } from "@radix-ui/themes";
 import { setCookie } from "cookies-next";
 import getKakaoToken from "@/services/oauth/kakao/getKakaoToken";
@@ -20,8 +21,9 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
   const { accountId, nickname, positionId, stacksId, setAccountId } =
     useNewUserInfoStore();
   const { isOpen, setIsOpen } = useLoginModalOpenStore();
+  const { setIsOpen: setIsWelcomeModalOpen } = useWelcomeModalOpenStore();
   const searchParams = useSearchParams();
-  const pathname = usePathname();
+  // const pathname = usePathname();
   const router = useRouter();
   const { setIsAuth } = useAuthStore();
   const { toast } = useToast();
@@ -58,14 +60,15 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
             });
             setIsAuth(true);
             router.replace("/");
-            if (pathname === "/" && steps === 6) {
-              setIsOpen(true);
-            }
+            setIsWelcomeModalOpen(true);
+            // if (pathname === "/" && steps === 6) {
+            //   setIsOpen(true);
+            // }
           }
         }
       });
     }
-  }, [setSteps, searchParams]);
+  }, [setSteps, searchParams, setIsWelcomeModalOpen]);
 
   const handleCreateProfile = async () => {
     try {
@@ -81,7 +84,6 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
           variant: "green",
         });
         useNewUserInfoStore.persist.clearStorage();
-        setSteps(6);
         //useLoginStepsStore.persist.clearStorage();
         router.push(`${userProfileCreated.headers.location}`);
       }

@@ -16,8 +16,8 @@ import Walrus from "@/images/walrus.png";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
 import useIsSearchBarFocusStore from "@/stores/isSearchBarFocus";
-import useLoginModalOpenStore from "@/stores/loginModalOpen";
 import usePageStore from "@/stores/page";
+import useWelcomeModalOpenStore from "@/stores/welcomeModalOpen";
 import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import steadyFilter from "@/services/steady/filterSteadies";
@@ -72,7 +72,7 @@ const Home = () => {
     },
   ];
   const { isFocus, setIsFocus } = useIsSearchBarFocusStore();
-  const { isOpen } = useLoginModalOpenStore();
+  const { isOpen } = useWelcomeModalOpenStore();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -129,7 +129,6 @@ const Home = () => {
     console.log(positionsError);
   }
 
-  console.log(isOpen);
   const [totalPost, setTotalPost] = useState(data?.totalElements);
 
   const handleGetSteadies = async (
