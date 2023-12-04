@@ -16,6 +16,7 @@ export const steadyParticipantsLimit = [
 ];
 
 export const steadyRunningMethods = [
+  { value: "0", label: "전체" },
   { value: "OFFLINE", label: "오프라인" },
   { value: "ONLINE", label: "온라인" },
   { value: "BOTH", label: "혼합" },
