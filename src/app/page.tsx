@@ -129,6 +129,7 @@ const Home = () => {
     console.log(positionsError);
   }
 
+  console.log(isOpen);
   const [totalPost, setTotalPost] = useState(data?.totalElements);
 
   const handleGetSteadies = async (
