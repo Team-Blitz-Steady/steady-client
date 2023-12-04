@@ -28,7 +28,7 @@ import Spinner from "@/components/_common/Spinner";
 import Tag from "@/components/_common/Tag";
 import { useLikeSteadyMutation } from "@/hooks/mutation/useLikeSteadyMutation";
 import formattedCreatedAt from "@/utils/formattedCreatedAt";
-import { steadyCategoriesWithEmoji } from "@/constants/labelData";
+import { steadyCategoryLabel } from "@/constants/labelData";
 import {
   MyProfileKey,
   getSteadyDetailsKey,
@@ -398,7 +398,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                   스테디 유형
                 </div>
                 <div className="text-center">
-                  {steadyCategoriesWithEmoji[steadyDetailsData.type]}
+                  {steadyCategoryLabel[steadyDetailsData.type]}
                 </div>
               </div>
             </div>
