@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
-import Logo from "@/images/Logo.svg";
+import Logo from "@/images/logo.svg";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
 import { useQuery } from "@tanstack/react-query";
