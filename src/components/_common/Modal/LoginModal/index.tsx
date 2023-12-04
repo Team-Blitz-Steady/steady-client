@@ -23,7 +23,6 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
   const { isOpen, setIsOpen } = useLoginModalOpenStore();
   const { setIsOpen: setIsWelcomeModalOpen } = useWelcomeModalOpenStore();
   const searchParams = useSearchParams();
-  // const pathname = usePathname();
   const router = useRouter();
   const { setIsAuth } = useAuthStore();
   const { toast } = useToast();
@@ -39,17 +38,6 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
             setSteps(1);
             setIsOpen(true);
           } else {
-            // axios
-            //   .post("https://steady-client.vercel.app/api/login", {
-            //     token: {
-            //       access: token.accessToken,
-            //       refresh: token.refreshToken,
-            //     },
-            //   })
-            //   .then(() => {
-            //     setIsAuth(true);
-            //     router.replace("/");
-            //   });
             setCookie("access_token", token.accessToken, {
               path: "/",
               domain: ".steadies.kr",
@@ -61,9 +49,6 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
             setIsAuth(true);
             router.replace("/");
             setIsWelcomeModalOpen(true);
-            // if (pathname === "/" && steps === 6) {
-            //   setIsOpen(true);
-            // }
           }
         }
       });
@@ -84,7 +69,6 @@ const LoginModal = ({ trigger }: PropsWithChildren<{ trigger: ReactNode }>) => {
           variant: "green",
         });
         useNewUserInfoStore.persist.clearStorage();
-        //useLoginStepsStore.persist.clearStorage();
         router.push(`${userProfileCreated.headers.location}`);
       }
     } catch (error) {
