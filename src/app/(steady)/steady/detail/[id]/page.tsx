@@ -387,7 +387,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
         </div>
         <div className="lg-h-400 md-h-500 sm-h-600 max-sm-h-700 my-50 flex flex-col items-center justify-evenly gap-25 px-50 text-18 font-bold max-lg:gap-10">
           <div className="flex w-full max-lg:flex-col max-lg:gap-10 lg:justify-between xl:flex-row">
-            <div className="flex max-lg:w-full xl:w-1/3">
+            <div className={cn("mr-7 flex max-lg:w-full xl:w-1/4")}>
               <div className="flex items-center justify-center gap-10">
                 <div
                   className={cn(
@@ -402,7 +402,7 @@ const SteadyDetailPage = ({ params }: { params: { id: string } }) => {
                 </div>
               </div>
             </div>
-            <div className="flex max-lg:w-full lg:w-2/3 xl:w-2/3">
+            <div className="flex max-lg:w-full lg:w-3/4 xl:w-3/4">
               <div className="flex flex-grow items-center gap-10">
                 <div className={steadyDetailTagItems}>모집 분야</div>
                 <div className="flex w-0 flex-grow flex-wrap gap-10">
