@@ -19,8 +19,7 @@ interface QuestionType {
 
 const EditTemplatePage = () => {
   const [question, setQuestion] = useState<QuestionType[]>([]);
-  const [count, setCount] = useState(1);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState("0");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const pathname = usePathname();
   const templateId = pathname.split("/")[4];
@@ -34,7 +33,6 @@ const EditTemplatePage = () => {
 
   useEffect(() => {
     if (data) {
-      setCount(data.questions.length + 1);
       setQuestion(
         data.questions.map((item, index) => ({ id: index, value: item })),
       );
@@ -55,25 +53,29 @@ const EditTemplatePage = () => {
   };
 
   const addQuestion = () => {
-    const newQuestion = {
-      id: count,
-      value: "",
-    };
-    setQuestion((prev) => [...prev, newQuestion]);
-    setCount(count + 1);
+    setQuestion((prev) => [
+      ...prev,
+      { id: prev[prev.length - 1].id + 1, value: "" },
+    ]);
   };
 
   const removeQuestion = (id: number) => {
-    setCount(count - 1);
+    if (question.length === 1) {
+      toast({
+        description: "질문은 최소 1개 이상이어야 합니다.",
+        variant: "red",
+      });
+      return;
+    }
     setQuestion((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const handlePostTemplate = (title: string) => {
+  const handlePostTemplate = async (title: string) => {
     const json = {
       title: title,
       questions: question.map((item) => item.value),
     };
-    updateTemplate(data?.id.toString() as string, json);
+    await updateTemplate(data?.id.toString() as string, json);
     router.push("/mypage/template");
   };
 
@@ -157,16 +159,7 @@ const EditTemplatePage = () => {
                 {isModify && (
                   <div
                     className="cursor-pointer"
-                    onClick={() => {
-                      if (count === 2) {
-                        toast({
-                          description: "질문은 최소 1개 이상이어야 합니다.",
-                          variant: "red",
-                        });
-                      } else {
-                        removeQuestion(item.id);
-                      }
-                    }}
+                    onClick={() => removeQuestion(item.id)}
                   >
                     <Icon
                       name="cross"
