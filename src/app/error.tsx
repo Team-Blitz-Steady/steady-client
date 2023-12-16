@@ -11,6 +11,7 @@ import Button, { buttonSize } from "@/components/_common/Button";
 
 const Error = ({
   error,
+  reset,
 }: {
   error: AxiosError<ErrorResponse>;
   reset: VoidFunction;
@@ -46,7 +47,7 @@ const Error = ({
       <div className="flex gap-20">
         <Button
           className={`${buttonSize.md} bg-st-primary text-st-white`}
-          onClick={() => location.reload()}
+          onClick={() => reset()}
         >
           새로고침
         </Button>
