@@ -3,11 +3,11 @@
 import type { ChangeEvent } from "react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Question, Title } from "@/components/application";
 import { TextArea } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import getApplicationDetails from "@/services/application/getApplicationDetails";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
+import { Question, Title } from "@/components/containers/application";
 import EditButtons from "@/components/containers/applicationEdit/EditButtons";
 import {
   getApplicationDetailsKey,

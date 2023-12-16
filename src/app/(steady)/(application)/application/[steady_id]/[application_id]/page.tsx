@@ -1,11 +1,11 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { Question, Title } from "@/components/application";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import getApplicationDetails from "@/services/application/getApplicationDetails";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import Button, { buttonSize } from "@/components/_common/Button";
+import { Question, Title } from "@/components/containers/application";
 import useApplicationListQuery from "@/hooks/query/useApplicationListQuery";
 import {
   getApplicationDetailsKey,
