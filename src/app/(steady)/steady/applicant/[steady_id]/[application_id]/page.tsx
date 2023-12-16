@@ -1,16 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Question } from "@/components/application";
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import changeApplicationStatus from "@/services/application/changeApplicationStatus";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import getApplicationDetails from "@/services/application/getApplicationDetails";
 import Button, { buttonSize } from "@/components/_common/Button";
 import { AlertModal } from "@/components/_common/Modal";
-import {
-  getApplicantListKey,
-  getApplicationDetailsKey,
-} from "@/constants/queryKeys";
+import { useManageApplicant } from "@/components/containers/applicant/hooks/useManageApplicant";
+import { getApplicationDetailsKey } from "@/constants/queryKeys";
 
 const UserApplicantPage = ({
   params,
@@ -19,32 +15,14 @@ const UserApplicantPage = ({
 }) => {
   const applicationId = params.application_id;
   const steadyId = params.steady_id;
-  const queryClient = useQueryClient();
+  const { handleClickAccept, handleClickReject } = useManageApplicant({
+    applicationId,
+    steadyId,
+  });
   const { data: applicationDetailsData } = useSuspenseQuery({
     queryKey: getApplicationDetailsKey(applicationId),
     queryFn: () => getApplicationDetails(applicationId),
   });
-  const router = useRouter();
-
-  const handleClickAccept = async () => {
-    await changeApplicationStatus(applicationId, {
-      status: "ACCEPTED",
-    });
-    await queryClient.invalidateQueries({
-      queryKey: getApplicantListKey(steadyId),
-    });
-    router.replace(`/steady/applicant/${steadyId}`);
-  };
-
-  const handleClickReject = async () => {
-    await changeApplicationStatus(applicationId, {
-      status: "REJECTED",
-    });
-    await queryClient.invalidateQueries({
-      queryKey: getApplicantListKey(steadyId),
-    });
-    router.replace(`/steady/applicant/${steadyId}`);
-  };
 
   return (
     <div className="flex w-full flex-col gap-10 overflow-y-scroll pr-30">
