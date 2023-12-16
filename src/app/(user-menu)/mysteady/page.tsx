@@ -1,6 +1,5 @@
 "use client";
 
-import { Fragment } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -51,12 +50,15 @@ const MySteadyPage = () => {
         >
           {mySteadyData.pages.map((steadies, pageIndex) =>
             steadies.content.length ? (
-              <Fragment key={pageIndex}>
+              <div
+                key={pageIndex}
+                className="flex w-full flex-col gap-5"
+              >
                 {steadies.content.map((steady, steadyIndex) => (
                   <div
                     key={`${pageIndex}-${steadyIndex}`}
                     className={cn(
-                      "flex min-h-140 w-full cursor-pointer items-center justify-between border-b-1 border-st-gray-200 hover:bg-st-gray-50 max-sm:px-20 sm:px-20 md:px-30 lg:px-50 xl:px-50",
+                      "flex min-h-140 w-full cursor-pointer items-center justify-between border-b-1 border-st-gray-200 transition hover:scale-105 hover:bg-st-gray-50 max-sm:px-20 sm:px-20 md:px-30 lg:px-50 xl:px-50",
                     )}
                   >
                     <Steadies
@@ -65,7 +67,7 @@ const MySteadyPage = () => {
                     />
                   </div>
                 ))}
-              </Fragment>
+              </div>
             ) : (
               <div
                 className="flex h-1000 flex-col items-center justify-center gap-20 text-30 font-bold"
