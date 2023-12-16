@@ -3,7 +3,6 @@
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Question, Title } from "@/components/application";
 import { useToast } from "@/components/ui/use-toast";
 import { TextArea } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -11,6 +10,7 @@ import submitApplication from "@/services/application/submitApplication";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
 import getSteadyQuestions from "@/services/steady/getSteadyQuestions";
 import Button, { buttonSize } from "@/components/_common/Button";
+import { Question, Title } from "@/components/containers/application";
 import {
   getSteadyDetailsKey,
   getSteadyQuestionsKey,
