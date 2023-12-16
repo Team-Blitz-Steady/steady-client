@@ -13,23 +13,12 @@ import Button from "@/components/_common/Button";
 import ContactTag from "@/components/_common/ContactTag";
 import Dropdown from "@/components/_common/Dropdown";
 import Icon from "@/components/_common/Icon";
+import Title from "@/components/_common/Title";
+import SteadyFilter from "@/components/containers/mysteady/SteadyFilter";
+import { filterOptions } from "@/components/containers/mysteady/constants";
+import { emptySteadiesMessage } from "@/components/containers/mysteady/utils/emptySteadiesMessage";
 import { useMySteadiesQuery } from "@/hooks/query/useMySteadiesQuery";
 import { useScrollTo } from "@/hooks/useScrollTo";
-
-const filterOptions = [
-  {
-    label: "전체",
-    linkTo: "/mysteady",
-  },
-  {
-    label: "참여",
-    linkTo: "/mysteady?status=recruiting",
-  },
-  {
-    label: "종료",
-    linkTo: "/mysteady?status=finished",
-  },
-];
 
 const MySteadyPage = () => {
   const searchParams = useSearchParams();
@@ -90,33 +79,20 @@ const MySteadyPage = () => {
     }
   };
 
-  const emptySteadiesMessage = () => {
-    switch (search) {
-      case "finished":
-        return "종료된 ";
-      case "recruiting" || "closed":
-        return "참여중인 ";
-      default:
-        return "참여중이거나 종료된 ";
-    }
-  };
-
   return (
     <div className="flex flex-col max-sm:w-400 sm:w-500 md:w-600 lg:w-800 xl:w-1000">
       <div className="flex items-center justify-between">
-        <div className="min-w-fit px-40 py-20 font-bold sm:text-20 md:text-25 lg:text-30">
-          내 스테디 목록
-        </div>
-        <Dropdown options={filterOptions}>
-          <div className="flex gap-10 text-16 text-st-black">
-            필터
-            <Icon
-              name="chevron-down"
-              size={20}
-              color=""
-            />
-          </div>
-        </Dropdown>
+        <Title title={"내 스테디 목록"} />
+        <SteadyFilter
+          title={"필터"}
+          options={filterOptions}
+        >
+          <Icon
+            name="chevron-down"
+            size={20}
+            color=""
+          />
+        </SteadyFilter>
       </div>
       <Separator className="h-5 w-full bg-st-gray-400" />
       <div
@@ -166,7 +142,7 @@ const MySteadyPage = () => {
                 key={`${pageIndex}`}
               >
                 <div className="max-sm:text-22 sm:text-22 md:text-25 lg:text-28 xl:text-30">
-                  {emptySteadiesMessage()}
+                  {search && emptySteadiesMessage(search)}
                   스테디가 없습니다.
                 </div>
                 <Link href="/steady/create">
