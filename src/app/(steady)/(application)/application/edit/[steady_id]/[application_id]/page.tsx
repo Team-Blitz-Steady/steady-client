@@ -2,23 +2,13 @@
 
 import type { ChangeEvent } from "react";
 import { useState } from "react";
-<<<<<<< HEAD
 import { usePathname } from "next/navigation";
-=======
-import { usePathname, useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
->>>>>>> 51a33bf (📝 Chore(#332): application 컴포넌트 containers폴더로 이동)
 import { TextArea } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import getApplicationDetails from "@/services/application/getApplicationDetails";
 import getSteadyDetails from "@/services/steady/getSteadyDetails";
-<<<<<<< HEAD
 import { Question, Title } from "@/components/containers/application";
 import EditButtons from "@/components/containers/applicationEdit/EditButtons";
-=======
-import Button, { buttonSize } from "@/components/_common/Button";
-import { Question, Title } from "@/components/containers/application";
->>>>>>> 51a33bf (📝 Chore(#332): application 컴포넌트 containers폴더로 이동)
 import {
   getApplicationDetailsKey,
   getSteadyDetailsKey,
