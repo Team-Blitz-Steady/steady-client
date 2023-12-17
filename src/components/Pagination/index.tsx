@@ -15,6 +15,8 @@ interface PaginationProps {
   totalPost: number;
   like: boolean;
   setPost: React.Dispatch<React.SetStateAction<Steadies>>;
+  // eslint-disable-next-line no-unused-vars
+  setIsFocus: (isFocus: boolean) => void;
 }
 
 const Pagination = ({
@@ -28,6 +30,7 @@ const Pagination = ({
   totalPost,
   like,
   setPost,
+  setIsFocus,
 }: PaginationProps) => {
   const [currentPageArray, setCurrentPageArray] = useState<number[]>([]);
   const [totalPageArray, setTotalPageArray] = useState<number[][]>([]);
@@ -100,6 +103,7 @@ const Pagination = ({
       <button
         onClick={() => {
           setPage(0);
+          setIsFocus(true);
         }}
         disabled={page === 0}
         className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md enabled:hover:bg-st-primary enabled:hover:text-st-white disabled:cursor-not-allowed disabled:opacity-20"
@@ -113,6 +117,7 @@ const Pagination = ({
       <button
         onClick={() => {
           setPage(page - 1);
+          setIsFocus(true);
         }}
         disabled={page === 0}
         className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md enabled:hover:bg-st-primary enabled:hover:text-st-white disabled:cursor-not-allowed disabled:opacity-20"
@@ -133,6 +138,7 @@ const Pagination = ({
               } h-35 w-35 rounded-15 text-center font-bold shadow-md hover:bg-st-primary hover:text-st-white`}
               onClick={() => {
                 setPage(i);
+                setIsFocus(true);
               }}
               aria-current={page === i + 1 ? "page" : undefined}
             >
@@ -144,6 +150,7 @@ const Pagination = ({
       <button
         onClick={() => {
           setPage(page + 1);
+          setIsFocus(true);
         }}
         disabled={page === totalPage - 1}
         className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md enabled:hover:bg-st-primary enabled:hover:text-st-white disabled:cursor-not-allowed disabled:opacity-20"
@@ -157,6 +164,7 @@ const Pagination = ({
       <button
         onClick={() => {
           setPage(totalPage - 1);
+          setIsFocus(true);
         }}
         disabled={page === totalPage - 1}
         className="flex h-35 w-35 items-center justify-center rounded-15 text-center font-bold shadow-md enabled:hover:bg-st-primary enabled:hover:text-st-white disabled:cursor-not-allowed disabled:opacity-20"

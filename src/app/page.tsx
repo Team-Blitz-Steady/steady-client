@@ -80,15 +80,16 @@ const Home = () => {
   useEffect(() => {
     if (!isOpen && isFocus) {
       inputRef.current?.focus();
-      inputRef.current?.scrollIntoView({ behavior: "smooth" });
+      // inputRef.current?.scrollIntoView({ behavior: "smooth" });
     }
+    setIsFocus(false);
   }, [isFocus, isOpen]);
 
-  useEffect(() => {
-    return () => {
-      setIsFocus(false);
-    };
-  }, [setIsFocus]);
+  // useEffect(() => {
+  //   return () => {
+  //     setIsFocus(false);
+  //   };
+  // }, [setIsFocus]);
 
   const { data: popularSteadies } = useSuspenseQuery<Steadies>({
     queryKey: PopularSteadiesKey,
@@ -308,76 +309,78 @@ const Home = () => {
   }, []);
 
   const bannerDefaultStyle =
-    "duration-1500 absolute left-0 top-0 flex h-250 md:h-300 lg:h-350 w-full justify-center transition-opacity";
-  const bannerValidStyle = "opacity-100 transition-opacity ease-in";
-  const bannerInvalidStyle = "opacity-0 transition-opacity ease-out";
+    "flex h-250 md:h-300 lg:h-350 w-full justify-center";
+  // const bannerValidStyle = "opacity-100 transition-opacity ease-in";
+  // const bannerInvalidStyle = "opacity-0 transition-opacity ease-out";
 
   return (
     <main className="relative flex flex-col items-center">
-      <div className="relative flex h-250 w-screen transition md:h-300 lg:h-350">
-        <div
-          className={`${
-            activeIndex === 1 ? bannerValidStyle : bannerInvalidStyle
-          } ${bannerDefaultStyle} bg-banner-bg`}
-        >
-          <div className="flex w-3/5 items-center justify-around">
-            <div className="flex flex-col">
-              <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                스테디로
+      <div className="relative overflow-hidden">
+        <div className="flex h-250 w-full transition-transform duration-300 ease-in-out md:h-300 lg:h-350">
+          <div
+            className={`${
+              activeIndex === 1 && "translate-x-[-100%]"
+            } ${bannerDefaultStyle} transform bg-banner-bg`}
+          >
+            <div className="flex w-3/5 items-center justify-around">
+              <div className="flex flex-col">
+                <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                  스테디로
+                </div>
+                <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                  동료를 찾아보세요!
+                </div>
               </div>
-              <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                동료를 찾아보세요!
+              <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
+                <Image
+                  src={Turtle}
+                  alt="Turtle"
+                />
               </div>
-            </div>
-            <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
-              <Image
-                src={Turtle}
-                alt="Turtle"
-              />
             </div>
           </div>
-        </div>
-        <div
-          className={`${
-            activeIndex === 2 ? bannerValidStyle : bannerInvalidStyle
-          } ${bannerDefaultStyle} bg-banner-bg2`}
-        >
-          <div className="flex w-3/5 items-center justify-around">
-            <div className="flex flex-col">
-              <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                스테디는
+          <div
+            className={`${
+              activeIndex === 2 && "translate-x-[-200%]"
+            } ${bannerDefaultStyle} transform bg-banner-bg2`}
+          >
+            <div className="flex w-3/5 items-center justify-around">
+              <div className="flex flex-col">
+                <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                  스테디는
+                </div>
+                <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                  사랑입니다~!
+                </div>
               </div>
-              <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                사랑입니다~!
+              <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
+                <Image
+                  src={Dolphin}
+                  alt="Turtle"
+                />
               </div>
-            </div>
-            <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
-              <Image
-                src={Dolphin}
-                alt="Turtle"
-              />
             </div>
           </div>
-        </div>
-        <div
-          className={`${
-            activeIndex === 0 ? bannerValidStyle : bannerInvalidStyle
-          } ${bannerDefaultStyle} bg-banner-bg3`}
-        >
-          <div className="flex w-3/5 items-center justify-around">
-            <div className="flex flex-col">
-              <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                스테디에
+          <div
+            className={`${
+              activeIndex === 0 && "translate-x-[0%]"
+            } ${bannerDefaultStyle} transform bg-banner-bg3`}
+          >
+            <div className="flex w-3/5 items-center justify-around">
+              <div className="flex flex-col">
+                <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                  스테디에
+                </div>
+                <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                  도전해 보세요!
+                </div>
               </div>
-              <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                도전해 보세요!
+              <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
+                <Image
+                  src={Walrus}
+                  alt="Turtle"
+                />
               </div>
-            </div>
-            <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
-              <Image
-                src={Walrus}
-                alt="Turtle"
-              />
             </div>
           </div>
         </div>
@@ -700,6 +703,7 @@ const Home = () => {
           totalPost={totalPost as number}
           like={like}
           setPost={setPost as Dispatch<SetStateAction<Steadies>>}
+          setIsFocus={setIsFocus}
         />
       </section>
       <div className="fixed bottom-100 z-10 flex w-full justify-between gap-10 px-20 md:bottom-40 md:right-10 md:w-auto md:justify-end">

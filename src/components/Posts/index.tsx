@@ -68,8 +68,10 @@ const Posts = ({ info }: { info: Steadies }) => {
               <div className="flex w-2/3 items-center gap-20 md:gap-50">
                 {item.status === "RECRUITING" ? (
                   <Tag status="RECRUITING" />
-                ) : (
+                ) : item.status === "CLOSED" ? (
                   <Tag status="CLOSED" />
+                ) : (
+                  <Tag status="FINISHED" />
                 )}
 
                 <div className="flex w-2/3 flex-col gap-5">
