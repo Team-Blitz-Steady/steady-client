@@ -131,7 +131,7 @@ const NotificationPopup = () => {
       </PopoverTrigger>
 
       <PopoverContent
-        className={"h-300 w-350 p-16 pb-40"}
+        className={"h-500 w-420 p-16 pb-40"}
         onPointerDownOutside={handleCloseByClickOutside}
       >
         <ScrollArea
