@@ -12,13 +12,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
 import type { PointerDownOutsideEvent } from "@radix-ui/react-dismissable-layer";
-import {
-  BellIcon,
-  CheckIcon,
-  Cross2Icon,
-  FileTextIcon,
-  RocketIcon,
-} from "@radix-ui/react-icons";
+import { BellIcon, CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { IconButton, Separator } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import deleteAllNotifications from "@/services/notification/deleteAllNotifications";
@@ -152,18 +146,10 @@ const NotificationPopup = () => {
                     >
                       <div className={"flex items-center px-5"}>
                         {(type === "FRESH_APPLICATION" && (
-                          <RocketIcon
-                            width={20}
-                            height={20}
-                            color={"black"}
-                          />
+                          <div className={"text-xl"}>💡</div>
                         )) ||
                           (type === "APPLICATION_RESULT" && (
-                            <FileTextIcon
-                              width={20}
-                              height={20}
-                              color={"blue"}
-                            />
+                            <div className={"text-xl"}>✨</div>
                           ))}
                       </div>
 
