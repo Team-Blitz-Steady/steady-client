@@ -156,7 +156,7 @@ const NotificationPopup = () => {
                       <div
                         className={cn(
                           "text-md cursor-pointer",
-                          isRead ? "text-st-gray-250" : "text-st-black",
+                          isRead ? "text-st-gray-100" : "text-st-black",
                           "w-full",
                         )}
                         onClick={() =>
