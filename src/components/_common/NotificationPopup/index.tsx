@@ -147,7 +147,7 @@ const NotificationPopup = () => {
                 {notifications.map(
                   ({ id, content, type, redirectUri, isRead }) => (
                     <div
-                      className={"flex justify-center py-10"}
+                      className={"flex justify-between py-10"}
                       key={id}
                     >
                       <div className={"flex items-center px-5"}>
@@ -171,6 +171,7 @@ const NotificationPopup = () => {
                         className={cn(
                           "text-md cursor-pointer",
                           isRead ? "text-st-gray-250" : "text-st-black",
+                          "w-full",
                         )}
                         onClick={() =>
                           handleNavigateTo(id.toString(), redirectUri)
