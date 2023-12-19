@@ -11,6 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
+import type { PointerDownOutsideEvent } from "@radix-ui/react-dismissable-layer";
 import {
   BellIcon,
   CheckIcon,
@@ -101,6 +102,17 @@ const NotificationPopup = () => {
     });
   };
 
+  const handleCloseByClickOutside = (event: PointerDownOutsideEvent) => {
+    const target = event.target as HTMLElement;
+    if (
+      target?.tagName.toLowerCase() === "path" ||
+      target?.tagName.toLowerCase() === "svg"
+    ) {
+      return;
+    }
+    setNotificationMenuOpen(false);
+  };
+
   return (
     <Popover open={notificationMenuOpen}>
       <PopoverTrigger onClick={() => setNotificationMenuOpen((prev) => !prev)}>
@@ -120,16 +132,7 @@ const NotificationPopup = () => {
 
       <PopoverContent
         className={"h-300 w-350 p-16 pb-40"}
-        onPointerDownOutside={(event) => {
-          const target = event.target as HTMLElement;
-          if (
-            target?.tagName.toLowerCase() === "path" ||
-            target?.tagName.toLowerCase() === "svg"
-          ) {
-            return;
-          }
-          setNotificationMenuOpen(false);
-        }}
+        onPointerDownOutside={handleCloseByClickOutside}
       >
         <ScrollArea
           className={"h-full w-full rounded-md"}
