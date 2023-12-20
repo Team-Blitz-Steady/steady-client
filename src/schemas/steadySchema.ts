@@ -33,12 +33,16 @@ export const SteadySchema = z.object({
   content: z.string({
     required_error: "스테디의 모집글 내용을 입력해주세요.",
   }),
-  positions: z.array(number(), {
-    required_error: "스테디의 모집 분야를 선택해주세요.",
-  }),
-  stacks: z.array(number(), {
-    required_error: "스테디의 기술 스택을 선택해주세요.",
-  }),
+  positions: z
+    .array(number(), {
+      required_error: "스테디의 모집 분야를 선택해주세요.",
+    })
+    .min(1, { message: "스테디의 모집 분야를 1개 이상 선택해주세요." }),
+  stacks: z
+    .array(number(), {
+      required_error: "스테디의 기술 스택을 선택해주세요.",
+    })
+    .min(1, { message: "스테디의 기술 스택을 1개 이상 선택해주세요." }),
   contact: z.union([
     z
       .string({ required_error: "스테디의 연락 수단 정보를 입력해주세요." })
