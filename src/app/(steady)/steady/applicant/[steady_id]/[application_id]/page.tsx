@@ -1,12 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Question } from "@/components/application";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import changeApplicationStatus from "@/services/application/changeApplicationStatus";
 import getApplicationDetails from "@/services/application/getApplicationDetails";
 import Button, { buttonSize } from "@/components/_common/Button";
 import { AlertModal } from "@/components/_common/Modal";
+import { Question } from "@/components/containers/application";
 import {
   getApplicantListKey,
   getApplicationDetailsKey,
