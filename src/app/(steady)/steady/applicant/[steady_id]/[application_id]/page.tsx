@@ -41,4 +41,5 @@ const UserApplicantPage = ({
     </div>
   );
 };
+  
 export default UserApplicantPage;
