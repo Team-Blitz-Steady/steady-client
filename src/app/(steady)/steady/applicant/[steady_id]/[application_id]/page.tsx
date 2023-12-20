@@ -1,9 +1,9 @@
 "use client";
 
-import { Question } from "@/components/application";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import getApplicationDetails from "@/services/application/getApplicationDetails";
 import ApplicantButtons from "@/components/containers/applicant/ApplicantButtons";
+import { Question } from "@/components/containers/application";
 import { getApplicationDetailsKey } from "@/constants/queryKeys";
 
 const UserApplicantPage = ({
@@ -41,5 +41,5 @@ const UserApplicantPage = ({
     </div>
   );
 };
-  
+
 export default UserApplicantPage;
