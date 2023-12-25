@@ -18,7 +18,7 @@ import useAuthStore from "@/stores/isAuth";
 import useIsSearchBarFocusStore from "@/stores/isSearchBarFocus";
 import usePageStore from "@/stores/page";
 import useWelcomeModalOpenStore from "@/stores/welcomeModalOpen";
-import * as ChannelIO from "@channel.io/channel-web-sdk-loader";
+import { Badge } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import steadyFilter from "@/services/steady/filterSteadies";
 import getPopularSteadies from "@/services/steady/getPopularSteadies";
@@ -37,7 +37,6 @@ import AlertModal from "@/components/_common/Modal/AlertModal";
 import LoginModal from "@/components/_common/Modal/LoginModal";
 import WelcomeModal from "@/components/_common/Modal/WelcomeModal";
 import { MultiSelector, SingleSelector } from "@/components/_common/Selector";
-import StickyButton from "@/components/_common/StickyButton";
 import {
   PopularSteadiesKey,
   PositionsKey,
@@ -80,15 +79,16 @@ const Home = () => {
   useEffect(() => {
     if (!isOpen && isFocus) {
       inputRef.current?.focus();
-      inputRef.current?.scrollIntoView({ behavior: "smooth" });
+      // inputRef.current?.scrollIntoView({ behavior: "smooth" });
     }
+    setIsFocus(false);
   }, [isFocus, isOpen]);
 
-  useEffect(() => {
-    return () => {
-      setIsFocus(false);
-    };
-  }, [setIsFocus]);
+  // useEffect(() => {
+  //   return () => {
+  //     setIsFocus(false);
+  //   };
+  // }, [setIsFocus]);
 
   const { data: popularSteadies } = useSuspenseQuery<Steadies>({
     queryKey: PopularSteadiesKey,
@@ -224,14 +224,6 @@ const Home = () => {
   }, [data]);
 
   useEffect(() => {
-    ChannelIO.loadScript();
-    ChannelIO.boot({
-      pluginKey: `${process.env.NEXT_PUBLIC_PLUGIN_KEY}`,
-    });
-    ChannelIO.hideChannelButton();
-  }, []);
-
-  useEffect(() => {
     const delay = 300;
 
     const debounceTimer = setTimeout(() => {
@@ -308,76 +300,72 @@ const Home = () => {
   }, []);
 
   const bannerDefaultStyle =
-    "duration-1500 absolute left-0 top-0 flex h-250 md:h-300 lg:h-350 w-full justify-center transition-opacity";
-  const bannerValidStyle = "opacity-100 transition-opacity ease-in";
-  const bannerInvalidStyle = "opacity-0 transition-opacity ease-out";
+    "flex h-250 md:h-300 lg:h-350 w-full justify-center flex-shrink-0 rounded-lg motion-reduce:transition-none float-left";
 
   return (
     <main className="relative flex flex-col items-center">
-      <div className="relative flex h-250 w-screen transition md:h-300 lg:h-350">
+      <div className="flex h-250 w-full overflow-hidden md:h-300 lg:h-350">
         <div
           className={`${
-            activeIndex === 1 ? bannerValidStyle : bannerInvalidStyle
-          } ${bannerDefaultStyle} bg-banner-bg`}
+            activeIndex === 0
+              ? ""
+              : activeIndex === 1
+              ? "-translate-x-[100%]"
+              : "-translate-x-[200%]"
+          } flex duration-300 ease-in-out`}
         >
-          <div className="flex w-3/5 items-center justify-around">
-            <div className="flex flex-col">
-              <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                스테디로
+          <div className={`${bannerDefaultStyle} bg-banner-bg`}>
+            <div className="flex w-3/5 items-center justify-around">
+              <div className="flex flex-col">
+                <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                  스테디로
+                </div>
+                <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                  동료를 찾아보세요!
+                </div>
               </div>
-              <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                동료를 찾아보세요!
+              <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
+                <Image
+                  src={Turtle}
+                  alt="Turtle"
+                />
               </div>
-            </div>
-            <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
-              <Image
-                src={Turtle}
-                alt="Turtle"
-              />
             </div>
           </div>
-        </div>
-        <div
-          className={`${
-            activeIndex === 2 ? bannerValidStyle : bannerInvalidStyle
-          } ${bannerDefaultStyle} bg-banner-bg2`}
-        >
-          <div className="flex w-3/5 items-center justify-around">
-            <div className="flex flex-col">
-              <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                스테디는
+          <div className={`${bannerDefaultStyle} bg-banner-bg2`}>
+            <div className="flex w-3/5 items-center justify-around">
+              <div className="flex flex-col">
+                <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                  스테디는
+                </div>
+                <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                  사랑입니다~!
+                </div>
               </div>
-              <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                사랑입니다~!
+              <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
+                <Image
+                  src={Dolphin}
+                  alt="Turtle"
+                />
               </div>
-            </div>
-            <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
-              <Image
-                src={Dolphin}
-                alt="Turtle"
-              />
             </div>
           </div>
-        </div>
-        <div
-          className={`${
-            activeIndex === 0 ? bannerValidStyle : bannerInvalidStyle
-          } ${bannerDefaultStyle} bg-banner-bg3`}
-        >
-          <div className="flex w-3/5 items-center justify-around">
-            <div className="flex flex-col">
-              <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                스테디에
+          <div className={`${bannerDefaultStyle} bg-banner-bg3`}>
+            <div className="flex w-3/5 items-center justify-around">
+              <div className="flex flex-col">
+                <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                  스테디에
+                </div>
+                <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
+                  도전해 보세요!
+                </div>
               </div>
-              <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                도전해 보세요!
+              <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
+                <Image
+                  src={Walrus}
+                  alt="Turtle"
+                />
               </div>
-            </div>
-            <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
-              <Image
-                src={Walrus}
-                alt="Turtle"
-              />
             </div>
           </div>
         </div>
@@ -430,10 +418,28 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="w-3/4 overflow-ellipsis text-15 font-bold md:text-18">
-                  <div className="text-9 font-bold md:text-12">
-                    {item.type === "STUDY" ? "📖 스터디" : "🖥 프로젝트"}
+                  <div className="mb-5 text-9 font-bold md:text-12">
+                    {item.type === "STUDY" ? (
+                      <Badge
+                        color={"grass"}
+                        size={"1"}
+                        radius={"medium"}
+                      >
+                        스터디
+                      </Badge>
+                    ) : (
+                      <Badge
+                        color={"orange"}
+                        size={"1"}
+                        radius={"medium"}
+                      >
+                        프로젝트
+                      </Badge>
+                    )}
                   </div>
-                  {item.title}
+                  {item.title.length > 15
+                    ? `${item.title.slice(0, 15)}...`
+                    : item.title}
                 </div>
                 <div className="flex justify-between gap-30 md:gap-40">
                   <div className="text-12 font-bold text-st-gray-100 md:text-16">
@@ -700,20 +706,20 @@ const Home = () => {
           totalPost={totalPost as number}
           like={like}
           setPost={setPost as Dispatch<SetStateAction<Steadies>>}
+          setIsFocus={setIsFocus}
         />
       </section>
       <div className="fixed bottom-100 z-10 flex w-full justify-between gap-10 px-20 md:bottom-40 md:right-10 md:w-auto md:justify-end">
         <div
-          className="flex h-65 w-65 cursor-pointer items-center justify-center rounded-full bg-st-primary"
+          className="flex h-75 w-75 cursor-pointer items-center justify-center rounded-full bg-st-primary shadow-lg"
           onClick={() => {
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         >
-          <div className="flex h-55 w-55 items-center justify-center rounded-full bg-st-white">
-            <div className="text-17 font-bold">TOP</div>
+          <div className="flex h-65 w-65 items-center justify-center rounded-full bg-st-white">
+            <div className="text-20 font-bold">TOP</div>
           </div>
         </div>
-        <StickyButton onClick={() => ChannelIO.showMessenger()} />
         <Sheet
           isOpen={isModalOpen}
           onClose={() => setModalOpen(false)}
