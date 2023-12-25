@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/images/logo.svg";
-import { Avatar } from "@radix-ui/themes";
+import { Avatar, Badge, Tooltip } from "@radix-ui/themes";
 import type { Steadies } from "@/services/types";
 import noResult from "../../../public/images/no_result.png";
 import Icon from "../_common/Icon";
@@ -75,9 +75,44 @@ const Posts = ({ info }: { info: Steadies }) => {
                 )}
 
                 <div className="flex w-2/3 flex-col gap-5">
-                  <div className="text-10 font-bold md:text-15">
-                    {item.type === "STUDY" ? "📖 스터디" : "🖥️ 프로젝트"}
+                  <div className="flex gap-10">
+                    <div className="text-10 font-bold md:text-15">
+                      {item.type === "STUDY" ? (
+                        <Badge
+                          color={"grass"}
+                          size={"1"}
+                          radius={"medium"}
+                        >
+                          스터디
+                        </Badge>
+                      ) : (
+                        <Badge
+                          color={"orange"}
+                          size={"1"}
+                          radius={"medium"}
+                        >
+                          프로젝트
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="flex gap-5 overflow-hidden">
+                      {item.stacks.map((stack) => (
+                        <Tooltip
+                          key={stack.id}
+                          content={stack.name}
+                        >
+                          <Image
+                            src={stack.imageUrl}
+                            alt="기술 스택"
+                            width={20}
+                            height={20}
+                            className="rounded-full border-1"
+                          />
+                        </Tooltip>
+                      ))}
+                    </div>
                   </div>
+
                   <div className="text-17 font-bold md:text-25">
                     {item.title}
                   </div>
