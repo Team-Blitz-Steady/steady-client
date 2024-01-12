@@ -286,7 +286,7 @@ const Home = () => {
   return (
     <main className="relative flex flex-col items-center">
       <section className="mb-20 mt-50 flex flex-col flex-wrap items-center justify-center overflow-hidden">
-        <div className="w-3/4 text-xl font-bold md:text-2xl xl:w-full">
+        <div className="w-1300 text-xl font-bold md:w-500 md:text-2xl lg:w-1000 xl:w-1300">
           🔥 인기 스테디
         </div>
         <div className="mt-20 flex h-160 flex-wrap items-center justify-center overflow-hidden md:h-220">
@@ -295,7 +295,7 @@ const Home = () => {
               key={item.id}
               href={`/steady/detail/${item.id}`}
             >
-              <div className="relative m-20 flex h-120 w-210 cursor-pointer flex-col items-center justify-center gap-12 rounded-20 shadow-lg transition hover:scale-105 md:h-170 md:w-300 md:gap-20">
+              <div className="relative m-18 flex h-120 w-210 cursor-pointer flex-col items-center justify-center gap-12 rounded-20 shadow-lg transition hover:scale-105 md:h-170 md:w-295 md:gap-20">
                 {index <= 2 ? (
                   <Image
                     src={rankImageArray[index].image}
@@ -305,7 +305,7 @@ const Home = () => {
                 ) : (
                   ""
                 )}
-                <div className="flex w-170 items-center justify-end md:w-210 md:w-250">
+                <div className="flex w-170 items-center justify-end md:w-250">
                   <div className="flex h-20 w-40 items-center justify-center rounded-20 border border-st-red shadow-md md:h-28 md:w-60">
                     <div className="h-16 w-36 rounded-20 bg-st-red text-center text-12 font-bold text-st-white md:h-22 md:w-54 md:text-16">
                       D-{calcDateDifference(item.deadline)}
