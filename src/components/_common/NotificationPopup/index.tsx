@@ -11,13 +11,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
-import {
-  BellIcon,
-  CheckIcon,
-  Cross2Icon,
-  FileTextIcon,
-  RocketIcon,
-} from "@radix-ui/react-icons";
+import type { PointerDownOutsideEvent } from "@radix-ui/react-dismissable-layer";
+import { BellIcon, CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { IconButton, Separator } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import deleteAllNotifications from "@/services/notification/deleteAllNotifications";
@@ -101,6 +96,17 @@ const NotificationPopup = () => {
     });
   };
 
+  const handleCloseByClickOutside = (event: PointerDownOutsideEvent) => {
+    const target = event.target as HTMLElement;
+    if (
+      target?.tagName.toLowerCase() === "path" ||
+      target?.tagName.toLowerCase() === "svg"
+    ) {
+      return;
+    }
+    setNotificationMenuOpen(false);
+  };
+
   return (
     <Popover open={notificationMenuOpen}>
       <PopoverTrigger onClick={() => setNotificationMenuOpen((prev) => !prev)}>
@@ -119,17 +125,8 @@ const NotificationPopup = () => {
       </PopoverTrigger>
 
       <PopoverContent
-        className={"h-300 w-350 p-16 pb-40"}
-        onPointerDownOutside={(event) => {
-          const target = event.target as HTMLElement;
-          if (
-            target?.tagName.toLowerCase() === "path" ||
-            target?.tagName.toLowerCase() === "svg"
-          ) {
-            return;
-          }
-          setNotificationMenuOpen(false);
-        }}
+        className={cn("h-500 w-420 p-16 pb-40 max-sm:h-400 max-sm:w-320")}
+        onPointerDownOutside={handleCloseByClickOutside}
       >
         <ScrollArea
           className={"h-full w-full rounded-md"}
@@ -144,30 +141,23 @@ const NotificationPopup = () => {
                 {notifications.map(
                   ({ id, content, type, redirectUri, isRead }) => (
                     <div
-                      className={"flex justify-center py-10"}
+                      className={"flex justify-between py-10"}
                       key={id}
                     >
                       <div className={"flex items-center px-5"}>
                         {(type === "FRESH_APPLICATION" && (
-                          <RocketIcon
-                            width={20}
-                            height={20}
-                            color={"black"}
-                          />
+                          <div className={"text-xl"}>💡</div>
                         )) ||
                           (type === "APPLICATION_RESULT" && (
-                            <FileTextIcon
-                              width={20}
-                              height={20}
-                              color={"blue"}
-                            />
+                            <div className={"text-xl"}>✨</div>
                           ))}
                       </div>
 
                       <div
                         className={cn(
                           "text-md cursor-pointer",
-                          isRead ? "text-st-gray-250" : "text-st-black",
+                          isRead ? "text-st-gray-100" : "text-st-black",
+                          "w-full",
                         )}
                         onClick={() =>
                           handleNavigateTo(id.toString(), redirectUri)
