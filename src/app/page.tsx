@@ -7,12 +7,9 @@ import Image from "next/image";
 import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import Posts from "@/components/Posts";
-import Dolphin from "@/images/dolphin.png";
 import First from "@/images/first.svg";
 import Second from "@/images/second.svg";
 import Third from "@/images/third.svg";
-import Turtle from "@/images/turtle.png";
-import Walrus from "@/images/walrus.png";
 import { cn } from "@/lib/utils";
 import useAuthStore from "@/stores/isAuth";
 import useIsSearchBarFocusStore from "@/stores/isSearchBarFocus";
@@ -51,7 +48,6 @@ const Home = () => {
   const [recruit, setRecruit] = useState(true);
   const [post, setPost] = useState<Steadies>();
   const [type, setType] = useState("all");
-  const [activeIndex, setActiveIndex] = useState(0);
   const [keyword, setKeyword] = useState("");
   const [debouncedValue, setDebouncedValue] = useState("");
   const [deadline, setDeadline] = useState(false);
@@ -164,10 +160,6 @@ const Home = () => {
     setPost(data);
   };
 
-  const handleNext = () => {
-    setActiveIndex((prevIndex) => (prevIndex + 1) % 3);
-  };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   };
@@ -254,14 +246,6 @@ const Home = () => {
   }, [debouncedValue]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      handleNext();
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [activeIndex]);
-
-  useEffect(() => {
     if (!isInitialRender) {
       setPage(0);
       handleFilter(
@@ -299,99 +283,10 @@ const Home = () => {
     };
   }, []);
 
-  const bannerDefaultStyle =
-    "flex h-250 md:h-300 lg:h-350 w-full justify-center flex-shrink-0 rounded-lg motion-reduce:transition-none float-left";
-
   return (
     <main className="relative flex flex-col items-center">
-      <div className="flex h-250 w-full overflow-hidden md:h-300 lg:h-350">
-        <div
-          className={`${
-            activeIndex === 0
-              ? ""
-              : activeIndex === 1
-              ? "-translate-x-[100%]"
-              : "-translate-x-[200%]"
-          } flex duration-300 ease-in-out`}
-        >
-          <div className={`${bannerDefaultStyle} bg-banner-bg`}>
-            <div className="flex w-3/5 items-center justify-around">
-              <div className="flex flex-col">
-                <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                  스테디로
-                </div>
-                <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                  동료를 찾아보세요!
-                </div>
-              </div>
-              <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
-                <Image
-                  src={Turtle}
-                  alt="Turtle"
-                />
-              </div>
-            </div>
-          </div>
-          <div className={`${bannerDefaultStyle} bg-banner-bg2`}>
-            <div className="flex w-3/5 items-center justify-around">
-              <div className="flex flex-col">
-                <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                  스테디는
-                </div>
-                <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                  사랑입니다~!
-                </div>
-              </div>
-              <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
-                <Image
-                  src={Dolphin}
-                  alt="Turtle"
-                />
-              </div>
-            </div>
-          </div>
-          <div className={`${bannerDefaultStyle} bg-banner-bg3`}>
-            <div className="flex w-3/5 items-center justify-around">
-              <div className="flex flex-col">
-                <div className="text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                  스테디에
-                </div>
-                <div className="mt-10 text-2xl font-bold text-st-white md:text-3xl lg:text-4xl xl:text-5xl">
-                  도전해 보세요!
-                </div>
-              </div>
-              <div className="h-150 w-150 md:h-150 md:w-150 lg:h-200 lg:w-200 xl:h-250 xl:w-250">
-                <Image
-                  src={Walrus}
-                  alt="Turtle"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="m-10 flex items-center justify-center gap-20">
-        <div
-          className={`h-7 w-7 rounded-full md:h-10 md:w-10 ${
-            activeIndex === 0 ? "bg-st-gray-400" : "bg-st-gray-100"
-          } cursor-pointer`}
-          onClick={() => setActiveIndex(0)}
-        ></div>
-        <div
-          className={`h-7 w-7 rounded-full md:h-10 md:w-10 ${
-            activeIndex === 1 ? "bg-st-gray-400" : "bg-st-gray-100"
-          } cursor-pointer`}
-          onClick={() => setActiveIndex(1)}
-        ></div>
-        <div
-          className={`h-7 w-7 rounded-full md:h-10 md:w-10 ${
-            activeIndex === 2 ? "bg-st-gray-400" : "bg-st-gray-100"
-          } cursor-pointer`}
-          onClick={() => setActiveIndex(2)}
-        ></div>
-      </div>
       <section className="mb-20 mt-50 flex flex-col flex-wrap items-center justify-center overflow-hidden">
-        <div className="w-3/4 text-xl font-bold md:text-2xl xl:w-full">
+        <div className="w-1300 text-xl font-bold md:w-500 md:text-2xl lg:w-1000 xl:w-1300">
           🔥 인기 스테디
         </div>
         <div className="mt-20 flex h-160 flex-wrap items-center justify-center overflow-hidden md:h-220">
@@ -400,7 +295,7 @@ const Home = () => {
               key={item.id}
               href={`/steady/detail/${item.id}`}
             >
-              <div className="relative m-20 flex h-120 w-210 cursor-pointer flex-col items-center justify-center gap-12 rounded-20 shadow-lg transition hover:scale-105 md:h-170 md:w-300 md:gap-20">
+              <div className="relative m-18 flex h-120 w-210 cursor-pointer flex-col items-center justify-center gap-12 rounded-20 shadow-lg transition hover:scale-105 md:h-170 md:w-295 md:gap-20">
                 {index <= 2 ? (
                   <Image
                     src={rankImageArray[index].image}
@@ -410,7 +305,7 @@ const Home = () => {
                 ) : (
                   ""
                 )}
-                <div className="flex w-170 items-center justify-end md:w-210 md:w-250">
+                <div className="flex w-170 items-center justify-end md:w-250">
                   <div className="flex h-20 w-40 items-center justify-center rounded-20 border border-st-red shadow-md md:h-28 md:w-60">
                     <div className="h-16 w-36 rounded-20 bg-st-red text-center text-12 font-bold text-st-white md:h-22 md:w-54 md:text-16">
                       D-{calcDateDifference(item.deadline)}
