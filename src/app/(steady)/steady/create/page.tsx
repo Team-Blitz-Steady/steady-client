@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import {
@@ -14,12 +15,16 @@ import type { SteadyStateType } from "@/schemas/steadySchema";
 import { SteadySchema } from "@/schemas/steadySchema";
 import useCreateSteadyStore from "@/stores/createSteadyData";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { MDXEditorMethods } from "@mdxeditor/editor";
 import { Separator } from "@radix-ui/themes";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
+import rehypeParse from "rehype-parse";
+import rehypeRemark from "rehype-remark";
 import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
+import remarkStringify from "remark-stringify";
 import { unified } from "unified";
 import getPositions from "@/services/steady/getPositions";
 import getStacks from "@/services/steady/getStacks";
@@ -46,6 +51,8 @@ import {
 const CreateSteadyPage = () => {
   const router = useRouter();
   const { steadyState, setSteadyState } = useCreateSteadyStore();
+  const editorRef = useRef<MDXEditorMethods>(null);
+  const [editorLoaded, setEditorLoaded] = useState(false);
   const steadyForm = useForm<SteadyStateType>({
     resolver: zodResolver(SteadySchema),
   });
@@ -80,6 +87,20 @@ const CreateSteadyPage = () => {
     router.replace("/");
   };
 
+  useEffect(() => {
+    if (editorRef.current) {
+      unified()
+        .use(rehypeParse)
+        .use(rehypeRemark)
+        .use(remarkStringify)
+        .process(steadyState.content)
+        .then((file) => editorRef.current?.setMarkdown(String(file.value)))
+        .catch((error) => {
+          throw error;
+        });
+    }
+  }, [editorLoaded]);
+
   return (
     <div
       className={cn("mt-10 max-sm:w-400 sm:w-450 md:w-600 lg:w-800 xl:w-1000")}
@@ -97,12 +118,14 @@ const CreateSteadyPage = () => {
           <div className="flex flex-col gap-10">
             <FormField
               control={steadyForm.control}
+              defaultValue={steadyState?.name}
               name={"name"}
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       inputName={"steady-title-input"}
+                      initialValue={steadyState?.name}
                       onValueChange={(value) => {
                         field.onChange(value);
                       }}
@@ -114,12 +137,14 @@ const CreateSteadyPage = () => {
             />
             <FormField
               control={steadyForm.control}
+              defaultValue={steadyState?.bio}
               name={"bio"}
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       inputName={"steady-bio-input"}
+                      initialValue={steadyState?.bio}
                       onValueChange={(value) => {
                         field.onChange(value);
                       }}
@@ -143,6 +168,7 @@ const CreateSteadyPage = () => {
             >
               <FormField
                 control={steadyForm.control}
+                defaultValue={steadyState?.type}
                 name={"type"}
                 render={({ field }) => (
                   <FormItem>
@@ -150,6 +176,7 @@ const CreateSteadyPage = () => {
                       initialLabel={"프로젝트 / 스터디"}
                       items={steadyCategories}
                       className={cn("w-full")}
+                      initialData={steadyState?.type}
                       onSelectedChange={(selected) => {
                         field.onChange(selected);
                       }}
@@ -161,11 +188,13 @@ const CreateSteadyPage = () => {
 
               <FormField
                 control={steadyForm.control}
+                defaultValue={steadyState?.steadyMode}
                 name={"steadyMode"}
                 render={({ field }) => (
                   <FormItem>
                     <SingleSelector
                       initialLabel={"진행 방식"}
+                      initialData={steadyState?.steadyMode}
                       items={steadyRunningMethods}
                       className={cn("w-full")}
                       onSelectedChange={(selected) => {
@@ -179,11 +208,13 @@ const CreateSteadyPage = () => {
 
               <FormField
                 control={steadyForm.control}
+                defaultValue={steadyState?.participantLimit}
                 name={"participantLimit"}
                 render={({ field }) => (
                   <FormItem>
                     <SingleSelector
                       initialLabel={"스테디 정원"}
+                      initialData={steadyState?.participantLimit}
                       items={steadyParticipantsLimit}
                       className={cn("w-full")}
                       onSelectedChange={(selected) => {
@@ -197,11 +228,21 @@ const CreateSteadyPage = () => {
 
               <FormField
                 control={steadyForm.control}
+                defaultValue={steadyState?.deadline}
                 name={"deadline"}
                 render={({ field }) => (
                   <FormItem>
                     <DateSelector
                       initialLabel={"마감일"}
+                      initialDate={
+                        (steadyState?.deadline &&
+                          parse(
+                            steadyState.deadline,
+                            "yyyy-MM-dd",
+                            new Date(),
+                          )) ||
+                        undefined
+                      }
                       className={cn("w-full")}
                       onDateChange={(date) => {
                         field.onChange(format(date, "yyyy-MM-dd"));
@@ -215,12 +256,26 @@ const CreateSteadyPage = () => {
 
               <FormField
                 control={steadyForm.control}
+                defaultValue={steadyState?.positions}
                 name={"positions"}
                 render={({ field }) => (
                   <FormItem className="h-40">
                     <MultiSelector
                       initialLabel={"모집 분야"}
-                      // TODO: steadyState?.positions에 있는 id값을 가진 position을 뽑아서 initialData로 넣어줘야 함
+                      initialData={
+                        (steadyState?.positions &&
+                          positions.positions
+                            .filter((position) =>
+                              steadyState.positions.includes(
+                                Number(position.id),
+                              ),
+                            )
+                            .map(({ id, name }) => ({
+                              value: id.toString(),
+                              label: name,
+                            }))) ||
+                        []
+                      }
                       items={positions.positions.map((position) => ({
                         value: position.id.toString(),
                         label: position.name,
@@ -237,11 +292,13 @@ const CreateSteadyPage = () => {
 
               <FormField
                 control={steadyForm.control}
+                defaultValue={steadyState?.scheduledPeriod}
                 name={"scheduledPeriod"}
                 render={({ field }) => (
                   <FormItem>
                     <SingleSelector
                       initialLabel={"예상 기간"}
+                      initialData={steadyState?.scheduledPeriod}
                       items={steadyExpectedPeriods}
                       className={cn("w-full")}
                       onSelectedChange={(selected) => {
@@ -255,11 +312,23 @@ const CreateSteadyPage = () => {
 
               <FormField
                 control={steadyForm.control}
+                defaultValue={steadyState?.stacks}
                 name={"stacks"}
                 render={({ field }) => (
                   <FormItem className="h-40 w-450 max-sm:w-360 sm:w-410">
                     <MultiSelector
                       initialLabel={"기술 스택"}
+                      initialData={
+                        steadyState?.stacks &&
+                        stacks.stacks
+                          .filter((stack) =>
+                            steadyState.stacks.includes(Number(stack.id)),
+                          )
+                          .map(({ id, name }) => ({
+                            value: id.toString(),
+                            label: name,
+                          }))
+                      }
                       items={stacks.stacks.map((stack) => ({
                         value: stack.id.toString(),
                         label: stack.name,
@@ -277,6 +346,7 @@ const CreateSteadyPage = () => {
 
             <FormField
               control={steadyForm.control}
+              defaultValue={steadyState?.contact}
               name={"contact"}
               render={({ field }) => (
                 <FormItem>
@@ -301,11 +371,13 @@ const CreateSteadyPage = () => {
             />
             <FormField
               control={steadyForm.control}
+              defaultValue={steadyState?.title}
               name={"title"}
               render={({ field }) => (
                 <FormItem>
                   <Input
                     inputName={"title-input"}
+                    initialValue={steadyState?.title}
                     onValueChange={(value) => {
                       field.onChange(value);
                     }}
@@ -316,6 +388,7 @@ const CreateSteadyPage = () => {
             />
             <FormField
               control={steadyForm.control}
+              defaultValue={steadyState?.content}
               name={"content"}
               render={({ field }) => (
                 <FormItem
@@ -336,6 +409,7 @@ const CreateSteadyPage = () => {
                         });
                     }}
                     markdown={""}
+                    setIsLoaded={setEditorLoaded}
                   />
                   <FormMessage />
                 </FormItem>
