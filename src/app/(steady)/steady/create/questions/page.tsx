@@ -25,7 +25,7 @@ const CreateQuestionsPage = () => {
   const [isTemplateTitleSetting, setIsTemplateTitleSetting] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
-  const { steadyState } = useCreateSteadyStore();
+  const { steadyState, resetSteadyState } = useCreateSteadyStore();
 
   useEffect(() => {
     if (!steadyState || Object.keys(steadyState).length === 0) {
@@ -103,6 +103,7 @@ const CreateQuestionsPage = () => {
           variant: "green",
         });
         useCreateSteadyStore.persist.clearStorage();
+        resetSteadyState();
         router.push("/");
       })
       .catch(() => {

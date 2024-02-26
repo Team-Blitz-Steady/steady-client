@@ -8,6 +8,7 @@ interface CreateSteadyState {
   steadyState: SteadyStateType;
   // eslint-disable-next-line no-unused-vars
   setSteadyState: (steadyState: SteadyStateType) => void;
+  resetSteadyState: () => void;
 }
 
 const useCreateSteadyStore = create(
@@ -15,6 +16,7 @@ const useCreateSteadyStore = create(
     (set) => ({
       steadyState: {} as SteadyStateType,
       setSteadyState: (steadyState: SteadyStateType) => set({ steadyState }),
+      resetSteadyState: () => set({ steadyState: {} as SteadyStateType }),
     }),
     {
       name: CreateSteadyStorageKey,
