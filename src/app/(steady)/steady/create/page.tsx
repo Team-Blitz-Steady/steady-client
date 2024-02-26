@@ -50,7 +50,8 @@ import {
 
 const CreateSteadyPage = () => {
   const router = useRouter();
-  const { steadyState, setSteadyState } = useCreateSteadyStore();
+  const { steadyState, setSteadyState, resetSteadyState } =
+    useCreateSteadyStore();
   const editorRef = useRef<MDXEditorMethods>(null);
   const [editorLoaded, setEditorLoaded] = useState(false);
   const steadyForm = useForm<SteadyStateType>({
@@ -83,6 +84,8 @@ const CreateSteadyPage = () => {
   const handleCancelProcess = () => {
     if (steadyState) {
       useCreateSteadyStore.persist.clearStorage();
+      steadyForm.reset();
+      resetSteadyState();
     }
     router.replace("/");
   };
