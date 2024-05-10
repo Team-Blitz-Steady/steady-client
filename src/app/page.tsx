@@ -16,8 +16,10 @@ import useIsSearchBarFocusStore from "@/stores/isSearchBarFocus";
 import usePageStore from "@/stores/page";
 import useWelcomeModalOpenStore from "@/stores/welcomeModalOpen";
 import { Badge } from "@radix-ui/themes";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import steadyFilter from "@/services/steady/filterSteadies";
+import type { GetPopularSteadiesResponse } from "@/services/steady/getPopularSteadies";
 import getPopularSteadies from "@/services/steady/getPopularSteadies";
 import getPositions from "@/services/steady/getPositions";
 import getStacks from "@/services/steady/getStacks";
@@ -40,7 +42,10 @@ import {
   StacksKey,
   SteadiesKey,
 } from "@/constants/queryKeys";
-import { steadyRunningMethods } from "@/constants/selectorItems";
+import {
+  popularSteadyTypes,
+  steadyRunningMethods,
+} from "@/constants/selectorItems";
 
 const Home = () => {
   const { page, setPage } = usePageStore();
@@ -54,7 +59,9 @@ const Home = () => {
   const [stack, setStack] = useState("");
   const [position, setPosition] = useState("");
   const [mode, setMode] = useState("0");
+  const [popularType, setPopularType] = useState("ALL");
   const { isAuth } = useAuthStore();
+  const queryClient = useQueryClient();
   const [isInitialRender, setIsInitialRender] = useState(true);
   const rankImageArray = [
     {
@@ -86,10 +93,19 @@ const Home = () => {
   //   };
   // }, [setIsFocus]);
 
-  const { data: popularSteadies } = useSuspenseQuery<Steadies>({
-    queryKey: PopularSteadiesKey,
-    queryFn: () => getPopularSteadies(),
-  });
+  const { data: popularSteadies, refetch: refetchPopularSteadies } =
+    useSuspenseQuery<GetPopularSteadiesResponse[]>({
+      queryKey: PopularSteadiesKey,
+      queryFn: () =>
+        getPopularSteadies({
+          date: `${format(
+            new Date().setFullYear(new Date().getFullYear() - 1),
+            "yyyy-MM-dd",
+          )}`,
+          limit: "3",
+          type: popularType as "STUDY" | "PROJECT" | "ALL",
+        }),
+    });
 
   const { data } = useSuspenseQuery<Steadies>({
     queryKey: SteadiesKey,
@@ -261,6 +277,13 @@ const Home = () => {
     }
   }, [type, stack, position, mode, recruit, deadline, debouncedValue, like]);
 
+  // 인기 스테디 필터 관련
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: PopularSteadiesKey }).then(() => {
+      refetchPopularSteadies();
+    });
+  }, [popularType]);
+
   useEffect(() => {
     sessionStorage.setItem("page", page.toString());
   }, [page]);
@@ -289,11 +312,19 @@ const Home = () => {
         <div className="w-1300 text-xl font-bold md:w-500 md:text-2xl lg:w-1000 xl:w-1300">
           🔥 인기 스테디
         </div>
+        <div className={"flex w-full items-center justify-end pr-4"}>
+          <SingleSelector
+            initialLabel={"인기 스테디 기준"}
+            className={"w-220"}
+            items={popularSteadyTypes}
+            onSelectedChange={(value) => setPopularType(value)}
+          />
+        </div>
         <div className="mt-20 flex h-160 flex-wrap items-center justify-center overflow-hidden md:h-220">
-          {popularSteadies.content.slice(0, 4).map((item, index) => (
+          {popularSteadies.map((item, index) => (
             <Link
-              key={item.id}
-              href={`/steady/detail/${item.id}`}
+              key={item.steadyId}
+              href={`/steady/detail/${item.steadyId}`}
             >
               <div className="relative m-18 flex h-120 w-210 cursor-pointer flex-col items-center justify-center gap-12 rounded-20 shadow-lg transition hover:scale-105 md:h-170 md:w-295 md:gap-20">
                 {index <= 2 ? (

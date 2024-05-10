@@ -48,3 +48,9 @@ export const BASIC_QUESTION = [
   { id: 1, question: "기본 질문 1" },
   { id: 2, question: "기본 질문 2" },
 ];
+
+export const popularSteadyTypes = [
+  { value: "STUDY", label: "스터디" },
+  { value: "PROJECT", label: "프로젝트" },
+  { value: "ALL", label: "전체" },
+];
