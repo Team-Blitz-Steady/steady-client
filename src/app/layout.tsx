@@ -31,9 +31,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <QueryProvider>
           <Theme>
             <div
-              className={cn(
-                `max-mobile:w-9/10 mx-auto flex h-screen w-3/4 flex-col items-center`,
-              )}
+              className={`mobile:w-full mx-auto flex h-screen w-3/4 flex-col items-center px-20`}
             >
               <AppBar />
               <div className="pb-100 md:pb-30">{children}</div>

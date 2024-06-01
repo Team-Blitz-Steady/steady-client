@@ -309,13 +309,11 @@ const Home = () => {
   return (
     <main className="relative flex flex-col items-center">
       <section className="mb-20 mt-50 flex flex-col flex-wrap items-center justify-center overflow-hidden">
-        <div className="w-1300 text-xl font-bold md:w-500 md:text-2xl lg:w-1000 xl:w-1300">
-          🔥 인기 스테디
-        </div>
-        <div className={"flex w-full items-center justify-end pr-4"}>
+        <div className={"flex w-full items-center justify-between gap-20"}>
+          <div className="text-xl font-bold">🔥 인기 스테디</div>
           <SingleSelector
             initialLabel={"인기 스테디 기준"}
-            className={"w-220"}
+            className={"mobile:w-140 w-220"}
             items={popularSteadyTypes}
             onSelectedChange={(value) => setPopularType(value)}
           />
