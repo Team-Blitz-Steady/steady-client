@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/toaster";
 import Favicon from "@/images/favicon.ico";
 import QueryProvider from "@/lib/react-query/QueryProvider";
-import { cn } from "@/lib/utils";
 import "@mdxeditor/editor/style.css";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
@@ -31,7 +30,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <QueryProvider>
           <Theme>
             <div
-              className={`mobile:w-full mx-auto flex h-screen w-3/4 flex-col items-center px-20`}
+              className={`mx-auto flex h-screen w-3/4 flex-col items-center px-20 mobile:w-full`}
             >
               <AppBar />
               <div className="pb-100 md:pb-30">{children}</div>
